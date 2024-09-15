@@ -1,0 +1,43 @@
+body {
+    background-color: #080b1d;
+}
+
+.main {
+    background-color: #121526;
+    height: 100%;
+    margin: 80px 300px;
+    border: black 2px solid;
+    border-radius: 36px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.title {
+    font-family: 'Nunito';
+    font-weight: bold;
+    font-size: 40px;
+    color: #FFFFFF;
+}
+
+ul {
+    padding-left: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+li {
+    list-style-type: none;
+}
+
+.link-element {
+    font-family: 'Nunito';
+    font-size: 20px;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.link-element:hover {
+    color: #AF1F1F;
+}
