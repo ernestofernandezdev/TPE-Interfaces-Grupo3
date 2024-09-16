@@ -7,10 +7,13 @@ Integrantes:
 # Consideraciones
 Algunas cuestiones del uso de figma que dejamos marcadas para mejorarlas en la instancia de implementación.
 
-## 1) Hovers de cards
+## 1) Hovers de las cards: nombres y precios 
  > Se puede observar que al pasar el puntero del mouse por encima de un juego en la pagina principal (home) los nombres de los juegos son todos los mismos "battle arena".
  Se intentó resolver este detalle en figma pero al depender fuertemente del juego la unica solucion posible era crear una instancia de animacion de card distinta para cada 
- juego. Se optó por marcarlo para reducir la repetición de cards y mejorar este detalle en la implementación.
+ juego.
+ En cuanto a los precios sucede algo similar. Se estableció una card por defecto que se usa como contenedor y obliga a los precios a ser los definidos en esa card contenedora.
+ Ambos casos van a ser resueltos en la implementación sin problemas.
+
 
 ## 2) Logo del sitio
  > El logo del sitio al hacer click redirecciona a la pagina principal, es dificil llegar a esta funcionalidad dado que figma despliega sus herramientas en la parte superior.
