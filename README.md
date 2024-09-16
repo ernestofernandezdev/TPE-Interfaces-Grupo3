@@ -16,5 +16,4 @@ Algunas cuestiones del uso de figma que dejamos marcadas para mejorarlas en la i
  > El logo del sitio al hacer click redirecciona a la pagina principal, es dificil llegar a esta funcionalidad dado que figma despliega sus herramientas en la parte superior.
 
 ## 3) Fixes
- > El sidebar que despliega el menu hamburguesa, la intención en la implementacion será que siempre quede disponible en pantallapara el usuario. En el diseño de figma no queda "fixeado" sino que sigue el flujo del scroll. Lo mismo con la barra de navegación creemos que es util y necesario que siempre se mantenga en la parte superior aún cuando se haga
- scroll en el sitio.
+ > El sidebar que despliega el menu hamburguesa, la intención en la implementacion será que siempre quede disponible en pantalla. En el diseño de figma no queda "fixeado" sino que sigue el flujo del scroll. Lo mismo sucede con la barra de navegación, creemos que es util y necesario que el sidebar se mantenga fixeado a la izquierda y la barra de navegación en la parte superior aún cuando se haga scroll en el sitio.
