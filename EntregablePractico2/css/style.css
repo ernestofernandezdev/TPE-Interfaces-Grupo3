@@ -1,0 +1,64 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    list-style: none;
+    text-decoration: none;
+}
+
+body {
+    display: grid;
+    grid-template-areas:
+                'header'
+                'main'
+                'footer';
+}
+      
+header {
+    grid-area: 'header';
+    height: 60px;
+    background-color: #1A1B28;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header div:first-child {
+    margin-left: 60px;
+}
+
+header h2 {
+    color: white;
+    font-family: 'Nunito';
+}
+
+header ul {
+    display: flex;
+    margin-right: 30px;
+}
+
+header i {
+    color: white;
+    margin-right: 40px;
+}
+
+.bi-cart {
+    font-size: 25px;
+}
+
+.bi-list, .bi-person {
+    font-size: 30px;
+}
+
+i {
+vertical-align: middle;
+}
+
+
+main {
+    grid-area: 'main';
+}
+
+footer {
+    grid-area: 'footer';
+}
