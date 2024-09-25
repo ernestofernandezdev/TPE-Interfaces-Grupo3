@@ -4,6 +4,28 @@
     border: 0;
     list-style: none;
     text-decoration: none;
+    font-family: 'Nunito';
+    color: white;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+.parrafo-pequeño {
+    font-size: 12px;
+}
+
+.parrafo-mediado {
+    font-size: 14px;
+}
+
+.texto-negrita {
+    font-weight: bold;
+}
+
+.texto-link {
+    color: #4C5EC2;
 }
 
 body {
@@ -25,11 +47,6 @@ header {
 
 header div:first-child {
     margin-left: 60px;
-}
-
-header h2 {
-    color: white;
-    font-family: 'Nunito';
 }
 
 header ul {
@@ -57,6 +74,43 @@ vertical-align: middle;
 
 main {
     grid-area: 'main';
+    background-image: url("/EntregablePractico2/img/login-background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 62vw;
+    display: flex;
+    justify-content: center;
+}
+
+main .form-container {
+    margin-top: 40px;
+    width: 800px;
+    height: 540px;
+    background-color: #121526;
+    border-radius: 15px;
+    box-shadow: 0 0 8px #4C5EC2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.form-container input {
+    height: 36px;
+    width: 340px;
+    border-radius: 23px;
+}
+
+.form-container hr {
+    background-color: #4C5EC2;
+    width: 50%;
+    height: 1px;
 }
 
 footer {
