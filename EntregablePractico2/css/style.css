@@ -6,10 +6,33 @@
     text-decoration: none;
     font-family: 'Nunito';
     color: white;
+    font-weight: normal;
+}
+
+h1 {
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 h2 {
     font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.flaming {
+    color: #4C5EC2;
+    font-weight: inherit;
+    font-family: 'Bubblegum Sans';
+    font-size: 1.1em;
+}
+
+.games {
+    color: #D83232;
+    font-weight: inherit;
+    font-family: 'Bubblegum Sans';
+    font-size: 1.1em;
 }
 
 .parrafo-pequeño {
@@ -85,8 +108,9 @@ main {
 
 main .form-container {
     margin-top: 40px;
+    padding: 80px 0;
     width: 800px;
-    height: 540px;
+    height: fit-content;
     background-color: #121526;
     border-radius: 15px;
     box-shadow: 0 0 8px #4C5EC2;
@@ -98,21 +122,77 @@ main .form-container {
 .form-container form {
     display: flex;
     flex-direction: column;
-
+    margin-top: 40px;
 }
 
-.form-container input {
+.form-container p {
+    margin-top: 5px;
+}
+
+input, button {
     height: 36px;
     width: 340px;
     border-radius: 23px;
+    margin: 8px 0;
+    cursor: pointer;
+}
+
+::placeholder {
+    padding-left: 20px;
+}
+
+.primary-btn {
+    background-color: #4C5EC2;
+    font-size: 14px;
+}
+
+.primary-btn:hover {
+    background-color: #3545A3;
+    animation: primary-btn-hover 0.5s;
+}
+
+.google-btn {
+    background-color: white;
+    color: black;
+}
+
+.google-btn:hover {
+    background-color: rgb(222, 222, 222);
+    animation: primary-btn-hover 0.5s;
+}
+
+.facebook-btn {
+    background-color: #3B5998;
+}
+
+.facebook-btn:hover {
+    background-color: #334c83;
+    animation: primary-btn-hover 0.5s;
 }
 
 .form-container hr {
     background-color: #4C5EC2;
     width: 50%;
     height: 1px;
+    margin: 20px 0;
 }
 
 footer {
     grid-area: 'footer';
+}
+
+
+@keyframes primary-btn-hover {
+    0% {
+        transform: scale(1);
+    }
+    20% {
+        transform: scale(1.1, 0.9);
+    }
+    60% {
+        transform: scale(0.9, 1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
