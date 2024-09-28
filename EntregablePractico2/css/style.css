@@ -137,8 +137,10 @@ input, button {
     cursor: pointer;
 }
 
-::placeholder {
+input[type="text"], input[type="password"] {
+    color: black;
     padding-left: 20px;
+    width: 320px;
 }
 
 .primary-btn {
@@ -148,7 +150,14 @@ input, button {
 
 .primary-btn:hover {
     background-color: #3545A3;
-    animation: primary-btn-hover 0.5s;
+    animation: primary-btn-hover 0.4s;
+}
+
+.google-btn, .facebook-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .google-btn {
@@ -156,9 +165,24 @@ input, button {
     color: black;
 }
 
+.google-btn span, .facebook-btn span {
+    position: absolute;
+    color: inherit;
+}
+
+.google-btn img {
+    margin-right: auto;
+    margin-left: 40px;
+}
+
+.facebook-btn img {
+    margin-right: auto;
+    margin-left: 45px;
+}
+
 .google-btn:hover {
     background-color: rgb(222, 222, 222);
-    animation: primary-btn-hover 0.5s;
+    animation: primary-btn-hover 0.4s;
 }
 
 .facebook-btn {
@@ -167,7 +191,7 @@ input, button {
 
 .facebook-btn:hover {
     background-color: #334c83;
-    animation: primary-btn-hover 0.5s;
+    animation: primary-btn-hover 0.4s;
 }
 
 .form-container hr {
@@ -187,10 +211,10 @@ footer {
         transform: scale(1);
     }
     20% {
-        transform: scale(1.1, 0.9);
+        transform: scale(1.05, 0.95);
     }
     60% {
-        transform: scale(0.9, 1.1);
+        transform: scale(0.95, 1.05);
     }
     100% {
         transform: scale(1);
