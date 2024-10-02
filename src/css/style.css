@@ -62,8 +62,8 @@ h2 {
 }
 
 .container-svg{
-    width: min-content;
-    height: min-content;
+    width:30px;
+    height: 30px;
     display: flex;
 }
 
@@ -79,15 +79,26 @@ header {
     background-color: #1A1B28;
 }
 .navbar-list{
-    width: 8%;
+    width: 75px;            /*este espacio es importante para que en mobile tambien se vea bien*/
     height: min-content;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
 
 .scroll-menu{
     display: flex;
+    align-items: center;
+}
+
+.avatar-session{
+    width: 60px;
+    height: 60px;
+}
+
+.user-info-card{
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 

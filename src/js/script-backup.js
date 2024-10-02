@@ -30,3 +30,4 @@ function showContent(section) {
         console.log("render error");
     }
 }
+
