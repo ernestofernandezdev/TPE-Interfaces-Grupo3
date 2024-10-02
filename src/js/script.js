@@ -1,40 +1,18 @@
 "use strict"
 
-// esto se debera modificar para que showHome se ejecute cuando se inicie sesion 
-window.addEventListener("popstate", e=>{ 
-    console.log(e);       //esto maneja el evento de ir hacia adelante y atras en el sitio
-    
-    // let estadoAnterior= e.state.idSeccion;     // al hacer click en adelante o atras, captura el id del elemento donde estabamos parados anteriormente
-    // console.log("estado id="+ estadoAnterior);
-    if(e.state != null){
-        showContent(e.state.idSeccion);//renderiza el contenido acorde al id capturado
-        
-    }else{
-        showContent("inicio");
-        
-    }
-})
-function showContent(section) {
-    const root= document.querySelector("#root");
-    root.innerHTML=' ';
-    
-    if(section == "inicio"){
-        
-    }else if(section == "game"){
-        
-    }else if(section == "login"){
-        
-    }else{
-        console.log("render error");
-    }
-}
-
-
 window.addEventListener("DOMContentLoaded", ()=>{
-    const home = new Home(true);
+    const home = new Home(false);
 });
 
-const SVGTemplate=(content)=> (`<div class='container-svg'>${content}</div>`);
+
+
+class Constants{
+    static root = document.querySelector("#root");
+}
+
+class Utils{
+    static SVGTemplate=(content)=> (`<div class='container-svg'>${content}</div>`);
+}
 
 
 class Header {
@@ -81,13 +59,13 @@ class Header {
     }
     
     getTemplate(){
-        const header =document.createElement("header");
+        const header=document.createElement("header");
 
-        header.innerHTML+=` ${SVGTemplate(this.#SVG_HAMBUR)}
+        header.innerHTML+=` ${Utils.SVGTemplate(this.#SVG_HAMBUR)}
                             <h1 class="logo"><span class="flaming">Flaming</span><span class="games">Games</span></h1>
                             <ul class="navbar-list">
-                                <li>${SVGTemplate(this.#SVG_CART)}</li>
-                                <li>${this.#isLogin ? SVGTemplate(this.#SVG_LOGIN) : SVGTemplate(this.#SVG_LOGOUT)}</li>
+                                <li>${Utils.SVGTemplate(this.#SVG_CART)}</li>
+                                <li>${this.#isLogin ? Utils.SVGTemplate(this.#SVG_LOGIN) : Utils.SVGTemplate(this.#SVG_LOGOUT)}</li>
                             </ul>` ;
 
         return header;
@@ -103,7 +81,7 @@ class Home {
     #content;
 
     constructor(isLogin){
-        this.#rootElement = document.querySelector("#root");
+        this.#rootElement = Constants.root;
         this.#isLogin=isLogin;
         this.#header=new Header(isLogin);
         this.loadHeader();
@@ -115,6 +93,25 @@ class Home {
         this.#header.listenEvents();
 
     }
+
+
+}
+
+/*tengo que hacer game que contiene data para > card que sirve para hacer> carrousel */
+
+class Game {
+    #id;
+    #title;
+    #frontImg;
+    #category;
+    #media;
+    #description;
+    #controllers;
+    #comments;
+    #price;
+    #isPay;
+
+
 
 
 }
