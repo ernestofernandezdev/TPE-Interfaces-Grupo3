@@ -1,7 +1,8 @@
 (function(){
 
     window.addEventListener("DOMContentLoaded", ()=>{
-        const home = new Home(true,player);                 /*el home necesita saber si hay alguien logueado y quien es el logueado */
+        const home = new Home(player);                /*el home necesita saber si hay alguien logueado, si se inicializa sin parametros asumira que no hay logueados */
+        /*const home= new Home() */      /*para inicializar sin usuario logueado */
     });
 
     const game={
@@ -50,6 +51,7 @@
 
         //los svg si no le determinas el tamaño, se adaptan a su contenedor
         static customSVG = (name, color)=>{
+
             const SVGS = {
                SVG_LOGOUT : `<svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" stroke="${color}" fill="none" stroke-width="2">
                <g id="SVGRepo_bgCarrier" stroke-width="0"/>
@@ -91,13 +93,11 @@
 
 
     class Header {
-        #isLogin;
         #userLogin;
        
       
 
-        constructor(isLogin,userLogin){
-            this.#isLogin=isLogin;
+        constructor(userLogin){
             this.#userLogin=userLogin;
         }
 
@@ -114,7 +114,7 @@
             const img = document.createElement("img");
             img.className="svg-container";
 
-            if(this.#isLogin){
+            if(this.#userLogin){
                 img.src=this.#userLogin.avatar;
             }
 
@@ -122,7 +122,7 @@
                              <h1 class="logo"><span class="flaming">Flaming</span><span class="games">Games</span></h1>
                             <ul class="navbar-list">
                                 <li>${Utils.SVGTemplate(Utils.customSVG("SVG_CART","#B7BEE4"))}</li>
-                                <li class="avatar-login">${this.#isLogin ? Utils.SVGTemplate(this.#userLogin.avatar) : Utils.SVGTemplate(Utils.customSVG("SVG_LOGOUT","#B7BEE4"))}</li>
+                                <li class="avatar-login">${this.#userLogin? Utils.SVGTemplate(this.#userLogin.avatar) : Utils.SVGTemplate(Utils.customSVG("SVG_LOGOUT","#B7BEE4"))}</li>
                             </ul>`;
 
             header.innerHTML=template;
@@ -132,7 +132,7 @@
 
 
         avatarEvent(){
-            if(!this.#isLogin){
+            if(!this.#userLogin){
                 return
             }
 
@@ -153,11 +153,6 @@
         #user;
         #socialLinksList;
 
-        #SVG_CLOSE= `<svg width="25px" height="25px" viewBox="-0.5 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#fafafa">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"/>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
-                    <g id="SVGRepo_iconCarrier"> <path d="M3 21.32L21 3.32001" stroke="#fafafa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path d="M3 3.32001L21 21.32" stroke="#fafafa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </g>
-                    </svg>`
 
         constructor(user,socialLinkList){
             this.#user=user;
@@ -193,7 +188,9 @@
 
 
             const template = `<ul class="list-config">
-                                <li class="item-config"> </li>
+                                <li class="item-config">
+                                    
+                                </li>
                                 <li class="item-config"> </li>
                                 <li class="item-config"> </li>
                               </ul>`
@@ -213,20 +210,18 @@
 
     class Home {
         #rootElement;
-        #isLogin;
         #header;
         #content;
         #user;
 
-        constructor(isLogin,user){
+        constructor(user = null){
             this.#rootElement = Constants.root;
-            this.#isLogin=isLogin;
             this.#user=user;
-            this.#header=new Header(isLogin,user);
+            this.#header=new Header(user);
             this.loadHeader();
 
         }
-
+       
         loadHeader = ()=>{
             this.#rootElement.appendChild(this.#header.getTemplate());
             this.#header.listenEvents();
