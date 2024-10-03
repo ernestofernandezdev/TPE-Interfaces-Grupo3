@@ -36,20 +36,27 @@ h2 {
     font-size: 1.1em;
 }
 
-.parrafo-pequeño {
+.p-s {
     font-size: 12px;
 }
 
-.parrafo-mediado {
+.p-m {
     font-size: 14px;
 }
+.p-xl{
+    font-size: 20px;
+}
 
-.texto-negrita {
+.text-black {
     font-weight: bold;
 }
 
 .texto-link {
     color: #4C5EC2;
+}
+
+body{
+    background-color: #141414;
 }
 
 #root{
@@ -61,12 +68,8 @@ h2 {
     padding: 60px 0 0 0;                        /*los 60px son para el header*/
 }
 
-.container-svg{
-    width:30px;
-    height: 30px;
-    display: flex;
-}
 
+/*///////////////////////////////////////////////////PROPIEDADES DEL HEADER///////////////////////////////////////////////////////*/
 header {
     position: fixed;
     top:0px;
@@ -86,25 +89,120 @@ header {
     align-items: center;
 }
 
+.container-svg{
+    width:30px;
+    height: 30px;
+    display: flex;
+    cursor: pointer;
+}
 .scroll-menu{
     display: flex;
     align-items: center;
 }
-
+/*///////////////////////////////////////////////////PROPIEDADES DE LA CARD DE SESION///////////////////////////////////////////////////////*/
+.session-card{
+    position: absolute;
+    right: 20px;
+    top: 65px;
+    height: 480px;
+    width: 280px;
+    padding: 50px 15px 0px 15px;
+    background-color: #1A1B28;
+    border-radius: 8px;
+}
+.container-session{
+    position: relative;
+}
+.user-info-card{
+    padding: 0 29px;
+   
+}
 .avatar-session{
     width: 60px;
     height: 60px;
 }
 
-.user-info-card{
+.container-info-session{
+    position: relative;
+    display: flex;
+    height: 110px;
+    align-items: center;
+    flex-direction: column;
+  
+}
+.container-info-session > h3 {
+    margin-top: -6px;
+    color: #C1C1C1;
+}
+
+.svg-config-item{
+    width: 20px;
+    height: 20px;
+}
+.container-session-config{
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    height: 200px;
+    padding: 25px 25px;
+    margin: 25px 0px;
+    display: flex;
+    align-items: center;
+
+}
+.list-config{
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+  
+}
+.item-config{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.item-config > div {
+    margin-right: 5px;
+}
+.item-config > a {
+    margin-bottom: -5px;
+    text-decoration: underline gray;
+}
+.session-social{
+    width: 100%;
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+.sm-social-container{
+    width: 140px;
+    display: flex;
+    justify-content: space-between;
+}
+.sm-social-item{
+    width: 25px;
+    height: 25px;
+}
+.btn-close-info{
+    position: absolute;
+    top: -40px;
+    right: 0;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+}
 
 
 
-main {
+
+
+
+
+
+/* main {
     grid-area: 'main';
     background-image: url("/EntregablePractico2/img/login-background.jpg");
     background-repeat: no-repeat;
@@ -228,4 +326,4 @@ footer {
     100% {
         transform: scale(1);
     }
-}
+} */
