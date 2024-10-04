@@ -9,6 +9,10 @@
     font-weight: normal;
 }
 
+a{
+    cursor: pointer;
+}
+
 h1 {
     font-size: 30px;
     font-weight: 600;
@@ -193,6 +197,10 @@ header {
     height: 30px;
     width: 30px;
     cursor: pointer;
+}
+.item-config > a:hover{
+    color: #929DDA ;
+    text-decoration: underline #929DDA ;
 }
 
 
