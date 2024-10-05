@@ -47,6 +47,9 @@ h2 {
 .p-m {
     font-size: 14px;
 }
+.p-bold{
+    font-weight: bold;
+}
 .p-xl{
     font-size: 20px;
 }
@@ -203,7 +206,38 @@ header {
     text-decoration: underline #929DDA ;
 }
 
+/*////////////////////////////////////////////////////PROPIEDADES DE LA SIDEBAR/////////////////////////////////////////*/
 
+.sidebar-categories{
+    background-color: aqua;
+    position: fixed;
+    left: 0;
+    padding: 1% ;
+    width: 50px;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+}
+.sidebar-expands{
+    width: 200px;
+}
+.category-item{
+    margin: 8px 0;
+    width: 100%;
+    display: flex;
+}
+
+.c-active{
+    background-color: green;
+    width: 100%;
+}
+.show-all-categories{
+    background-color: red;
+    bottom: 0px;
+}
 
 
 

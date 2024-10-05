@@ -309,13 +309,21 @@
             return SVGS[name];
         }
 
+        static capitalizeFirst = (str)=>{
+            if(!str) return '';
+            return str.charAt(0).toUpperCase()+str.slice(1).toLowerCase();
+        }
+
+        static replaceSpaces = (str) =>{
+            return str.replaceAll(' ','-');
+        }
+
     }
 
     class Header {
         #userLogin;
         #sessionCard;
        
-      
         constructor(userLogin){
             this.#userLogin=userLogin;
             this.#sessionCard=new SessionCard(userLogin);
@@ -323,12 +331,12 @@
         }
     
         listenEvents(){
-            this.handleSession();
-            this.handleHamburMenu();
+            this.#handleSession();
+            this.#handleHamburMenu();
             
         }
     
-        getTemplate(){
+        getComponent(){
             const header=document.createElement("header");
     
             const template = `${Utils.SVGTemplate(Utils.customSVG("SVG_HAMBUR",Constants.colors.primary20),'hambur-menu')}
@@ -346,7 +354,7 @@
         }
     
         /*esto se ejecuta 1 sola vez cuando lo invoca la pagina que quiere cargar/hacer uso de un header*/
-        handleSession(){
+        #handleSession(){
             const avatar = document.querySelector(".avatar-login");
           
             if(!this.#userLogin){
@@ -358,14 +366,14 @@
                 return
             }
 
-            this.handleSessionCard(avatar);
+            this.#handleSessionCard(avatar);
     
         }
 
-        handleSessionCard(clickElement){
+        #handleSessionCard(clickElement){
             let isFirstOpen = true;
             const navbarList= document.querySelector(".navbar-list");
-            const profileCard= this.#sessionCard.getTemplate();
+            const profileCard= this.#sessionCard.getComponent();
             
             clickElement.addEventListener("click", (e)=>{
                 e.stopPropagation();
@@ -384,12 +392,26 @@
 
         }
 
-        handleHamburMenu(){
-            let isFirstOpen=true
+        #handleHamburMenu(){
+            let isRender=false;
             const hambur = document.querySelector(".hambur-menu");
 
             hambur.addEventListener("click", ()=>{
                 console.log("hiciste click burguer");
+
+
+                if(isRender){
+                    document.querySelector(".sidebar-categories").remove();
+                    isRender=false;
+
+                }else{
+                    const sidebar = new SidebarCategory(Constants.categories);
+                    Constants.root.appendChild(sidebar.getComponent());
+                    sidebar.listenEvents();
+
+                    isRender=true;
+                }
+
                 
             })
 
@@ -408,6 +430,108 @@
         }
 
 
+        getComponent(){
+            const sidebar = document.createElement("sidebar");
+            sidebar.className="sidebar-categories"
+           
+            //por cada elemento en la lista creo un div (category-item) y se lo agrego/apendo al sidebar
+
+            this.#categoriesList.forEach(categ => {
+                sidebar.appendChild( this.#createCategoryItemComponent(categ) );
+            });
+
+
+            return sidebar;
+        }
+
+        listenEvents(){
+            this.#handleMouseEnterLeave();
+        }
+
+
+        //crea el contenedor de cada categoria solo con el icono y le asigna los eventos para que al ser clickeado pueda ser identificado con data-value
+        #createCategoryItemComponent(categoryObj){
+            const catContainer= document.createElement("div");
+            catContainer.className=`category-item ${categoryObj.name === 'inicio' ? `c-inicio c-active` : `c-${Utils.replaceSpaces(categoryObj.name)}`}`;
+            catContainer.setAttribute("data-value", `${Utils.replaceSpaces(categoryObj.name)}`);
+
+            const template = `${Utils.SVGTemplate( categoryObj.iconSVG,"category-svg" )}`;
+
+            catContainer.innerHTML=template;
+
+            catContainer.addEventListener("click", (e)=>{
+                e.preventDefault();
+                this.#handleClickCategory(catContainer);
+            });
+
+            return catContainer;
+            
+        }
+
+        //crea un componente <p> personalizando clase y contenido para el nombre de las categorias
+        #createCategoryNameComponent(classname, content){
+            const p = document.createElement("p");
+            p.className=classname;
+            p.innerText=content;
+           
+
+            return p;
+        }
+
+        //al pasar el mouse por el sidebar se crean y renderizan los nombres de las categorias
+        #handleMouseEnterLeave(){
+            let linksCreated = false; 
+            const sidebar = document.querySelector(".sidebar-categories");
+
+            sidebar.addEventListener("mouseenter", () => {
+                const allCategories = document.querySelectorAll(".category-item");
+                sidebar.classList.add("sidebar-expands");
+                let pos = 0;
+            
+                // Verifica si los enlaces ya fueron creados
+                if (!linksCreated) {
+                    this.#categoriesList.forEach((categ) => {
+                        const p = this.#createCategoryNameComponent(`category p-m p-bold `,`${Utils.capitalizeFirst(categ.name)}`,`${Utils.replaceSpaces(categ.name)}`);
+                      
+                        
+                        allCategories[pos].appendChild(p);
+                        pos++;
+
+                    });
+                 
+                    const showAllCateg = this.#createCategoryNameComponent(`category show-all-categories p-s p-bold`,"Ver todas las categorias");
+                    
+                    sidebar.appendChild(showAllCateg);
+
+                    linksCreated = true; 
+                   
+                } 
+
+            });
+            
+            sidebar.addEventListener("mouseleave", () => {
+                sidebar.classList.remove("sidebar-expands");
+                document.querySelectorAll(".category").forEach((item) => {
+                    item.remove();
+                });
+
+                linksCreated = false;
+            });
+        }
+
+
+      
+        //captura en la categoria que se clickea a traves del data-value
+        #handleClickCategory(element){
+            const id = element.getAttribute("data-value");
+            const active = document.querySelector(".c-active");
+            active.classList.remove("c-active");
+
+            element.classList.add("c-active");
+            
+            console.log("clickeaste en: "+id);
+           
+        }
 
 
     }
@@ -425,16 +549,21 @@
             this.#user=user;
         }
 
-        getTemplate(){
+        listenEvents(){
+            this.#handleRemoveCard();
+           
+        }
+
+        getComponent(){
             const card = document.createElement("section");
             card.className="session-card";
 
             const template = `
                             <div class="container-session">
                               <div class="btn-close-info">${Utils.customSVG("SVG_CLOSE",Constants.colors.white)}</div>
-                              ${this.getUserDetailTemplate()}
-                              ${this.getConfigListTemplate()}
-                              ${this.getSocialTemplate()}
+                              ${this.#getUserDetailTemplate()}
+                              ${this.#getConfigListTemplate()}
+                              ${this.#getSocialTemplate()}
                             </div>`;
 
             card.innerHTML=template;
@@ -443,23 +572,23 @@
 
         }
 
-        getUserDetailTemplate(){
+        #getUserDetailTemplate(){
             const userDetailTemplate = `
                             <div class="user-info-card" >
                                 <div class="container-info-session">
                                     <div class="avatar-session">${this.#user.avatar}</div>
                                     <h2 class="p-xl" >${this.#user.nick}</h2>
-                                    <h3 class="p-m" >${this.#user.email}</h3>
+                                    <h3 class="p-m p-bold" >${this.#user.email}</h3>
                                 </div>
                             </div>`;
 
             return userDetailTemplate;  
         }
 
-        getConfigListTemplate(){
+        #getConfigListTemplate(){
             
             const itemList = (svg_name, textContent ) => (
-                `<li class="item-config p-m">
+                `<li class="item-config p-m p-bold">
                     <div class="svg-config-item"> 
                         ${Utils.customSVG(svg_name ,Constants.colors.primary)} 
                     </div>
@@ -479,7 +608,7 @@
             return configListTemplate;        
         }
 
-        getSocialTemplate(){
+        #getSocialTemplate(){
             const svgContainer = (svg_name)=>(`<div class="sm-social-item">${Utils.customSVG(svg_name,Constants.colors.white)} </div>`)
 
             const socialTemplate =
@@ -494,12 +623,8 @@
             return socialTemplate;
         }
 
-        listenEvents(){
-          this.handleRemoveCard();
-         
-        }
-
-        handleRemoveCard(){
+       
+        #handleRemoveCard(){
             const btn = document.querySelector(".btn-close-info");
          
             
@@ -513,10 +638,10 @@
         handleClickWindow(profileCard) {
             this.#profileCard = profileCard;
     
-            document.addEventListener('click', this.handleWindow);
+            document.addEventListener('click', this.#handleWindow);
         }
 
-        handleWindow = (e) => {
+        #handleWindow = (e) => {
             
             console.log("click en pantalla");
             
@@ -526,7 +651,7 @@
             } else {
                 this.#profileCard.remove();
                
-                document.removeEventListener('click', this.handleWindow);
+                document.removeEventListener('click', this.#handleWindow);
             }
 
         };
@@ -546,12 +671,12 @@
             this.#rootElement = Constants.root;
             this.#user=user;
             this.#header=new Header(user);
-            this.loadHeader();
+            this.#loadHeader();
 
         }
        
-        loadHeader = ()=>{
-            this.#rootElement.appendChild(this.#header.getTemplate());
+        #loadHeader = ()=>{
+            this.#rootElement.appendChild(this.#header.getComponent());
             this.#header.listenEvents();
 
         }
