@@ -439,7 +439,7 @@
             this.#categoriesList.forEach(categ => {
                 sidebar.appendChild( this.#createCategoryItemComponent(categ) );
             });
-
+            sidebar.style.overflow='hidden';
 
             return sidebar;
         }
@@ -506,7 +506,7 @@
                     const showAllCateg = this.#createCategoryNameComponent(`category show-all-categories p-s p-bold`,"Ver todas las categorias");
                     
                     sidebar.appendChild(showAllCateg);
-
+                   
                     linksCreated = true; 
                    
                 } 
