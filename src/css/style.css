@@ -209,34 +209,68 @@ header {
 /*////////////////////////////////////////////////////PROPIEDADES DE LA SIDEBAR/////////////////////////////////////////*/
 
 .sidebar-categories{
-    background-color: aqua;
+    background-color: #1A1B28;
     position: fixed;
     left: 0;
-    padding: 1% ;
-    width: 50px;
-    height: 100vh;
-    overflow-y: auto;
+    width: min-content;
+    height: calc(100vh - 25px);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    padding: 0 0 5px 0;
+    overflow-y: auto;
     
 }
-.sidebar-expands{
-    width: 200px;
+
+.sidebar-categories :nth-child(4){
+    border-bottom: 1.5px solid transparent;
+    box-sizing: border-box;
 }
-.category-item{
-    margin: 8px 0;
-    width: 100%;
+
+.sidebar-expands{
+    background-color: #1A1B28;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 200px;
+    height: calc(100vh - 70px);
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 0 10px 0;
+}
+
+.sidebar-expands :nth-child(4){
+    border-bottom: 1.5px solid #4c5ec23b;
+    box-sizing: border-box;
+
+}
+.category-item > .container-svg{
+    padding: 10px;
+}
+
+.category-item{
+    margin: 5px 0;
+    width: 100%;
+    border-left: 8px solid transparent;
+    box-sizing: border-box;
+    display: flex;
+    align-items:center;
+    cursor: pointer;
+   
+}
+.category-item > p{
+    padding-left: 5%;
 }
 
 .c-active{
-    background-color: green;
     width: 100%;
+    border-left: 8px solid #4c5ec2b4;
+    box-sizing: border-box;
+    transition: border-left 0.9s ease-out;
+    
 }
+
 .show-all-categories{
-    background-color: red;
-    bottom: 0px;
+    margin: 20px 0 20px 0;
 }
 
 
