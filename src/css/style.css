@@ -222,7 +222,7 @@ header {
 }
 
 .sidebar-categories :nth-child(4){
-    border-bottom: 1.5px solid transparent;
+    border-bottom: 1.5px solid #4c5ec23b;
     box-sizing: border-box;
 }
 
@@ -238,11 +238,7 @@ header {
     padding: 0 0 10px 0;
 }
 
-.sidebar-expands :nth-child(4){
-    border-bottom: 1.5px solid #4c5ec23b;
-    box-sizing: border-box;
 
-}
 .category-item > .container-svg{
     padding: 10px;
 }
@@ -255,10 +251,16 @@ header {
     display: flex;
     align-items:center;
     cursor: pointer;
-   
 }
 .category-item > p{
     padding-left: 5%;
+}
+.category-item :hover{
+    color:#6C7BD1;
+}
+.category-item > p:hover{
+    margin: 0 0 0 8px;
+    transition: margin-left 0.2s ease;
 }
 
 .c-active{
@@ -266,7 +268,9 @@ header {
     border-left: 8px solid #4c5ec2b4;
     box-sizing: border-box;
     transition: border-left 0.9s ease-out;
-    
+}
+.c-active >p {
+    color: #6C7BD1;
 }
 
 .show-all-categories{

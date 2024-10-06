@@ -402,8 +402,6 @@
             const sidebarObj = new SidebarCategory(Constants.categories);
 
             hambur.addEventListener("click", ()=>{
-                console.log("hiciste click burguer");
-
 
                 if(isRender){
                     document.querySelector(".sidebar-categories").remove();
