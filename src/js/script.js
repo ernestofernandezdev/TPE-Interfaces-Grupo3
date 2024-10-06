@@ -317,12 +317,16 @@
         static replaceSpaces = (str) =>{
             return str.replaceAll(' ','-');
         }
+        static unReplaceSpaces = (str) =>{
+            return str.replaceAll('-',' ');
+        }
 
     }
 
     class Header {
         #userLogin;
         #sessionCard;
+        #scrollPositionSidebar;
        
         constructor(userLogin){
             this.#userLogin=userLogin;
@@ -395,6 +399,7 @@
         #handleHamburMenu(){
             let isRender=false;
             const hambur = document.querySelector(".hambur-menu");
+            const sidebarObj = new SidebarCategory(Constants.categories);
 
             hambur.addEventListener("click", ()=>{
                 console.log("hiciste click burguer");
@@ -405,9 +410,10 @@
                     isRender=false;
 
                 }else{
-                    const sidebar = new SidebarCategory(Constants.categories);
-                    Constants.root.appendChild(sidebar.getComponent());
-                    sidebar.listenEvents();
+                    Constants.root.appendChild(sidebarObj.getComponent());
+
+                    this.#savedStateSidebar();
+                    sidebarObj.listenEvents(this.#scrollPositionSidebar);
 
                     isRender=true;
                 }
@@ -416,17 +422,29 @@
             })
 
         }
-    
-       
+
+        //esta funcion se encarga de guardar en un atributo de clase la posicion en la que el usuario deja el scroll de la sidebar antes de hacer click en el menu
+        //hamburguesa para ocultar el menu de categorias
+        #savedStateSidebar(){
+            const sidebarElement = document.querySelector(".sidebar-categories");
+
+            sidebarElement.addEventListener("scroll", () => {
+                this.#scrollPositionSidebar = sidebarElement.scrollTop; 
+            });
+
+        }
     
     }
 
 
     class SidebarCategory {
         #categoriesList; /*esto deberian ser objetos que contengan nombre de la categoria y el emoji apropiado */
-        
+        #scrollPosition=0;
+        #activeCateg=null;
+
         constructor(categoriesList){
             this.#categoriesList = categoriesList;
+          
         }
 
 
@@ -435,24 +453,37 @@
             sidebar.className="sidebar-categories";
            
             //por cada elemento en la lista creo un div (category-item) y se lo agrego/apendo al sidebar
-
+            
             this.#categoriesList.forEach(categ => {
                 sidebar.appendChild( this.#createCategoryItemComponent(categ) );
             });
+           
             sidebar.style.overflow='hidden';
+           
 
             return sidebar;
         }
 
-        listenEvents(){
+        listenEvents(position){
+            this.#handleScrollPositionSidebar(position);
             this.#handleMouseEnterLeave();
         }
 
+        //esta funcion se encarga de recibir del elemento padre la posicion del scroll en la que se debe renderizar la lista de categorias
+        #handleScrollPositionSidebar(position){
+            const sidebar = document.querySelector(".sidebar-categories");
+
+            this.#scrollPosition=position;
+            sidebar.scrollTop=position;
+        }
 
         //crea el contenedor de cada categoria solo con el icono y le asigna los eventos para que al ser clickeado pueda ser identificado con data-value
         #createCategoryItemComponent(categoryObj){
             const catContainer= document.createElement("div");
-            catContainer.className=`category-item ${categoryObj.name === 'inicio' ? `c-inicio c-active` : `c-${Utils.replaceSpaces(categoryObj.name)}`}`;
+            catContainer.className=`category-item c-${Utils.replaceSpaces(categoryObj.name)} ${
+                this.#activeCateg === null && categoryObj.name === "inicio" ? "c-active":
+                categoryObj.name == this.#activeCateg ? "c-active":''}`
+
             catContainer.setAttribute("data-value", `${Utils.replaceSpaces(categoryObj.name)}`);
 
             const template = `${Utils.SVGTemplate( categoryObj.iconSVG,"category-svg" )}`;
@@ -482,14 +513,14 @@
         #handleMouseEnterLeave(){
             let linksCreated = false; 
             const sidebar = document.querySelector(".sidebar-categories");
-            let scrollPosition=0;
+            
 
             sidebar.addEventListener("mouseenter", () => {
                 const allCategories = document.querySelectorAll(".category-item");
                 sidebar.classList.add("sidebar-expands");
                 let pos = 0;
 
-                scrollPosition=sidebar.scrollTop;
+                this.#scrollPosition=sidebar.scrollTop;
                 sidebar.style.overflow = 'auto';
                 
                 // Verifica si los enlaces ya fueron creados
@@ -511,19 +542,16 @@
                    
                 } 
 
-                sidebar.addEventListener("scroll", ()=>{
-                    scrollPosition=sidebar.scrollTop;
-                })
+                this.#handleScrollSidebar(sidebar);
+                
               
-
             });
 
-            
             
             sidebar.addEventListener("mouseleave", () => {
                 sidebar.classList.remove("sidebar-expands");
                
-                sidebar.scrollTop=scrollPosition;
+                sidebar.scrollTop=this.#scrollPosition;
                 sidebar.style.overflow = 'hidden';
 
                 document.querySelectorAll(".category").forEach((item) => {
@@ -534,6 +562,13 @@
             });
         }
 
+        //esta funcion se encarga de escuchar y mantener actualizado la posicion de la sidebar una vez desplegada
+        #handleScrollSidebar(sidebarElement){
+            sidebarElement.addEventListener("scroll", ()=>{
+                this.#scrollPosition=sidebarElement.scrollTop;
+            })
+        }
+
        
 
       
@@ -542,8 +577,10 @@
             const id = element.getAttribute("data-value");
             const active = document.querySelector(".c-active");
             active.classList.remove("c-active");
+            this.#activeCateg=Utils.unReplaceSpaces(id);
 
             element.classList.add("c-active");
+
             
             console.log("clickeaste en: "+id);
            
