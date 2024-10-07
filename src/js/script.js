@@ -8,13 +8,13 @@
     const game={
         id:"5",
         titulo:"assasin creed",
-        frontImg:null,
+        frontImg:"url('static/svg/battle-arena.png')",
         categoria:"accion",
         multimedia:[null,null],
         descipcion:"es un juego sasrasara",
         controles:"con la flecha",
         comentario:["objetoComentario1"],
-        precio:15800,
+        precio:15800.65,
         esPago:true
     }
 
@@ -408,6 +408,7 @@
 
                 if(isRender){
                     document.querySelector(".sidebar-categories").remove();
+                  
                     isRender=false;
 
                 }else{
@@ -454,7 +455,7 @@
             sidebar.className="sidebar-categories";
             const hr = document.createElement("hr");
             hr.className="separator-categories";
-           
+
             //por cada elemento en la lista creo un div (category-item) y se lo agrego/apendo al sidebar
             
             this.#categoriesList.forEach(categ => {
@@ -463,6 +464,7 @@
            
             sidebar.insertBefore(hr,sidebar.children[4]);
             sidebar.style.overflow='hidden';
+
            
             return sidebar;
         }
@@ -733,7 +735,9 @@
         #loadHeader = ()=>{
             this.#rootElement.appendChild(this.#header.getComponent());
             this.#header.listenEvents();
-
+            const card = new Card(game);
+            this.#rootElement.appendChild(card.getSmallCard());
+            card.listenEvents();
         }
 
 
@@ -748,35 +752,97 @@
         }
 
         getSmallCard(){
+            const article = this.#createCustomArticle("s");
 
+            return article;
+        }
+        listenEvents(){
+            this.#handleMouseEnterLeave();
         }
 
 
         #createCustomArticle(size){
-            const isPay= game.esPago;
+            const isPay= this.#game.esPago;
             const article = document.createElement("article");
             article.className=`card-${size}`;
-            article.style.backgroundImage
+            article.style.backgroundImage=`${this.#game.frontImg}`;
+            article.style.backgroundSize='cover';
+            article.style.backgroundPosition='center';
+            article.id=`${Utils.replaceSpaces(this.#game.titulo)}`;
+           
 
-            if(isPay){
-
-                //todo lo que haya que ocultar con hover ponerlo en un div contenedor
-            }
+            const template = `${isPay && this.#renderPrice()}`;
             
+            article.innerHTML=template;
 
-
-
-
+            return article;
         }
 
         #renderPrice(){
-
             const priceTemplate = `<div class="price">
                                 ${Utils.SVGTemplate(Utils.customSVG("SVG_PRICE","#FAFAFA"))}
-                                <p>${game.precio}</p>
+                                ${this.#priceStyle(this.#game.precio)}
                               </div>`;
 
             return priceTemplate;
+        }
+
+        #renderDetails(){
+            //ocupa todo el tamaño de la card 
+            const detailsTemplate = `<a href="#${Utils.replaceSpaces(this.#game.titulo)}" class="container-game-details" id=link-${Utils.replaceSpaces(this.#game.titulo)}>
+            <h2 class="game-title p-xl p-bold">${Utils.capitalizeFirst(this.#game.titulo)}</h2>
+            ${this.#renderCardButton()}</a>`;
+
+            return detailsTemplate;
+        }
+
+        #renderCardButton(){
+            const isPay=this.#game.esPago;
+
+            const templateButton =`<button>${isPay ? "al carrito" : "jugar" }</button>`;
+
+            return templateButton;                   
+        }
+
+        #priceStyle(price){
+            let str = price.toString();
+            let cents= str.split('.');
+        
+            let templatePrice= `<p class='p-m p-bold'> ${this.#convertPrice(price)}<span class='p-s'>,${cents[1]}</span></p>`;
+
+            return templatePrice;
+        }
+
+        #convertPrice(price){
+            let str = price.toString();
+            let values= str.split('.');
+            let val= (values[0]/1000).toString().split('.');
+            
+            if(str.length == 6){
+                return `${values[0]}`;
+            }
+
+            return `${val[0]}.${values[0].slice(values[0].length-3)}`;
+        }
+
+        #handleMouseEnterLeave(){
+            const arts=document.querySelectorAll("article");
+
+            arts.forEach((art)=>{
+                art.addEventListener("mouseenter", (e)=>{
+                    const element = document.querySelector(`#${e.target.id}`);
+                    element.innerHTML+=this.#renderDetails();
+                    
+                })
+            })
+
+            arts.forEach((art)=>{
+                art.addEventListener("mouseleave", (e)=>{
+                    const element = document.querySelector(`#link-${e.target.id}`);
+                    element.remove();
+                    
+                })
+            })
 
         }
     }
