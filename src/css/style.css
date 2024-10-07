@@ -336,6 +336,16 @@ article{
     height: 120px;
     image-rendering: crisp-edges;
 }
+.card-m{
+    width: 220px;
+    height: 325px;
+    image-rendering: crisp-edges;
+}
+.card-xl{
+    width: 450px;
+    height: 250px;
+    image-rendering: crisp-edges;
+}
 .container-game-details{
     position: absolute;
     width: 100%;
@@ -347,6 +357,9 @@ article{
     justify-content: center;
     align-items: center;
     
+}
+.container-game-details > h2{
+    margin-bottom: 5%;
 }
 
 .btn{

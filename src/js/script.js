@@ -5,18 +5,245 @@
         /*const home= new Home() */      /*para inicializar sin usuario logueado */
     });
 
-    const game={
-        id:"5",
-        titulo:"battle arena",
-        frontImg:"url('static/assets/battle-arena.png')",
-        categoria:"accion",
-        multimedia:[null,null],
-        descipcion:"es un juego sasrasara",
-        controles:"con la flecha",
-        comentario:["objetoComentario1"],
-        precio:15800.65,
-        esPago:true
-    }
+    const games=[{
+            id:"5",
+            titulo:"battle arena",
+            frontImg:"url('static/assets/battle-arena.png')",
+            categoria:"accion",
+            multimedia:[null,null],
+            descipcion:"es un juego sasrasara",
+            controles:"con la flecha",
+            comentarios:["objetoComentario1"],
+            precio:15800.65,
+            esPago:true
+        },
+        {
+            id:"6",
+            titulo:"bank robbery escape",
+            frontImg:"url('static/assets/robbery.png')",
+            categoria:"escape",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"7",
+            titulo:"sniper mission",
+            frontImg:"url('static/assets/sniper-mission.png')",
+            categoria:"disparos",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:25000.30,
+            esPago:true
+        },
+        {
+            id:"8",
+            titulo:"downtown 1930s mafia",
+            frontImg:"url('static/assets/downtown.png')",
+            categoria:"disparos",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"9",
+            titulo:"table tennis world tour",
+            frontImg:"url('static/assets/table-tennis.png')",
+            categoria:"deportes",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"10",
+            titulo:"xtreme moto mayhem",
+            frontImg:"url('static/assets/xtreme-moto.png')",
+            categoria:"motos",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:12300.00,
+            esPago:true
+        },
+        {
+            id:"11",
+            titulo:"8 balls billard classic",
+            frontImg:"url('static/assets/8-ball.png')",
+            categoria:"billar",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"12",
+            titulo:"skydom",
+            frontImg:"url('static/assets/skydom.png')",
+            categoria:"casino",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"13",
+            titulo:"bullet force",
+            frontImg:"url('static/assets/bullet-force.png')",
+            categoria:"disparos",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:17080.30,
+            esPago:true
+        },
+        {
+            id:"14",
+            titulo:"sniper mission",
+            frontImg:"url('static/assets/sniper-mission.png')",
+            categoria:"disparos",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:25000.30,
+            esPago:true
+        },
+        {
+            id:"15",
+            titulo:"cube stories escape",
+            frontImg:"url('static/assets/cube-stories-scape.png')",
+            categoria:"escape",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:5000.90,
+            esPago:true
+        },
+        {
+            id:"16",
+            titulo:"elemental merge",
+            frontImg:"url('static/assets/elemental-merge.png')",
+            categoria:"accion",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"17",
+            titulo:"mr racer car racing",
+            frontImg:"url('static/assets/racer.png')",
+            categoria:"coches",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:9750.60,
+            esPago:true
+        },
+        {
+            id:"18",
+            titulo:"bloxd.io",
+            frontImg:"url('static/assets/bloxd.png')",
+            categoria:".io",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"19",
+            titulo:"basketball stars",
+            frontImg:"url('static/assets/basketball-stars.png')",
+            categoria:"basquet",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:30900.00,
+            esPago:true
+        },
+        {
+            id:"20",
+            titulo:"3d bowling",
+            frontImg:"url('static/assets/bowling.png')",
+            categoria:"deportes",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },{
+            id:"21",
+            titulo:"kour.io",
+            frontImg:"url('static/assets/kour.png')",
+            categoria:".io",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:12300.70,
+            esPago:true
+        },{
+            id:"22",
+            titulo:"tower swap match 3 tower defense",
+            frontImg:"url('static/assets/tower-swap.png')",
+            categoria:"accion",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:20000.50,
+            esPago:true
+        },
+        {
+            id:"23",
+            titulo:"bloons td 4",
+            frontImg:"url('static/assets/bloons.png')",
+            categoria:"disparos",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"24",
+            titulo:"4 en linea: batman vs. guasón",
+            frontImg:"url('static/assets/4-linea.png')",
+            categoria:"puzzle",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        }
+    ]
 
     const player={
         avatar:`<svg viewBox="0 0 128 128" data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" fill="#000000">
@@ -353,11 +580,12 @@
         #userLogin;
         #sessionCard;
         #scrollPositionSidebar;
+        #parentElement
        
-        constructor(userLogin){
+        constructor(userLogin,parentElement){
             this.#userLogin=userLogin;
             this.#sessionCard=new SessionCard(userLogin);
-            
+            this.#parentElement=parentElement;
         }
     
         listenEvents(){
@@ -437,7 +665,7 @@
                     isRender=false;
 
                 }else{
-                    Constants.root.appendChild(sidebarObj.getComponent());
+                    this.#parentElement.appendChild(sidebarObj.getComponent());
 
                     this.#savedStateSidebar();
                     sidebarObj.listenEvents(this.#scrollPositionSidebar);
@@ -745,37 +973,40 @@
         #rootElement;
         #header;
         #content;
+
         #user;
 
         constructor(user = null){
             this.#rootElement = Constants.root;
             this.#user=user;
+            this.#header=new Header(user,this.#rootElement);
+            this.#content= [new Card(games[0]), new Card(games[1])];
 
-            this.#header=new Header(user);
-            this.#content= new Card(game);
+           
+
             this.#rootElement.appendChild(this.#header.getComponent());
             this.#rootElement.appendChild(this.getComponent());
-            this.listenEvents();
-            
 
+            this.listenEvents();
         }
        
 
         getComponent(){
             let container = document.createElement("div");
             container.id="inicio";
-            //container.appendChild(this.#header.getComponent());
-            container.appendChild(this.#content.getSmallCard());
+           
+            container.appendChild( this.#content[0].getLargeCard());
+            container.appendChild(this.#content[1].getSmallCard());
             
-
-
-         
+            
             return container;
         }
 
         listenEvents(){
             this.#header.listenEvents();
-            this.#content.listenEvents();
+            this.#content[0].listenEvents();
+            this.#content[1].listenEvents();
+            
             
         }
 
@@ -792,11 +1023,11 @@
             this.#inCart=false;
         }
 
-        getSmallCard(){
-            const article = this.#createCustomArticle("s");
+        getSmallCard(){return this.#createCustomArticle("s")}
 
-            return article;
-        }
+        getMediumCard(){return this.#createCustomArticle("m")}
+
+        getLargeCard(){ return this.#createCustomArticle("xl")}
 
         listenEvents(){
             this.#handleMouseEnterLeave();
@@ -812,7 +1043,7 @@
             article.style.backgroundPosition='center';
             article.id=`game-${this.#game.id}`;
            
-
+            
             const template = `${isPay ? this.#renderPrice():''}`;
             
             article.innerHTML=template;
@@ -831,7 +1062,7 @@
 
         #renderDetails(){
             //ocupa todo el tamaño de la card 
-            const detailsTemplate = `<a href="#${Utils.replaceSpaces(this.#game.titulo)}" class="container-game-details" id=link-${this.#game.id}>
+            const detailsTemplate = `<a href="#${Utils.replaceSpaces(this.#game.titulo)}" class="container-game-details" id="link-${this.#game.id}">
             <h2 class="game-title p-xl p-bold">${Utils.capitalizeFirst(this.#game.titulo)}</h2>
             ${this.#renderCardButton()}</a>`;
 
@@ -875,37 +1106,31 @@
         }
 
         #handleMouseEnterLeave(){
-            const arts=document.querySelectorAll("article");
+            const art=document.getElementById(`game-${this.#game.id}`);
             let isDetailsRendered=false;
             
-
-            arts.forEach((art)=>{
-
-                art.addEventListener("mouseenter", (e)=>{  
-                    if (!isDetailsRendered) { 
-                        const element = document.querySelector(`#${e.target.id}`);
-                        element.innerHTML += this.#renderDetails();
+            art.addEventListener("mouseenter", (e)=>{  
+                if (!isDetailsRendered) { 
+                    const element = document.querySelector(`#${e.target.id}`);
+                    element.innerHTML += this.#renderDetails();
                         
-                        isDetailsRendered = true; 
+                    isDetailsRendered = true; 
                         
-                        this.#handleClickButtonCard();
-                    }
+                    this.#handleClickButtonCard();
+                }
                     
-                })
-
-             
             })
 
-            arts.forEach((art)=>{
-                art.addEventListener("mouseleave", (e)=>{
-                    const value = e.target.id.slice(5); //esto quita el prefijo "game-" del id del articulo
-                    const element = document.querySelector(`#link-${value}`);
-                    element.remove();
-                    isDetailsRendered = false; 
+            art.addEventListener("mouseleave", (e)=>{
+                const value = e.target.id.slice(5); //esto quita el prefijo "game-" del id del articulo
+
+                const element = document.querySelector(`#link-${value}`);
+                   
+                    
+                element.remove();
+                isDetailsRendered = false; 
                     
                     
-                })
-              
             })
 
         }
@@ -935,6 +1160,11 @@
             }
 
         }
+
+
+    }
+
+    class Carrousel {
 
 
     }
