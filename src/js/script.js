@@ -747,6 +747,7 @@
          
             return container;
         }
+
         listenEvents(){
             this.#header.listenEvents();
             this.#content.listenEvents();
@@ -840,21 +841,33 @@
 
         #handleMouseEnterLeave(){
             const arts=document.querySelectorAll("article");
+            let isDetailsRendered=false;
+            
 
             arts.forEach((art)=>{
-                art.addEventListener("mouseenter", (e)=>{
-                    const element = document.querySelector(`#${e.target.id}`);
-                    element.innerHTML+=this.#renderDetails();
+
+                art.addEventListener("mouseenter", (e)=>{  
+                    if (!isDetailsRendered) { 
+                        const element = document.querySelector(`#${e.target.id}`);
+                        element.innerHTML += this.#renderDetails();
+                        isDetailsRendered = true; 
+                    }
                     
                 })
+
+             
             })
 
             arts.forEach((art)=>{
                 art.addEventListener("mouseleave", (e)=>{
+                
                     const element = document.querySelector(`#link-${e.target.id}`);
                     element.remove();
+                    isDetailsRendered = false; 
+                    
                     
                 })
+              
             })
 
         }
