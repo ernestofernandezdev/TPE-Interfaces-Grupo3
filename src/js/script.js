@@ -7,8 +7,8 @@
 
     const game={
         id:"5",
-        titulo:"assasin creed",
-        frontImg:"url('static/svg/battle-arena.png')",
+        titulo:"battle arena",
+        frontImg:"url('static/assets/battle-arena.png')",
         categoria:"accion",
         multimedia:[null,null],
         descipcion:"es un juego sasrasara",
@@ -302,9 +302,27 @@
                         <g id="SVGRepo_iconCarrier">
                         <path d="M-260.9,327.8c0-10.3,9.2-14,19.5-14c10.3,0,21.3,3.2,21.3,3.2l6.6-39.2c0,0-14-4.8-47.4-4.8c-20.5,0-32.4,7.8-41.1,19.3c-8.2,10.9-8.5,28.4-8.5,39.7v25.7H-337V396h26.5v133h49.6V396h39.3l2.9-38.3h-42.2V327.8z"/></g>
                         </svg>`,
+
                 SVG_PRICE:`<svg fill=${color} viewBox="-2 0 19 19" xmlns="http://www.w3.org/2000/svg" class="cf-icon-svg" transform="rotate(90)">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"/><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.49400000000000005"/><g id="SVGRepo_iconCarrier">
                         <path d="m13.842 11.52-4.389 4.388a1.112 1.112 0 0 1-1.567 0l-6.28-6.28a3.027 3.027 0 0 1-.771-1.892l.043-3.681A1.141 1.141 0 0 1 2 2.935L5.67 2.9a3.04 3.04 0 0 1 1.892.773l6.28 6.28a1.112 1.112 0 0 1 0 1.567zM3.826 5.133a.792.792 0 1 0-.792.792.792.792 0 0 0 .792-.792zm6.594 7.348a.554.554 0 0 0 0-.784l-.401-.401a2.53 2.53 0 0 0 .35-.83 1.565 1.565 0 0 0-.397-1.503 1.59 1.59 0 0 0-1.017-.46 2.14 2.14 0 0 0-.75.085h-.002a2.444 2.444 0 0 0-.59.277H7.61a2.677 2.677 0 0 0-.438.357 2.043 2.043 0 0 1-.259.22 1.29 1.29 0 0 1-.329.17h-.002a.835.835 0 0 1-.338.038h-.002a.53.53 0 0 1-.314-.136.539.539 0 0 1-.106-.534 1.54 1.54 0 0 1 .41-.71 1.632 1.632 0 0 1 .23-.165l.03-.019a1.783 1.783 0 0 1 .322-.155.942.942 0 0 1 .325-.06.554.554 0 0 0 0-1.108h-.001a2.058 2.058 0 0 0-.717.132 2.846 2.846 0 0 0-.529.26l-.01.006-.398-.4a.554.554 0 1 0-.784.785l.388.387a2.513 2.513 0 0 0-.347.803 1.644 1.644 0 0 0 .404 1.561 1.622 1.622 0 0 0 .983.456 1.922 1.922 0 0 0 .805-.089 2.372 2.372 0 0 0 .624-.319 3.142 3.142 0 0 0 .398-.339 1.569 1.569 0 0 1 .256-.208 1.381 1.381 0 0 1 .32-.151 1.023 1.023 0 0 1 .348-.038.485.485 0 0 1 .308.139c.05.049.165.165.097.488a1.558 1.558 0 0 1-.413.729 2.476 2.476 0 0 1-.28.219 1.727 1.727 0 0 1-.306.157.687.687 0 0 1-.32.042.554.554 0 1 0-.08 1.106c.052.004.103.005.152.005a1.723 1.723 0 0 0 .685-.134 2.678 2.678 0 0 0 .507-.27l.01-.007.397.398a.555.555 0 0 0 .783 0z"/></g>
+                        </svg>`,
+
+                ADD_CART:`<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke=${color}>
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"/><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                        <g id="SVGRepo_iconCarrier"> <path d="M21 5L19 12H7.37671M20 16H8L6 3H3M16 5.5H13.5M13.5 5.5H11M13.5 5.5V8M13.5 5.5V3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z" stroke=${color} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> </g>
+                        </svg>`,
+
+                IN_CART:`<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke=${color}>
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                        <g id="SVGRepo_iconCarrier"> <path d="M21 5L19 12H7.37671M20 16H8L6 3H3M11 6L13 8L17 4M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z" stroke=${color} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> </g>
+                        </svg>`,
+
+                PLAY_GAME:`<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke=${color}>
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                        <g id="SVGRepo_iconCarrier"> <g id="Media / Play_Circle"> <g id="Vector"> <path d="M3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12Z" stroke=${color} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> <path d="M10 15V9L15 12L10 15Z" stroke=${color} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> </g> </g> </g>
                         </svg>`
                     
             }
@@ -323,6 +341,10 @@
         }
         static unReplaceSpaces = (str) =>{
             return str.replaceAll('-',' ');
+        }
+
+        static customButton=(className, content,id)=>{
+            return `<button id="${id}" class="btn p-m p-bold ${className}">${content}</button>`;
         }
 
     }
@@ -381,12 +403,15 @@
             let isFirstOpen = true;
             const navbarList= document.querySelector(".navbar-list");
             const profileCard= this.#sessionCard.getComponent();
+            const overlay = document.createElement("div");
+            overlay.id="overlay";
             
             clickElement.addEventListener("click", (e)=>{
                 e.stopPropagation();
     
                 navbarList.appendChild(profileCard);
-    
+                navbarList.appendChild(overlay);
+              
                 this.#sessionCard.handleClickWindow(profileCard);
     
                 //si es el primer acceso a la funcion, debo cargarle los eventos a la card session
@@ -634,7 +659,7 @@
                             <div class="user-info-card" >
                                 <div class="container-info-session">
                                     <div class="avatar-session">${this.#user.avatar}</div>
-                                    <h2 class="p-xl" >${this.#user.nick}</h2>
+                                    <h2 class="p-xl p-bold" >${this.#user.nick}</h2>
                                     <h3 class="p-m p-bold" >${this.#user.email}</h3>
                                 </div>
                             </div>`;
@@ -687,6 +712,8 @@
             
             btn.addEventListener("click", ()=>{
                 const card = document.querySelector(".session-card");
+                const overlay= document.getElementById("overlay");
+                overlay.remove();
                 card.remove();               
             })
            
@@ -694,25 +721,21 @@
 
         handleClickWindow(profileCard) {
             this.#profileCard = profileCard;
-    
-            document.addEventListener('click', this.#handleWindow);
+            const overlay = document.getElementById("overlay");
+        
+            overlay.addEventListener("click", (e) => this.#handleWindow(e));
         }
 
         #handleWindow = (e) => {
-            
-            console.log("click en pantalla");
-            
-            if (this.#profileCard && this.#profileCard.contains(e.target)) {
-                return; 
-
-            } else {
-                this.#profileCard.remove();
-               
-                document.removeEventListener('click', this.#handleWindow);
+            if (!this.#profileCard || !this.#profileCard.contains(e.target)) {
+                const overlay = document.getElementById("overlay");
+                if (overlay) {
+                    this.#profileCard.remove();
+                    overlay.remove();
+                    overlay.removeEventListener('click', this.#handleWindow);
+                }
             }
-
         };
-
     }
 
 
@@ -730,7 +753,7 @@
 
             this.#header=new Header(user);
             this.#content= new Card(game);
-
+            this.#rootElement.appendChild(this.#header.getComponent());
             this.#rootElement.appendChild(this.getComponent());
             this.listenEvents();
             
@@ -741,8 +764,10 @@
         getComponent(){
             let container = document.createElement("div");
             container.id="inicio";
-            container.appendChild(this.#header.getComponent());
+            //container.appendChild(this.#header.getComponent());
             container.appendChild(this.#content.getSmallCard());
+            
+
 
          
             return container;
@@ -760,9 +785,11 @@
 
     class Card{
         #game;
+        #inCart;
 
         constructor(game){
             this.#game=game;
+            this.#inCart=false;
         }
 
         getSmallCard(){
@@ -770,6 +797,7 @@
 
             return article;
         }
+
         listenEvents(){
             this.#handleMouseEnterLeave();
         }
@@ -782,10 +810,10 @@
             article.style.backgroundImage=`${this.#game.frontImg}`;
             article.style.backgroundSize='cover';
             article.style.backgroundPosition='center';
-            article.id=`${Utils.replaceSpaces(this.#game.titulo)}`;
+            article.id=`game-${this.#game.id}`;
            
 
-            const template = `${isPay && this.#renderPrice()}`;
+            const template = `${isPay ? this.#renderPrice():''}`;
             
             article.innerHTML=template;
 
@@ -803,7 +831,7 @@
 
         #renderDetails(){
             //ocupa todo el tamaño de la card 
-            const detailsTemplate = `<a href="#${Utils.replaceSpaces(this.#game.titulo)}" class="container-game-details" id=link-${Utils.replaceSpaces(this.#game.titulo)}>
+            const detailsTemplate = `<a href="#${Utils.replaceSpaces(this.#game.titulo)}" class="container-game-details" id=link-${this.#game.id}>
             <h2 class="game-title p-xl p-bold">${Utils.capitalizeFirst(this.#game.titulo)}</h2>
             ${this.#renderCardButton()}</a>`;
 
@@ -813,7 +841,14 @@
         #renderCardButton(){
             const isPay=this.#game.esPago;
 
-            const templateButton =`<button>${isPay ? "al carrito" : "jugar" }</button>`;
+            const templateButton = `${isPay && !this.#inCart ? 
+                Utils.customButton("btn-add-cart btn-card", `Al carrito ${ Utils.SVGTemplate( Utils.customSVG("ADD_CART","#FAFAFA") )}`, `btn-${this.#game.id}`) :
+                this.#inCart ? 
+                Utils.customButton("btn-in-cart btn-card", `En el carrito ${ Utils.SVGTemplate( Utils.customSVG("IN_CART","#FAFAFA"))}`, `btn-${this.#game.id}`) :
+                Utils.customButton("btn-play-game btn-card", `Jugar ${ Utils.SVGTemplate( Utils.customSVG("PLAY_GAME","#FAFAFA"))}`, `btn-${this.#game.id}`)
+            }`
+
+            
 
             return templateButton;                   
         }
@@ -850,7 +885,10 @@
                     if (!isDetailsRendered) { 
                         const element = document.querySelector(`#${e.target.id}`);
                         element.innerHTML += this.#renderDetails();
+                        
                         isDetailsRendered = true; 
+                        
+                        this.#handleClickButtonCard();
                     }
                     
                 })
@@ -860,8 +898,8 @@
 
             arts.forEach((art)=>{
                 art.addEventListener("mouseleave", (e)=>{
-                
-                    const element = document.querySelector(`#link-${e.target.id}`);
+                    const value = e.target.id.slice(5); //esto quita el prefijo "game-" del id del articulo
+                    const element = document.querySelector(`#link-${value}`);
                     element.remove();
                     isDetailsRendered = false; 
                     
@@ -871,6 +909,34 @@
             })
 
         }
+
+        #handleClickButtonCard(){
+            const button = document.getElementById(`btn-${this.#game.id.toString()}`);   ///ESTO SE PODRIA HACER A PARTIR DE LOS DATOS DEL JUEGO, PERO 
+            const isPay= button.classList.contains("btn-add-cart") || button.classList.contains("btn-in-cart");                                     ///PREFIERO HACERLO ACORDE A LO QUE VE EL USUARIO   
+
+            button.addEventListener("click", (e)=> {
+            
+                isPay ? this.#renderStateCart(button) : console.log("CLICK EN JUGAR ");
+               
+            })
+            
+        }
+
+        #renderStateCart(btn){
+            this.#inCart=!this.#inCart;
+            btn.classList.toggle("btn-add-cart");
+            btn.classList.toggle("btn-in-cart");
+            btn.innerHTML='';
+
+            if(this.#inCart){
+                btn.innerHTML+=`En el carrito ${Utils.SVGTemplate(Utils.customSVG("IN_CART","#FAFAFA"))}`;
+            }else{
+                btn.innerHTML+=`Al carrito ${Utils.SVGTemplate(Utils.customSVG("ADD_CART","#FAFAFA"))}`;
+            }
+
+        }
+
+
     }
 
 
