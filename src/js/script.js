@@ -727,17 +727,30 @@
         constructor(user = null){
             this.#rootElement = Constants.root;
             this.#user=user;
+
             this.#header=new Header(user);
-            this.#loadHeader();
+            this.#content= new Card(game);
+
+            this.#rootElement.appendChild(this.getComponent());
+            this.listenEvents();
+            
 
         }
        
-        #loadHeader = ()=>{
-            this.#rootElement.appendChild(this.#header.getComponent());
+
+        getComponent(){
+            let container = document.createElement("div");
+            container.id="inicio";
+            container.appendChild(this.#header.getComponent());
+            container.appendChild(this.#content.getSmallCard());
+
+         
+            return container;
+        }
+        listenEvents(){
             this.#header.listenEvents();
-            const card = new Card(game);
-            this.#rootElement.appendChild(card.getSmallCard());
-            card.listenEvents();
+            this.#content.listenEvents();
+            
         }
 
 
