@@ -606,12 +606,6 @@
             this.#parentElement=parentElement;
         }
     
-        listenEvents(){
-            this.#handleSession();
-            this.#handleHamburMenu();
-            
-        }
-    
         getComponent(){
             const header=document.createElement("header");
     
@@ -626,6 +620,12 @@
     
            
             return header;
+        }
+        
+        listenEvents(){
+            this.#handleSession();
+            this.#handleHamburMenu();
+            
         }
     
         /*esto se ejecuta 1 sola vez cuando lo invoca la pagina que quiere cargar/hacer uso de un header*/
@@ -877,11 +877,6 @@
             this.#user=user;
         }
 
-        listenEvents(){
-            this.#handleRemoveCard();
-           
-        }
-
         getComponent(){
             const card = document.createElement("section");
             card.className="session-card";
@@ -899,6 +894,19 @@
             return card;
 
         }
+
+        listenEvents(){
+            this.#handleRemoveCard();
+           
+        }
+
+        handleClickWindow(profileCard) {
+            this.#profileCard = profileCard;
+            const overlay = document.getElementById("overlay");
+        
+            overlay.addEventListener("click", (e) => this.#handleWindow(e));
+        }
+
 
         #getUserDetailTemplate(){
             const userDetailTemplate = `
@@ -963,13 +971,6 @@
                 card.remove();               
             })
            
-        }
-
-        handleClickWindow(profileCard) {
-            this.#profileCard = profileCard;
-            const overlay = document.getElementById("overlay");
-        
-            overlay.addEventListener("click", (e) => this.#handleWindow(e));
         }
 
         #handleWindow = (e) => {
@@ -1085,7 +1086,7 @@
                 Utils.customButton("btn-add-cart btn-card", `Al carrito ${ Utils.SVGTemplate( Utils.customSVG("ADD_CART","#FAFAFA") )}`, `btn-${this.#game.id}`) :
                 this.#inCart ? 
                 Utils.customButton("btn-in-cart btn-card", `En el carrito ${ Utils.SVGTemplate( Utils.customSVG("IN_CART","#FAFAFA"))}`, `btn-${this.#game.id}`) :
-                Utils.customButton("btn-play-game btn-card", `Jugar ${ Utils.SVGTemplate( Utils.customSVG("PLAY_GAME","#FAFAFA"))}`, `btn-${this.#game.id}`)
+                Utils.customButton("btn-play-game btn-card", `<span class="p-bold" >Jugar</span> ${ Utils.SVGTemplate( Utils.customSVG("PLAY_GAME","#FAFAFA"))}`, `btn-${this.#game.id}`)
             }`
 
             
@@ -1198,6 +1199,16 @@
             return section;
    
         }
+
+        listenEvents(){
+            this.#cardsList.forEach((card)=>{
+                card.listenEvents();
+            })
+
+            this.#handleScroll();
+            this.#handleHoverBtn();
+        }
+
         #createTitleSection(sectionId){
             const isPersonalizated= sectionId == "continuar jugando";
             const container = document.createElement("div");
@@ -1253,17 +1264,16 @@
         }
 
         #handleScroll(){
+            const carousel = document.querySelector(".carousel");
         
             document.getElementById("btn-next").addEventListener("click", ()=> {
                 this.#scrollCarousel(1150); 
             });
-
          
             document.getElementById("btn-prev").addEventListener("click", ()=> {
                 this.#scrollCarousel(-1150); 
             });
 
-            const carousel = document.querySelector(".carousel");
             carousel.addEventListener("scroll", this.#checkScrollPosition); 
         }
 
@@ -1271,11 +1281,13 @@
             const carousel = document.querySelector(".carousel");
             const btnPrev = document.getElementById("btn-prev");
             const btnNext = document.getElementById("btn-next");
-         
+            const scrollEnd = carousel.scrollWidth - carousel.clientWidth;
+           
+            
             if (carousel.scrollLeft <= 6) {
                 btnPrev.style.display="none";
                 
-            }else if(carousel.scrollLeft >= 3867){
+            }else if(carousel.scrollLeft >= scrollEnd - 6){               
                 btnNext.style.display = "none"; 
                 
             }else{
@@ -1294,40 +1306,23 @@
         }
 
         #handleHoverBtn(){
-            const next =document.getElementById("btn-next");
+            const next = document.getElementById("btn-next");
             const prev = document.getElementById("btn-prev");
-
-            next.addEventListener("mouseenter", ()=>{
-                next.innerHTML='';
-                next.innerHTML=`${Utils.SVGTemplate( Utils.customSVG(`ARROW_NEXT`,"#fafafa"))}`;
-            })
-            next.addEventListener("mouseleave",()=>{
-                next.innerHTML='';
-                next.innerHTML=`${Utils.SVGTemplate( Utils.customSVG(`ARROW_NEXT`,"transparent"))}`;
-            })
-
-            prev.addEventListener("mouseenter", ()=>{
-                prev.innerHTML='';
-                prev.innerHTML=`${Utils.SVGTemplate( Utils.customSVG(`ARROW_PREV`,"#fafafa"))}`;
-            })
-
-            prev.addEventListener("mouseleave",()=>{
-                prev.innerHTML='';
-                prev.innerHTML=`${Utils.SVGTemplate( Utils.customSVG(`ARROW_PREV`,"transparent"))}`;
-            })
+        
+            const updateButtonIcon = (button, type, color) => {
+                button.innerHTML = Utils.SVGTemplate(Utils.customSVG(type, color));
+            };
+        
+            const addHoverEffect = (button, type) => {
+                button.addEventListener("mouseenter", () => updateButtonIcon(button, type, "#fafafa"));
+                button.addEventListener("mouseleave", () => updateButtonIcon(button, type, "transparent"));
+            };
+        
+            addHoverEffect(next, "ARROW_NEXT");
+            addHoverEffect(prev, "ARROW_PREV");
         }
 
-        listenEvents(){
-            this.#cardsList.forEach((card)=>{
-                card.listenEvents();
-            })
-
-            this.#handleScroll();
-            this.#handleHoverBtn();
-        }
-
-
-
+        
     }
 
 
