@@ -14,7 +14,8 @@
         
         if(section == "inicio"){
             document.title="Inicio | FlamingGames";
-            const h = new Header(player,root);
+     
+            const h = new Header(player,root,section);
             const home = new Home(player);
 
             root.appendChild(h.getComponent());
@@ -25,6 +26,9 @@
             
         }else if(section == "game"){
             document.title="Ver juego | FlamingGames";
+            const h = new Header(player,root,section);
+            root.appendChild(h.getComponent());
+            h.listenEvents();
             /*new secciongame */
             
         }else if(section == "login"){
@@ -1076,22 +1080,19 @@
     }
 
     class Header {
-        static singleton=null;
         #userLogin;
         #sessionCard;
         #scrollPositionSidebar;
-        #parentElement
+        #parentElement;
+        #sectionActive;
        
-        constructor(userLogin,parentElement){
-            if(Header.singleton){
-                return Header.singleton;
-            }
-
+        constructor(userLogin,parentElement,sectionActive){
             this.#userLogin=userLogin;
             this.#sessionCard=new SessionCard(userLogin);
             this.#parentElement=parentElement;
+            this.#sectionActive=sectionActive;
 
-            Header.singleton=this;
+           
         }
     
         getComponent(){
@@ -1161,7 +1162,9 @@
         #handleHamburMenu(){
             let isRender=false;
             const hambur = document.querySelector(".hambur-menu");
-            const sidebarObj = new SidebarCategory(Constants.categories);
+            const sidebarObj = new SidebarCategory(Constants.categories,this.#sectionActive);
+            
+            
 
             hambur.addEventListener("click", ()=>{
 
@@ -1199,18 +1202,15 @@
 
 
     class SidebarCategory {
-        static singleton =null;
         #categoriesList; /*esto deberian ser objetos que contengan nombre de la categoria y el emoji apropiado */
         #scrollPosition=0;
         #activeCateg=null;
+        #sectionActive;
 
-        constructor(categoriesList){
-            if(SidebarCategory.singleton){
-                return SidebarCategory.singleton;
-            }
-            this.#categoriesList = categoriesList;
+        constructor(categoriesList,sectionActive){
+            this.#categoriesList= categoriesList;
+            this.#sectionActive= sectionActive;
 
-          SidebarCategory.singleton=this;
         }
 
 
@@ -1251,7 +1251,7 @@
             const catContainer= document.createElement("a");
             
             catContainer.className=`category-item c-${Utils.replaceSpaces(categoryObj.name)} ${
-                this.#activeCateg === null && categoryObj.name === "inicio" ? "c-active":
+                this.#activeCateg === null && categoryObj.name === this.#sectionActive ? "c-active":
                 categoryObj.name == this.#activeCateg ? "c-active":''}`;
                 
             catContainer.href=`#${Utils.replaceSpaces(categoryObj.name)}`;
@@ -1346,13 +1346,22 @@
         #handleClickCategory(element){
             const hrefValue= element.getAttribute("href");
             const active = document.querySelector(".c-active");
-
-            active.classList.remove("c-active");
+            const displaceSection= document.querySelector(`${hrefValue}`);
+            if(active){
+                active.classList.remove("c-active");
+            }
+            
             this.#activeCateg=Utils.unReplaceSpaces(hrefValue.slice(1));
 
             element.classList.add("c-active");
-
-            console.log("clickeaste en: "+hrefValue);
+            
+            if(displaceSection){
+                displaceSection.scrollIntoView({ behavior: "smooth" });
+            }else if (hrefValue == "#inicio"){
+                showContent("inicio");
+            }else{
+                console.log("clickeaste en seccion: "+hrefValue);
+            }
            
         }
 
@@ -1519,7 +1528,7 @@
 
         #renderAllCarousels(container){
             let sizes=["xl","s","s","m"]
-            let categories=["mejor valoración","continuar jugando","top jugados de la semana","destacados"]
+            let categories=["mejor valoración","continuar jugando","top jugados de la semana","tendencias"]
             let pos=0;
 
             this.#content.forEach((carousel)=>{
@@ -1667,8 +1676,8 @@
                     this.#renderStateCart(button)
                 }else if(isMyGame){
                     console.log("GUASONN");
-                    showContent(`game/${this.#game.id}`);
-                    
+                    // showContent(`game/${this.#game.id}`);
+                    showContent("game");
                     
                 }else{
                     console.log("CLICK EN JUGAR ");
@@ -1856,7 +1865,7 @@
         #game;
         #user;
 
-        
+
 
     }
 
