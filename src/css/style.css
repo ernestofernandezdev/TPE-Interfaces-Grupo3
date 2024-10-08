@@ -356,10 +356,12 @@ article{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+    z-index: 3;
+
 }
 .container-game-details > h2{
     margin-bottom: 5%;
+    padding: 0 2%;
 }
 
 .btn{
@@ -371,6 +373,7 @@ article{
     border-radius: 20px;
     margin-top: 5px;
     cursor: pointer;
+   
 }
 .btn > .container-svg{
     margin-left: 5px;
@@ -387,8 +390,70 @@ article{
     box-sizing: border-box;
 }
 
+/*//////////////////////////////////////////////////////////////PROPIEDADES DEL CARROUSEL/////////////////////////////////////////////////////////////////////////////////*/
 
+.container-carousel{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    
+}
+.carousel{
+    display: flex;
+    justify-content: space-around;
+    background-color: #19225954;
+    border-radius: 5px;
+    overflow-x: scroll;  
+}
+.carousel::-webkit-scrollbar {
+    display: none; 
+}
 
+.item-carousel{
+    flex: 0 0 220px; 
+    margin: 0 8px;    
+ 
+}
+.section-title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 115px;
+    margin-bottom: 5px;
+}
+.section-title > a{
+    color: #929DDA;
+    margin-bottom: -3px;
+}
+.section-title > a:hover{
+    color: #4C5EC2;
+}
+
+.btn-displace{
+    cursor: pointer;
+    background-color: transparent;
+}
+
+#btn-prev{
+    position: sticky;
+    left: 0;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+}
+#btn-prev:hover{
+    background-color: black;
+}
+#btn-next{
+    position: sticky;
+    right: 0;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+}
+#btn-next:hover{
+    background-color: black;
+}
 
 
 

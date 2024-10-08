@@ -74,7 +74,7 @@
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
-            precio:12300.00,
+            precio:12300.10,
             esPago:true
         },
         {
@@ -128,7 +128,7 @@
         {
             id:"15",
             titulo:"cube stories escape",
-            frontImg:"url('static/assets/cube-stories-scape.png')",
+            frontImg:"url('static/assets/cube-stories-escape.png')",
             categoria:"escape",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
@@ -550,7 +550,19 @@
                         <g id="SVGRepo_bgCarrier" stroke-width="0"/>
                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
                         <g id="SVGRepo_iconCarrier"> <g id="Media / Play_Circle"> <g id="Vector"> <path d="M3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12Z" stroke=${color} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> <path d="M10 15V9L15 12L10 15Z" stroke=${color} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> </g> </g> </g>
-                        </svg>`
+                        </svg>`,
+
+                ARROW_NEXT:`<svg viewBox="0 0 24 24" fill=${color} xmlns="http://www.w3.org/2000/svg" stroke=${color}>
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                            <g id="SVGRepo_iconCarrier"> <path d="M9.71069 18.2929C10.1012 18.6834 10.7344 18.6834 11.1249 18.2929L16.0123 13.4006C16.7927 12.6195 16.7924 11.3537 16.0117 10.5729L11.1213 5.68254C10.7308 5.29202 10.0976 5.29202 9.70708 5.68254C9.31655 6.07307 9.31655 6.70623 9.70708 7.09676L13.8927 11.2824C14.2833 11.6729 14.2833 12.3061 13.8927 12.6966L9.71069 16.8787C9.32016 17.2692 9.32016 17.9023 9.71069 18.2929Z" fill=${color}/> </g>
+                            </svg>`,
+
+                ARROW_PREV:`<svg viewBox="0 0 24 24" fill=${color} xmlns="http://www.w3.org/2000/svg" stroke=${color}>
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                            <g id="SVGRepo_iconCarrier"> <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill=${color}/> </g>
+                            </svg>`
                     
             }
            
@@ -558,9 +570,15 @@
             return SVGS[name];
         }
 
-        static capitalizeFirst = (str)=>{
+        static capitalizeAndFormatter = (str)=>{
             if(!str) return '';
-            return str.charAt(0).toUpperCase()+str.slice(1).toLowerCase();
+            let text = str.charAt(0).toUpperCase()+str.slice(1).toLowerCase();
+
+            if (text.length > 40) {
+                return text.slice(0, 37) + '...'; 
+            }
+            return text; 
+         
         }
 
         static replaceSpaces = (str) =>{
@@ -787,7 +805,7 @@
                 // Verifica si los enlaces ya fueron creados
                 if (!linksCreated) {
                     this.#categoriesList.forEach((categ) => {
-                        const p = this.#createCategoryNameComponent(`category p-m p-bold `,`${Utils.capitalizeFirst(categ.name)}`,`${Utils.replaceSpaces(categ.name)}`);
+                        const p = this.#createCategoryNameComponent(`category p-m p-bold `,`${Utils.capitalizeAndFormatter(categ.name)}`,`${Utils.replaceSpaces(categ.name)}`);
                       
                         
                         allCategories[pos].appendChild(p);
@@ -980,9 +998,7 @@
             this.#rootElement = Constants.root;
             this.#user=user;
             this.#header=new Header(user,this.#rootElement);
-            this.#content= [new Card(games[0]), new Card(games[1])];
-
-           
+            this.#content=new Carousel(games);
 
             this.#rootElement.appendChild(this.#header.getComponent());
             this.#rootElement.appendChild(this.getComponent());
@@ -994,9 +1010,8 @@
         getComponent(){
             let container = document.createElement("div");
             container.id="inicio";
-           
-            container.appendChild( this.#content[0].getLargeCard());
-            container.appendChild(this.#content[1].getSmallCard());
+            container.appendChild(this.#content.getComponent("top gratis","s"))
+         
             
             
             return container;
@@ -1004,10 +1019,8 @@
 
         listenEvents(){
             this.#header.listenEvents();
-            this.#content[0].listenEvents();
-            this.#content[1].listenEvents();
-            
-            
+            this.#content.listenEvents();
+          
         }
 
 
@@ -1023,11 +1036,7 @@
             this.#inCart=false;
         }
 
-        getSmallCard(){return this.#createCustomArticle("s")}
-
-        getMediumCard(){return this.#createCustomArticle("m")}
-
-        getLargeCard(){ return this.#createCustomArticle("xl")}
+        getComponent(size){return this.#createCustomArticle(size)}
 
         listenEvents(){
             this.#handleMouseEnterLeave();
@@ -1037,7 +1046,7 @@
         #createCustomArticle(size){
             const isPay= this.#game.esPago;
             const article = document.createElement("article");
-            article.className=`card-${size}`;
+            article.className=`card-${size} item-carousel`;
             article.style.backgroundImage=`${this.#game.frontImg}`;
             article.style.backgroundSize='cover';
             article.style.backgroundPosition='center';
@@ -1062,9 +1071,9 @@
 
         #renderDetails(){
             //ocupa todo el tamaño de la card 
-            const detailsTemplate = `<a href="#${Utils.replaceSpaces(this.#game.titulo)}" class="container-game-details" id="link-${this.#game.id}">
-            <h2 class="game-title p-xl p-bold">${Utils.capitalizeFirst(this.#game.titulo)}</h2>
-            ${this.#renderCardButton()}</a>`;
+            const detailsTemplate = `<div class="container-game-details" id="link-${this.#game.id}">
+            <h2 class="game-title p-xl p-bold">${Utils.capitalizeAndFormatter(this.#game.titulo)}</h2>
+            ${this.#renderCardButton()}</div>`;
 
             return detailsTemplate;
         }
@@ -1085,24 +1094,28 @@
         }
 
         #priceStyle(price){
-            let str = price.toString();
-            let cents= str.split('.');
-        
-            let templatePrice= `<p class='p-m p-bold'> ${this.#convertPrice(price)}<span class='p-s'>,${cents[1]}</span></p>`;
+            let str = this.#convertPrice(price);
+   
+            let templatePrice= `<p class='p-m p-bold'> ${str[0]}<span class='p-s'>,${str[1]}</span></p>`;
 
             return templatePrice;
         }
 
-        #convertPrice(price){
-            let str = price.toString();
-            let values= str.split('.');
-            let val= (values[0]/1000).toString().split('.');
-            
-            if(str.length == 6){
-                return `${values[0]}`;
-            }
+      
+        #convertPrice(price) {
+            let num=parseFloat(price);
 
-            return `${val[0]}.${values[0].slice(values[0].length-3)}`;
+            // convierte el número a un string con dos decimales
+            let formattedNum = num.toFixed(2);
+        
+            // separa la parte entera de la parte decimal
+            let [integerPart, decimalPart] = formattedNum.split('.');
+        
+            // añade puntos como separador de miles
+            integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        
+            
+            return [integerPart,decimalPart];
         }
 
         #handleMouseEnterLeave(){
@@ -1123,10 +1136,8 @@
 
             art.addEventListener("mouseleave", (e)=>{
                 const value = e.target.id.slice(5); //esto quita el prefijo "game-" del id del articulo
-
                 const element = document.querySelector(`#link-${value}`);
                    
-                    
                 element.remove();
                 isDetailsRendered = false; 
                     
@@ -1136,8 +1147,8 @@
         }
 
         #handleClickButtonCard(){
-            const button = document.getElementById(`btn-${this.#game.id.toString()}`);   ///ESTO SE PODRIA HACER A PARTIR DE LOS DATOS DEL JUEGO, PERO 
-            const isPay= button.classList.contains("btn-add-cart") || button.classList.contains("btn-in-cart");                                     ///PREFIERO HACERLO ACORDE A LO QUE VE EL USUARIO   
+            const button = document.getElementById(`btn-${this.#game.id.toString()}`);  
+            const isPay= button.classList.contains("btn-add-cart") || button.classList.contains("btn-in-cart");                         
 
             button.addEventListener("click", (e)=> {
             
@@ -1164,7 +1175,157 @@
 
     }
 
-    class Carrousel {
+    class Carousel {
+        #listData;
+        #cardsList;
+
+        constructor(listData){
+            this.#listData=listData;
+            this.#cardsList=[];
+        }
+
+        getComponent(sectionId,size){
+            const section= document.createElement("section");
+            const carrousel = this.#getCarrousel(size);
+            const titleSection=this.#createTitleSection(sectionId);
+            section.id=`${Utils.replaceSpaces(sectionId)}`;
+            section.className="container-carousel";
+
+            section.appendChild(titleSection);
+            section.appendChild(carrousel);
+
+
+            return section;
+   
+        }
+        #createTitleSection(sectionId){
+            const isPersonalizated= sectionId == "continuar jugando";
+            const container = document.createElement("div");
+            container.className="section-title";
+           
+            const template=`<h3 class="p-bold p-m">${Utils.capitalizeAndFormatter(sectionId)}</h3>
+                            ${isPersonalizated ? `<button id="edit-section">Editar.</button>`: `<a href='#${Utils.replaceSpaces(sectionId)}' class="p-s">Ver más.</a>`}
+                            `;
+
+            container.innerHTML=template;
+
+            return container;
+        }
+
+        #getCarrousel(size){
+            this.#createCards();
+            const container = document.createElement("div");
+            container.className="carousel";
+            const btnPrev = this.#getDisplaceBtn("prev");
+            const btnNext = this.#getDisplaceBtn("next");
+
+            container.appendChild(btnPrev);
+            this.#cardsList.forEach((card)=>{
+                container.appendChild(card.getComponent(size));
+            })
+            container.appendChild(btnNext);
+
+            return container;
+
+        }
+
+        #createCards(){
+            this.#listData.forEach((obj)=>{
+                this.#cardsList.push(new Card(obj));
+            })
+            
+        }
+
+        #getDisplaceBtn(type){
+            const container = document.createElement("button");
+            container.className ="btn-displace";
+            container.id=`btn-${type}`;
+            if(type=='prev'){
+                container.style.display="none";
+            }
+
+            const template = `${Utils.SVGTemplate( Utils.customSVG(`ARROW_${type.toUpperCase()}`,"transparent"))}`;
+
+            container.innerHTML=template;
+
+            return container;
+
+        }
+
+        #handleScroll(){
+        
+            document.getElementById("btn-next").addEventListener("click", ()=> {
+                this.#scrollCarousel(1150); 
+            });
+
+         
+            document.getElementById("btn-prev").addEventListener("click", ()=> {
+                this.#scrollCarousel(-1150); 
+            });
+
+            const carousel = document.querySelector(".carousel");
+            carousel.addEventListener("scroll", this.#checkScrollPosition); 
+        }
+
+        #checkScrollPosition = () => {
+            const carousel = document.querySelector(".carousel");
+            const btnPrev = document.getElementById("btn-prev");
+            const btnNext = document.getElementById("btn-next");
+         
+            if (carousel.scrollLeft <= 6) {
+                btnPrev.style.display="none";
+                
+            }else if(carousel.scrollLeft >= 3867){
+                btnNext.style.display = "none"; 
+                
+            }else{
+                btnNext.style.display = "flex";
+                btnPrev.style.display = "flex"; 
+            }
+        };
+
+
+        #scrollCarousel(amount){
+            const carousel = document.querySelector(".carousel");
+            carousel.scrollBy({
+              left: amount, 
+              behavior: "smooth" 
+            });
+        }
+
+        #handleHoverBtn(){
+            const next =document.getElementById("btn-next");
+            const prev = document.getElementById("btn-prev");
+
+            next.addEventListener("mouseenter", ()=>{
+                next.innerHTML='';
+                next.innerHTML=`${Utils.SVGTemplate( Utils.customSVG(`ARROW_NEXT`,"#fafafa"))}`;
+            })
+            next.addEventListener("mouseleave",()=>{
+                next.innerHTML='';
+                next.innerHTML=`${Utils.SVGTemplate( Utils.customSVG(`ARROW_NEXT`,"transparent"))}`;
+            })
+
+            prev.addEventListener("mouseenter", ()=>{
+                prev.innerHTML='';
+                prev.innerHTML=`${Utils.SVGTemplate( Utils.customSVG(`ARROW_PREV`,"#fafafa"))}`;
+            })
+
+            prev.addEventListener("mouseleave",()=>{
+                prev.innerHTML='';
+                prev.innerHTML=`${Utils.SVGTemplate( Utils.customSVG(`ARROW_PREV`,"transparent"))}`;
+            })
+        }
+
+        listenEvents(){
+            this.#cardsList.forEach((card)=>{
+                card.listenEvents();
+            })
+
+            this.#handleScroll();
+            this.#handleHoverBtn();
+        }
+
 
 
     }
