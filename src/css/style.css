@@ -72,7 +72,9 @@ body{
     padding: 60px 0 0 0;                        /*los 60px son para el header*/
 }
 #inicio{
-    padding: 1% 50px;
+    padding: 1% 75px;
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -87,7 +89,7 @@ header {
     justify-content: space-between;
     align-items: center;
     background-color: #1A1B28;
-    z-index: 100;
+    z-index: 10;
 }
 .navbar-list{
     width: 75px;            /*este espacio es importante para que en mobile tambien se vea bien*/
@@ -118,11 +120,11 @@ header {
     background-color: #1A1B28;
     border-radius: 8px;
     box-shadow: -5px 8px 15px rgba(0, 0, 0, 0.993); /* sombra negra semitransparente */
-    z-index: 90;
+    z-index: 8;
 }
 .container-session{
     position: relative;
-    z-index: 91;
+    z-index: 9;
 }
 #overlay {
     position: fixed;
@@ -233,6 +235,7 @@ header {
     padding: 0 0 5px 0;
     overflow-y: auto;
     align-items: center;
+    z-index: 10;
    
 }
 
@@ -385,7 +388,7 @@ article{
 }
 .container-game-details > h2{
     margin-bottom: 5%;
-    padding: 0 2%;
+    padding: 2px 2% 0 5%;
 }
 
 .btn{
@@ -470,7 +473,7 @@ article{
     display: flex;
     flex-direction: column;
     position: relative;
-    
+    margin: 20px 0;
 }
 .carousel{
     display: flex;
@@ -483,21 +486,35 @@ article{
     display: none; 
 }
 
-.item-carousel{
-    flex: 0 0 220px; 
+.item-carousel-xl{
+    flex: 0 0 450px;                            
     margin: 0 8px;    
  
+}
+.item-carousel-s{
+    flex: 0 0 220px;                           
+    margin: 0 8px;    
+}
+.item-carousel-m{
+    flex: 0 0 220px;                            
+    margin: 0 8px;    
 }
 .section-title{
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 115px;
+    width: 30%;
     margin-bottom: 5px;
 }
 .section-title > a{
     color: #929DDA;
     margin-bottom: -3px;
+    margin-left: 5px;
+}
+.section-title > button{
+    margin-left: 5px;
+    background-color: transparent;
+    margin-bottom: -3px;
+    color:#929DDA ;
 }
 .section-title > a:hover{
     color: #4C5EC2;
@@ -508,24 +525,25 @@ article{
     background-color: transparent;
 }
 
-#btn-prev{
+.btn-prev{
     position: sticky;
     left: 0;
     z-index: 4;
     display: flex;
     align-items: center;
+    
 }
-#btn-prev:hover{
+.btn-prev:hover{
     background-color: black;
 }
-#btn-next{
+.btn-next{
     position: sticky;
     right: 0;
     z-index: 4;
     display: flex;
     align-items: center;
 }
-#btn-next:hover{
+.btn-next:hover{
     background-color: black;
 }
 
