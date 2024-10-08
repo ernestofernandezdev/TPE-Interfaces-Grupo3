@@ -449,6 +449,7 @@ article{
 
 .btn-play-game:hover .container-svg {
     animation: btn-play 2s linear infinite;
+    animation-delay: 0.5s;
 }
 .btn-play-game:hover span {
     display: none;

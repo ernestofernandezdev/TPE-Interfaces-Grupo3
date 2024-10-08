@@ -7,15 +7,24 @@
         
     });
   
-    
+
     function showContent(section) {
         const root= document.querySelector("#root");
         root.innerHTML=' ';
         
         if(section == "inicio"){
+            document.title="Inicio | FlamingGames";
+            const h = new Header(player,root);
             const home = new Home(player);
+
+            root.appendChild(h.getComponent());
+            root.appendChild(home.getComponent());
+            
+            h.listenEvents();
+            home.listenEvents();
             
         }else if(section == "game"){
+            document.title="Ver juego | FlamingGames";
             /*new secciongame */
             
         }else if(section == "login"){
@@ -1479,26 +1488,15 @@
 
 
     class Home {
-        #rootElement;
-        #header;
+        #user;
         #content=[];
 
-        #user;
-
         constructor(user = null){
-            this.#rootElement = Constants.root;
             this.#user=user;
-            this.#header=new Header(user,this.#rootElement);
             this.#content.push(new Carousel(games1));
             this.#content.push(new Carousel(games2));
             this.#content.push(new Carousel(games3));
             this.#content.push(new Carousel(games4));
-
-
-            this.#rootElement.appendChild(this.#header.getComponent());
-            this.#rootElement.appendChild(this.getComponent());
-
-            this.listenEvents();
         }
        
 
@@ -1512,8 +1510,7 @@
         }
 
         listenEvents(){
-            this.#header.listenEvents();
-
+            
             this.#content.forEach((carousel)=>{
                 carousel.listenEvents();
             })
@@ -1572,7 +1569,7 @@
 
         #renderPrice(){
             const priceTemplate = `<div class="price">
-                                ${Utils.SVGTemplate(Utils.customSVG("SVG_PRICE","#FAFAFA"))}
+                                ${Utils.SVGTemplate(Utils.customSVG("SVG_PRICE",`${Constants.colors.white}`))}
                                 ${this.#priceStyle(this.#game.precio)}
                               </div>`;
 
@@ -1594,10 +1591,10 @@
             const isPay=this.#game.esPago;
 
             const templateButton = `${isPay && !this.#inCart ? 
-                Utils.customButton("btn-add-cart btn-card", `Al carrito ${ Utils.SVGTemplate( Utils.customSVG("ADD_CART","#FAFAFA") )}`, `btn-${this.#game.id}`) :
+                Utils.customButton("btn-add-cart btn-card", `Al carrito ${ Utils.SVGTemplate( Utils.customSVG("ADD_CART",`${Constants.colors.white}`) )}`, `btn-${this.#game.id}`) :
                 this.#inCart ? 
-                Utils.customButton("btn-in-cart btn-card", `En el carrito ${ Utils.SVGTemplate( Utils.customSVG("IN_CART","#FAFAFA"))}`, `btn-${this.#game.id}`) :
-                Utils.customButton("btn-play-game btn-card", `<span class="p-bold" >Jugar</span> ${ Utils.SVGTemplate( Utils.customSVG("PLAY_GAME","#FAFAFA"))}`, `btn-${this.#game.id}`)
+                Utils.customButton("btn-in-cart btn-card", `En el carrito ${ Utils.SVGTemplate( Utils.customSVG("IN_CART",`${Constants.colors.white}`))}`, `btn-${this.#game.id}`) :
+                Utils.customButton("btn-play-game btn-card", `<span class="p-bold" >Jugar</span> ${ Utils.SVGTemplate( Utils.customSVG("PLAY_GAME",`${Constants.colors.white}`))}`, `btn-${this.#game.id}`)
             }`
 
             
@@ -1689,9 +1686,9 @@
             btn.innerHTML='';
 
             if(this.#inCart){
-                btn.innerHTML+=`En el carrito ${Utils.SVGTemplate(Utils.customSVG("IN_CART","#FAFAFA"))}`;
+                btn.innerHTML+=`En el carrito ${Utils.SVGTemplate(Utils.customSVG("IN_CART",`${Constants.colors.white}`))}`;
             }else{
-                btn.innerHTML+=`Al carrito ${Utils.SVGTemplate(Utils.customSVG("ADD_CART","#FAFAFA"))}`;
+                btn.innerHTML+=`Al carrito ${Utils.SVGTemplate(Utils.customSVG("ADD_CART",`${Constants.colors.white}`))}`;
             }
 
         }
@@ -1843,7 +1840,7 @@
             };
         
             const addHoverEffect = (button, type) => {
-                button.addEventListener("mouseenter", () => updateButtonIcon(button, type, "#fafafa"));
+                button.addEventListener("mouseenter", () => updateButtonIcon(button, type, `${Constants.colors.white}`));
                 button.addEventListener("mouseleave", () => updateButtonIcon(button, type, "transparent"));
             };
         
@@ -1852,6 +1849,15 @@
         }
 
         
+    }
+
+
+    class SectionGame {
+        #game;
+        #user;
+
+        
+
     }
 
 
