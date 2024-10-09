@@ -530,10 +530,9 @@ article{
 }
 
 
-
-/* main {
+#log-in {
     grid-area: 'main';
-    background-image: url("/EntregablePractico2/img/login-background.jpg");
+    background-image: url("/src/static/assets/login-background.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
@@ -542,7 +541,7 @@ article{
     justify-content: center;
 }
 
-main .form-container {
+#log-in-form {
     margin-top: 40px;
     padding: 80px 0;
     width: 800px;
@@ -554,6 +553,107 @@ main .form-container {
     flex-direction: column;
     align-items: center;
 }
+
+#log-in-form form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+}
+
+#log-in-form p {
+    margin-top: 5px;
+}
+
+#log-in-form input, #log-in-form button {
+    height: 36px;
+    width: 340px;
+    border-radius: 23px;
+    margin: 8px 0;
+    cursor: pointer;
+}
+
+#log-in-form input[type="text"], #log-in-form input[type="password"] {
+    color: black;
+    padding-left: 20px;
+    width: 320px;
+}
+
+.primary-btn {
+    background-color: #4C5EC2;
+    font-size: 14px;
+}
+
+.primary-btn:hover {
+    background-color: #3545A3;
+    animation: primary-btn-hover 0.4s;
+}
+
+.google-btn, .facebook-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.google-btn {
+    background-color: white;
+    color: black;
+}
+
+.google-btn span:nth-child(2), .facebook-btn span:nth-child(2) {
+    position: absolute;
+    color: inherit;
+}
+
+.facebook-btn span:nth-child(1) {
+    height: 20px;
+    margin-right: auto;
+    margin-left: 45px;
+    height: 20px;
+}
+
+.google-btn img {
+    margin-right: auto;
+    margin-left: 40px;
+}
+
+.google-btn:hover {
+    background-color: rgb(222, 222, 222);
+    animation: primary-btn-hover 0.4s;
+}
+
+.facebook-btn {
+    background-color: #3B5998;
+}
+
+.facebook-btn:hover {
+    background-color: #334c83;
+    animation: primary-btn-hover 0.4s;
+}
+
+#log-in-form hr {
+    background-color: #4C5EC2;
+    width: 50%;
+    height: 1px;
+    margin: 20px 0;
+}
+
+@keyframes primary-btn-hover {
+    0% {
+        transform: scale(1);
+    }
+    20% {
+        transform: scale(1.05, 0.95);
+    }
+    60% {
+        transform: scale(0.95, 1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* 
 
 .form-container form {
     display: flex;

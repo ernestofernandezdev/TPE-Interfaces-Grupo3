@@ -282,8 +282,8 @@
             black:"#141414",
             primary80Clean:"#4C5EC2",
             transparent:"#D9D9D9",
-            blackTransp:"#141414"
-
+            blackTransp:"#141414",
+            facebook:"#3B5998"
         }
 
 
@@ -448,7 +448,7 @@
 
         static LinksTemplate=(content,customClass)=>{
            
-           return `<a class="${customClass}"> ${content}</a>`;
+           return `<a class="${customClass ? customClass : ''}"> ${content}</a>`;
         }
 
         //los svg si no le determinas el tamaño, se adaptan a su contenedor
@@ -897,7 +897,7 @@
 
         listenEvents(){
             this.#handleRemoveCard();
-           
+            this.#handleLogOut();
         }
 
         handleClickWindow(profileCard) {
@@ -923,12 +923,12 @@
 
         #getConfigListTemplate(){
             
-            const itemList = (svg_name, textContent ) => (
+            const itemList = (svg_name, textContent, customClass = null ) => (
                 `<li class="item-config p-m p-bold">
                     <div class="svg-config-item"> 
                         ${Utils.customSVG(svg_name ,Constants.colors.primary)} 
                     </div>
-                    ${Utils.LinksTemplate(textContent)}
+                    ${Utils.LinksTemplate(textContent, customClass)}
                 </li>`);
            
             const configListTemplate = `
@@ -937,7 +937,7 @@
                                 ${itemList("SVG_PROFILE","Mi perfil")}
                                 ${itemList("SVG_EDIT","Editar perfil")}
                                 ${itemList("SVG_CONFIG","Configuración de la cuenta")}
-                                ${itemList("SVG_LOGOUT","Cerrar sesión")}
+                                ${itemList("SVG_LOGOUT","Cerrar sesión", "log-out")}
                               </ul>
                             </div>`;
            
@@ -983,6 +983,75 @@
                 }
             }
         };
+
+        #handleLogOut() {
+            document.querySelector(".log-out").addEventListener("click", () => {
+                Constants.root.innerHTML = "";
+                const login = new Login();
+            })
+        }
+    }
+
+    class LoginForm {
+        
+        constructor() {
+
+        }
+
+        getComponent() {
+            let container = document.createElement("div");
+            container.id="log-in-form";
+            container.innerHTML = `<h2>Iniciar sesion en <span class="flaming">Flaming</span><span class="games">Games</span></h2>
+            <form action="">
+                <input type="text" name="user" id="user" placeholder="Usuario">
+                <input type="password" name="password" id="password" placeholder="Contraseña">
+                <input type="submit" value="Iniciar sesión" class="primary-btn">
+            </form>\
+            <p><a class="p-s texto-link" href="">Recuperar contraseña</a></p>
+            <p class="p-s">¿No tienes una cuenta? <a href="" class="texto-link">Registrate</a></p>
+            <hr>\
+            <button class="google-btn"><img src="static/favicon/google-icon.png"><span>Iniciar sesión con Google</span></button>
+            <button class="facebook-btn"><span>${Utils.customSVG("FACEBOOK", Constants.colors.white)}</span><span>Continuar con Facebook</span></button>`;
+            
+            return container;
+        }
+
+    }
+
+    class Login {
+        #rootElement;
+        #header;
+        #loginForm
+
+        #user;
+
+        constructor(user = null){
+            this.#rootElement = Constants.root;
+            this.#user=user;
+            this.#header=new Header(user,this.#rootElement);
+            this.#loginForm = new LoginForm();
+
+            this.#rootElement.appendChild(this.#header.getComponent());
+            this.#rootElement.appendChild(this.getComponent());
+
+            this.listenEvents();
+        }
+       
+
+        getComponent(){
+            let container = document.createElement("div");
+            container.id="log-in";
+            container.appendChild(this.#loginForm.getComponent())
+            
+            return container;
+        }
+
+        listenEvents(){
+            this.#header.listenEvents();
+            this.#loginForm.listenEvents();
+          
+        }
+
     }
 
 
