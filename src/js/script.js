@@ -1516,10 +1516,10 @@
 
         constructor(user = null){
             this.#user=user;
-            this.#content.push(new Carousel(games1));
-            this.#content.push(new Carousel(games2));
-            this.#content.push(new Carousel(games3));
-            this.#content.push(new Carousel(games4));
+            this.#content.push(new Carousel(games1,this.#user));
+            this.#content.push(new Carousel(games2,this.#user));
+            this.#content.push(new Carousel(games3,this.#user));
+            this.#content.push(new Carousel(games4,this.#user));
         }
        
 
@@ -1542,7 +1542,8 @@
 
         #renderAllCarousel(container){
             let sizes=["xl","s","s","m"]
-            let categories=["mejor valoración","continuar jugando","top jugados de la semana","tendencias"]
+            let sectionUser= this.#user != null ? "continuar jugando": "nuevos";
+            let categories=["mejor valoración",`${sectionUser}`,"top jugados de la semana","tendencias"];
             let pos=0;
 
             this.#content.forEach((carousel)=>{
@@ -1559,10 +1560,12 @@
         #game;
         #inCart;
         #size;
+        #user;
 
-        constructor(game){
+        constructor(game,user){
             this.#game=game;
             this.#inCart=false;
+            this.#user=user;
         }
 
         getComponent(size){return this.#getArticle(size)}
@@ -1691,7 +1694,7 @@
                 }else if(isMyGame){
                     console.log("GUASONN");
                     // showContent(`game/${this.#game.id}`);
-                    showContent("game");
+                    showContent("game",this.#user);
                     
                 }else{
                     console.log("CLICK EN JUGAR ");
@@ -1723,10 +1726,12 @@
         #id;
         #listData;
         #cardsList;
+        #user;
 
-        constructor(listData){
+        constructor(listData,user){
             this.#listData=listData;
             this.#cardsList=[];
+            this.#user=user;
         }
 
         getComponent(sectionId,size){
@@ -1788,7 +1793,7 @@
 
         #getCards(){
             this.#listData.forEach((obj)=>{
-                this.#cardsList.push(new Card(obj));
+                this.#cardsList.push(new Card(obj,this.#user));
             })
             
         }
