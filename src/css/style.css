@@ -568,8 +568,21 @@ article{
     height: 36px;
     width: 340px;
     border-radius: 23px;
-    margin: 8px 0;
+    margin: 10px 0 3px 0;
     cursor: pointer;
+}
+
+.bad-input {
+    border: 1px solid #F14343;
+}
+
+.wrong-user-message, .wrong-password-message {
+    color: #F14343;
+    margin-left: 20px;
+}
+
+.hidden {
+    display: none;
 }
 
 #log-in-form input[type="text"], #log-in-form input[type="password"] {

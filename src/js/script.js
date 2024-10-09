@@ -253,7 +253,8 @@
         </svg>`,
         nombre:"juan",
         apellido:"fernandez",
-        nick:"juancito28673",
+        nick:"player",
+        password:"1234",
         fecha_nacimiento:"2005-07-10",
         email:"juanfer@gmail.com"
     }
@@ -995,7 +996,7 @@
     class LoginForm {
         
         constructor() {
-
+            
         }
 
         getComponent() {
@@ -1003,17 +1004,60 @@
             container.id="log-in-form";
             container.innerHTML = `<h2>Iniciar sesion en <span class="flaming">Flaming</span><span class="games">Games</span></h2>
             <form action="">
-                <input type="text" name="user" id="user" placeholder="Usuario">
-                <input type="password" name="password" id="password" placeholder="Contraseña">
+                <input type="text" name="user" id="user" placeholder="Usuario" class="form-field">
+                <div class="wrong-user-message p-s hidden">El usuario ingresado no existe</div>
+                <input type="password" name="password" id="password" placeholder="Contraseña" class="form-field">
+                <div class="wrong-password-message p-s hidden">La contraseña es incorrecta</div>
                 <input type="submit" value="Iniciar sesión" class="primary-btn">
             </form>\
-            <p><a class="p-s texto-link" href="">Recuperar contraseña</a></p>
-            <p class="p-s">¿No tienes una cuenta? <a href="" class="texto-link">Registrate</a></p>
+            <p><a class="p-s texto-link" href="#">Recuperar contraseña</a></p>
+            <p class="p-s">¿No tienes una cuenta? <a href="" class="texto-link registrarse">Registrate</a></p>
             <hr>\
             <button class="google-btn"><img src="static/favicon/google-icon.png"><span>Iniciar sesión con Google</span></button>
             <button class="facebook-btn"><span>${Utils.customSVG("FACEBOOK", Constants.colors.white)}</span><span>Continuar con Facebook</span></button>`;
             
             return container;
+        }
+
+        listenEvents() {
+            this.#handleLogIn();
+            this.#handleRegistrarseButton();
+        }
+
+        #handleLogIn() {
+            const form = document.querySelector("#log-in-form form");
+            form.addEventListener("submit", e => {
+                e.preventDefault();
+                document.querySelectorAll(".form-field").forEach(e => {
+                    e.classList.remove("bad-input");
+                    e.nextElementSibling.classList.add("hidden");
+                })
+                
+                let formData = new FormData(form);
+                if (formData.get("user") != player.nick) {
+                    const user = document.querySelector("#user");
+                    user.classList.add("bad-input");
+                    user.nextElementSibling.classList.remove("hidden");
+                    return;
+                }
+                if (formData.get("password") != player.password) {
+                    const password = document.querySelector("#password");
+                    password.classList.add("bad-input");
+                    password.nextElementSibling.classList.remove("hidden");
+                    return;
+                }
+                Constants.root.innerHTML = "";
+                let home = new Home(player);
+            })
+        }
+
+        #handleRegistrarseButton() {
+            const btn = document.querySelector(".registrarse");
+            btn.addEventListener("click", e => {
+                e.preventDefault();
+
+
+            })
         }
 
     }
@@ -1049,7 +1093,6 @@
         listenEvents(){
             this.#header.listenEvents();
             this.#loginForm.listenEvents();
-          
         }
 
     }
