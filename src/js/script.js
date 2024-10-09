@@ -1112,13 +1112,13 @@
         }
         
         listenEvents(){
-            this.#handleSession();
-            this.#handleHamburMenu();
+            this.#handleClickAvatar();
+            this.#handleClickHamburMenu();
             
         }
     
         /*esto se ejecuta 1 sola vez cuando lo invoca la pagina que quiere cargar/hacer uso de un header*/
-        #handleSession(){
+        #handleClickAvatar(){
             const avatar = document.querySelector(".avatar-login");
           
             if(!this.#userLogin){
@@ -1130,11 +1130,11 @@
                 return
             }
 
-            this.#handleSessionCard(avatar);
+            this.#handleClickSessionCard(avatar);
     
         }
 
-        #handleSessionCard(clickElement){
+        #handleClickSessionCard(clickElement){
             let isFirstOpen = true;
             const navbarList= document.querySelector(".navbar-list");
             const profileCard= this.#sessionCard.getComponent();
@@ -1159,7 +1159,7 @@
 
         }
 
-        #handleHamburMenu(){
+        #handleClickHamburMenu(){
             let isRender=false;
             const hambur = document.querySelector(".hambur-menu");
             const sidebarObj = new SidebarCategory(Constants.categories,this.#sectionActive);
@@ -1176,7 +1176,7 @@
                 }else{
                     this.#parentElement.appendChild(sidebarObj.getComponent());
 
-                    this.#savedStateSidebar();
+                    this.#savePositionScrollSidebar();
                     sidebarObj.listenEvents(this.#scrollPositionSidebar);
 
                     isRender=true;
@@ -1189,7 +1189,7 @@
 
         //esta funcion se encarga de guardar en un atributo de clase la posicion en la que el usuario deja el scroll de la sidebar antes de hacer click en el menu
         //hamburguesa para ocultar el menu de categorias
-        #savedStateSidebar(){
+        #savePositionScrollSidebar(){
             const sidebarElement = document.querySelector(".sidebar-categories");
 
             sidebarElement.addEventListener("scroll", () => {
@@ -1223,7 +1223,7 @@
             //por cada elemento en la lista creo un div (category-item) y se lo agrego/apendo al sidebar
             
             this.#categoriesList.forEach(categ => {
-                sidebar.appendChild( this.#createCategoryItemComponent(categ) );
+                sidebar.appendChild( this.#getCategoryItem(categ) );
             });
            
             sidebar.insertBefore(hr,sidebar.children[4]);
@@ -1247,7 +1247,7 @@
         }
 
         //crea el contenedor de cada categoria solo con el icono y le asigna los eventos para que al ser clickeado pueda ser identificado con data-value
-        #createCategoryItemComponent(categoryObj){
+        #getCategoryItem(categoryObj){
             const catContainer= document.createElement("a");
             
             catContainer.className=`category-item c-${Utils.replaceSpaces(categoryObj.name)} ${
@@ -1272,7 +1272,7 @@
         }
 
         //crea un componente <p> personalizando clase y contenido para el nombre de las categorias
-        #createCategoryNameComponent(classname, content){
+        #getCategoryName(classname, content){
             const p = document.createElement("p");
             p.className=classname;
             p.innerText=content;
@@ -1298,7 +1298,7 @@
                 // Verifica si los enlaces ya fueron creados
                 if (!linksCreated) {
                     this.#categoriesList.forEach((categ) => {
-                        const p = this.#createCategoryNameComponent(`category p-m p-bold `,`${Utils.capitalizeAndFormatter(categ.name)}`,`${Utils.replaceSpaces(categ.name)}`);
+                        const p = this.#getCategoryName(`category p-m p-bold `,`${Utils.capitalizeAndFormatter(categ.name)}`,`${Utils.replaceSpaces(categ.name)}`);
                       
                         
                         allCategories[pos].appendChild(p);
@@ -1306,7 +1306,7 @@
 
                     });
                  
-                    const showAllCateg = this.#createCategoryNameComponent(`category show-all-categories p-s p-bold`,"Ver todas las categorias");
+                    const showAllCateg = this.#getCategoryName(`category show-all-categories p-s p-bold`,"Ver todas las categorias");
                     
                     sidebar.appendChild(showAllCateg);
                    
@@ -1350,7 +1350,7 @@
             if(active){
                 active.classList.remove("c-active");
             }
-            
+
             this.#activeCateg=Utils.unReplaceSpaces(hrefValue.slice(1));
 
             element.classList.add("c-active");
@@ -1392,9 +1392,9 @@
             const template = `
                             <div class="container-session">
                               <div class="btn-close-info">${Utils.customSVG("SVG_CLOSE",Constants.colors.white)}</div>
-                              ${this.#getUserDetailTemplate()}
-                              ${this.#getConfigListTemplate()}
-                              ${this.#getSocialTemplate()}
+                              ${this.#getUserDetail()}
+                              ${this.#getConfigList()}
+                              ${this.#getSocial()}
                             </div>`;
 
             card.innerHTML=template;
@@ -1404,7 +1404,7 @@
         }
 
         listenEvents(){
-            this.#handleRemoveCard();
+            this.#handleClickBtnClose();
            
         }
 
@@ -1412,11 +1412,11 @@
             this.#profileCard = profileCard;
             const overlay = document.getElementById("overlay");
         
-            overlay.addEventListener("click", (e) => this.#handleWindow(e));
+            overlay.addEventListener("click", (e) => this.#handleClickRemoveOverlay(e));
         }
 
 
-        #getUserDetailTemplate(){
+        #getUserDetail(){
             const userDetailTemplate = `
                             <div class="user-info-card" >
                                 <div class="container-info-session">
@@ -1429,7 +1429,7 @@
             return userDetailTemplate;  
         }
 
-        #getConfigListTemplate(){
+        #getConfigList(){
             
             const itemList = (svg_name, textContent ) => (
                 `<li class="item-config p-m p-bold">
@@ -1452,7 +1452,7 @@
             return configListTemplate;        
         }
 
-        #getSocialTemplate(){
+        #getSocial(){
             const svgContainer = (svg_name)=>(`<div class="sm-social-item">${Utils.customSVG(svg_name,Constants.colors.white)} </div>`)
 
             const socialTemplate =
@@ -1468,7 +1468,7 @@
         }
 
        
-        #handleRemoveCard(){
+        #handleClickBtnClose(){
             const btn = document.querySelector(".btn-close-info");
          
             
@@ -1481,13 +1481,13 @@
            
         }
 
-        #handleWindow = (e) => {
+        #handleClickRemoveOverlay = (e) => {
             if (!this.#profileCard || !this.#profileCard.contains(e.target)) {
                 const overlay = document.getElementById("overlay");
                 if (overlay) {
                     this.#profileCard.remove();
                     overlay.remove();
-                    overlay.removeEventListener('click', this.#handleWindow);
+                    overlay.removeEventListener('click', this.#handleClickRemoveOverlay);
                 }
             }
         };
@@ -1513,7 +1513,7 @@
             let container = document.createElement("div");
             container.id="inicio";
 
-            this.#renderAllCarousels(container);
+            this.#renderAllCarousel(container);
          
             return container;
         }
@@ -1526,7 +1526,7 @@
           
         }
 
-        #renderAllCarousels(container){
+        #renderAllCarousel(container){
             let sizes=["xl","s","s","m"]
             let categories=["mejor valoración","continuar jugando","top jugados de la semana","tendencias"]
             let pos=0;
@@ -1551,14 +1551,14 @@
             this.#inCart=false;
         }
 
-        getComponent(size){return this.#createCustomArticle(size)}
+        getComponent(size){return this.#getArticle(size)}
 
         listenEvents(){
             this.#handleMouseEnterLeave();
         }
 
 
-        #createCustomArticle(size){
+        #getArticle(size){
             this.#size=size;
             const isPay= this.#game.esPago;
             const article = document.createElement("article");
@@ -1569,14 +1569,14 @@
             article.id=`game-${this.#game.id}`;
            
             
-            const template = `${isPay ? this.#renderPrice():''}`;
+            const template = `${isPay ? this.#getPrice():''}`;
             
             article.innerHTML=template;
 
             return article;
         }
 
-        #renderPrice(){
+        #getPrice(){
             const priceTemplate = `<div class="price">
                                 ${Utils.SVGTemplate(Utils.customSVG("SVG_PRICE",`${Constants.colors.white}`))}
                                 ${this.#priceStyle(this.#game.precio)}
@@ -1585,18 +1585,18 @@
             return priceTemplate;
         }
 
-        #renderDetails(){
+        #getArticleDetails(){
             //ocupa todo el tamaño de la card 
             const isSmall= this.#size == 's';
 
             const detailsTemplate = `<div class="container-game-details" id="link-${this.#game.id}">
             <h2 class="game-title p-xl p-bold">${isSmall? Utils.capitalizeAndFormatter(this.#game.titulo) : Utils.capitalizeFirst(this.#game.titulo)}</h2>
-            ${this.#renderCardButton()}</div>`;
+            ${this.#getCartButtons()}</div>`;
 
             return detailsTemplate;
         }
 
-        #renderCardButton(){
+        #getCartButtons(){
             const isPay=this.#game.esPago;
 
             const templateButton = `${isPay && !this.#inCart ? 
@@ -1643,12 +1643,12 @@
             art.addEventListener("mouseenter", (e)=>{  
                 if (!isDetailsRendered) { 
                     const element = document.querySelector(`#${e.target.id}`);
-                    element.innerHTML += this.#renderDetails();
+                    element.innerHTML += this.#getArticleDetails();
                         
                     isDetailsRendered = true; 
                     
                     
-                    this.#handleClickButtonCard();
+                    this.#handleClickButton();
                 }
                     
             })
@@ -1665,7 +1665,7 @@
 
         }
 
-        #handleClickButtonCard(){
+        #handleClickButton(){
             const button = document.getElementById(`btn-${this.#game.id.toString()}`);  
             const isPay= button.classList.contains("btn-add-cart") || button.classList.contains("btn-in-cart");                         
 
@@ -1673,7 +1673,7 @@
             button.addEventListener("click", (e)=> {
                 let isMyGame = this.#game.id == "20";
                 if(isPay){
-                    this.#renderStateCart(button)
+                    this.#toggleStateCart(button)
                 }else if(isMyGame){
                     console.log("GUASONN");
                     // showContent(`game/${this.#game.id}`);
@@ -1688,7 +1688,7 @@
             
         }
 
-        #renderStateCart(btn){
+        #toggleStateCart(btn){
             this.#inCart=!this.#inCart;
             btn.classList.toggle("btn-add-cart");
             btn.classList.toggle("btn-in-cart");
@@ -1719,7 +1719,7 @@
             this.#id=`${Utils.replaceSpaces(sectionId)}`;
             const section= document.createElement("section");
             const carrousel = this.#getCarrousel(size);
-            const titleSection=this.#createTitleSection();
+            const titleSection=this.#getTittleSection();
             section.id=`${this.#id}`;
             section.className="container-carousel";
 
@@ -1736,10 +1736,10 @@
             })
 
             this.#handleScroll();
-            this.#handleHoverBtn();
+            this.#handleHoverArrowsPrevNext();
         }
 
-        #createTitleSection(){
+        #getTittleSection(){
             const isPersonalizated= this.#id == "continuar-jugando";
             const container = document.createElement("div");
             container.className="section-title";
@@ -1755,7 +1755,7 @@
         }
 
         #getCarrousel(size){
-            this.#createCards();
+            this.#getCards();
             const container = document.createElement("div");
             container.className="carousel";
             container.id=`carousel-${this.#id}`;
@@ -1772,7 +1772,7 @@
 
         }
 
-        #createCards(){
+        #getCards(){
             this.#listData.forEach((obj)=>{
                 this.#cardsList.push(new Card(obj));
             })
@@ -1799,20 +1799,20 @@
 
         #handleScroll(){
             const carousel = document.getElementById(`carousel-${this.#id}`);
-            const scrollAmount = carousel.offsetWidth * 0.8;
+            const scrollAmount = carousel.offsetWidth * 0.95;
             
             document.getElementById(`btn-next-${this.#id}`).addEventListener("click", ()=> {
-                this.#scrollCarousel(scrollAmount); 
+                this.#displaceScrollPosition(scrollAmount); 
             });
          
             document.getElementById(`btn-prev-${this.#id}`).addEventListener("click", ()=> {
-                this.#scrollCarousel(-scrollAmount); 
+                this.#displaceScrollPosition(-scrollAmount); 
             });
 
-            carousel.addEventListener("scroll", this.#checkScrollPosition); 
+            carousel.addEventListener("scroll", this.#dismountArrowsPrevNext); 
         }
 
-        #checkScrollPosition = () => {
+        #dismountArrowsPrevNext = () => {
             const carousel = document.getElementById(`carousel-${this.#id}`);
             const btnPrev = document.getElementById(`btn-prev-${this.#id}`);
             const btnNext = document.getElementById(`btn-next-${this.#id}`);
@@ -1832,7 +1832,7 @@
         };
 
 
-        #scrollCarousel(amount){
+        #displaceScrollPosition(amount){
             const carousel = document.getElementById(`carousel-${this.#id}`);
             carousel.scrollBy({
               left: amount, 
@@ -1840,7 +1840,7 @@
             });
         }
 
-        #handleHoverBtn(){
+        #handleHoverArrowsPrevNext(){
             const next = document.getElementById(`btn-next-${this.#id}`);
             const prev = document.getElementById(`btn-prev-${this.#id}`);
         
@@ -1863,9 +1863,45 @@
 
     class SectionGame {
         #game;
-        #user;
+        #user;          /*el obejto user deberia tener su arreglo de juegos jugados recientemente */
+
+        constructor(game,user){
+            this.#game=game;
+            this.#user=user;
+        }
 
 
+        getComponent(){
+            const container = document.createElement("div");
+            container.id="game-eject";
+
+
+
+        }
+
+
+        #getBreadcrum(){
+            const container = document.createElement("div");
+            container.className="breadcrum";
+            const sectionName= "Jugados recientemente";     /*para hacer esto dinamico seria util tener los juegos como arreglo del usuario */
+            const category = this.#game.categoria;
+            const name= this.#game.titulo;
+
+            const template = `<h2 class="p-m">
+                                ${Utils.capitalizeFirst(sectionName)}<span> > </span> 
+                                ${Utils.capitalizeFirst(category)}<span> > </span>
+                                ${Utils.capitalizeFirst(name)}
+                            </h2>`;
+            container.innerHTML=template;
+            
+            return container;
+        }
+
+        #getShareSection(){
+            const container = document.createElement("div");
+            
+
+        }
 
     }
 
