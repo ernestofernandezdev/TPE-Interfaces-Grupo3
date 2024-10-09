@@ -1,38 +1,38 @@
 (function(){
 
     window.addEventListener("DOMContentLoaded", ()=>{
-       
+        
         console.log("se ejecuto");
-        showContent("inicio");
+        showContent("inicio",player);
         
     });
   
 
-    function showContent(section) {
+    function showContent(section,user=null) {
         const root= document.querySelector("#root");
         root.innerHTML=' ';
+
+        const header = new Header(user,root,section);
+        root.appendChild(header.getComponent());
+        header.listenEvents();
         
         if(section == "inicio"){
             document.title="Inicio | FlamingGames";
-     
-            const h = new Header(player,root,section);
-            const home = new Home(player);
-
-            root.appendChild(h.getComponent());
+            const home = new Home(user);
             root.appendChild(home.getComponent());
             
-            h.listenEvents();
+           
             home.listenEvents();
             
         }else if(section == "game"){
             document.title="Ver juego | FlamingGames";
-            const h = new Header(player,root,section);
-            root.appendChild(h.getComponent());
-            h.listenEvents();
             /*new secciongame */
             
         }else if(section == "login"){
             /*new login */
+            const login = new Login(player);    /*aca siempre debe pasarle player que es el simulado que llega de la DB */
+            root.appendChild(login.getComponent());
+            login.listenEvents();
         }else{
             console.log("render error");
         }
@@ -737,7 +737,8 @@
         apellido:"fernandez",
         nick:"juancito28673",
         fecha_nacimiento:"2005-07-10",
-        email:"juanfer@gmail.com"
+        email:"juanfer@gmail.com",
+        password:1234
     }
 
 
@@ -1044,6 +1045,12 @@
                             <g id="SVGRepo_bgCarrier" stroke-width="0"/>
                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
                             <g id="SVGRepo_iconCarrier"> <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill=${color}/> </g>
+                            </svg>`,
+
+                SVG_SHARE:`<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke=${color}>
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                            <g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M16.5 2.25C14.7051 2.25 13.25 3.70507 13.25 5.5C13.25 5.69591 13.2673 5.88776 13.3006 6.07412L8.56991 9.38558C8.54587 9.4024 8.52312 9.42038 8.50168 9.43939C7.94993 9.00747 7.25503 8.75 6.5 8.75C4.70507 8.75 3.25 10.2051 3.25 12C3.25 13.7949 4.70507 15.25 6.5 15.25C7.25503 15.25 7.94993 14.9925 8.50168 14.5606C8.52312 14.5796 8.54587 14.5976 8.56991 14.6144L13.3006 17.9259C13.2673 18.1122 13.25 18.3041 13.25 18.5C13.25 20.2949 14.7051 21.75 16.5 21.75C18.2949 21.75 19.75 20.2949 19.75 18.5C19.75 16.7051 18.2949 15.25 16.5 15.25C15.4472 15.25 14.5113 15.7506 13.9174 16.5267L9.43806 13.3911C9.63809 12.9694 9.75 12.4978 9.75 12C9.75 11.5022 9.63809 11.0306 9.43806 10.6089L13.9174 7.4733C14.5113 8.24942 15.4472 8.75 16.5 8.75C18.2949 8.75 19.75 7.29493 19.75 5.5C19.75 3.70507 18.2949 2.25 16.5 2.25ZM14.75 5.5C14.75 4.5335 15.5335 3.75 16.5 3.75C17.4665 3.75 18.25 4.5335 18.25 5.5C18.25 6.4665 17.4665 7.25 16.5 7.25C15.5335 7.25 14.75 6.4665 14.75 5.5ZM6.5 10.25C5.5335 10.25 4.75 11.0335 4.75 12C4.75 12.9665 5.5335 13.75 6.5 13.75C7.4665 13.75 8.25 12.9665 8.25 12C8.25 11.0335 7.4665 10.25 6.5 10.25ZM16.5 16.75C15.5335 16.75 14.75 17.5335 14.75 18.5C14.75 19.4665 15.5335 20.25 16.5 20.25C17.4665 20.25 18.25 19.4665 18.25 18.5C18.25 17.5335 17.4665 16.75 16.5 16.75Z" fill=${color}/> </g>
                             </svg>`
                     
             }
@@ -1123,7 +1130,7 @@
           
             if(!this.#userLogin){
                 avatar.addEventListener("click", ()=>{
-                    console.log("/////////////////////RENDERIZADO SECCION DE INICIO DE SESION////////////////");
+                    showContent("login",null);
                     
                 })
 
@@ -1405,6 +1412,7 @@
 
         listenEvents(){
             this.#handleClickBtnClose();
+            this.#handleClickLogOut();
            
         }
 
@@ -1431,21 +1439,21 @@
 
         #getConfigList(){
             
-            const itemList = (svg_name, textContent ) => (
+            const itemList = (svg_name, textContent, customClass) => (
                 `<li class="item-config p-m p-bold">
                     <div class="svg-config-item"> 
                         ${Utils.customSVG(svg_name ,Constants.colors.primary)} 
                     </div>
-                    ${Utils.LinksTemplate(textContent)}
+                    ${Utils.LinksTemplate(textContent,customClass)}
                 </li>`);
            
             const configListTemplate = `
                             <div class="container-session-config">
                               <ul class="list-config">
-                                ${itemList("SVG_PROFILE","Mi perfil")}
-                                ${itemList("SVG_EDIT","Editar perfil")}
-                                ${itemList("SVG_CONFIG","Configuración de la cuenta")}
-                                ${itemList("SVG_LOGOUT","Cerrar sesión")}
+                                ${itemList("SVG_PROFILE","Mi perfil","my-profile")}
+                                ${itemList("SVG_EDIT","Editar perfil","edit-profile")}
+                                ${itemList("SVG_CONFIG","Configuración de la cuenta","config-account")}
+                                ${itemList("SVG_LOGOUT","Cerrar sesión","log-out")}
                               </ul>
                             </div>`;
            
@@ -1491,6 +1499,12 @@
                 }
             }
         };
+
+        #handleClickLogOut(){
+            document.querySelector(".log-out").addEventListener("click", () => {
+                showContent("inicio",null);
+            })
+        }
     }
 
 
@@ -1600,10 +1614,10 @@
             const isPay=this.#game.esPago;
 
             const templateButton = `${isPay && !this.#inCart ? 
-                Utils.customButton("btn-add-cart btn-card", `Al carrito ${ Utils.SVGTemplate( Utils.customSVG("ADD_CART",`${Constants.colors.white}`) )}`, `btn-${this.#game.id}`) :
+                Utils.customButton("btn-add-cart btn btn-card", `Al carrito ${ Utils.SVGTemplate( Utils.customSVG("ADD_CART",`${Constants.colors.white}`) )}`, `btn-${this.#game.id}`) :
                 this.#inCart ? 
-                Utils.customButton("btn-in-cart btn-card", `En el carrito ${ Utils.SVGTemplate( Utils.customSVG("IN_CART",`${Constants.colors.white}`))}`, `btn-${this.#game.id}`) :
-                Utils.customButton("btn-play-game btn-card", `<span class="p-bold" >Jugar</span> ${ Utils.SVGTemplate( Utils.customSVG("PLAY_GAME",`${Constants.colors.white}`))}`, `btn-${this.#game.id}`)
+                Utils.customButton("btn-in-cart btn btn-card", `En el carrito ${ Utils.SVGTemplate( Utils.customSVG("IN_CART",`${Constants.colors.white}`))}`, `btn-${this.#game.id}`) :
+                Utils.customButton("btn-play-game btn btn-card", `<span class="p-bold" >Jugar</span> ${ Utils.SVGTemplate( Utils.customSVG("PLAY_GAME",`${Constants.colors.white}`))}`, `btn-${this.#game.id}`)
             }`
 
             
@@ -1718,7 +1732,7 @@
         getComponent(sectionId,size){
             this.#id=`${Utils.replaceSpaces(sectionId)}`;
             const section= document.createElement("section");
-            const carrousel = this.#getCarrousel(size);
+            const carrousel = this.#getCarousel(size);
             const titleSection=this.#getTittleSection();
             section.id=`${this.#id}`;
             section.className="container-carousel";
@@ -1754,7 +1768,7 @@
             return container;
         }
 
-        #getCarrousel(size){
+        #getCarousel(size){
             this.#getCards();
             const container = document.createElement("div");
             container.className="carousel";
@@ -1887,11 +1901,11 @@
             const category = this.#game.categoria;
             const name= this.#game.titulo;
 
-            const template = `<h2 class="p-m">
+            const template = `<h3 class="p-m">
                                 ${Utils.capitalizeFirst(sectionName)}<span> > </span> 
                                 ${Utils.capitalizeFirst(category)}<span> > </span>
                                 ${Utils.capitalizeFirst(name)}
-                            </h2>`;
+                            </h3>`;
             container.innerHTML=template;
             
             return container;
@@ -1899,8 +1913,119 @@
 
         #getShareSection(){
             const container = document.createElement("div");
-            
+            container.class="container-share";
 
+            const template = `<h2>${Utils.capitalizeFirst(this.#game.titulo)}</h2>
+                              <button id="btn-share" class="btn">${Utils.SVGTemplate( Utils.customSVG("SVG_SHARE",Constants.colors.white) )} Compartir</button>`;
+            
+            container.innerHTML=template;
+
+            return container;
+        }
+
+        #getSectionGameExect(){
+            const container = document.createElement("section");
+            container.className="container-execution";
+
+            const template = `<div class="execution-game">
+
+                            </div>`
+        }
+
+
+    }
+
+
+    class LoginForm {
+        #userCompare;    
+        
+        constructor(userCompare) {
+            this.#userCompare=userCompare;
+        }
+
+        getComponent() {
+            let container = document.createElement("div");
+            container.id="log-in-form";
+            container.innerHTML = `<h2>Iniciar sesion en <span class="flaming">Flaming</span><span class="games">Games</span></h2>
+            <form action="">
+                <input type="text" name="user" id="user" placeholder="Usuario" class="form-field">
+                <div class="wrong-user-message p-s hidden">El usuario ingresado no existe</div>
+                <input type="password" name="password" id="password" placeholder="Contraseña" class="form-field">
+                <div class="wrong-password-message p-s hidden">La contraseña es incorrecta</div>
+                <input type="submit" value="Iniciar sesión" class="primary-btn">
+            </form>\
+            <p><a class="p-s texto-link" href="#">Recuperar contraseña</a></p>
+            <p class="p-s">¿No tienes una cuenta? <a href="" class="texto-link registrarse">Registrate</a></p>
+            <hr>\
+            <button class="google-btn"><img src="static/favicon/google-icon.png"><span>Iniciar sesión con Google</span></button>
+            <button class="facebook-btn"><span>${Utils.customSVG("FACEBOOK", Constants.colors.white)}</span><span>Continuar con Facebook</span></button>`;
+            
+            return container;
+        }
+
+        listenEvents() {
+            this.#handleLogIn();
+            this.#handleRegistrarseButton();
+        }
+
+        #handleLogIn() {
+            const form = document.querySelector("#log-in-form");
+            const f=document.querySelector("form");
+            form.addEventListener("submit", e => {
+                e.preventDefault();
+                document.querySelectorAll(".form-field").forEach(e => {
+                    e.classList.remove("bad-input");
+                    e.nextElementSibling.classList.add("hidden");
+                })
+                
+                let formData = new FormData(f);
+                if (formData.get("user") != this.#userCompare.nick) {
+                    const user = document.querySelector("#user");
+                    user.classList.add("bad-input");
+                    user.nextElementSibling.classList.remove("hidden");
+                    return;
+                }
+                if (formData.get("password") != this.#userCompare.password) {
+                    const password = document.querySelector("#password");
+                    password.classList.add("bad-input");
+                    password.nextElementSibling.classList.remove("hidden");
+                    return;
+                }
+
+               showContent("inicio",this.#userCompare);
+            })
+        }
+
+        #handleRegistrarseButton() {
+            const btn = document.querySelector(".registrarse");
+            btn.addEventListener("click", e => {
+                e.preventDefault();
+
+            })
+        }
+
+    }
+
+    class Login {
+        #user;              /*si no hay logueado el user es nulo */ //*este usuario seria el extraído de la base de datos, que permite comparar lo que ingresa el usuario con lo que hay en la db*//
+        #loginForm
+
+        constructor(user = null){
+            this.#user=user;
+            this.#loginForm = new LoginForm(this.#user);
+        }
+       
+
+        getComponent(){
+            let container = document.createElement("div");
+            container.id="log-in";
+            container.appendChild(this.#loginForm.getComponent())
+            
+            return container;
+        }
+
+        listenEvents(){
+            this.#loginForm.listenEvents();
         }
 
     }

@@ -550,9 +550,11 @@ article{
 
 
 
-/* main {
+/*///////////////////////////////////////////////PROPIEDADES DEL LOGIN//////////////////////////////////////////////////////////////*/
+
+#log-in {
     grid-area: 'main';
-    background-image: url("/EntregablePractico2/img/login-background.jpg");
+    background-image: url("/src/static/assets/login-background.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
@@ -561,7 +563,7 @@ article{
     justify-content: center;
 }
 
-main .form-container {
+#log-in-form {
     margin-top: 40px;
     padding: 80px 0;
     width: 800px;
@@ -574,25 +576,38 @@ main .form-container {
     align-items: center;
 }
 
-.form-container form {
+#log-in-form form {
     display: flex;
     flex-direction: column;
     margin-top: 40px;
 }
 
-.form-container p {
+#log-in-form p {
     margin-top: 5px;
 }
 
-input, button {
+#log-in-form input, #log-in-form button {
     height: 36px;
     width: 340px;
     border-radius: 23px;
-    margin: 8px 0;
+    margin: 10px 0 3px 0;
     cursor: pointer;
 }
 
-input[type="text"], input[type="password"] {
+.bad-input {
+    border: 1px solid #F14343;
+}
+
+.wrong-user-message, .wrong-password-message {
+    color: #F14343;
+    margin-left: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+#log-in-form input[type="text"], #log-in-form input[type="password"] {
     color: black;
     padding-left: 20px;
     width: 320px;
@@ -620,19 +635,21 @@ input[type="text"], input[type="password"] {
     color: black;
 }
 
-.google-btn span, .facebook-btn span {
+.google-btn span:nth-child(2), .facebook-btn span:nth-child(2) {
     position: absolute;
     color: inherit;
+}
+
+.facebook-btn span:nth-child(1) {
+    height: 20px;
+    margin-right: auto;
+    margin-left: 45px;
+    height: 20px;
 }
 
 .google-btn img {
     margin-right: auto;
     margin-left: 40px;
-}
-
-.facebook-btn img {
-    margin-right: auto;
-    margin-left: 45px;
 }
 
 .google-btn:hover {
@@ -649,17 +666,12 @@ input[type="text"], input[type="password"] {
     animation: primary-btn-hover 0.4s;
 }
 
-.form-container hr {
+#log-in-form hr {
     background-color: #4C5EC2;
     width: 50%;
     height: 1px;
     margin: 20px 0;
 }
-
-footer {
-    grid-area: 'footer';
-}
-
 
 @keyframes primary-btn-hover {
     0% {
@@ -674,4 +686,4 @@ footer {
     100% {
         transform: scale(1);
     }
-} */
+}
