@@ -1250,7 +1250,7 @@
         #handleClickHamburMenu(){
             let isRender=false;
             const hambur = document.querySelector(".hambur-menu");
-            const sidebarObj = new SidebarCategory(Constants.categories,this.#sectionActive);
+            const sidebarObj = new SidebarCategory(Constants.categories,this.#sectionActive,this.#userLogin);
             
             
 
@@ -1294,11 +1294,12 @@
         #scrollPosition=0;
         #activeCateg=null;
         #sectionActive;
+        #user;
 
-        constructor(categoriesList,sectionActive){
+        constructor(categoriesList,sectionActive,user){
             this.#categoriesList= categoriesList;
             this.#sectionActive= sectionActive;
-
+            this.#user=user;
         }
 
 
@@ -1446,7 +1447,7 @@
             if(displaceSection){
                 displaceSection.scrollIntoView({ behavior: "smooth" });
             }else if (hrefValue == "#inicio"){
-                showContent("inicio");
+                showContent("inicio",this.#user);
             }else{
                 console.log("clickeaste en seccion: "+hrefValue);
             }
