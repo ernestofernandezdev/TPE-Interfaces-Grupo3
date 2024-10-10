@@ -13,7 +13,9 @@ a{
     cursor: pointer;
 }
 
-
+img{
+    object-fit: cover;
+}
 
 .logo{
     font-size: 30px;
@@ -44,11 +46,14 @@ a{
 .p-m {
     font-size: 14px;
 }
-.p-bold{
-    font-weight: bold;
+.p-l{
+    font-size: 16px;
 }
 .p-xl{
     font-size: 20px;
+}
+.p-bold{
+    font-weight: bold;
 }
 
 .text-black {
@@ -686,4 +691,228 @@ article{
     100% {
         transform: scale(1);
     }
+}
+
+/*//////////////////////////////////////PROPIEDADES SECCION EJECUCION DE JUEGO///////////////////////////////////////*/
+
+#game-eject{
+    padding: 1% 75px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.breadcrum{
+    margin-bottom: 20px;
+}
+.breadcrum > h4 > span{
+    color: #4C5EC2;
+}
+.container-share{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.container-share > button{
+    margin-bottom: 3px;
+    background-color: #4C5EC2;
+    display: flex;
+}
+.container-share > button > .container-svg{
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+.container-execution{
+    width: 100%;
+    height: 600px;
+    margin-top: 10px;
+    background-color: #F2C9C9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.execution-game{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.execution-game > button >.container-svg:hover{
+    animation: none;
+}
+.bar-game-exec{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #4C5EC2;
+    width: 99%;
+    height: 60px;
+    padding: 0 0 0 1%;
+}
+.bar-game-exec > ul {
+    display: flex;
+    width: 20%;
+    align-items: center;
+    justify-content: space-around;
+}
+.likes{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 50%;
+}
+.controls{
+    width: 55px;
+    height: 40px;
+}
+.expand{
+    width: 35px;
+    height: 35px;
+}
+.img-game > img {
+    border-radius: 8px;
+    width: 220px;
+    height: 120px;
+}
+
+section > h3{
+    margin-bottom: 8px;
+}
+
+section{
+    margin-top: 30px;
+}
+
+.text-section{
+    width: 100%;
+    height: min-content;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #6C7BD1;
+}
+.multimedia-section{
+    margin-top: 30px;
+    width: 100%;
+}
+
+#form-comment{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    padding: 0 1%;
+    height: 160px;
+}
+#form-comment > button{
+    background-color:#4C5EC2;
+    margin-top:10px;
+}
+textarea{
+    width: 100%;
+    height: 80%;
+    border-radius:8px ;
+}
+
+/*//////////////////////////////////////PROPIEDADES SECCION MULTIMEDIA/////////////////////////////////////////////*/
+
+.container-multimedia{
+    width: 100%;
+    height: 580px; 
+    
+}
+
+#reprod-container{
+    width: 100%;
+    height: 440px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    
+}
+#reprod-container > button{
+    z-index: 3;
+}
+#reprod-container > button > .container-svg{
+    animation: none;
+}
+#reprod-container::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.801); /* Capa semitransparente */
+    z-index: 1; /* Superpone la capa sobre la imagen */
+}
+
+.carousel-multimedia{
+    display: flex;
+    width: 100%;
+    overflow-x: scroll;
+    
+}
+.card-carousel-media{
+    flex: 0 0 220px;                           
+    margin: 5px 8px;
+    height: 120px;   
+    border: 1px solid #4C5EC2;
+    border-radius: 8px;
+   
+}
+.card-carousel-media > img{
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+}
+
+.card-video{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ 
+}
+.card-video > button{
+    z-index: 2;
+    width: 80px;
+
+}
+.card-video::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.801); /* Capa semitransparente */
+    z-index: 1; /* Superpone la capa sobre la imagen */
+    border-radius: 8px;
+}
+.card-carousel-media:hover {
+    border: 1px solid #F14343;
+}
+.carousel-multimedia::-webkit-scrollbar {
+    display: none; 
+}
+.container-media-main{
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+.container-media-main img {
+    width: 100%;
+    height: 100%; 
+    object-fit: contain; 
+}
+
+video{
+    width: 100%;
+    height: 100%;
 }

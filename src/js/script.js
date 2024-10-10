@@ -26,6 +26,10 @@
             
         }else if(section == "game"){
             document.title="Ver juego | FlamingGames";
+            const gameEject = new SectionGame(games1[1],user)
+            root.appendChild(gameEject.getComponent());
+            gameEject.listenEvents();
+            
             /*new secciongame */
             
         }else if(section == "login"){
@@ -43,365 +47,395 @@
         {
             id:"1",
             titulo:"battle arena",
-            frontImg:"url('static/assets/battle-arena.png')",
+            frontImg:'static/assets/battle-arena.png',
             categoria:"accion",
             multimedia:[null,null],
             descipcion:"es un juego sasrasara",
             controles:"con la flecha",
             comentarios:["objetoComentario1"],
             precio:15800.65,
-            esPago:true
+            esPago:true,
+            likes:25374
         },
         {
             id:"20",
             titulo:"4 en linea: batman vs. guasón",
-            frontImg:"url('static/assets/4-linea.png')",
+            frontImg:'static/assets/4-linea.png',
             categoria:"puzzle",
-            multimedia:[null,null],
-            descipcion:"es un asjkdha",
-            controles:"askdfjlasd",
+            multimedia:['static/video/batmanvsguason.mp4','static/video/batmanvsguason2.mp4','static/assets/batman4.png','static/assets/batman5.png','static/assets/batman3.png','static/assets/batman1.png','static/assets/batman2.png'],
+            descipcion:`El juego "4 en línea: Batman vs Guasón" lleva la clásica estrategia a Ciudad Gótica. Los jugadores eligen entre fichas de Batman o el Guasón, tratando de alinear cuatro fichas seguidas antes que su oponente, ya sea en vertical, horizontal o diagonal. Con el trasfondo oscuro de la ciudad y elementos visuales icónicos de ambos personajes, la partida se convierte en una lucha por el control de Gótica.`,
+            controles:"El jugador arrastra la ficha desde una barra superior y la suelta sobre la columna deseada. Para arrastrar las fichas se debe utilizar el click izquierdo del mouse.",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:20238
         },
         {
             id:"3",
             titulo:"sniper mission",
-            frontImg:"url('static/assets/sniper-mission.png')",
+            frontImg:'static/assets/sniper-mission.png',
             categoria:"disparos",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:25000.30,
-            esPago:true
+            esPago:true,
+            likes:29834
         },
         {
             id:"2",
             titulo:"bank robbery escape",
-            frontImg:"url('static/assets/robbery.png')",
+            frontImg:'static/assets/robbery.png',
             categoria:"escape",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:29837
         },
         {
             id:"4",
             titulo:"downtown 1930s mafia",
-            frontImg:"url('static/assets/downtown.png')",
+            frontImg:'static/assets/downtown.png',
             categoria:"disparos",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:18232
         },
         {
             id:"5",
             titulo:"table tennis world tour",
-            frontImg:"url('static/assets/table-tennis.png')",
+            frontImg:'static/assets/table-tennis.png',
             categoria:"deportes",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:28371
         },
         {
             id:"6",
             titulo:"xtreme moto mayhem",
-            frontImg:"url('static/assets/xtreme-moto.png')",
+            frontImg:'static/assets/xtreme-moto.png',
             categoria:"motos",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:12300.10,
-            esPago:true
+            esPago:true,
+            likes:29384
         },
         {
             id:"7",
             titulo:"8 balls billard classic",
-            frontImg:"url('static/assets/8-ball.png')",
+            frontImg:'static/assets/8-ball.png',
             categoria:"billar",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:12837
         },
         {
             id:"8",
             titulo:"skydom",
-            frontImg:"url('static/assets/skydom.png')",
+            frontImg:'static/assets/skydom.png',
             categoria:"casino",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:28371
         },
         {
             id:"9",
             titulo:"bullet force",
-            frontImg:"url('static/assets/bullet-force.png')",
+            frontImg:'static/assets/bullet-force.png',
             categoria:"disparos",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:17080.30,
-            esPago:true
+            esPago:true,
+            likes:12387
         },
         {
             id:"10",
             titulo:"sniper mission",
-            frontImg:"url('static/assets/sniper-mission.png')",
+            frontImg:'static/assets/sniper-mission.png',
             categoria:"disparos",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:25000.30,
-            esPago:true
+            esPago:true,
+            likes:9832
         },
         {
             id:"11",
             titulo:"cube stories escape",
-            frontImg:"url('static/assets/cube-stories-escape.png')",
+            frontImg:'static/assets/cube-stories-escape.png',
             categoria:"escape",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:5000.90,
-            esPago:true
+            esPago:true,
+            likes:29832
         },
         {
             id:"12",
             titulo:"elemental merge",
-            frontImg:"url('static/assets/elemental-merge.png')",
+            frontImg:'static/assets/elemental-merge.png',
             categoria:"accion",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:1928
         },
         {
             id:"13",
             titulo:"mr racer car racing",
-            frontImg:"url('static/assets/racer.png')",
+            frontImg:'static/assets/racer.png',
             categoria:"coches",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:9750.60,
-            esPago:true
+            esPago:true,
+            likes:29387
         },
         {
             id:"14",
             titulo:"bloxd.io",
-            frontImg:"url('static/assets/bloxd.png')",
+            frontImg:'static/assets/bloxd.png',
             categoria:".io",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:1289
         },
     ]
     const games2=[
         {
             id:"30",
             titulo:"shell shockers",
-            frontImg:"url('static/assets/shell.png')",
+            frontImg:'static/assets/shell.png',
             categoria:"disparos",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:12873
         },
         {
             id:"49",
             titulo:"racing limits",
-            frontImg:"url('static/assets/racing.png')",
+            frontImg:'static/assets/racing.png',
             categoria:"coches",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:19283
         },
         {
             id:"36",
             titulo:"bloc ops",
-            frontImg:"url('static/assets/blocops.png')",
+            frontImg:'static/assets/blocops.png',
             categoria:"disparos",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:29873
         },
         {
             id:"47",
             titulo:"our lotto",
-            frontImg:"url('static/assets/bingo.png')",
+            frontImg:'static/assets/bingo.png',
             categoria:"casino",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:29873
 
         },
         {
             id:"48",
             titulo:"penalty shooters 2",
-            frontImg:"url('static/assets/penalty.png')",
+            frontImg:'static/assets/penalty.png',
             categoria:"futbol",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:2975
         },
         {
             id:"16",
             titulo:"3d bowling",
-            frontImg:"url('static/assets/bowling.png')",
+            frontImg:'static/assets/bowling.png',
             categoria:"deportes",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:9083
         },
         {
             id:"19",
             titulo:"bloons td 4",
-            frontImg:"url('static/assets/bloons.png')",
+            frontImg:'static/assets/bloons.png',
             categoria:"disparos",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:732
         },
         {
             id:"23",
             titulo:"doodle road",
-            frontImg:"url('static/assets/doodle.png')",
+            frontImg:'static/assets/doodle.png',
             categoria:"puzzle",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:9283
         },
         {
             id:"24",
             titulo:"carball.io",
-            frontImg:"url('static/assets/carball.png')",
+            frontImg:'static/assets/carball.png',
             categoria:"deportes",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:2986
         },
         {
             id:"24",
             titulo:"archer ragdoll masters",
-            frontImg:"url('static/assets/archer.png')",
+            frontImg:'static/assets/archer.png',
             categoria:"disparos",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:8922
         },
         {
             id:"25",
             titulo:"spiderdoll",
-            frontImg:"url('static/assets/spider.png')",
+            frontImg:'static/assets/spider.png',
             categoria:"escape",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:8971
         },
         {
             id:"26",
             titulo:"zombie defense",
-            frontImg:"url('static/assets/zombie.png')",
+            frontImg:'static/assets/zombie.png',
             categoria:"accion",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:9283
         },
         {
             id:"46",
             titulo:"monstrella fantasy makeup",
-            frontImg:"url('static/assets/monst.png')",
+            frontImg:'static/assets/monst.png',
             categoria:"belleza",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:8723
         },
         {
             id:"44",
             titulo:"krampus: the devil",
-            frontImg:"url('static/assets/krampus.png')",
+            frontImg:'static/assets/krampus.png',
             categoria:"terror",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:9827
         },
         {
             id:"45",
             titulo:"lines",
-            frontImg:"url('static/assets/lines.png')",
+            frontImg:'static/assets/lines.png',
             categoria:"puzzle",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            liikes:2987
         },
        
 
@@ -410,232 +444,251 @@
         {
             id:"15",
             titulo:"basketball stars",
-            frontImg:"url('static/assets/basketball-stars.png')",
+            frontImg:'static/assets/basketball-stars.png',
             categoria:"basquet",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:30900.00,
-            esPago:true
+            esPago:true,
+            likes:28732
         },
         {
             id:"18",
             titulo:"tower swap match 3 tower defense",
-            frontImg:"url('static/assets/tower-swap.png')",
+            frontImg:'static/assets/tower-swap.png',
             categoria:"accion",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:20000.50,
-            esPago:true
+            esPago:true,
+            likes:92384
         },
         {
             id:"17",
             titulo:"kour.io",
-            frontImg:"url('static/assets/kour.png')",
+            frontImg:'static/assets/kour.png',
             categoria:".io",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:12300.70,
-            esPago:true
+            esPago:true,
+            likes:7361
         },
         {
             id:"31",
             titulo:"age of tanks",
-            frontImg:"url('static/assets/age-of-tanks.png')",
+            frontImg:'static/assets/age-of-tanks.png',
             categoria:"accion",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:6452
         },
         {
             id:"32",
             titulo:"mahjongg solitaire",
-            frontImg:"url('static/assets/mahjongg.png')",
+            frontImg:'static/assets/mahjongg.png',
             categoria:"puzzle",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            liikes:4982
         },
         {
             id:"34",
             titulo:"8 ball pool billiards",
-            frontImg:"url('static/assets/8-ball-pool.png')",
+            frontImg:'static/assets/8-ball-pool.png',
             categoria:"billar",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:5800.70,
-            esPago:true
+            esPago:true,
+            likes:9802
             
         },
         {
             id:"35",
             titulo:"asmr beauty homeless",
-            frontImg:"url('static/assets/asmr.png')",
+            frontImg:'static/assets/asmr.png',
             categoria:"belleza",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:29821
         },
 
         {
             id:"37",
             titulo:"dead shot",
-            frontImg:"url('static/assets/dead-shot.png')",
+            frontImg:'static/assets/dead-shot.png',
             categoria:"disparos",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:1231
         },
         {
             id:"39",
             titulo:"solitaire",
-            frontImg:"url('static/assets/soli.png')",
+            frontImg:'static/assets/soli.png',
             categoria:"puzzle",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:90823
         },
         {
             id:"40",
             titulo:"darts club",
-            frontImg:"url('static/assets/darts.png')",
+            frontImg:'static/assets/darts.png',
             categoria:"casino",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:39821
         },
         {
             id:"41",
             titulo:"gym simulator",
-            frontImg:"url('static/assets/gym.png')",
+            frontImg:'static/assets/gym.png',
             categoria:"belleza",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:98312
         },
         {
             id:"42",
             titulo:"hazmob fpb",
-            frontImg:"url('static/assets/hazmob.png')",
+            frontImg:'static/assets/hazmob.png',
             categoria:"disparos",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:9842
         },
         {
             id:"43",
             titulo:"kiomet",
-            frontImg:"url('static/assets/kiomet.png')",
+            frontImg:'static/assets/kiomet.png',
             categoria:"accion",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:9823
         },
         {
             id:"50",
             titulo:"seeing things",
-            frontImg:"url('static/assets/seein.png')",
+            frontImg:'static/assets/seein.png',
             categoria:"terror",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:1002
         },
         {
             id:"51",
             titulo:"smash karts",
-            frontImg:"url('static/assets/smash.png')",
+            frontImg:'static/assets/smash.png',
             categoria:"coches",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:10093
         },
         {
             id:"52",
             titulo:"soocer clicker",
-            frontImg:"url('static/assets/soccer.png')",
+            frontImg:'static/assets/soccer.png',
             categoria:"futbol",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:10032
         },
         {
             id:"53",
             titulo:"squarun",
-            frontImg:"url('static/assets/squarun.png')",
+            frontImg:'static/assets/squarun.png',
             categoria:"puzzle",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:4921
         },
         {
             id:"54",
             titulo:"street life",
-            frontImg:"url('static/assets/street.png')",
+            frontImg:'static/assets/street.png',
             categoria:"accion",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:19832
         },
         {
             id:"55",
             titulo:"super bike the champions: race and driver motorbike",
-            frontImg:"url('static/assets/moto.png')",
+            frontImg:'static/assets/moto.png',
             categoria:"motos",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:10293
         },
     ]
 
@@ -643,86 +696,93 @@
         {
             id:"27",
             titulo:"build & crush",
-            frontImg:"url('static/assets/build.png')",
+            frontImg:'static/assets/build.png',
             categoria:"accion",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:9283
         },
         {
             id:"38",
             titulo:"CGFC 24",
-            frontImg:"url('static/assets/fc.png')",
+            frontImg:'static/assets/fc.png',
             categoria:"futbol",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:1983
         },
         {
             id:"33",
             titulo:"evowards: new era",
-            frontImg:"url('static/assets/evowards.png')",
+            frontImg:'static/assets/evowards.png',
             categoria:"terror",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:15700.50,
-            esPago:true
+            esPago:true,
+            liikes:2983
         },
         {
             id:"28",
             titulo:"voxiom: build-craft-shoot",
-            frontImg:"url('static/assets/voxiom.png')",
+            frontImg:'static/assets/voxiom.png',
             categoria:"minecraft",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:10500.90,
-            esPago:true
+            esPago:true,
+            likes:29832
         },
         {
             id:"22",
             titulo:"mini golf club",
-            frontImg:"url('static/assets/mini-golf.png')",
+            frontImg:'static/assets/mini-golf.png',
             categoria:"deportes",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:2093
         },
         {
             id:"21",
             titulo:"mighty action heroes",
-            frontImg:"url('static/assets/mighty-heroes.png')",
+            frontImg:'static/assets/mighty-heroes.png',
             categoria:"accion",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:9831
         },
         {
             id:"29",
             titulo:"cubes 2048.io",
-            frontImg:"url('static/assets/cube.png')",
+            frontImg:'static/assets/cube.png',
             categoria:".io",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
             precio:null,
-            esPago:false
+            esPago:false,
+            likes:3298
         },
 
     ]
@@ -1047,10 +1107,30 @@
                             <g id="SVGRepo_iconCarrier"> <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill=${color}/> </g>
                             </svg>`,
 
-                SVG_SHARE:`<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke=${color}>
+                SVG_SHARE:`<svg viewBox="0 0 24 24" fill=${color} xmlns="http://www.w3.org/2000/svg" stroke=${color}>
                             <g id="SVGRepo_bgCarrier" stroke-width="0"/>
                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
                             <g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M16.5 2.25C14.7051 2.25 13.25 3.70507 13.25 5.5C13.25 5.69591 13.2673 5.88776 13.3006 6.07412L8.56991 9.38558C8.54587 9.4024 8.52312 9.42038 8.50168 9.43939C7.94993 9.00747 7.25503 8.75 6.5 8.75C4.70507 8.75 3.25 10.2051 3.25 12C3.25 13.7949 4.70507 15.25 6.5 15.25C7.25503 15.25 7.94993 14.9925 8.50168 14.5606C8.52312 14.5796 8.54587 14.5976 8.56991 14.6144L13.3006 17.9259C13.2673 18.1122 13.25 18.3041 13.25 18.5C13.25 20.2949 14.7051 21.75 16.5 21.75C18.2949 21.75 19.75 20.2949 19.75 18.5C19.75 16.7051 18.2949 15.25 16.5 15.25C15.4472 15.25 14.5113 15.7506 13.9174 16.5267L9.43806 13.3911C9.63809 12.9694 9.75 12.4978 9.75 12C9.75 11.5022 9.63809 11.0306 9.43806 10.6089L13.9174 7.4733C14.5113 8.24942 15.4472 8.75 16.5 8.75C18.2949 8.75 19.75 7.29493 19.75 5.5C19.75 3.70507 18.2949 2.25 16.5 2.25ZM14.75 5.5C14.75 4.5335 15.5335 3.75 16.5 3.75C17.4665 3.75 18.25 4.5335 18.25 5.5C18.25 6.4665 17.4665 7.25 16.5 7.25C15.5335 7.25 14.75 6.4665 14.75 5.5ZM6.5 10.25C5.5335 10.25 4.75 11.0335 4.75 12C4.75 12.9665 5.5335 13.75 6.5 13.75C7.4665 13.75 8.25 12.9665 8.25 12C8.25 11.0335 7.4665 10.25 6.5 10.25ZM16.5 16.75C15.5335 16.75 14.75 17.5335 14.75 18.5C14.75 19.4665 15.5335 20.25 16.5 20.25C17.4665 20.25 18.25 19.4665 18.25 18.5C18.25 17.5335 17.4665 16.75 16.5 16.75Z" fill=${color}/> </g>
+                            </svg>`,
+
+                SVG_LIKE:`<svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill=${color} stroke=${color}>
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"/><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                            <g id="SVGRepo_iconCarrier"> <style type="text/css">  .st0{fill:${color};}  </style> <g> <path class="st0" d="M507.532,223.313c-9.891-24.594-35-41.125-62.469-41.125H365.86c-2.516,0-4.75-0.031-6.75-0.094 c0.641-0.844,1.203-1.594,1.672-2.203c2.719-3.563,4.922-6.406,6.656-9.188c0.688-0.922,1.688-2.047,2.859-3.453 c9.516-11.234,29.328-34.625,34.531-67.109c2.891-18.016-2.359-36.438-14.359-50.516c-11.156-13.094-26.906-20.891-42.109-20.891 c-15.359,0-28.672,7.641-36.516,20.969c-1.156,1.938-2.531,4.406-4.125,7.266c-7.797,13.859-24,42.719-39.672,54.063 c-17.969,12.984-33.875,30.5-49.25,47.453c-21.141,23.313-43.016,47.406-60.656,47.406c-13.797,0-24.969,11.203-24.969,24.984 v170.516c0,13.797,11.172,24.984,24.969,24.984c18.359,0,59.766,15.938,89.984,27.594c23.156,8.922,43.172,16.609,56.703,19.328 c3.984,0.797,8.094,1.719,12.313,2.641c15.484,3.438,33.063,7.328,50.531,7.328c27.766,0,49.234-10.031,63.797-29.828 c14.203-19.266,30.422-69.313,51.813-137.938c1.453-4.703,2.906-9.328,4.297-13.797 C520.017,267.188,512.501,235.641,507.532,223.313z M465.563,288.453c-17.031,54.172-39.719,130.516-54.219,150.188 c-11.031,15-26.672,19.641-43.672,19.641c-19.141,0-40-5.875-57.938-9.484c-29.891-5.984-114.328-47.406-151.594-47.406V230.875 c45.234,0,81.125-68.25,124.531-99.594c23.391-16.922,42.984-55.797,50.688-68.906c3.547-6.031,9.016-8.672,15-8.672 c15.984,0,35.578,18.844,31.797,42.484c-5.203,32.484-29.891,54.594-33.797,61.078c-3.891,6.516-20.797,24.703-20.797,35.094 c0,9.109,6.484,14.813,40.297,14.813c42.031,0,70.922,0,79.203,0C478.923,207.172,508.767,246.969,465.563,288.453z"/> <path class="st0" d="M0.001,250.734v158.219c0,19.547,15.844,35.406,35.406,35.406h42.234c13.047,0,23.609-10.578,23.609-23.609 V215.328H35.407C15.845,215.328,0.001,231.172,0.001,250.734z M49.798,374.125c8.969,0,16.25,7.266,16.25,16.25 c0,8.969-7.281,16.25-16.25,16.25c-8.984,0-16.266-7.281-16.266-16.25C33.532,381.391,40.813,374.125,49.798,374.125z"/> </g> </g>
+                            </svg>`,
+
+                SVG_UNLIKE:`<svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill=${color} transform="rotate(180)" stroke=${color}>
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"/><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                            <g id="SVGRepo_iconCarrier"> <style type="text/css">  .st0{fill:${color};}  </style> <g> <path class="st0" d="M507.532,223.313c-9.891-24.594-35-41.125-62.469-41.125H365.86c-2.516,0-4.75-0.031-6.75-0.094 c0.641-0.844,1.203-1.594,1.672-2.203c2.719-3.563,4.922-6.406,6.656-9.188c0.688-0.922,1.688-2.047,2.859-3.453 c9.516-11.234,29.328-34.625,34.531-67.109c2.891-18.016-2.359-36.438-14.359-50.516c-11.156-13.094-26.906-20.891-42.109-20.891 c-15.359,0-28.672,7.641-36.516,20.969c-1.156,1.938-2.531,4.406-4.125,7.266c-7.797,13.859-24,42.719-39.672,54.063 c-17.969,12.984-33.875,30.5-49.25,47.453c-21.141,23.313-43.016,47.406-60.656,47.406c-13.797,0-24.969,11.203-24.969,24.984 v170.516c0,13.797,11.172,24.984,24.969,24.984c18.359,0,59.766,15.938,89.984,27.594c23.156,8.922,43.172,16.609,56.703,19.328 c3.984,0.797,8.094,1.719,12.313,2.641c15.484,3.438,33.063,7.328,50.531,7.328c27.766,0,49.234-10.031,63.797-29.828 c14.203-19.266,30.422-69.313,51.813-137.938c1.453-4.703,2.906-9.328,4.297-13.797 C520.017,267.188,512.501,235.641,507.532,223.313z M465.563,288.453c-17.031,54.172-39.719,130.516-54.219,150.188 c-11.031,15-26.672,19.641-43.672,19.641c-19.141,0-40-5.875-57.938-9.484c-29.891-5.984-114.328-47.406-151.594-47.406V230.875 c45.234,0,81.125-68.25,124.531-99.594c23.391-16.922,42.984-55.797,50.688-68.906c3.547-6.031,9.016-8.672,15-8.672 c15.984,0,35.578,18.844,31.797,42.484c-5.203,32.484-29.891,54.594-33.797,61.078c-3.891,6.516-20.797,24.703-20.797,35.094 c0,9.109,6.484,14.813,40.297,14.813c42.031,0,70.922,0,79.203,0C478.923,207.172,508.767,246.969,465.563,288.453z"/> <path class="st0" d="M0.001,250.734v158.219c0,19.547,15.844,35.406,35.406,35.406h42.234c13.047,0,23.609-10.578,23.609-23.609 V215.328H35.407C15.845,215.328,0.001,231.172,0.001,250.734z M49.798,374.125c8.969,0,16.25,7.266,16.25,16.25 c0,8.969-7.281,16.25-16.25,16.25c-8.984,0-16.266-7.281-16.266-16.25C33.532,381.391,40.813,374.125,49.798,374.125z"/> </g> </g>
+                            </svg>`,
+
+                SVG_CTRL: `<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 496.8 496.8" xml:space="preserve" fill="#000000">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"/><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                            <g id="SVGRepo_iconCarrier"> <path style="fill:#ffffff;" d="M326.4,226c0,8.8-7.2,16.8-16.8,16.8h-124c-8.8,0-16.8-7.2-16.8-16.8V102c0-8.8,7.2-16.8,16.8-16.8 h124c8.8,0,16.8,7.2,16.8,16.8V226z"/> <g> <path style="fill:#ffffff;" d="M326.4,226c0,8.8-7.2,16.8-16.8,16.8h-124c-8.8,0-16.8-7.2-16.8-16.8"/> <path style="fill:#ffffff;" d="M169.6,102c0-8.8,7.2-16.8,16.8-16.8h124c8.8,0,16.8,7.2,16.8,16.8v124c0,8.8-7.2,16.8-16.8,16.8"/> </g> <path style="fill:#ffffff;" d="M169.6,102c0-8.8,7.2-16.8,16.8-16.8h124c8.8,0,16.8,7.2,16.8,16.8"/> <path style="fill:#000000;" d="M274.4,196.4l-23.2-36c-1.6-2.4-5.6-2.4-7.2,0l-22.4,36.8c-0.8,1.6-0.8,3.2,0,4 c0.8,1.6,2.4,2.4,4,2.4h44.8c1.6,0,3.2-0.8,4-2.4C275.2,199.6,274.4,198,274.4,196.4z"/> <path style="fill:#000000;" d="M251.2,174.8c-1.6-2.4-5.6-2.4-7.2,0l-16.8,28h41.6L251.2,174.8z"/> <path style="fill:#ffffff;" d="M326.4,394.8c0,8.8-7.2,16.8-16.8,16.8h-124c-8.8,0-16.8-7.2-16.8-16.8v-124 c0-8.8,7.2-16.8,16.8-16.8h124c8.8,0,16.8,7.2,16.8,16.8V394.8z"/> <g> <path style="fill:#ffffff;" d="M326.4,394.8c0,8.8-7.2,16.8-16.8,16.8h-124c-8.8,0-16.8-7.2-16.8-16.8"/> <path style="fill:#ffffff;" d="M169.6,270.8c0-8.8,7.2-16.8,16.8-16.8h124c8.8,0,16.8,7.2,16.8,16.8v124c0,8.8-7.2,16.8-16.8,16.8"/> </g> <path style="fill:#ffffff;" d="M169.6,270.8c0-8.8,7.2-16.8,16.8-16.8h124c8.8,0,16.8,7.2,16.8,16.8"/> <path style="fill:#000000;" d="M221.6,332.4l22.4,36.8c1.6,2.4,5.6,2.4,7.2,0l22.4-36.8c0.8-1.6,0.8-3.2,0-4c-0.8-1.6-2.4-2.4-4-2.4 h-44.8c-1.6,0-3.2,0.8-4,2.4C220.8,330,221.6,331.6,221.6,332.4z"/> <path style="fill:#000000;" d="M244.8,354c1.6,2.4,5.6,2.4,7.2,0l16.8-28h-41.6L244.8,354z"/> <path style="fill:#ffffff;" d="M156.8,394.8c0,8.8-7.2,16.8-16.8,16.8H16.8C8,411.6,0,404.4,0,394.8v-124C0,262,7.2,254,16.8,254 h124c8.8,0,16.8,7.2,16.8,16.8v124H156.8z"/> <g> <path style="fill:#ffffff;" d="M156.8,394.8c0,8.8-7.2,16.8-16.8,16.8H16.8C8,411.6,0,404.4,0,394.8"/> <path style="fill:#ffffff;" d="M0,270.8C0,262,7.2,254,16.8,254h124c8.8,0,16.8,7.2,16.8,16.8v124c0,8.8-7.2,16.8-16.8,16.8"/> </g> <path style="fill:#ffffff;" d="M0,270.8C0,262,7.2,254,16.8,254h124c8.8,0,16.8,7.2,16.8,16.8"/> <path style="fill:#000000;" d="M94.4,322.8l-36.8,22.4c-2.4,1.6-2.4,5.6,0,7.2l36.8,22.4c1.6,0.8,3.2,0.8,4,0 c1.6-0.8,2.4-2.4,2.4-3.2v-44.8c0-1.6-0.8-3.2-2.4-4C97.6,322,96,322,94.4,322.8z"/> <path style="fill:#000000;" d="M72.8,345.2c-2.4,1.6-2.4,5.6,0,7.2l28,16.8v-41.6L72.8,345.2z"/> <path style="fill:#ffffff;" d="M496,394.8c0,8.8-7.2,16.8-16.8,16.8h-124c-8.8,0-16.8-7.2-16.8-16.8v-124c0-8.8,7.2-16.8,16.8-16.8 h124c8.8,0,16.8,7.2,16.8,16.8V394.8z"/> <g> <path style="fill:#ffffff;" d="M496,394.8c0,8.8-7.2,16.8-16.8,16.8h-124c-8.8,0-16.8-7.2-16.8-16.8"/> <path style="fill:#ffffff;" d="M339.2,270.8c0-8.8,7.2-16.8,16.8-16.8h124c8.8,0,16.8,7.2,16.8,16.8v124c0,8.8-7.2,16.8-16.8,16.8"/> </g> <path style="fill:#ffffff;" d="M339.2,270.8c0-8.8,7.2-16.8,16.8-16.8h124c8.8,0,16.8,7.2,16.8,16.8"/> <path style="fill:#000000;" d="M401.6,374.8l36.8-22.4c2.4-1.6,2.4-5.6,0-7.2l-36.8-22.4c-1.6-0.8-3.2-0.8-4,0s-2.4,2.4-2.4,4v44.8 c0,1.6,0.8,3.2,2.4,4S400,375.6,401.6,374.8z"/> <path style="fill:#000000;" d="M423.2,352.4c2.4-1.6,2.4-5.6,0-7.2l-28-16.8V370L423.2,352.4z"/> </g>
+                            </svg>`,
+                            
+                SVG_EXPAND: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke=${color}>
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"/><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                            <g id="SVGRepo_iconCarrier"> <path d="M4.75 9.233C4.75 9.64721 5.08579 9.983 5.5 9.983C5.91421 9.983 6.25 9.64721 6.25 9.233H4.75ZM6.25 5.5C6.25 5.08579 5.91421 4.75 5.5 4.75C5.08579 4.75 4.75 5.08579 4.75 5.5H6.25ZM5.5 4.75C5.08579 4.75 4.75 5.08579 4.75 5.5C4.75 5.91421 5.08579 6.25 5.5 6.25V4.75ZM9.233 6.25C9.64721 6.25 9.983 5.91421 9.983 5.5C9.983 5.08579 9.64721 4.75 9.233 4.75V6.25ZM6.03033 4.96967C5.73744 4.67678 5.26256 4.67678 4.96967 4.96967C4.67678 5.26256 4.67678 5.73744 4.96967 6.03033L6.03033 4.96967ZM9.96967 11.0303C10.2626 11.3232 10.7374 11.3232 11.0303 11.0303C11.3232 10.7374 11.3232 10.2626 11.0303 9.96967L9.96967 11.0303ZM15.767 18.75C15.3528 18.75 15.017 19.0858 15.017 19.5C15.017 19.9142 15.3528 20.25 15.767 20.25V18.75ZM19.5 20.25C19.9142 20.25 20.25 19.9142 20.25 19.5C20.25 19.0858 19.9142 18.75 19.5 18.75V20.25ZM18.75 19.5C18.75 19.9142 19.0858 20.25 19.5 20.25C19.9142 20.25 20.25 19.9142 20.25 19.5H18.75ZM20.25 15.767C20.25 15.3528 19.9142 15.017 19.5 15.017C19.0858 15.017 18.75 15.3528 18.75 15.767H20.25ZM18.9697 20.0303C19.2626 20.3232 19.7374 20.3232 20.0303 20.0303C20.3232 19.7374 20.3232 19.2626 20.0303 18.9697L18.9697 20.0303ZM15.0303 13.9697C14.7374 13.6768 14.2626 13.6768 13.9697 13.9697C13.6768 14.2626 13.6768 14.7374 13.9697 15.0303L15.0303 13.9697ZM6.25 15.767C6.25 15.3528 5.91421 15.017 5.5 15.017C5.08579 15.017 4.75 15.3528 4.75 15.767H6.25ZM4.75 19.5C4.75 19.9142 5.08579 20.25 5.5 20.25C5.91421 20.25 6.25 19.9142 6.25 19.5H4.75ZM5.5 18.75C5.08579 18.75 4.75 19.0858 4.75 19.5C4.75 19.9142 5.08579 20.25 5.5 20.25V18.75ZM9.233 20.25C9.64721 20.25 9.983 19.9142 9.983 19.5C9.983 19.0858 9.64721 18.75 9.233 18.75V20.25ZM4.96967 18.9697C4.67678 19.2626 4.67678 19.7374 4.96967 20.0303C5.26256 20.3232 5.73744 20.3232 6.03033 20.0303L4.96967 18.9697ZM11.0303 15.0303C11.3232 14.7374 11.3232 14.2626 11.0303 13.9697C10.7374 13.6768 10.2626 13.6768 9.96967 13.9697L11.0303 15.0303ZM15.767 4.75C15.3528 4.75 15.017 5.08579 15.017 5.5C15.017 5.91421 15.3528 6.25 15.767 6.25V4.75ZM19.5 6.25C19.9142 6.25 20.25 5.91421 20.25 5.5C20.25 5.08579 19.9142 4.75 19.5 4.75V6.25ZM20.25 5.5C20.25 5.08579 19.9142 4.75 19.5 4.75C19.0858 4.75 18.75 5.08579 18.75 5.5H20.25ZM18.75 9.233C18.75 9.64721 19.0858 9.983 19.5 9.983C19.9142 9.983 20.25 9.64721 20.25 9.233H18.75ZM20.0303 6.03033C20.3232 5.73744 20.3232 5.26256 20.0303 4.96967C19.7374 4.67678 19.2626 4.67678 18.9697 4.96967L20.0303 6.03033ZM13.9697 9.96967C13.6768 10.2626 13.6768 10.7374 13.9697 11.0303C14.2626 11.3232 14.7374 11.3232 15.0303 11.0303L13.9697 9.96967ZM6.25 9.233V5.5H4.75V9.233H6.25ZM5.5 6.25H9.233V4.75H5.5V6.25ZM4.96967 6.03033L9.96967 11.0303L11.0303 9.96967L6.03033 4.96967L4.96967 6.03033ZM15.767 20.25H19.5V18.75H15.767V20.25ZM20.25 19.5V15.767H18.75V19.5H20.25ZM20.0303 18.9697L15.0303 13.9697L13.9697 15.0303L18.9697 20.0303L20.0303 18.9697ZM4.75 15.767V19.5H6.25V15.767H4.75ZM5.5 20.25H9.233V18.75H5.5V20.25ZM6.03033 20.0303L11.0303 15.0303L9.96967 13.9697L4.96967 18.9697L6.03033 20.0303ZM15.767 6.25H19.5V4.75H15.767V6.25ZM18.75 5.5V9.233H20.25V5.5H18.75ZM18.9697 4.96967L13.9697 9.96967L15.0303 11.0303L20.0303 6.03033L18.9697 4.96967Z" fill=${color}/> </g>
                             </svg>`
                     
             }
@@ -1430,7 +1510,7 @@
                                 <div class="container-info-session">
                                     <div class="avatar-session">${this.#user.avatar}</div>
                                     <h2 class="p-xl p-bold" >${this.#user.nick}</h2>
-                                    <h3 class="p-m p-bold" >${this.#user.email}</h3>
+                                    <h4 class="p-m p-bold" >${this.#user.email}</h4>
                                 </div>
                             </div>`;
 
@@ -1580,7 +1660,7 @@
             const isPay= this.#game.esPago;
             const article = document.createElement("article");
             article.className=`card-${size} item-carousel-${size}`;
-            article.style.backgroundImage=`${this.#game.frontImg}`;
+            article.style.backgroundImage=`url(${this.#game.frontImg})`;
             article.style.backgroundSize='cover';
             article.style.backgroundPosition='center';
             article.id=`game-${this.#game.id}`;
@@ -1764,7 +1844,7 @@
             container.className="section-title";
             const title= `${Utils.unReplaceSpaces(this.#id)}`;
            
-            const template=`<h3 class="p-bold p-m">${Utils.capitalizeAndFormatter(title)}</h3>
+            const template=`<h4 class="p-bold p-m">${Utils.capitalizeAndFormatter(title)}</h4>
                             ${isPersonalizated ? `<button id="edit-section">Editar</button>`: `<a href='#${this.#id}' class="p-s">Ver más</a>`}
                             `;
 
@@ -1883,10 +1963,12 @@
     class SectionGame {
         #game;
         #user;          /*el obejto user deberia tener su arreglo de juegos jugados recientemente */
+        #multimedia;
 
         constructor(game,user){
             this.#game=game;
             this.#user=user;
+            this.#multimedia=new Multimedia(this.#game);
         }
 
 
@@ -1894,8 +1976,18 @@
             const container = document.createElement("div");
             container.id="game-eject";
 
+            container.appendChild(this.#getBreadcrum());
+            container.appendChild(this.#getShareSection());
+            container.appendChild(this.#getSectionGameExect());
+            container.appendChild(this.#getTextSection("Descripción",this.#game.descipcion));
+            container.appendChild(this.#getTextSection("Controles",this.#game.controles));
+            container.appendChild(this.#getMultimediaSection());
+            container.appendChild(this.#getCommentSection());
 
-
+            return container;
+        }
+        listenEvents(){
+            this.#multimedia.listenEvents();
         }
 
 
@@ -1906,11 +1998,11 @@
             const category = this.#game.categoria;
             const name= this.#game.titulo;
 
-            const template = `<h3 class="p-m">
-                                ${Utils.capitalizeFirst(sectionName)}<span> > </span> 
-                                ${Utils.capitalizeFirst(category)}<span> > </span>
-                                ${Utils.capitalizeFirst(name)}
-                            </h3>`;
+            const template = `<h4 class="p-m">
+                                ${Utils.capitalizeFirst(sectionName)}<span class="p-bold"> > </span> 
+                                ${Utils.capitalizeFirst(category)}<span class="p-bold"> > </span>
+                                ${Utils.capitalizeFirst(name)}.
+                            </h4>`;
             container.innerHTML=template;
             
             return container;
@@ -1918,7 +2010,7 @@
 
         #getShareSection(){
             const container = document.createElement("div");
-            container.class="container-share";
+            container.className="container-share";
 
             const template = `<h2>${Utils.capitalizeFirst(this.#game.titulo)}</h2>
                               <button id="btn-share" class="btn">${Utils.SVGTemplate( Utils.customSVG("SVG_SHARE",Constants.colors.white) )} Compartir</button>`;
@@ -1933,10 +2025,333 @@
             container.className="container-execution";
 
             const template = `<div class="execution-game">
+                                <div class="img-game"><img  src=${this.#game.frontImg} src="batman vs guason"></div>
+                                <button class="btn-play-game btn">Jugar ${Utils.SVGTemplate(Utils.customSVG("PLAY_GAME",Constants.colors.white))}</button>
+                                ${this.#getBarExect()}
+                            </div>`;
 
-                            </div>`
+            container.innerHTML=template;
+
+            return container;
         }
 
+        #getBarExect(){
+            const customLi = (content='',className='') =>{
+                return `<li class=${className}>
+                            ${content}
+                        </li>`
+            } 
+                            
+            const barContainer = `<div class="bar-game-exec">
+                                    <h2>${Utils.capitalizeFirst(this.#game.titulo)}</h2>
+                                    <ul>
+                                        ${customLi(`${Utils.SVGTemplate(Utils.customSVG("SVG_LIKE",Constants.colors.white),"btn-like-game")} ${this.#convertLikes()}`,"likes")}
+                                        ${customLi(Utils.SVGTemplate(Utils.customSVG("SVG_CTRL",Constants.colors.white),"controls"))}
+                                        ${customLi(Utils.SVGTemplate(Utils.customSVG("SVG_EXPAND",Constants.colors.white),"expand"))}
+                                    </ul>
+                                </div>`;
+
+            return barContainer;
+        }
+          
+        #getTextSection(title,content,className){
+            const container = document.createElement("section");
+            container.className=`text-section ${className}`;
+
+            const template = `<h3 class="p-l p-bold">${title}</h3>
+                                <p class="p-m"> ${content}</p>`
+
+            container.innerHTML=template;
+
+            return container;
+        }
+
+        #getMultimediaSection(){
+            const container = document.createElement("section");
+            const title = document.createElement("h3");
+            title.className=`p-l p-bold`;
+            title.innerText="Multimedia";
+            container.id="multimedia";
+            container.className="multimedia-section";
+
+            container.appendChild(title);
+            container.appendChild(this.#multimedia.getComponent());
+
+            return container;
+
+        }
+
+        #getCommentSection(){
+            const container = document.createElement("section");
+            container.className="section-comment";
+            
+            const template = `<h3 class="p-l p-bold">Dejanos tu comentario</h3>
+                              <div class="container-form-comment">
+                                    <form id="form-comment" action="">
+                                        <textarea placeholder="  Escribe un comentario" rows="5" maxlength="400"></textarea>
+                                        <button type="submit" class="btn" id="post-comment">Comentar</button>
+                                    </form>
+                              </div>`;
+            container.innerHTML=template;
+
+            return container;
+        }
+
+
+
+
+        #convertLikes(){
+            const isBig = this.#game.likes > 999;
+
+            if(isBig){
+                const likes= this.#game.likes/1000;
+                const format = Number.isInteger(likes) ? likes : likes.toFixed(1);
+                return `${format} MIL`;
+            }
+
+            return `${this.#game.likes}`;
+        }
+
+
+    }
+
+    class Multimedia{
+        #game;
+        #isRenderMain=false;
+
+        constructor(game){
+            this.#game=game;
+        }
+
+        getComponent(){
+            const container = document.createElement("div");
+            container.className="container-multimedia";
+            container.id=`container-media-${this.#game.id}`;
+
+
+            container.appendChild(this.#getMainMedia(this.#game.multimedia[0],0));
+            container.appendChild(this.#getCarouselMultimedia());
+
+            return container;
+        }
+
+        listenEvents(){
+            this.#handleScroll();
+            this.#handleHoverArrowsPrevNext();
+            this.#handleClickPlayVideo();
+            this.#handleClickCardCarrousel();
+        }
+
+        #getMainMedia(urlMedia,posInMediaList){
+            let main='';
+            const isVideo= urlMedia.slice(-4) == '.mp4';
+
+            if(!this.#isRenderMain){
+                main = document.createElement("div");
+                main.id=`reprod-container`;
+            }else{
+                main=document.querySelector("#reprod-container");
+            }
+            
+            
+            if(isVideo){
+                main.style.backgroundImage=`url(${this.#game.frontImg})`;
+                main.style.backgroundSize='cover';
+                main.style.backgroundPosition='center';
+                const btnPlay = `</div><button id="${posInMediaList}" class="btn btn-play-game btn-play-video">Reproducir ${Utils.SVGTemplate(Utils.customSVG("PLAY_GAME",Constants.colors.white))}</button>`;
+
+                main.innerHTML=btnPlay;
+            }else{
+                const container =document.createElement("div")
+                container.className="container-media-main";
+                const img = document.createElement("img");
+                img.src=`${urlMedia}`;
+
+                container.appendChild(img)
+
+                main.appendChild(container);
+            }
+
+            this.#isRenderMain=true;
+            
+            return main;
+        }
+
+        #getCarouselMultimedia(){
+            const container = document.createElement("div");
+            container.className="carousel-multimedia";
+            const btnPrev = this.#getDisplaceBtn("prev");
+            const btnNext = this.#getDisplaceBtn("next");
+            let pos =0;
+
+            container.appendChild(btnPrev);
+
+            this.#game.multimedia.forEach((urlMultimedia)=>{
+                
+                container.appendChild(this.#getCard(urlMultimedia,pos));
+                
+                pos++;
+            })
+
+            container.appendChild(btnNext);
+
+            return container;
+        }
+
+    
+        #getCard(urlMedia,index){
+            const isVideo= urlMedia.slice(-4) == '.mp4';
+           
+            return this.#getCardMultimedia(isVideo,index);
+            
+        }
+
+        #getCardMultimedia(isVideo, index){
+            const container = document.createElement("div");
+            container.className="card-carousel-media";
+            container.setAttribute("data-value",`${index}`);
+            let template ='';
+
+            if(isVideo){
+                container.style.backgroundImage=`url(${this.#game.frontImg})`;
+                container.style.backgroundSize='cover';
+                container.style.backgroundPosition='center';
+                container.classList.add("card-video");
+                template = `<button class="btn-play-game btn">${Utils.SVGTemplate(Utils.customSVG("PLAY_GAME",Constants.colors.white))}</button>`;
+            }else{
+                template = `<img src=${this.#game.multimedia[index]}>`;
+            }
+
+            container.innerHTML=template;
+
+            return container;
+        }
+
+        #getVideoPlayer(pos){
+            const urlVideo= this.#game.multimedia[pos];
+            const container = document.createElement("div");
+            const video= document.createElement("video");
+            container.className="container-media-main";
+            video.src=`${urlVideo}`;
+            video.controls=true;
+            video.play();
+            container.appendChild(video);
+
+            return container;
+        }
+
+
+        #getDisplaceBtn(type){
+            const container = document.createElement("button");
+            container.className =`btn-displace btn-${type}`;
+         
+            if(type=='prev'){
+                container.style.display="none";
+            }
+
+            const template = `${Utils.SVGTemplate( Utils.customSVG(`ARROW_${type.toUpperCase()}`,"transparent"))}`;
+
+            container.innerHTML=template;
+
+            return container;
+
+        }
+
+        #handleScroll(){
+            const carousel = document.querySelector(`.carousel-multimedia`);
+            const scrollAmount = carousel.offsetWidth * 0.95;
+            
+            document.querySelector(`.btn-next`).addEventListener("click", ()=> {
+                this.#displaceScrollPosition(scrollAmount); 
+            });
+         
+            document.querySelector(`.btn-prev`).addEventListener("click", ()=> {
+                this.#displaceScrollPosition(-scrollAmount); 
+            });
+
+            carousel.addEventListener("scroll", this.#dismountArrowsPrevNext); 
+        }
+
+        #dismountArrowsPrevNext = () => {
+            const carousel = document.querySelector(`.carousel-multimedia`);
+            const btnPrev = document.querySelector(`.btn-prev`);
+            const btnNext = document.querySelector(`.btn-next`);
+            const scrollEnd = carousel.scrollWidth - carousel.clientWidth;
+           
+            
+            if (carousel.scrollLeft <= 6) {
+                btnPrev.style.display="none";
+                
+            }else if(carousel.scrollLeft >= scrollEnd - 6){               
+                btnNext.style.display = "none"; 
+                
+            }else{
+                btnNext.style.display = "flex";
+                btnPrev.style.display = "flex"; 
+            }
+        };
+
+
+        #displaceScrollPosition(amount){
+            const carousel = document.querySelector(`.carousel-multimedia`);
+            carousel.scrollBy({
+              left: amount, 
+              behavior: "smooth" 
+            });
+        }
+
+        #handleHoverArrowsPrevNext(){
+            const next = document.querySelector(`.btn-next`);
+            const prev = document.querySelector(`.btn-prev`);
+        
+            const updateButtonIcon = (button, type, color) => {
+                button.innerHTML = Utils.SVGTemplate(Utils.customSVG(type, color));
+            };
+        
+            const addHoverEffect = (button, type) => {
+                button.addEventListener("mouseenter", () => updateButtonIcon(button, type, `${Constants.colors.white}`));
+                button.addEventListener("mouseleave", () => updateButtonIcon(button, type, "transparent"));
+            };
+        
+            addHoverEffect(next, "ARROW_NEXT");
+            addHoverEffect(prev, "ARROW_PREV");
+        }
+
+        #handleClickPlayVideo(){
+            const btn = document.querySelector(".btn-play-video");
+            const container = document.querySelector("#reprod-container");
+       
+            btn.addEventListener("click", (e)=>{
+                container.innerHTML='';
+                container.appendChild(this.#getVideoPlayer(e.target.id));
+            })
+            
+          
+        }
+
+        #handleClickCardCarrousel(){
+            const card = document.querySelectorAll(".card-carousel-media");
+            const container = document.querySelector("#reprod-container");
+            
+
+            card.forEach((c)=>{
+                c.addEventListener("click",(e)=>{
+                    const pos= e.currentTarget.dataset.value;
+                    const media = this.#game.multimedia[pos];
+                    const isVideo= media.slice(-4) == '.mp4';
+                    container.innerHTML=""
+
+                    if(isVideo){
+                        container.appendChild(this.#getVideoPlayer(pos));
+                    }else{
+                        this.#getMainMedia(media,pos);
+
+                    }
+                    
+                })
+            });
+            
+        }
 
     }
 
