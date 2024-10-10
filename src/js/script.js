@@ -741,8 +741,7 @@
         </svg>`,
         nombre:"juan",
         apellido:"fernandez",
-        nick:"player",
-        password:"1234",
+        nick:"juancito28673",
         fecha_nacimiento:"2005-07-10",
         email:"juanfer@gmail.com",
         password:1234
