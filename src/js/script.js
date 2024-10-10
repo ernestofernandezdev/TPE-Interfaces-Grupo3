@@ -1,12 +1,53 @@
 (function(){
 
     window.addEventListener("DOMContentLoaded", ()=>{
-        const home = new Home(player);                /*el home necesita saber si hay alguien logueado, si se inicializa sin parametros asumira que no hay logueados */
-        /*const home= new Home() */      /*para inicializar sin usuario logueado */
+        
+        console.log("se ejecuto");
+        showContent("inicio",player);
+        
     });
+  
 
-    const games=[{
-            id:"5",
+    function showContent(section,user=null) {
+        const root= document.querySelector("#root");
+        root.innerHTML=' ';
+
+        const header = new Header(user,root,section);
+        root.appendChild(header.getComponent());
+        header.listenEvents();
+        
+        if(section == "inicio"){
+            document.title="Inicio | FlamingGames";
+            const home = new Home(user);
+            root.appendChild(home.getComponent());
+            
+           
+            home.listenEvents();
+            
+        }else if(section == "game"){
+            document.title="Ver juego | FlamingGames";
+            /*new secciongame */
+            
+        }else if(section == "login"){
+            /*new login */
+            document.title="Log In | FlamingGames";
+            const login = new Login(player);    /*aca siempre debe pasarle player que es el simulado que llega de la DB */
+            root.appendChild(login.getComponent());
+            login.listenEvents();
+        }else if(section == "registro"){
+            document.title="Registro | FlamingGames";
+            const registro = new Registro(player);    /*aca siempre debe pasarle player que es el simulado que llega de la DB */
+            root.appendChild(registro.getComponent());
+            registro.listenEvents();
+        }else{
+            console.log("render error");
+        }
+    }
+
+
+    const games1=[
+        {
+            id:"1",
             titulo:"battle arena",
             frontImg:"url('static/assets/battle-arena.png')",
             categoria:"accion",
@@ -18,7 +59,31 @@
             esPago:true
         },
         {
-            id:"6",
+            id:"20",
+            titulo:"4 en linea: batman vs. guasón",
+            frontImg:"url('static/assets/4-linea.png')",
+            categoria:"puzzle",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"3",
+            titulo:"sniper mission",
+            frontImg:"url('static/assets/sniper-mission.png')",
+            categoria:"disparos",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:25000.30,
+            esPago:true
+        },
+        {
+            id:"2",
             titulo:"bank robbery escape",
             frontImg:"url('static/assets/robbery.png')",
             categoria:"escape",
@@ -30,19 +95,7 @@
             esPago:false
         },
         {
-            id:"7",
-            titulo:"sniper mission",
-            frontImg:"url('static/assets/sniper-mission.png')",
-            categoria:"disparos",
-            multimedia:[null,null],
-            descipcion:"es un asjkdha",
-            controles:"askdfjlasd",
-            comentarios:["obj1","obj2"],
-            precio:25000.30,
-            esPago:true
-        },
-        {
-            id:"8",
+            id:"4",
             titulo:"downtown 1930s mafia",
             frontImg:"url('static/assets/downtown.png')",
             categoria:"disparos",
@@ -54,7 +107,7 @@
             esPago:false
         },
         {
-            id:"9",
+            id:"5",
             titulo:"table tennis world tour",
             frontImg:"url('static/assets/table-tennis.png')",
             categoria:"deportes",
@@ -66,7 +119,7 @@
             esPago:false
         },
         {
-            id:"10",
+            id:"6",
             titulo:"xtreme moto mayhem",
             frontImg:"url('static/assets/xtreme-moto.png')",
             categoria:"motos",
@@ -78,7 +131,7 @@
             esPago:true
         },
         {
-            id:"11",
+            id:"7",
             titulo:"8 balls billard classic",
             frontImg:"url('static/assets/8-ball.png')",
             categoria:"billar",
@@ -90,7 +143,7 @@
             esPago:false
         },
         {
-            id:"12",
+            id:"8",
             titulo:"skydom",
             frontImg:"url('static/assets/skydom.png')",
             categoria:"casino",
@@ -102,7 +155,7 @@
             esPago:false
         },
         {
-            id:"13",
+            id:"9",
             titulo:"bullet force",
             frontImg:"url('static/assets/bullet-force.png')",
             categoria:"disparos",
@@ -114,7 +167,7 @@
             esPago:true
         },
         {
-            id:"14",
+            id:"10",
             titulo:"sniper mission",
             frontImg:"url('static/assets/sniper-mission.png')",
             categoria:"disparos",
@@ -126,7 +179,7 @@
             esPago:true
         },
         {
-            id:"15",
+            id:"11",
             titulo:"cube stories escape",
             frontImg:"url('static/assets/cube-stories-escape.png')",
             categoria:"escape",
@@ -138,7 +191,7 @@
             esPago:true
         },
         {
-            id:"16",
+            id:"12",
             titulo:"elemental merge",
             frontImg:"url('static/assets/elemental-merge.png')",
             categoria:"accion",
@@ -150,7 +203,7 @@
             esPago:false
         },
         {
-            id:"17",
+            id:"13",
             titulo:"mr racer car racing",
             frontImg:"url('static/assets/racer.png')",
             categoria:"coches",
@@ -162,7 +215,7 @@
             esPago:true
         },
         {
-            id:"18",
+            id:"14",
             titulo:"bloxd.io",
             frontImg:"url('static/assets/bloxd.png')",
             categoria:".io",
@@ -173,20 +226,71 @@
             precio:null,
             esPago:false
         },
+    ]
+    const games2=[
         {
-            id:"19",
-            titulo:"basketball stars",
-            frontImg:"url('static/assets/basketball-stars.png')",
-            categoria:"basquet",
+            id:"30",
+            titulo:"shell shockers",
+            frontImg:"url('static/assets/shell.png')",
+            categoria:"disparos",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
             controles:"askdfjlasd",
             comentarios:["obj1","obj2"],
-            precio:30900.00,
-            esPago:true
+            precio:null,
+            esPago:false
         },
         {
-            id:"20",
+            id:"49",
+            titulo:"racing limits",
+            frontImg:"url('static/assets/racing.png')",
+            categoria:"coches",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"36",
+            titulo:"bloc ops",
+            frontImg:"url('static/assets/blocops.png')",
+            categoria:"disparos",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"47",
+            titulo:"our lotto",
+            frontImg:"url('static/assets/bingo.png')",
+            categoria:"casino",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+
+        },
+        {
+            id:"48",
+            titulo:"penalty shooters 2",
+            frontImg:"url('static/assets/penalty.png')",
+            categoria:"futbol",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"16",
             titulo:"3d bowling",
             frontImg:"url('static/assets/bowling.png')",
             categoria:"deportes",
@@ -196,31 +300,9 @@
             comentarios:["obj1","obj2"],
             precio:null,
             esPago:false
-        },{
-            id:"21",
-            titulo:"kour.io",
-            frontImg:"url('static/assets/kour.png')",
-            categoria:".io",
-            multimedia:[null,null],
-            descipcion:"es un asjkdha",
-            controles:"askdfjlasd",
-            comentarios:["obj1","obj2"],
-            precio:12300.70,
-            esPago:true
-        },{
-            id:"22",
-            titulo:"tower swap match 3 tower defense",
-            frontImg:"url('static/assets/tower-swap.png')",
-            categoria:"accion",
-            multimedia:[null,null],
-            descipcion:"es un asjkdha",
-            controles:"askdfjlasd",
-            comentarios:["obj1","obj2"],
-            precio:20000.50,
-            esPago:true
         },
         {
-            id:"23",
+            id:"19",
             titulo:"bloons td 4",
             frontImg:"url('static/assets/bloons.png')",
             categoria:"disparos",
@@ -232,9 +314,9 @@
             esPago:false
         },
         {
-            id:"24",
-            titulo:"4 en linea: batman vs. guasón",
-            frontImg:"url('static/assets/4-linea.png')",
+            id:"23",
+            titulo:"doodle road",
+            frontImg:"url('static/assets/doodle.png')",
             categoria:"puzzle",
             multimedia:[null,null],
             descipcion:"es un asjkdha",
@@ -242,7 +324,413 @@
             comentarios:["obj1","obj2"],
             precio:null,
             esPago:false
-        }
+        },
+        {
+            id:"24",
+            titulo:"carball.io",
+            frontImg:"url('static/assets/carball.png')",
+            categoria:"deportes",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"24",
+            titulo:"archer ragdoll masters",
+            frontImg:"url('static/assets/archer.png')",
+            categoria:"disparos",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"25",
+            titulo:"spiderdoll",
+            frontImg:"url('static/assets/spider.png')",
+            categoria:"escape",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"26",
+            titulo:"zombie defense",
+            frontImg:"url('static/assets/zombie.png')",
+            categoria:"accion",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"46",
+            titulo:"monstrella fantasy makeup",
+            frontImg:"url('static/assets/monst.png')",
+            categoria:"belleza",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"44",
+            titulo:"krampus: the devil",
+            frontImg:"url('static/assets/krampus.png')",
+            categoria:"terror",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"45",
+            titulo:"lines",
+            frontImg:"url('static/assets/lines.png')",
+            categoria:"puzzle",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+       
+
+    ]
+    const games3=[
+        {
+            id:"15",
+            titulo:"basketball stars",
+            frontImg:"url('static/assets/basketball-stars.png')",
+            categoria:"basquet",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:30900.00,
+            esPago:true
+        },
+        {
+            id:"18",
+            titulo:"tower swap match 3 tower defense",
+            frontImg:"url('static/assets/tower-swap.png')",
+            categoria:"accion",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:20000.50,
+            esPago:true
+        },
+        {
+            id:"17",
+            titulo:"kour.io",
+            frontImg:"url('static/assets/kour.png')",
+            categoria:".io",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:12300.70,
+            esPago:true
+        },
+        {
+            id:"31",
+            titulo:"age of tanks",
+            frontImg:"url('static/assets/age-of-tanks.png')",
+            categoria:"accion",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"32",
+            titulo:"mahjongg solitaire",
+            frontImg:"url('static/assets/mahjongg.png')",
+            categoria:"puzzle",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"34",
+            titulo:"8 ball pool billiards",
+            frontImg:"url('static/assets/8-ball-pool.png')",
+            categoria:"billar",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:5800.70,
+            esPago:true
+            
+        },
+        {
+            id:"35",
+            titulo:"asmr beauty homeless",
+            frontImg:"url('static/assets/asmr.png')",
+            categoria:"belleza",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+
+        {
+            id:"37",
+            titulo:"dead shot",
+            frontImg:"url('static/assets/dead-shot.png')",
+            categoria:"disparos",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"39",
+            titulo:"solitaire",
+            frontImg:"url('static/assets/soli.png')",
+            categoria:"puzzle",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"40",
+            titulo:"darts club",
+            frontImg:"url('static/assets/darts.png')",
+            categoria:"casino",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"41",
+            titulo:"gym simulator",
+            frontImg:"url('static/assets/gym.png')",
+            categoria:"belleza",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"42",
+            titulo:"hazmob fpb",
+            frontImg:"url('static/assets/hazmob.png')",
+            categoria:"disparos",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"43",
+            titulo:"kiomet",
+            frontImg:"url('static/assets/kiomet.png')",
+            categoria:"accion",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"50",
+            titulo:"seeing things",
+            frontImg:"url('static/assets/seein.png')",
+            categoria:"terror",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"51",
+            titulo:"smash karts",
+            frontImg:"url('static/assets/smash.png')",
+            categoria:"coches",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"52",
+            titulo:"soocer clicker",
+            frontImg:"url('static/assets/soccer.png')",
+            categoria:"futbol",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"53",
+            titulo:"squarun",
+            frontImg:"url('static/assets/squarun.png')",
+            categoria:"puzzle",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"54",
+            titulo:"street life",
+            frontImg:"url('static/assets/street.png')",
+            categoria:"accion",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"55",
+            titulo:"super bike the champions: race and driver motorbike",
+            frontImg:"url('static/assets/moto.png')",
+            categoria:"motos",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+    ]
+
+    const games4=[
+        {
+            id:"27",
+            titulo:"build & crush",
+            frontImg:"url('static/assets/build.png')",
+            categoria:"accion",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"38",
+            titulo:"CGFC 24",
+            frontImg:"url('static/assets/fc.png')",
+            categoria:"futbol",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"33",
+            titulo:"evowards: new era",
+            frontImg:"url('static/assets/evowards.png')",
+            categoria:"terror",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:15700.50,
+            esPago:true
+        },
+        {
+            id:"28",
+            titulo:"voxiom: build-craft-shoot",
+            frontImg:"url('static/assets/voxiom.png')",
+            categoria:"minecraft",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:10500.90,
+            esPago:true
+        },
+        {
+            id:"22",
+            titulo:"mini golf club",
+            frontImg:"url('static/assets/mini-golf.png')",
+            categoria:"deportes",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"21",
+            titulo:"mighty action heroes",
+            frontImg:"url('static/assets/mighty-heroes.png')",
+            categoria:"accion",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+        {
+            id:"29",
+            titulo:"cubes 2048.io",
+            frontImg:"url('static/assets/cube.png')",
+            categoria:".io",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false
+        },
+
     ]
 
     const player={
@@ -256,7 +744,8 @@
         nick:"player",
         password:"1234",
         fecha_nacimiento:"2005-07-10",
-        email:"juanfer@gmail.com"
+        email:"juanfer@gmail.com",
+        password:1234
     }
 
 
@@ -563,6 +1052,12 @@
                             <g id="SVGRepo_bgCarrier" stroke-width="0"/>
                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
                             <g id="SVGRepo_iconCarrier"> <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill=${color}/> </g>
+                            </svg>`,
+
+                SVG_SHARE:`<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke=${color}>
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                            <g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M16.5 2.25C14.7051 2.25 13.25 3.70507 13.25 5.5C13.25 5.69591 13.2673 5.88776 13.3006 6.07412L8.56991 9.38558C8.54587 9.4024 8.52312 9.42038 8.50168 9.43939C7.94993 9.00747 7.25503 8.75 6.5 8.75C4.70507 8.75 3.25 10.2051 3.25 12C3.25 13.7949 4.70507 15.25 6.5 15.25C7.25503 15.25 7.94993 14.9925 8.50168 14.5606C8.52312 14.5796 8.54587 14.5976 8.56991 14.6144L13.3006 17.9259C13.2673 18.1122 13.25 18.3041 13.25 18.5C13.25 20.2949 14.7051 21.75 16.5 21.75C18.2949 21.75 19.75 20.2949 19.75 18.5C19.75 16.7051 18.2949 15.25 16.5 15.25C15.4472 15.25 14.5113 15.7506 13.9174 16.5267L9.43806 13.3911C9.63809 12.9694 9.75 12.4978 9.75 12C9.75 11.5022 9.63809 11.0306 9.43806 10.6089L13.9174 7.4733C14.5113 8.24942 15.4472 8.75 16.5 8.75C18.2949 8.75 19.75 7.29493 19.75 5.5C19.75 3.70507 18.2949 2.25 16.5 2.25ZM14.75 5.5C14.75 4.5335 15.5335 3.75 16.5 3.75C17.4665 3.75 18.25 4.5335 18.25 5.5C18.25 6.4665 17.4665 7.25 16.5 7.25C15.5335 7.25 14.75 6.4665 14.75 5.5ZM6.5 10.25C5.5335 10.25 4.75 11.0335 4.75 12C4.75 12.9665 5.5335 13.75 6.5 13.75C7.4665 13.75 8.25 12.9665 8.25 12C8.25 11.0335 7.4665 10.25 6.5 10.25ZM16.5 16.75C15.5335 16.75 14.75 17.5335 14.75 18.5C14.75 19.4665 15.5335 20.25 16.5 20.25C17.4665 20.25 18.25 19.4665 18.25 18.5C18.25 17.5335 17.4665 16.75 16.5 16.75Z" fill=${color}/> </g>
                             </svg>`
                     
             }
@@ -572,14 +1067,17 @@
         }
 
         static capitalizeAndFormatter = (str)=>{
-            if(!str) return '';
-            let text = str.charAt(0).toUpperCase()+str.slice(1).toLowerCase();
+           let text = this.capitalizeFirst(str);
 
-            if (text.length > 40) {
-                return text.slice(0, 37) + '...'; 
+            if (text.length > 35) {
+                return text.slice(0, 32) + '...'; 
             }
             return text; 
          
+        }
+        static capitalizeFirst = (str) =>{
+            if(!str) return '';
+            return str.charAt(0).toUpperCase()+str.slice(1).toLowerCase();
         }
 
         static replaceSpaces = (str) =>{
@@ -599,12 +1097,16 @@
         #userLogin;
         #sessionCard;
         #scrollPositionSidebar;
-        #parentElement
+        #parentElement;
+        #sectionActive;
        
-        constructor(userLogin,parentElement){
+        constructor(userLogin,parentElement,sectionActive){
             this.#userLogin=userLogin;
             this.#sessionCard=new SessionCard(userLogin);
             this.#parentElement=parentElement;
+            this.#sectionActive=sectionActive;
+
+           
         }
     
         getComponent(){
@@ -624,29 +1126,29 @@
         }
         
         listenEvents(){
-            this.#handleSession();
-            this.#handleHamburMenu();
+            this.#handleClickAvatar();
+            this.#handleClickHamburMenu();
             
         }
     
         /*esto se ejecuta 1 sola vez cuando lo invoca la pagina que quiere cargar/hacer uso de un header*/
-        #handleSession(){
+        #handleClickAvatar(){
             const avatar = document.querySelector(".avatar-login");
           
             if(!this.#userLogin){
                 avatar.addEventListener("click", ()=>{
-                    console.log("/////////////////////RENDERIZADO SECCION DE INICIO DE SESION////////////////");
+                    showContent("login",null);
                     
                 })
 
                 return
             }
 
-            this.#handleSessionCard(avatar);
+            this.#handleClickSessionCard(avatar);
     
         }
 
-        #handleSessionCard(clickElement){
+        #handleClickSessionCard(clickElement){
             let isFirstOpen = true;
             const navbarList= document.querySelector(".navbar-list");
             const profileCard= this.#sessionCard.getComponent();
@@ -671,10 +1173,12 @@
 
         }
 
-        #handleHamburMenu(){
+        #handleClickHamburMenu(){
             let isRender=false;
             const hambur = document.querySelector(".hambur-menu");
-            const sidebarObj = new SidebarCategory(Constants.categories);
+            const sidebarObj = new SidebarCategory(Constants.categories,this.#sectionActive);
+            
+            
 
             hambur.addEventListener("click", ()=>{
 
@@ -686,7 +1190,7 @@
                 }else{
                     this.#parentElement.appendChild(sidebarObj.getComponent());
 
-                    this.#savedStateSidebar();
+                    this.#savePositionScrollSidebar();
                     sidebarObj.listenEvents(this.#scrollPositionSidebar);
 
                     isRender=true;
@@ -699,7 +1203,7 @@
 
         //esta funcion se encarga de guardar en un atributo de clase la posicion en la que el usuario deja el scroll de la sidebar antes de hacer click en el menu
         //hamburguesa para ocultar el menu de categorias
-        #savedStateSidebar(){
+        #savePositionScrollSidebar(){
             const sidebarElement = document.querySelector(".sidebar-categories");
 
             sidebarElement.addEventListener("scroll", () => {
@@ -715,10 +1219,12 @@
         #categoriesList; /*esto deberian ser objetos que contengan nombre de la categoria y el emoji apropiado */
         #scrollPosition=0;
         #activeCateg=null;
+        #sectionActive;
 
-        constructor(categoriesList){
-            this.#categoriesList = categoriesList;
-          
+        constructor(categoriesList,sectionActive){
+            this.#categoriesList= categoriesList;
+            this.#sectionActive= sectionActive;
+
         }
 
 
@@ -731,7 +1237,7 @@
             //por cada elemento en la lista creo un div (category-item) y se lo agrego/apendo al sidebar
             
             this.#categoriesList.forEach(categ => {
-                sidebar.appendChild( this.#createCategoryItemComponent(categ) );
+                sidebar.appendChild( this.#getCategoryItem(categ) );
             });
            
             sidebar.insertBefore(hr,sidebar.children[4]);
@@ -755,11 +1261,11 @@
         }
 
         //crea el contenedor de cada categoria solo con el icono y le asigna los eventos para que al ser clickeado pueda ser identificado con data-value
-        #createCategoryItemComponent(categoryObj){
+        #getCategoryItem(categoryObj){
             const catContainer= document.createElement("a");
             
             catContainer.className=`category-item c-${Utils.replaceSpaces(categoryObj.name)} ${
-                this.#activeCateg === null && categoryObj.name === "inicio" ? "c-active":
+                this.#activeCateg === null && categoryObj.name === this.#sectionActive ? "c-active":
                 categoryObj.name == this.#activeCateg ? "c-active":''}`;
                 
             catContainer.href=`#${Utils.replaceSpaces(categoryObj.name)}`;
@@ -780,7 +1286,7 @@
         }
 
         //crea un componente <p> personalizando clase y contenido para el nombre de las categorias
-        #createCategoryNameComponent(classname, content){
+        #getCategoryName(classname, content){
             const p = document.createElement("p");
             p.className=classname;
             p.innerText=content;
@@ -806,7 +1312,7 @@
                 // Verifica si los enlaces ya fueron creados
                 if (!linksCreated) {
                     this.#categoriesList.forEach((categ) => {
-                        const p = this.#createCategoryNameComponent(`category p-m p-bold `,`${Utils.capitalizeAndFormatter(categ.name)}`,`${Utils.replaceSpaces(categ.name)}`);
+                        const p = this.#getCategoryName(`category p-m p-bold `,`${Utils.capitalizeAndFormatter(categ.name)}`,`${Utils.replaceSpaces(categ.name)}`);
                       
                         
                         allCategories[pos].appendChild(p);
@@ -814,7 +1320,7 @@
 
                     });
                  
-                    const showAllCateg = this.#createCategoryNameComponent(`category show-all-categories p-s p-bold`,"Ver todas las categorias");
+                    const showAllCateg = this.#getCategoryName(`category show-all-categories p-s p-bold`,"Ver todas las categorias");
                     
                     sidebar.appendChild(showAllCateg);
                    
@@ -854,13 +1360,22 @@
         #handleClickCategory(element){
             const hrefValue= element.getAttribute("href");
             const active = document.querySelector(".c-active");
+            const displaceSection= document.querySelector(`${hrefValue}`);
+            if(active){
+                active.classList.remove("c-active");
+            }
 
-            active.classList.remove("c-active");
             this.#activeCateg=Utils.unReplaceSpaces(hrefValue.slice(1));
 
             element.classList.add("c-active");
-
-            console.log("clickeaste en: "+hrefValue);
+            
+            if(displaceSection){
+                displaceSection.scrollIntoView({ behavior: "smooth" });
+            }else if (hrefValue == "#inicio"){
+                showContent("inicio");
+            }else{
+                console.log("clickeaste en seccion: "+hrefValue);
+            }
            
         }
 
@@ -870,12 +1385,18 @@
     //este controla los eventos de la tarjeta, no los del avatar (porque avatar es del header)
     //aca ya asumis que el usuario esta logueado. no hace falta controlar la sesion
     class SessionCard {
+        static singleton = null;
         #user;
         #profileCard;
        
 
         constructor(user){
+            if(SessionCard.singleton){
+                return SessionCard.singleton;
+            }
             this.#user=user;
+
+            SessionCard.singleton=this;
         }
 
         getComponent(){
@@ -885,9 +1406,9 @@
             const template = `
                             <div class="container-session">
                               <div class="btn-close-info">${Utils.customSVG("SVG_CLOSE",Constants.colors.white)}</div>
-                              ${this.#getUserDetailTemplate()}
-                              ${this.#getConfigListTemplate()}
-                              ${this.#getSocialTemplate()}
+                              ${this.#getUserDetail()}
+                              ${this.#getConfigList()}
+                              ${this.#getSocial()}
                             </div>`;
 
             card.innerHTML=template;
@@ -897,19 +1418,20 @@
         }
 
         listenEvents(){
-            this.#handleRemoveCard();
-            this.#handleLogOut();
+            this.#handleClickBtnClose();
+            this.#handleClickLogOut();
+           
         }
 
         handleClickWindow(profileCard) {
             this.#profileCard = profileCard;
             const overlay = document.getElementById("overlay");
         
-            overlay.addEventListener("click", (e) => this.#handleWindow(e));
+            overlay.addEventListener("click", (e) => this.#handleClickRemoveOverlay(e));
         }
 
 
-        #getUserDetailTemplate(){
+        #getUserDetail(){
             const userDetailTemplate = `
                             <div class="user-info-card" >
                                 <div class="container-info-session">
@@ -922,30 +1444,30 @@
             return userDetailTemplate;  
         }
 
-        #getConfigListTemplate(){
+        #getConfigList(){
             
-            const itemList = (svg_name, textContent, customClass = null ) => (
+            const itemList = (svg_name, textContent, customClass) => (
                 `<li class="item-config p-m p-bold">
                     <div class="svg-config-item"> 
                         ${Utils.customSVG(svg_name ,Constants.colors.primary)} 
                     </div>
-                    ${Utils.LinksTemplate(textContent, customClass)}
+                    ${Utils.LinksTemplate(textContent,customClass)}
                 </li>`);
            
             const configListTemplate = `
                             <div class="container-session-config">
                               <ul class="list-config">
-                                ${itemList("SVG_PROFILE","Mi perfil")}
-                                ${itemList("SVG_EDIT","Editar perfil")}
-                                ${itemList("SVG_CONFIG","Configuración de la cuenta")}
-                                ${itemList("SVG_LOGOUT","Cerrar sesión", "log-out")}
+                                ${itemList("SVG_PROFILE","Mi perfil","my-profile")}
+                                ${itemList("SVG_EDIT","Editar perfil","edit-profile")}
+                                ${itemList("SVG_CONFIG","Configuración de la cuenta","config-account")}
+                                ${itemList("SVG_LOGOUT","Cerrar sesión","log-out")}
                               </ul>
                             </div>`;
            
             return configListTemplate;        
         }
 
-        #getSocialTemplate(){
+        #getSocial(){
             const svgContainer = (svg_name)=>(`<div class="sm-social-item">${Utils.customSVG(svg_name,Constants.colors.white)} </div>`)
 
             const socialTemplate =
@@ -961,7 +1483,7 @@
         }
 
        
-        #handleRemoveCard(){
+        #handleClickBtnClose(){
             const btn = document.querySelector(".btn-close-info");
          
             
@@ -974,166 +1496,67 @@
            
         }
 
-        #handleWindow = (e) => {
+        #handleClickRemoveOverlay = (e) => {
             if (!this.#profileCard || !this.#profileCard.contains(e.target)) {
                 const overlay = document.getElementById("overlay");
                 if (overlay) {
                     this.#profileCard.remove();
                     overlay.remove();
-                    overlay.removeEventListener('click', this.#handleWindow);
+                    overlay.removeEventListener('click', this.#handleClickRemoveOverlay);
                 }
             }
         };
 
-        #handleLogOut() {
-            document.querySelector(".log-out").addEventListener("click", () => {
-                Constants.root.innerHTML = "";
-                const login = new Login();
+        #handleClickLogOut(){
+            document.querySelector(".log-out").addEventListener("click", e => {
+                showContent("login");
             })
         }
-    }
-
-    class LoginForm {
-        
-        constructor() {
-            
-        }
-
-        getComponent() {
-            let container = document.createElement("div");
-            container.id="log-in-form";
-            container.innerHTML = `<h2>Iniciar sesion en <span class="flaming">Flaming</span><span class="games">Games</span></h2>
-            <form action="">
-                <input type="text" name="user" id="user" placeholder="Usuario" class="form-field">
-                <div class="wrong-user-message p-s hidden">El usuario ingresado no existe</div>
-                <input type="password" name="password" id="password" placeholder="Contraseña" class="form-field">
-                <div class="wrong-password-message p-s hidden">La contraseña es incorrecta</div>
-                <input type="submit" value="Iniciar sesión" class="primary-btn">
-            </form>\
-            <p><a class="p-s texto-link" href="#">Recuperar contraseña</a></p>
-            <p class="p-s">¿No tienes una cuenta? <a href="" class="texto-link registrarse">Registrate</a></p>
-            <hr>\
-            <button class="google-btn"><img src="static/favicon/google-icon.png"><span>Iniciar sesión con Google</span></button>
-            <button class="facebook-btn"><span>${Utils.customSVG("FACEBOOK", Constants.colors.white)}</span><span>Continuar con Facebook</span></button>`;
-            
-            return container;
-        }
-
-        listenEvents() {
-            this.#handleLogIn();
-            this.#handleRegistrarseButton();
-        }
-
-        #handleLogIn() {
-            const form = document.querySelector("#log-in-form form");
-            form.addEventListener("submit", e => {
-                e.preventDefault();
-                document.querySelectorAll(".form-field").forEach(e => {
-                    e.classList.remove("bad-input");
-                    e.nextElementSibling.classList.add("hidden");
-                })
-                
-                let formData = new FormData(form);
-                if (formData.get("user") != player.nick) {
-                    const user = document.querySelector("#user");
-                    user.classList.add("bad-input");
-                    user.nextElementSibling.classList.remove("hidden");
-                    return;
-                }
-                if (formData.get("password") != player.password) {
-                    const password = document.querySelector("#password");
-                    password.classList.add("bad-input");
-                    password.nextElementSibling.classList.remove("hidden");
-                    return;
-                }
-                Constants.root.innerHTML = "";
-                let home = new Home(player);
-            })
-        }
-
-        #handleRegistrarseButton() {
-            const btn = document.querySelector(".registrarse");
-            btn.addEventListener("click", e => {
-                e.preventDefault();
-
-
-            })
-        }
-
-    }
-
-    class Login {
-        #rootElement;
-        #header;
-        #loginForm
-
-        #user;
-
-        constructor(user = null){
-            this.#rootElement = Constants.root;
-            this.#user=user;
-            this.#header=new Header(user,this.#rootElement);
-            this.#loginForm = new LoginForm();
-
-            this.#rootElement.appendChild(this.#header.getComponent());
-            this.#rootElement.appendChild(this.getComponent());
-
-            this.listenEvents();
-        }
-       
-
-        getComponent(){
-            let container = document.createElement("div");
-            container.id="log-in";
-            container.appendChild(this.#loginForm.getComponent())
-            
-            return container;
-        }
-
-        listenEvents(){
-            this.#header.listenEvents();
-            this.#loginForm.listenEvents();
-        }
-
     }
 
 
 
 
     class Home {
-        #rootElement;
-        #header;
-        #content;
-
         #user;
+        #content=[];
 
         constructor(user = null){
-            this.#rootElement = Constants.root;
             this.#user=user;
-            this.#header=new Header(user,this.#rootElement);
-            this.#content=new Carousel(games);
-
-            this.#rootElement.appendChild(this.#header.getComponent());
-            this.#rootElement.appendChild(this.getComponent());
-
-            this.listenEvents();
+            this.#content.push(new Carousel(games1,this.#user));
+            this.#content.push(new Carousel(games2,this.#user));
+            this.#content.push(new Carousel(games3,this.#user));
+            this.#content.push(new Carousel(games4,this.#user));
         }
        
 
         getComponent(){
             let container = document.createElement("div");
             container.id="inicio";
-            container.appendChild(this.#content.getComponent("top gratis","s"))
+
+            this.#renderAllCarousel(container);
          
-            
-            
             return container;
         }
 
         listenEvents(){
-            this.#header.listenEvents();
-            this.#content.listenEvents();
+            
+            this.#content.forEach((carousel)=>{
+                carousel.listenEvents();
+            })
           
+        }
+
+        #renderAllCarousel(container){
+            let sizes=["xl","s","s","m"]
+            let sectionUser= this.#user != null ? "continuar jugando": "nuevos";
+            let categories=["mejor valoración",`${sectionUser}`,"top jugados de la semana","tendencias"];
+            let pos=0;
+
+            this.#content.forEach((carousel)=>{
+                container.appendChild(carousel.getComponent(categories[pos],sizes[pos]));
+                pos++
+            })
         }
 
 
@@ -1143,62 +1566,68 @@
     class Card{
         #game;
         #inCart;
+        #size;
+        #user;
 
-        constructor(game){
+        constructor(game,user){
             this.#game=game;
             this.#inCart=false;
+            this.#user=user;
         }
 
-        getComponent(size){return this.#createCustomArticle(size)}
+        getComponent(size){return this.#getArticle(size)}
 
         listenEvents(){
             this.#handleMouseEnterLeave();
         }
 
 
-        #createCustomArticle(size){
+        #getArticle(size){
+            this.#size=size;
             const isPay= this.#game.esPago;
             const article = document.createElement("article");
-            article.className=`card-${size} item-carousel`;
+            article.className=`card-${size} item-carousel-${size}`;
             article.style.backgroundImage=`${this.#game.frontImg}`;
             article.style.backgroundSize='cover';
             article.style.backgroundPosition='center';
             article.id=`game-${this.#game.id}`;
            
             
-            const template = `${isPay ? this.#renderPrice():''}`;
+            const template = `${isPay ? this.#getPrice():''}`;
             
             article.innerHTML=template;
 
             return article;
         }
 
-        #renderPrice(){
+        #getPrice(){
             const priceTemplate = `<div class="price">
-                                ${Utils.SVGTemplate(Utils.customSVG("SVG_PRICE","#FAFAFA"))}
+                                ${Utils.SVGTemplate(Utils.customSVG("SVG_PRICE",`${Constants.colors.white}`))}
                                 ${this.#priceStyle(this.#game.precio)}
                               </div>`;
 
             return priceTemplate;
         }
 
-        #renderDetails(){
+        #getArticleDetails(){
             //ocupa todo el tamaño de la card 
+            const isSmall= this.#size == 's';
+
             const detailsTemplate = `<div class="container-game-details" id="link-${this.#game.id}">
-            <h2 class="game-title p-xl p-bold">${Utils.capitalizeAndFormatter(this.#game.titulo)}</h2>
-            ${this.#renderCardButton()}</div>`;
+            <h2 class="game-title p-xl p-bold">${isSmall? Utils.capitalizeAndFormatter(this.#game.titulo) : Utils.capitalizeFirst(this.#game.titulo)}</h2>
+            ${this.#getCartButtons()}</div>`;
 
             return detailsTemplate;
         }
 
-        #renderCardButton(){
+        #getCartButtons(){
             const isPay=this.#game.esPago;
 
             const templateButton = `${isPay && !this.#inCart ? 
-                Utils.customButton("btn-add-cart btn-card", `Al carrito ${ Utils.SVGTemplate( Utils.customSVG("ADD_CART","#FAFAFA") )}`, `btn-${this.#game.id}`) :
+                Utils.customButton("btn-add-cart btn btn-card", `Al carrito ${ Utils.SVGTemplate( Utils.customSVG("ADD_CART",`${Constants.colors.white}`) )}`, `btn-${this.#game.id}`) :
                 this.#inCart ? 
-                Utils.customButton("btn-in-cart btn-card", `En el carrito ${ Utils.SVGTemplate( Utils.customSVG("IN_CART","#FAFAFA"))}`, `btn-${this.#game.id}`) :
-                Utils.customButton("btn-play-game btn-card", `<span class="p-bold" >Jugar</span> ${ Utils.SVGTemplate( Utils.customSVG("PLAY_GAME","#FAFAFA"))}`, `btn-${this.#game.id}`)
+                Utils.customButton("btn-in-cart btn btn-card", `En el carrito ${ Utils.SVGTemplate( Utils.customSVG("IN_CART",`${Constants.colors.white}`))}`, `btn-${this.#game.id}`) :
+                Utils.customButton("btn-play-game btn btn-card", `<span class="p-bold" >Jugar</span> ${ Utils.SVGTemplate( Utils.customSVG("PLAY_GAME",`${Constants.colors.white}`))}`, `btn-${this.#game.id}`)
             }`
 
             
@@ -1238,11 +1667,12 @@
             art.addEventListener("mouseenter", (e)=>{  
                 if (!isDetailsRendered) { 
                     const element = document.querySelector(`#${e.target.id}`);
-                    element.innerHTML += this.#renderDetails();
+                    element.innerHTML += this.#getArticleDetails();
                         
                     isDetailsRendered = true; 
-                        
-                    this.#handleClickButtonCard();
+                    
+                    
+                    this.#handleClickButton();
                 }
                     
             })
@@ -1259,28 +1689,37 @@
 
         }
 
-        #handleClickButtonCard(){
+        #handleClickButton(){
             const button = document.getElementById(`btn-${this.#game.id.toString()}`);  
             const isPay= button.classList.contains("btn-add-cart") || button.classList.contains("btn-in-cart");                         
 
-            button.addEventListener("click", (e)=> {
-            
-                isPay ? this.#renderStateCart(button) : console.log("CLICK EN JUGAR ");
-               
+           
+            button.addEventListener("click", e=> {
+                let isMyGame = this.#game.id == "20";
+                if(isPay){
+                    this.#toggleStateCart(button)
+                }else if(isMyGame){
+                    console.log("GUASONN");
+                    // showContent(`game/${this.#game.id}`);
+                    showContent("game",this.#user);
+                    
+                }else{
+                    console.log("CLICK EN JUGAR ");
+                }
             })
             
         }
 
-        #renderStateCart(btn){
+        #toggleStateCart(btn){
             this.#inCart=!this.#inCart;
             btn.classList.toggle("btn-add-cart");
             btn.classList.toggle("btn-in-cart");
             btn.innerHTML='';
 
             if(this.#inCart){
-                btn.innerHTML+=`En el carrito ${Utils.SVGTemplate(Utils.customSVG("IN_CART","#FAFAFA"))}`;
+                btn.innerHTML+=`En el carrito ${Utils.SVGTemplate(Utils.customSVG("IN_CART",`${Constants.colors.white}`))}`;
             }else{
-                btn.innerHTML+=`Al carrito ${Utils.SVGTemplate(Utils.customSVG("ADD_CART","#FAFAFA"))}`;
+                btn.innerHTML+=`Al carrito ${Utils.SVGTemplate(Utils.customSVG("ADD_CART",`${Constants.colors.white}`))}`;
             }
 
         }
@@ -1289,19 +1728,23 @@
     }
 
     class Carousel {
+        #id;
         #listData;
         #cardsList;
+        #user;
 
-        constructor(listData){
+        constructor(listData,user){
             this.#listData=listData;
             this.#cardsList=[];
+            this.#user=user;
         }
 
         getComponent(sectionId,size){
+            this.#id=`${Utils.replaceSpaces(sectionId)}`;
             const section= document.createElement("section");
-            const carrousel = this.#getCarrousel(size);
-            const titleSection=this.#createTitleSection(sectionId);
-            section.id=`${Utils.replaceSpaces(sectionId)}`;
+            const carrousel = this.#getCarousel(size);
+            const titleSection=this.#getTittleSection();
+            section.id=`${this.#id}`;
             section.className="container-carousel";
 
             section.appendChild(titleSection);
@@ -1309,7 +1752,6 @@
 
 
             return section;
-   
         }
 
         listenEvents(){
@@ -1318,16 +1760,17 @@
             })
 
             this.#handleScroll();
-            this.#handleHoverBtn();
+            this.#handleHoverArrowsPrevNext();
         }
 
-        #createTitleSection(sectionId){
-            const isPersonalizated= sectionId == "continuar jugando";
+        #getTittleSection(){
+            const isPersonalizated= this.#id == "continuar-jugando";
             const container = document.createElement("div");
             container.className="section-title";
+            const title= `${Utils.unReplaceSpaces(this.#id)}`;
            
-            const template=`<h3 class="p-bold p-m">${Utils.capitalizeAndFormatter(sectionId)}</h3>
-                            ${isPersonalizated ? `<button id="edit-section">Editar.</button>`: `<a href='#${Utils.replaceSpaces(sectionId)}' class="p-s">Ver más.</a>`}
+            const template=`<h3 class="p-bold p-m">${Utils.capitalizeAndFormatter(title)}</h3>
+                            ${isPersonalizated ? `<button id="edit-section">Editar</button>`: `<a href='#${this.#id}' class="p-s">Ver más</a>`}
                             `;
 
             container.innerHTML=template;
@@ -1335,10 +1778,11 @@
             return container;
         }
 
-        #getCarrousel(size){
-            this.#createCards();
+        #getCarousel(size){
+            this.#getCards();
             const container = document.createElement("div");
             container.className="carousel";
+            container.id=`carousel-${this.#id}`;
             const btnPrev = this.#getDisplaceBtn("prev");
             const btnNext = this.#getDisplaceBtn("next");
 
@@ -1352,17 +1796,19 @@
 
         }
 
-        #createCards(){
+        #getCards(){
             this.#listData.forEach((obj)=>{
-                this.#cardsList.push(new Card(obj));
+                this.#cardsList.push(new Card(obj,this.#user));
             })
             
         }
 
         #getDisplaceBtn(type){
             const container = document.createElement("button");
-            container.className ="btn-displace";
-            container.id=`btn-${type}`;
+            container.className =`btn-displace btn-${type}`;
+            container.id=`btn-${type}-${this.#id}`;
+         
+            
             if(type=='prev'){
                 container.style.display="none";
             }
@@ -1376,23 +1822,24 @@
         }
 
         #handleScroll(){
-            const carousel = document.querySelector(".carousel");
-        
-            document.getElementById("btn-next").addEventListener("click", ()=> {
-                this.#scrollCarousel(1150); 
+            const carousel = document.getElementById(`carousel-${this.#id}`);
+            const scrollAmount = carousel.offsetWidth * 0.95;
+            
+            document.getElementById(`btn-next-${this.#id}`).addEventListener("click", ()=> {
+                this.#displaceScrollPosition(scrollAmount); 
             });
          
-            document.getElementById("btn-prev").addEventListener("click", ()=> {
-                this.#scrollCarousel(-1150); 
+            document.getElementById(`btn-prev-${this.#id}`).addEventListener("click", ()=> {
+                this.#displaceScrollPosition(-scrollAmount); 
             });
 
-            carousel.addEventListener("scroll", this.#checkScrollPosition); 
+            carousel.addEventListener("scroll", this.#dismountArrowsPrevNext); 
         }
 
-        #checkScrollPosition = () => {
-            const carousel = document.querySelector(".carousel");
-            const btnPrev = document.getElementById("btn-prev");
-            const btnNext = document.getElementById("btn-next");
+        #dismountArrowsPrevNext = () => {
+            const carousel = document.getElementById(`carousel-${this.#id}`);
+            const btnPrev = document.getElementById(`btn-prev-${this.#id}`);
+            const btnNext = document.getElementById(`btn-next-${this.#id}`);
             const scrollEnd = carousel.scrollWidth - carousel.clientWidth;
            
             
@@ -1409,24 +1856,24 @@
         };
 
 
-        #scrollCarousel(amount){
-            const carousel = document.querySelector(".carousel");
+        #displaceScrollPosition(amount){
+            const carousel = document.getElementById(`carousel-${this.#id}`);
             carousel.scrollBy({
               left: amount, 
               behavior: "smooth" 
             });
         }
 
-        #handleHoverBtn(){
-            const next = document.getElementById("btn-next");
-            const prev = document.getElementById("btn-prev");
+        #handleHoverArrowsPrevNext(){
+            const next = document.getElementById(`btn-next-${this.#id}`);
+            const prev = document.getElementById(`btn-prev-${this.#id}`);
         
             const updateButtonIcon = (button, type, color) => {
                 button.innerHTML = Utils.SVGTemplate(Utils.customSVG(type, color));
             };
         
             const addHoverEffect = (button, type) => {
-                button.addEventListener("mouseenter", () => updateButtonIcon(button, type, "#fafafa"));
+                button.addEventListener("mouseenter", () => updateButtonIcon(button, type, `${Constants.colors.white}`));
                 button.addEventListener("mouseleave", () => updateButtonIcon(button, type, "transparent"));
             };
         
@@ -1435,6 +1882,233 @@
         }
 
         
+    }
+
+
+    class SectionGame {
+        #game;
+        #user;          /*el obejto user deberia tener su arreglo de juegos jugados recientemente */
+
+        constructor(game,user){
+            this.#game=game;
+            this.#user=user;
+        }
+
+
+        getComponent(){
+            const container = document.createElement("div");
+            container.id="game-eject";
+
+
+
+        }
+
+
+        #getBreadcrum(){
+            const container = document.createElement("div");
+            container.className="breadcrum";
+            const sectionName= "Jugados recientemente";     /*para hacer esto dinamico seria util tener los juegos como arreglo del usuario */
+            const category = this.#game.categoria;
+            const name= this.#game.titulo;
+
+            const template = `<h3 class="p-m">
+                                ${Utils.capitalizeFirst(sectionName)}<span> > </span> 
+                                ${Utils.capitalizeFirst(category)}<span> > </span>
+                                ${Utils.capitalizeFirst(name)}
+                            </h3>`;
+            container.innerHTML=template;
+            
+            return container;
+        }
+
+        #getShareSection(){
+            const container = document.createElement("div");
+            container.class="container-share";
+
+            const template = `<h2>${Utils.capitalizeFirst(this.#game.titulo)}</h2>
+                              <button id="btn-share" class="btn">${Utils.SVGTemplate( Utils.customSVG("SVG_SHARE",Constants.colors.white) )} Compartir</button>`;
+            
+            container.innerHTML=template;
+
+            return container;
+        }
+
+        #getSectionGameExect(){
+            const container = document.createElement("section");
+            container.className="container-execution";
+
+            const template = `<div class="execution-game">
+
+                            </div>`
+        }
+
+
+    }
+
+
+    class LoginForm {
+        #userCompare;    
+        
+        constructor(userCompare) {
+            this.#userCompare=userCompare;
+        }
+
+        getComponent() {
+            let container = document.createElement("div");
+            container.id="log-in-form";
+            container.innerHTML = `<h2>Iniciar sesion en <span class="flaming">Flaming</span><span class="games">Games</span></h2>
+            <form action="">
+                <input type="text" name="user" id="user" placeholder="Usuario" class="form-field">
+                <div class="wrong-user-message p-s hidden">El usuario ingresado no existe</div>
+                <input type="password" name="password" id="password" placeholder="Contraseña" class="form-field">
+                <div class="wrong-password-message p-s hidden">La contraseña es incorrecta</div>
+                <input type="submit" value="Iniciar sesión" class="primary-btn">
+            </form>\
+            <p><a class="p-s texto-link" href="#">Recuperar contraseña</a></p>
+            <p class="p-s">¿No tienes una cuenta? <a href="" class="texto-link registrarse">Registrate</a></p>
+            <hr>\
+            <button class="google-btn"><img src="static/favicon/google-icon.png"><span>Iniciar sesión con Google</span></button>
+            <button class="facebook-btn"><span>${Utils.customSVG("FACEBOOK", Constants.colors.white)}</span><span>Continuar con Facebook</span></button>`;
+            
+            return container;
+        }
+
+        listenEvents() {
+            this.#handleLogIn();
+            this.#handleRegistrarseButton();
+        }
+
+        #handleLogIn() {
+            const form = document.querySelector("#log-in-form");
+            const f=document.querySelector("form");
+            form.addEventListener("submit", e => {
+                e.preventDefault();
+                document.querySelectorAll(".form-field").forEach(e => {
+                    e.classList.remove("bad-input");
+                    e.nextElementSibling.classList.add("hidden");
+                })
+                
+                let formData = new FormData(f);
+                if (formData.get("user") != this.#userCompare.nick) {
+                    const user = document.querySelector("#user");
+                    user.classList.add("bad-input");
+                    user.nextElementSibling.classList.remove("hidden");
+                    return;
+                }
+                if (formData.get("password") != this.#userCompare.password) {
+                    const password = document.querySelector("#password");
+                    password.classList.add("bad-input");
+                    password.nextElementSibling.classList.remove("hidden");
+                    return;
+                }
+
+               showContent("inicio",this.#userCompare);
+            })
+        }
+
+        #handleRegistrarseButton() {
+            const btn = document.querySelector(".registrarse");
+            btn.addEventListener("click", e => {
+                e.preventDefault();
+                showContent("registro");
+            })
+        }
+
+    }
+
+    class Login {
+        #user;              /*si no hay logueado el user es nulo */ //*este usuario seria el extraído de la base de datos, que permite comparar lo que ingresa el usuario con lo que hay en la db*//
+        #loginForm
+
+        constructor(user = null){
+            this.#user=user;
+            this.#loginForm = new LoginForm(this.#user);
+        }
+       
+
+        getComponent(){
+            let container = document.createElement("div");
+            container.id="log-in";
+            container.appendChild(this.#loginForm.getComponent())
+            
+            return container;
+        }
+
+        listenEvents(){
+            this.#loginForm.listenEvents();
+        }
+
+    }
+
+
+    class Registro {
+        #user;              /*si no hay logueado el user es nulo */ //*este usuario seria el extraído de la base de datos, que permite comparar lo que ingresa el usuario con lo que hay en la db*//
+        #registroForm
+
+        constructor(user = null){
+            this.#user=user;
+            this.#registroForm = new RegistroForm(this.#user);
+        }
+       
+
+        getComponent(){
+            let container = document.createElement("div");
+            container.id="registro";
+            container.appendChild(this.#registroForm.getComponent())
+            
+            return container;
+        }
+
+        listenEvents(){
+            this.#registroForm.listenEvents();
+        }
+    }
+
+
+    class RegistroForm {
+        #userCompare;    
+        
+        constructor(userCompare) {
+            this.#userCompare=userCompare;
+        }
+
+        getComponent() {
+            let container = document.createElement("div");
+            container.id="registro-form";
+            container.innerHTML = `<h2>Registrarse en <span class="flaming">Flaming</span><span class="games">Games</span></h2>
+            <form action="">
+                <label for="nombre" class="p-m">Nombre</label>
+                <input type="text" name="nombre" id="nombre" placeholder="Juan" class="form-field">
+                <label for="nombre" class="p-m">Apellido</label>
+                <input type="text" name="apellido" id="apellido" placeholder="Gómez" class="form-field">
+                <label for="nickname" class="p-m">Nickname<span class="form-opcional">(opcional)</span></label>
+                <input type="text" name="nickname" id="nickname" placeholder="juancito238" class="form-field">
+                <label for="nacimiento" class="p-m">Fecha de nacimiento</label>
+                <input type="date" name="nacimiento" id="nacimiento" placeholder="dd/mm/yyyy" class="form-field">
+                <label for="correo" class="p-m">Correo</label>
+                <input type="mail" name="correo" id="correo" placeholder="juan.gomez@gmail.com" class="form-field">
+                <label for="password" class="p-m">Contraseña</label>
+                <input type="password" name="password" id="password" class="form-field form-password">
+                <label for="repeat-password" class="p-m">Repetir contraseña</label>
+                <input type="password" name="repeat-password" id="repeat-password" class="form-field">
+                <div class="wrong-password-message p-s hidden">Las contraseñas no coinciden</div>
+                <div class="form-captcha">
+                    <label for="captcha" class="p-m">Captcha</label>
+                    <img src="static/assets/captcha.png">
+                    <input type="text" name="captcha" id="captcha" class="form-field">
+                    <div class="wrong-password-message p-s hidden">El captcha es incorrecto</div>
+                </div>
+                <div class="form-terms">
+                    <input type="checkbox" name="terms" id="terms"><label for="terms" class="p-s">Acepto los términos y condiciones</label>
+                </div>
+                <input type="submit" value="Registrarse" class="primary-btn">
+            </form>\
+            <p class="p-s">Ya tienes una cuenta? <a href="" class="texto-link iniciar-sesion">Iniciar sesión</a></p>`
+            return container;
+        }
+
+        listenEvents() {
+        }
     }
 
 
