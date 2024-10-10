@@ -62,7 +62,8 @@
             titulo:"4 en linea: batman vs. guasón",
             frontImg:'static/assets/4-linea.png',
             categoria:"puzzle",
-            multimedia:['static/video/batmanvsguason.mp4','static/video/batmanvsguason2.mp4','static/assets/batman4.png','static/assets/batman5.png','static/assets/batman3.png','static/assets/batman1.png','static/assets/batman2.png'],
+            multimedia:['static/video/batmanvsguason.mp4','static/video/batmanvsguason2.mp4','static/assets/batman4.png',
+                'static/assets/batman5.png','static/assets/batman3.png','static/assets/batman1.png','static/assets/batman2.png','static/assets/batman6.png'],
             descipcion:`El juego "4 en línea: Batman vs Guasón" lleva la clásica estrategia a Ciudad Gótica. Los jugadores eligen entre fichas de Batman o el Guasón, tratando de alinear cuatro fichas seguidas antes que su oponente, ya sea en vertical, horizontal o diagonal. Con el trasfondo oscuro de la ciudad y elementos visuales icónicos de ambos personajes, la partida se convierte en una lucha por el control de Gótica.`,
             controles:"El jugador arrastra la ficha desde una barra superior y la suelta sobre la columna deseada. Para arrastrar las fichas se debe utilizar el click izquierdo del mouse.",
             comentarios:["obj1","obj2"],
@@ -2084,7 +2085,7 @@
         #getCommentSection(){
             const container = document.createElement("section");
             container.className="section-comment";
-            
+
             const template = `<h3 class="p-l p-bold">Dejanos tu comentario</h3>
                               <div class="container-form-comment">
                                     <form id="form-comment" action="">
