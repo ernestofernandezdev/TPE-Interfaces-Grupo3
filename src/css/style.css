@@ -63,9 +63,26 @@ img{
 .texto-link {
     color: #4C5EC2;
 }
+.p-link{
+    color:#929DDA;
+    font-size: 12px;
+    font-weight: bold;
+}
+.p-link:hover{
+    color:#4C5EC2;
+}
+
+.subtitle-m{
+    color:#FAFAFA;
+    font-weight: bold;
+    font-size: 14px;
+}
 
 body{
     background-color: #141414;
+}
+button{
+    cursor: pointer;
 }
 
 #root{
@@ -277,7 +294,6 @@ header {
     box-sizing: border-box;
     display: flex;
     align-items:center;
-    cursor: pointer;
 }
 
 .category-item > p{
@@ -512,7 +528,6 @@ article{
     margin-bottom: 5px;
 }
 .section-title > a{
-    color: #929DDA;
     margin-bottom: -3px;
     margin-left: 5px;
 }
@@ -520,14 +535,9 @@ article{
     margin-left: 5px;
     background-color: transparent;
     margin-bottom: -3px;
-    color:#929DDA ;
-}
-.section-title > a:hover{
-    color: #4C5EC2;
 }
 
 .btn-displace{
-    cursor: pointer;
     background-color: transparent;
 }
 
@@ -596,7 +606,6 @@ article{
     width: 340px;
     border-radius: 23px;
     margin: 10px 0 3px 0;
-    cursor: pointer;
 }
 
 .bad-input {
@@ -714,12 +723,12 @@ article{
     justify-content: space-between;
     align-items: center;
 }
-.container-share > button{
+.container-share >.share-elements > button{
     margin-bottom: 3px;
     background-color: #4C5EC2;
     display: flex;
 }
-.container-share > button > .container-svg{
+.container-share > .share-elements >button > .container-svg{
     width: 20px;
     height: 20px;
     margin-right: 5px;
@@ -756,16 +765,18 @@ article{
     padding: 0 0 0 1%;
 }
 .bar-game-exec > ul {
+    padding: 0 5px 0 0;
     display: flex;
     width: 20%;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 .likes{
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
-    width: 50%;
+}
+.likes > .container-svg{
+    margin-right:3px;
 }
 .controls{
     width: 55px;
@@ -815,6 +826,106 @@ textarea{
     width: 100%;
     height: 80%;
     border-radius:8px ;
+    padding: 5px;
+    color: black;
+}
+.section-all-comments{
+    border-top: 1px solid #4C5EC2;
+    padding: 30px 10px 10px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.box-comment{
+    width: 100%;
+    padding: 10px 10px 10px 10px;
+    border: 1px solid #6C7BD1;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    height: min-content;
+    max-height: 200px;
+  
+}
+.comment-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5px;
+}
+.comment-header > h4{
+    color: #4C5EC2;
+}
+.comment-content{
+    min-height: 50px;
+    padding: 5px;
+ 
+}
+
+.comment-likes{
+    display: flex;
+    width: max-content;
+    height: 100%;
+    margin-top: 15px;
+  
+}
+.comment-like-container{
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+    height: 100%;
+   
+}
+.comment-like-container > .container-svg{
+    width: 30px;
+    height: 25px;
+}
+.str-like{
+    color:#F2C9C9;
+}
+.view-all-comments{
+    color:#929DDA;
+}
+.view-all-comments:hover{
+    color:#4C5EC2;
+}
+.share-elements{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 50%;
+}
+.share-elements > button{
+    order: 2;
+}
+.social-share-container{
+    width: 40%;
+    height: 40px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    order:1;
+    border-radius: 50px;
+    margin-right: 5px;
+    background-color: #FAFAFA;
+}
+.social-share-container > .container-svg{
+    align-items: center;
+    justify-content: center;
+}
+.textarea-empty{
+    border: 2px solid rgba(255, 0, 0, 0.445);
+}
+.empty-comment{
+    color: red;
+    font-size: 14px;
+}
+#form-comment{
+    height: max-content;
+}
+.section-comment{
+    height: max-content;
 }
 
 /*//////////////////////////////////////PROPIEDADES SECCION MULTIMEDIA/////////////////////////////////////////////*/

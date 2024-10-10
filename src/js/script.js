@@ -66,10 +66,41 @@
                 'static/assets/batman5.png','static/assets/batman3.png','static/assets/batman1.png','static/assets/batman2.png','static/assets/batman6.png'],
             descipcion:`El juego "4 en línea: Batman vs Guasón" lleva la clásica estrategia a Ciudad Gótica. Los jugadores eligen entre fichas de Batman o el Guasón, tratando de alinear cuatro fichas seguidas antes que su oponente, ya sea en vertical, horizontal o diagonal. Con el trasfondo oscuro de la ciudad y elementos visuales icónicos de ambos personajes, la partida se convierte en una lucha por el control de Gótica.`,
             controles:"El jugador arrastra la ficha desde una barra superior y la suelta sobre la columna deseada. Para arrastrar las fichas se debe utilizar el click izquierdo del mouse.",
-            comentarios:["obj1","obj2"],
+            comentarios:[{
+                id:1,
+                usuario:"juancitoXGamer",
+                comentario:"tremendo juego me gusto mucho!!! para jugar de a 2 es super divertido",
+                fecha:"10-09-2024",
+                likes:2787,
+                unlikes:100
+            },{
+                id:2,
+                usuario:"xoxas283791",
+                comentario:"es divertido pero le faltan mas personajes",
+                fecha:"07-09-2024",
+                likes:14985,
+                unlikes:24,
+            },
+            {
+                id:3,
+                usuario:"panchitoXGamer",
+                comentario:"me encantó el juego 4 en línea porque es increíble cómo algo tan sencillo puede volverse tan adictivo. Cada partida es un reto diferente, y siempre me encuentro buscando nuevas formas de anticipar los movimientos del otro jugador. Además, esa sensación de conseguir alinear cuatro fichas después de una batalla mental es súper satisfactoria. Es un juego que no importa cuántas veces lo juegues, siempre te mantiene enganchado y con ganas de más.",
+                fecha:"01-09-2024",
+                likes:126782,
+                unlikes:56734,
+            },
+            {
+                id:4,
+                usuario:"juliana129038",
+                comentario:"me encanto el juego, super recomendable ♥",
+                fecha:"04/08/2024",
+                likes:38272,
+                unlikes:2
+            }
+            ],
             precio:null,
             esPago:false,
-            likes:20238
+            likes:9901
         },
         {
             id:"3",
@@ -988,7 +1019,7 @@
     }
 
     class Utils{
-        static SVGTemplate=(content, customClass='')=> (`<div class='container-svg ${customClass}'>${content}</div>`);
+        static SVGTemplate=(content, customClass='',customId='')=> (`<div class='container-svg ${customClass}' ${customId != '' ?`id=${customId}`:''}>${content}</div>`);
 
         static LinksTemplate=(content,customClass)=>{
            
@@ -1114,14 +1145,16 @@
                             <g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M16.5 2.25C14.7051 2.25 13.25 3.70507 13.25 5.5C13.25 5.69591 13.2673 5.88776 13.3006 6.07412L8.56991 9.38558C8.54587 9.4024 8.52312 9.42038 8.50168 9.43939C7.94993 9.00747 7.25503 8.75 6.5 8.75C4.70507 8.75 3.25 10.2051 3.25 12C3.25 13.7949 4.70507 15.25 6.5 15.25C7.25503 15.25 7.94993 14.9925 8.50168 14.5606C8.52312 14.5796 8.54587 14.5976 8.56991 14.6144L13.3006 17.9259C13.2673 18.1122 13.25 18.3041 13.25 18.5C13.25 20.2949 14.7051 21.75 16.5 21.75C18.2949 21.75 19.75 20.2949 19.75 18.5C19.75 16.7051 18.2949 15.25 16.5 15.25C15.4472 15.25 14.5113 15.7506 13.9174 16.5267L9.43806 13.3911C9.63809 12.9694 9.75 12.4978 9.75 12C9.75 11.5022 9.63809 11.0306 9.43806 10.6089L13.9174 7.4733C14.5113 8.24942 15.4472 8.75 16.5 8.75C18.2949 8.75 19.75 7.29493 19.75 5.5C19.75 3.70507 18.2949 2.25 16.5 2.25ZM14.75 5.5C14.75 4.5335 15.5335 3.75 16.5 3.75C17.4665 3.75 18.25 4.5335 18.25 5.5C18.25 6.4665 17.4665 7.25 16.5 7.25C15.5335 7.25 14.75 6.4665 14.75 5.5ZM6.5 10.25C5.5335 10.25 4.75 11.0335 4.75 12C4.75 12.9665 5.5335 13.75 6.5 13.75C7.4665 13.75 8.25 12.9665 8.25 12C8.25 11.0335 7.4665 10.25 6.5 10.25ZM16.5 16.75C15.5335 16.75 14.75 17.5335 14.75 18.5C14.75 19.4665 15.5335 20.25 16.5 20.25C17.4665 20.25 18.25 19.4665 18.25 18.5C18.25 17.5335 17.4665 16.75 16.5 16.75Z" fill=${color}/> </g>
                             </svg>`,
 
-                SVG_LIKE:`<svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill=${color} stroke=${color}>
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"/><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
-                            <g id="SVGRepo_iconCarrier"> <style type="text/css">  .st0{fill:${color};}  </style> <g> <path class="st0" d="M507.532,223.313c-9.891-24.594-35-41.125-62.469-41.125H365.86c-2.516,0-4.75-0.031-6.75-0.094 c0.641-0.844,1.203-1.594,1.672-2.203c2.719-3.563,4.922-6.406,6.656-9.188c0.688-0.922,1.688-2.047,2.859-3.453 c9.516-11.234,29.328-34.625,34.531-67.109c2.891-18.016-2.359-36.438-14.359-50.516c-11.156-13.094-26.906-20.891-42.109-20.891 c-15.359,0-28.672,7.641-36.516,20.969c-1.156,1.938-2.531,4.406-4.125,7.266c-7.797,13.859-24,42.719-39.672,54.063 c-17.969,12.984-33.875,30.5-49.25,47.453c-21.141,23.313-43.016,47.406-60.656,47.406c-13.797,0-24.969,11.203-24.969,24.984 v170.516c0,13.797,11.172,24.984,24.969,24.984c18.359,0,59.766,15.938,89.984,27.594c23.156,8.922,43.172,16.609,56.703,19.328 c3.984,0.797,8.094,1.719,12.313,2.641c15.484,3.438,33.063,7.328,50.531,7.328c27.766,0,49.234-10.031,63.797-29.828 c14.203-19.266,30.422-69.313,51.813-137.938c1.453-4.703,2.906-9.328,4.297-13.797 C520.017,267.188,512.501,235.641,507.532,223.313z M465.563,288.453c-17.031,54.172-39.719,130.516-54.219,150.188 c-11.031,15-26.672,19.641-43.672,19.641c-19.141,0-40-5.875-57.938-9.484c-29.891-5.984-114.328-47.406-151.594-47.406V230.875 c45.234,0,81.125-68.25,124.531-99.594c23.391-16.922,42.984-55.797,50.688-68.906c3.547-6.031,9.016-8.672,15-8.672 c15.984,0,35.578,18.844,31.797,42.484c-5.203,32.484-29.891,54.594-33.797,61.078c-3.891,6.516-20.797,24.703-20.797,35.094 c0,9.109,6.484,14.813,40.297,14.813c42.031,0,70.922,0,79.203,0C478.923,207.172,508.767,246.969,465.563,288.453z"/> <path class="st0" d="M0.001,250.734v158.219c0,19.547,15.844,35.406,35.406,35.406h42.234c13.047,0,23.609-10.578,23.609-23.609 V215.328H35.407C15.845,215.328,0.001,231.172,0.001,250.734z M49.798,374.125c8.969,0,16.25,7.266,16.25,16.25 c0,8.969-7.281,16.25-16.25,16.25c-8.984,0-16.266-7.281-16.266-16.25C33.532,381.391,40.813,374.125,49.798,374.125z"/> </g> </g>
+                SVG_LIKE:`<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke=${color}>
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                            <g id="SVGRepo_iconCarrier"> <path d="M7.47998 18.35L10.58 20.75C10.98 21.15 11.88 21.35 12.48 21.35H16.28C17.48 21.35 18.78 20.45 19.08 19.25L21.48 11.95C21.98 10.55 21.08 9.34997 19.58 9.34997H15.58C14.98 9.34997 14.48 8.84997 14.58 8.14997L15.08 4.94997C15.28 4.04997 14.68 3.04997 13.78 2.74997C12.98 2.44997 11.98 2.84997 11.58 3.44997L7.47998 9.54997" stroke=${color} stroke-width="1.5" stroke-miterlimit="10"/> <path d="M2.38 18.35V8.55002C2.38 7.15002 2.98 6.65002 4.38 6.65002H5.38C6.78 6.65002 7.38 7.15002 7.38 8.55002V18.35C7.38 19.75 6.78 20.25 5.38 20.25H4.38C2.98 20.25 2.38 19.75 2.38 18.35Z" stroke=${color} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </g>
                             </svg>`,
 
-                SVG_UNLIKE:`<svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill=${color} transform="rotate(180)" stroke=${color}>
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"/><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
-                            <g id="SVGRepo_iconCarrier"> <style type="text/css">  .st0{fill:${color};}  </style> <g> <path class="st0" d="M507.532,223.313c-9.891-24.594-35-41.125-62.469-41.125H365.86c-2.516,0-4.75-0.031-6.75-0.094 c0.641-0.844,1.203-1.594,1.672-2.203c2.719-3.563,4.922-6.406,6.656-9.188c0.688-0.922,1.688-2.047,2.859-3.453 c9.516-11.234,29.328-34.625,34.531-67.109c2.891-18.016-2.359-36.438-14.359-50.516c-11.156-13.094-26.906-20.891-42.109-20.891 c-15.359,0-28.672,7.641-36.516,20.969c-1.156,1.938-2.531,4.406-4.125,7.266c-7.797,13.859-24,42.719-39.672,54.063 c-17.969,12.984-33.875,30.5-49.25,47.453c-21.141,23.313-43.016,47.406-60.656,47.406c-13.797,0-24.969,11.203-24.969,24.984 v170.516c0,13.797,11.172,24.984,24.969,24.984c18.359,0,59.766,15.938,89.984,27.594c23.156,8.922,43.172,16.609,56.703,19.328 c3.984,0.797,8.094,1.719,12.313,2.641c15.484,3.438,33.063,7.328,50.531,7.328c27.766,0,49.234-10.031,63.797-29.828 c14.203-19.266,30.422-69.313,51.813-137.938c1.453-4.703,2.906-9.328,4.297-13.797 C520.017,267.188,512.501,235.641,507.532,223.313z M465.563,288.453c-17.031,54.172-39.719,130.516-54.219,150.188 c-11.031,15-26.672,19.641-43.672,19.641c-19.141,0-40-5.875-57.938-9.484c-29.891-5.984-114.328-47.406-151.594-47.406V230.875 c45.234,0,81.125-68.25,124.531-99.594c23.391-16.922,42.984-55.797,50.688-68.906c3.547-6.031,9.016-8.672,15-8.672 c15.984,0,35.578,18.844,31.797,42.484c-5.203,32.484-29.891,54.594-33.797,61.078c-3.891,6.516-20.797,24.703-20.797,35.094 c0,9.109,6.484,14.813,40.297,14.813c42.031,0,70.922,0,79.203,0C478.923,207.172,508.767,246.969,465.563,288.453z"/> <path class="st0" d="M0.001,250.734v158.219c0,19.547,15.844,35.406,35.406,35.406h42.234c13.047,0,23.609-10.578,23.609-23.609 V215.328H35.407C15.845,215.328,0.001,231.172,0.001,250.734z M49.798,374.125c8.969,0,16.25,7.266,16.25,16.25 c0,8.969-7.281,16.25-16.25,16.25c-8.984,0-16.266-7.281-16.266-16.25C33.532,381.391,40.813,374.125,49.798,374.125z"/> </g> </g>
+                SVG_UNLIKE:`<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke=${color} transform="rotate(180)">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                            <g id="SVGRepo_iconCarrier"> <path d="M7.47998 18.35L10.58 20.75C10.98 21.15 11.88 21.35 12.48 21.35H16.28C17.48 21.35 18.78 20.45 19.08 19.25L21.48 11.95C21.98 10.55 21.08 9.34997 19.58 9.34997H15.58C14.98 9.34997 14.48 8.84997 14.58 8.14997L15.08 4.94997C15.28 4.04997 14.68 3.04997 13.78 2.74997C12.98 2.44997 11.98 2.84997 11.58 3.44997L7.47998 9.54997" stroke=${color} stroke-width="1.5" stroke-miterlimit="10"/> <path d="M2.38 18.35V8.55002C2.38 7.15002 2.98 6.65002 4.38 6.65002H5.38C6.78 6.65002 7.38 7.15002 7.38 8.55002V18.35C7.38 19.75 6.78 20.25 5.38 20.25H4.38C2.98 20.25 2.38 19.75 2.38 18.35Z" stroke=${color} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </g>
                             </svg>`,
 
                 SVG_CTRL: `<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 496.8 496.8" xml:space="preserve" fill="#000000">
@@ -1132,7 +1165,18 @@
                 SVG_EXPAND: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke=${color}>
                             <g id="SVGRepo_bgCarrier" stroke-width="0"/><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
                             <g id="SVGRepo_iconCarrier"> <path d="M4.75 9.233C4.75 9.64721 5.08579 9.983 5.5 9.983C5.91421 9.983 6.25 9.64721 6.25 9.233H4.75ZM6.25 5.5C6.25 5.08579 5.91421 4.75 5.5 4.75C5.08579 4.75 4.75 5.08579 4.75 5.5H6.25ZM5.5 4.75C5.08579 4.75 4.75 5.08579 4.75 5.5C4.75 5.91421 5.08579 6.25 5.5 6.25V4.75ZM9.233 6.25C9.64721 6.25 9.983 5.91421 9.983 5.5C9.983 5.08579 9.64721 4.75 9.233 4.75V6.25ZM6.03033 4.96967C5.73744 4.67678 5.26256 4.67678 4.96967 4.96967C4.67678 5.26256 4.67678 5.73744 4.96967 6.03033L6.03033 4.96967ZM9.96967 11.0303C10.2626 11.3232 10.7374 11.3232 11.0303 11.0303C11.3232 10.7374 11.3232 10.2626 11.0303 9.96967L9.96967 11.0303ZM15.767 18.75C15.3528 18.75 15.017 19.0858 15.017 19.5C15.017 19.9142 15.3528 20.25 15.767 20.25V18.75ZM19.5 20.25C19.9142 20.25 20.25 19.9142 20.25 19.5C20.25 19.0858 19.9142 18.75 19.5 18.75V20.25ZM18.75 19.5C18.75 19.9142 19.0858 20.25 19.5 20.25C19.9142 20.25 20.25 19.9142 20.25 19.5H18.75ZM20.25 15.767C20.25 15.3528 19.9142 15.017 19.5 15.017C19.0858 15.017 18.75 15.3528 18.75 15.767H20.25ZM18.9697 20.0303C19.2626 20.3232 19.7374 20.3232 20.0303 20.0303C20.3232 19.7374 20.3232 19.2626 20.0303 18.9697L18.9697 20.0303ZM15.0303 13.9697C14.7374 13.6768 14.2626 13.6768 13.9697 13.9697C13.6768 14.2626 13.6768 14.7374 13.9697 15.0303L15.0303 13.9697ZM6.25 15.767C6.25 15.3528 5.91421 15.017 5.5 15.017C5.08579 15.017 4.75 15.3528 4.75 15.767H6.25ZM4.75 19.5C4.75 19.9142 5.08579 20.25 5.5 20.25C5.91421 20.25 6.25 19.9142 6.25 19.5H4.75ZM5.5 18.75C5.08579 18.75 4.75 19.0858 4.75 19.5C4.75 19.9142 5.08579 20.25 5.5 20.25V18.75ZM9.233 20.25C9.64721 20.25 9.983 19.9142 9.983 19.5C9.983 19.0858 9.64721 18.75 9.233 18.75V20.25ZM4.96967 18.9697C4.67678 19.2626 4.67678 19.7374 4.96967 20.0303C5.26256 20.3232 5.73744 20.3232 6.03033 20.0303L4.96967 18.9697ZM11.0303 15.0303C11.3232 14.7374 11.3232 14.2626 11.0303 13.9697C10.7374 13.6768 10.2626 13.6768 9.96967 13.9697L11.0303 15.0303ZM15.767 4.75C15.3528 4.75 15.017 5.08579 15.017 5.5C15.017 5.91421 15.3528 6.25 15.767 6.25V4.75ZM19.5 6.25C19.9142 6.25 20.25 5.91421 20.25 5.5C20.25 5.08579 19.9142 4.75 19.5 4.75V6.25ZM20.25 5.5C20.25 5.08579 19.9142 4.75 19.5 4.75C19.0858 4.75 18.75 5.08579 18.75 5.5H20.25ZM18.75 9.233C18.75 9.64721 19.0858 9.983 19.5 9.983C19.9142 9.983 20.25 9.64721 20.25 9.233H18.75ZM20.0303 6.03033C20.3232 5.73744 20.3232 5.26256 20.0303 4.96967C19.7374 4.67678 19.2626 4.67678 18.9697 4.96967L20.0303 6.03033ZM13.9697 9.96967C13.6768 10.2626 13.6768 10.7374 13.9697 11.0303C14.2626 11.3232 14.7374 11.3232 15.0303 11.0303L13.9697 9.96967ZM6.25 9.233V5.5H4.75V9.233H6.25ZM5.5 6.25H9.233V4.75H5.5V6.25ZM4.96967 6.03033L9.96967 11.0303L11.0303 9.96967L6.03033 4.96967L4.96967 6.03033ZM15.767 20.25H19.5V18.75H15.767V20.25ZM20.25 19.5V15.767H18.75V19.5H20.25ZM20.0303 18.9697L15.0303 13.9697L13.9697 15.0303L18.9697 20.0303L20.0303 18.9697ZM4.75 15.767V19.5H6.25V15.767H4.75ZM5.5 20.25H9.233V18.75H5.5V20.25ZM6.03033 20.0303L11.0303 15.0303L9.96967 13.9697L4.96967 18.9697L6.03033 20.0303ZM15.767 6.25H19.5V4.75H15.767V6.25ZM18.75 5.5V9.233H20.25V5.5H18.75ZM18.9697 4.96967L13.9697 9.96967L15.0303 11.0303L20.0303 6.03033L18.9697 4.96967Z" fill=${color}/> </g>
-                            </svg>`
+                            </svg>`,
+
+                COPY_LINK:`<svg fill="#000000" viewBox="0 0 32 32" id="icon" xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"/><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                            <g id="SVGRepo_iconCarrier"> <defs> <style> .cls-1 { fill: none; } </style> </defs> <path d="M11.9474,19a4.9476,4.9476,0,0,1-3.4991-8.4465l5.1053-5.1043a4.9482,4.9482,0,0,1,6.9981,6.9976l-.5523.5526-1.4158-1.4129.5577-.5579a2.95,2.95,0,0,0-.0039-4.1653,3.02,3.02,0,0,0-4.17,0l-5.1047,5.104a2.9474,2.9474,0,0,0,0,4.1692,3.02,3.02,0,0,0,4.17,0l1.4143,1.4145A4.9176,4.9176,0,0,1,11.9474,19Z"/> <path d="M19.9474,17a4.9476,4.9476,0,0,1-3.4991-8.4465l.5526-.5526,1.4143,1.4146-.5526.5523a2.9476,2.9476,0,0,0,0,4.1689,3.02,3.02,0,0,0,4.17,0c.26-.26,4.7293-4.7293,5.1053-5.1045a2.951,2.951,0,0,0,0-4.1687,3.02,3.02,0,0,0-4.17,0L21.5536,3.449a4.9483,4.9483,0,0,1,6.9981,6.9978c-.3765.376-4.844,4.8428-5.1038,5.1035A4.9193,4.9193,0,0,1,19.9474,17Z"/> <path d="M24,30H4a2.0021,2.0021,0,0,1-2-2V8A2.0021,2.0021,0,0,1,4,6H8V8H4V28H24V18h2V28A2.0021,2.0021,0,0,1,24,30Z"/> <rect id="_Transparent_Rectangle_" data-name="&lt;Transparent Rectangle&gt;" class="cls-1" width="32" height="32"/> </g>
+                            </svg>`,
+                
+                WSP:`<svg fill="#000000"  viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"/><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/><g id="SVGRepo_iconCarrier">
+                    <path d="M11.42 9.49c-.19-.09-1.1-.54-1.27-.61s-.29-.09-.42.1-.48.6-.59.73-.21.14-.4 0a5.13 5.13 0 0 1-1.49-.92 5.25 5.25 0 0 1-1-1.29c-.11-.18 0-.28.08-.38s.18-.21.28-.32a1.39 1.39 0 0 0 .18-.31.38.38 0 0 0 0-.33c0-.09-.42-1-.58-1.37s-.3-.32-.41-.32h-.4a.72.72 0 0 0-.5.23 2.1 2.1 0 0 0-.65 1.55A3.59 3.59 0 0 0 5 8.2 8.32 8.32 0 0 0 8.19 11c.44.19.78.3 1.05.39a2.53 2.53 0 0 0 1.17.07 1.93 1.93 0 0 0 1.26-.88 1.67 1.67 0 0 0 .11-.88c-.05-.07-.17-.12-.36-.21z"/>
+                    <path d="M13.29 2.68A7.36 7.36 0 0 0 8 .5a7.44 7.44 0 0 0-6.41 11.15l-1 3.85 3.94-1a7.4 7.4 0 0 0 3.55.9H8a7.44 7.44 0 0 0 5.29-12.72zM8 14.12a6.12 6.12 0 0 1-3.15-.87l-.22-.13-2.34.61.62-2.28-.14-.23a6.18 6.18 0 0 1 9.6-7.65 6.12 6.12 0 0 1 1.81 4.37A6.19 6.19 0 0 1 8 14.12z"/></g>
+                    </svg>`
                     
             }
            
@@ -1846,8 +1890,8 @@
             container.className="section-title";
             const title= `${Utils.unReplaceSpaces(this.#id)}`;
            
-            const template=`<h4 class="p-bold p-m">${Utils.capitalizeAndFormatter(title)}</h4>
-                            ${isPersonalizated ? `<button id="edit-section">Editar</button>`: `<a href='#${this.#id}' class="p-s">Ver más</a>`}
+            const template=`<h4 class="subtitle-m">${Utils.capitalizeAndFormatter(title)}</h4>
+                            ${isPersonalizated ? `<button class='p-link' id="edit-section">Editar</button>`: `<a href='#${this.#id}' class="p-link">Ver más</a>`}
                             `;
 
             container.innerHTML=template;
@@ -1966,6 +2010,7 @@
         #game;
         #user;          /*el obejto user deberia tener su arreglo de juegos jugados recientemente */
         #multimedia;
+        #isLiked=false;
 
         constructor(game,user){
             this.#game=game;
@@ -1985,11 +2030,17 @@
             container.appendChild(this.#getTextSection("Controles",this.#game.controles));
             container.appendChild(this.#getMultimediaSection());
             container.appendChild(this.#getCommentSection());
+            container.appendChild(this.#getListComments());
 
             return container;
         }
         listenEvents(){
             this.#multimedia.listenEvents();
+            this.#handleClickShareButton();
+            this.#handleClickLikeGame();
+            this.#handleClickPostComment();
+            this.#handleInputTextArea();
+            this.#handleClickLikeComment();
         }
 
 
@@ -2015,8 +2066,21 @@
             container.className="container-share";
 
             const template = `<h2>${Utils.capitalizeFirst(this.#game.titulo)}</h2>
-                              <button id="btn-share" class="btn">${Utils.SVGTemplate( Utils.customSVG("SVG_SHARE",Constants.colors.white) )} Compartir</button>`;
+                              <div class="share-elements"><button id="btn-share" class="btn">${Utils.SVGTemplate( Utils.customSVG("SVG_SHARE",Constants.colors.white) )} Compartir</button></div>`;
             
+            container.innerHTML=template;
+
+            return container;
+        }
+
+        #getSocialShare(){
+            const container = document.createElement("div");
+            container.className='social-share-container';
+
+            const template = `${Utils.SVGTemplate(Utils.customSVG("COPY_LINK"),"social-share")}
+                              ${Utils.SVGTemplate(Utils.customSVG("WSP"),"social-share")}
+                              ${Utils.SVGTemplate(Utils.customSVG("INSTAGRAM","#000000"),"social-share")}
+                              ${Utils.SVGTemplate(Utils.customSVG("FACEBOOK","#000000"),"social-share")}`;
             container.innerHTML=template;
 
             return container;
@@ -2047,7 +2111,7 @@
             const barContainer = `<div class="bar-game-exec">
                                     <h2>${Utils.capitalizeFirst(this.#game.titulo)}</h2>
                                     <ul>
-                                        ${customLi(`${Utils.SVGTemplate(Utils.customSVG("SVG_LIKE",Constants.colors.white),"btn-like-game")} ${this.#convertLikes()}`,"likes")}
+                                        ${customLi(`${Utils.SVGTemplate(Utils.customSVG("SVG_LIKE",Constants.colors.white),"btn-like-game")}<span class='count-likes'>${this.#convertLikes(this.#game.likes)}<span>`,"likes")}
                                         ${customLi(Utils.SVGTemplate(Utils.customSVG("SVG_CTRL",Constants.colors.white),"controls"))}
                                         ${customLi(Utils.SVGTemplate(Utils.customSVG("SVG_EXPAND",Constants.colors.white),"expand"))}
                                     </ul>
@@ -2056,7 +2120,7 @@
             return barContainer;
         }
           
-        #getTextSection(title,content,className){
+        #getTextSection(title,content,className=''){
             const container = document.createElement("section");
             container.className=`text-section ${className}`;
 
@@ -2090,7 +2154,7 @@
             const template = `<h3 class="p-l p-bold">Dejanos tu comentario</h3>
                               <div class="container-form-comment">
                                     <form id="form-comment" action="">
-                                        <textarea placeholder="  Escribe un comentario" rows="5" maxlength="400"></textarea>
+                                        <textarea placeholder="  Escribe un comentario" rows="5" maxlength="480"></textarea>
                                         <button type="submit" class="btn" id="post-comment">Comentar</button>
                                     </form>
                               </div>`;
@@ -2099,23 +2163,244 @@
             return container;
         }
 
+        #getListComments(){
+            const container = document.createElement("section");
+            const viewAll = document.createElement("a");
+            viewAll.className="view-all-comments p-s p-bold";
+            viewAll.textContent="Ver más comentarios";
+            container.className="section-all-comments";
+            this.#getAllComments(container, this.#game.comentarios);
+            container.appendChild(viewAll);
 
+            return container;
 
+        }
 
-        #convertLikes(){
-            const isBig = this.#game.likes > 999;
+        #getAllComments(parent,listComments){
+            listComments.sort((c1,c2)=>{
+                const [dayA, monthA, yearA] = c1.fecha.split("-");
+                const [dayB, monthB, yearB] = c2.fecha.split("-");
+                
+                const dateA = new Date(`${yearA}-${monthA}-${dayA}`);
+                const dateB = new Date(`${yearB}-${monthB}-${dayB}`);
+            
+                return dateB - dateA;
+            })
+
+            parent.innerHTML='';
+            
+            listComments.forEach((c)=>{
+                const container= document.createElement("div");
+                container.className="box-comment";
+
+                const template =`<div class='comment-header'>
+                                    <h4 class="p-m p-bold">${Utils.capitalizeFirst(c.usuario)}</h4>
+                                    <p class='p-s'>${this.#convertDate(c.fecha)}</p>
+                                </div>
+                                <div class='comment-content'><p class='p-s'>${Utils.capitalizeFirst(c.comentario)}</p></div>
+                                <div class='comment-likes'>
+                                    <div class='comment-like-container'>
+                                        ${Utils.SVGTemplate(Utils.customSVG("SVG_LIKE",Constants.colors.secondary20),`like-comment`,`like-${c.id}`)}
+                                        <p class='str-like p-s'>${this.#convertLikes(c.likes)}</p>
+                                    </div>
+                                    <div class='comment-like-container'>
+                                        ${Utils.SVGTemplate(Utils.customSVG("SVG_UNLIKE",Constants.colors.secondary20),`unlike-comment`,`unlike-${c.id}`)}
+                                        <p class='str-like p-s'>${this.#convertLikes(c.unlikes)}</p>
+                                    </div>
+                                </div>`;
+
+                container.innerHTML=template;
+
+                parent.appendChild(container);
+            })
+
+        }
+
+        #handleClickShareButton(){
+            const btn = document.getElementById("btn-share");
+
+            btn.addEventListener("click",()=>{
+                const parentElement = document.querySelector(".share-elements");
+                if(parentElement.querySelector(".social-share-container")){
+                    const share=document.querySelector(".social-share-container");
+                    share.remove();
+                }else{
+                    parentElement.appendChild(this.#getSocialShare());
+                }
+            })
+        }
+
+        #handleClickLikeGame(){
+            const btn = document.querySelector(".btn-like-game");
+            
+            btn.addEventListener("click", ()=>{
+                const count = document.querySelector(".count-likes");
+                this.#isLiked = !this.#isLiked;
+                btn.innerHTML='';
+                count.innerHTML='';
+
+                if(this.#isLiked){
+                    this.#game.likes=this.#game.likes+1;
+                    btn.innerHTML=`${Utils.customSVG("SVG_LIKE",Constants.colors.secondary)}`;
+                }else{
+                    this.#game.likes=this.#game.likes-1;
+                    btn.innerHTML=`${Utils.customSVG("SVG_LIKE",Constants.colors.white)}`;
+                }
+                count.innerHTML=`${this.#convertLikes(this.#game.likes)}`;
+            })
+        }
+
+        #handleClickPostComment(){
+            const form = document.querySelector("#form-comment");
+            const error = document.createElement("p");
+            error.className="empty-comment";
+            error.textContent="El comentario no puede estar vacío.";
+
+            form.addEventListener("submit",(e)=>{
+                e.preventDefault();
+                const textarea = e.target.querySelector("textarea");
+                if(textarea.value == ''){
+                    textarea.classList.toggle("textarea-empty");
+                    if(!document.querySelector(".empty-comment")){
+                        textarea.insertAdjacentElement('afterend',error);
+                    }
+                    
+                }else{
+                    const container = document.querySelector(".section-all-comments");
+                    const btn = document.querySelector("#post-comment");
+                    const newComment = {
+                        id:`9`,
+                        usuario:`${this.#user.nick}`,
+                        comentario:`${textarea.value}`,
+                        fecha:`${this.#getFormattedDate()}`,
+                        likes:0,
+                        unlikes:0
+                    }
+                    this.#game.comentarios.push(newComment);
+                    this.#getAllComments(container, this.#game.comentarios);
+                    textarea.value='';
+                    btn.disabled = true;
+
+                    
+                }
+                
+                
+            })
+        }
+
+        #handleClickLikeComment(){
+            const likesBtn = document.querySelectorAll(".like-comment");
+            const unlikesBtn=document.querySelectorAll(".unlike-comment");
+
+            likesBtn.forEach((like)=>{
+                like.addEventListener("click",()=>{
+                    like.innerHTML='';
+                    if(like.classList.contains("like-active")){
+                        like.classList.remove("like-active");
+                        like.innerHTML=`${Utils.customSVG("SVG_LIKE",Constants.colors.white)}`
+                    }else{
+                        like.classList.add("like-active");
+                        like.innerHTML=`${Utils.customSVG("SVG_LIKE",Constants.colors.secondary)}`
+                    }
+                      
+                })
+            })
+            unlikesBtn.forEach((unlike) =>{
+                unlike.addEventListener("click",(e)=>{
+                    unlike.innerHTML='';
+                    if(unlike.classList.contains("unlike-active")){
+                        unlike.classList.remove("unlike-active");
+                        unlike.innerHTML=`${Utils.customSVG("SVG_UNLIKE",Constants.colors.white)}`
+                    }else{
+                        unlike.classList.add("unlike-active");
+                        unlike.innerHTML=`${Utils.customSVG("SVG_UNLIKE",Constants.colors.secondary)}`
+                    }
+                    
+                      
+                })
+            })
+        }
+
+        #getFormattedDate() {
+            const date = new Date(); 
+            const day = String(date.getDate()).padStart(2, '0'); 
+            const month = String(date.getMonth() + 1).padStart(2, '0'); 
+            const year = date.getFullYear(); 
+        
+            return `${day}-${month}-${year}`; 
+        }
+
+        #handleInputTextArea(){
+            const textarea = document.querySelector("textarea");
+            const error = document.createElement("p");
+            error.className="empty-comment";
+            error.textContent="El comentario no puede estar vacío.";
+
+            textarea.addEventListener("input", (e) => {
+                if(e.target.value == ''){
+                    textarea.classList.add("textarea-empty");
+                    textarea.insertAdjacentElement('afterend',error);
+                }else{
+                    textarea.classList.remove("textarea-empty");
+                    if(document.querySelector(".empty-comment")){
+                        const p = document.querySelector(".empty-comment");
+                        p.remove();
+                    }
+                }
+                
+            });
+
+            textarea.addEventListener("focus", ()=>{
+                if(document.querySelector(".empty-comment")){
+                    textarea.classList.toggle("textarea-empty");
+                    const p = document.querySelector(".empty-comment");
+                    p.remove();
+                }
+            });
+
+            textarea.addEventListener("blur", (e)=>{
+                if(e.target.value === ''){
+                    textarea.classList.add("textarea-empty");
+                    textarea.insertAdjacentElement('afterend',error);
+                }else{
+                    if(document.querySelector(".empty-comment")){
+                        textarea.classList.remove("textarea-empty");
+                        const p = document.querySelector(".empty-comment");
+                        p.remove();
+                    }
+                }
+                
+            });
+        }
+        #convertDate(date){
+            const [d,m,a]=date.split("-");
+            const format = new Date(`${a}-${m}-${d}`);
+            const formatDate= new Intl.DateTimeFormat('es-Es',{
+                day:'numeric',
+                month:'short',
+                year:'numeric'
+            }).format(format);
+
+            return formatDate;
+
+        }
+
+        #convertLikes(likes){
+            const isBig = likes > 999;
 
             if(isBig){
-                const likes= this.#game.likes/1000;
-                const format = Number.isInteger(likes) ? likes : likes.toFixed(1);
+                const like= likes/1000;
+                const format = Number.isInteger(like) ? like : like.toFixed(1);
                 return `${format} MIL`;
             }
 
-            return `${this.#game.likes}`;
+            return likes;
         }
 
 
     }
+
+  
 
     class Multimedia{
         #game;
