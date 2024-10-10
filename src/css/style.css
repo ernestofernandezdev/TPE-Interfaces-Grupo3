@@ -313,28 +313,6 @@ header {
     color:#6C7BD1;
 }
 
-@keyframes animation-category {
-    0% {
-      transform: rotate(0deg) translate3d(0, 0, 0);
-    }
-  
-    25% {
-      transform: rotate(7deg) translate3d(0, 0, 0);
-    }
-  
-    50% {
-      transform: rotate(-7deg) translate3d(0, 0, 0);
-    }
-  
-    75% {
-      transform: rotate(1deg) translate3d(0, 0, 0);
-    }
-  
-    100% {
-      transform: rotate(0deg) translate3d(0, 0, 0);
-    }
-}
-
 /*///////////////////////////////////////////////////////////PROPIEDADES DE LAS CARDS//////////////////////////////////////////////////*/
 
 .price{
@@ -402,6 +380,11 @@ article{
     cursor: pointer;
    
 }
+
+.btn-card:focus {
+    animation: btn-cart 0.5s 1 linear;
+}
+
 .btn > .container-svg{
     margin-left: 5px;
 }
@@ -415,32 +398,6 @@ article{
     border: 1px solid #AF1F1F;
     box-sizing: border-box;
 }
-  
-.btn-in-cart:hover {
-    animation: btn-cart 0.5s 1 linear;
-}
-  
-@keyframes btn-cart {
-  0% {
-    transform: scale(0.7, 1.3);
-  }
-
-  25% {
-    transform: scale(1.3, 0.7);
-  }
-
-  50% {
-    transform: scale(0.7, 1.3);
-  }
-
-  75% {
-    transform: scale(1.3, 0.7);
-  }
-
-  100% {
-    transform: scale(1, 1);
-  }
-}
  
 
 .btn-play-game{
@@ -453,19 +410,6 @@ article{
 }
 .btn-play-game:hover span {
     display: none;
-}
-
-@keyframes btn-play {
-    0% {
-        transform: scale(1.2 , 1.2); /* Comienza en la posición original */
-    }
-    50% {
-        transform: scale(0.5,0.5); /* Se mueve hacia la derecha hasta el borde */
-    }
-    100%{
-        transform: scale(1.2,1.2);
-    }
-    
 }
 
 /*//////////////////////////////////////////////////////////////PROPIEDADES DEL CARROUSEL/////////////////////////////////////////////////////////////////////////////////*/
@@ -552,7 +496,7 @@ article{
 
 /*///////////////////////////////////////////////PROPIEDADES DEL LOGIN//////////////////////////////////////////////////////////////*/
 
-#log-in {
+#log-in, #registro {
     grid-area: 'main';
     background-image: url("/src/static/assets/login-background.jpg");
     background-repeat: no-repeat;
@@ -563,7 +507,7 @@ article{
     justify-content: center;
 }
 
-#log-in-form {
+#log-in-form, #registro-form {
     margin-top: 40px;
     padding: 80px 0;
     width: 800px;
@@ -576,17 +520,17 @@ article{
     align-items: center;
 }
 
-#log-in-form form {
+#log-in-form form, #registro-form form {
     display: flex;
     flex-direction: column;
     margin-top: 40px;
 }
 
-#log-in-form p {
+#log-in-form p, #registro-form p {
     margin-top: 5px;
 }
 
-#log-in-form input, #log-in-form button {
+input, #log-in-form button, #registro-form button {
     height: 36px;
     width: 340px;
     border-radius: 23px;
@@ -607,7 +551,7 @@ article{
     display: none;
 }
 
-#log-in-form input[type="text"], #log-in-form input[type="password"] {
+input[type="text"], input[type="password"] {
     color: black;
     padding-left: 20px;
     width: 320px;
@@ -682,6 +626,59 @@ article{
     }
     60% {
         transform: scale(0.95, 1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+@keyframes btn-play {
+    0% {
+        transform: scale(1 , 1);
+    }
+    50% {
+        transform: scale(0.5,0.5);
+    }
+    100%{
+        transform: scale(1,1);
+    }
+    
+}
+
+
+@keyframes animation-category {
+    0% {
+      transform: rotate(0deg) translate3d(0, 0, 0);
+    }
+  
+    25% {
+      transform: rotate(7deg) translate3d(0, 0, 0);
+    }
+  
+    50% {
+      transform: rotate(-7deg) translate3d(0, 0, 0);
+    }
+  
+    75% {
+      transform: rotate(1deg) translate3d(0, 0, 0);
+    }
+  
+    100% {
+      transform: rotate(0deg) translate3d(0, 0, 0);
+    }
+}
+
+  
+@keyframes btn-cart {
+    0% {
+        transform: scale(1);
+    }
+    20% {
+        transform: scale(1.1, 0.9);
+    }
+    60% {
+        transform: scale(0.9, 1.1);
     }
     100% {
         transform: scale(1);

@@ -30,9 +30,15 @@
             
         }else if(section == "login"){
             /*new login */
+            document.title="Log In | FlamingGames";
             const login = new Login(player);    /*aca siempre debe pasarle player que es el simulado que llega de la DB */
             root.appendChild(login.getComponent());
             login.listenEvents();
+        }else if(section == "registro"){
+            document.title="Registro | FlamingGames";
+            const registro = new Registro(player);    /*aca siempre debe pasarle player que es el simulado que llega de la DB */
+            root.appendChild(registro.getComponent());
+            registro.listenEvents();
         }else{
             console.log("render error");
         }
@@ -1501,8 +1507,8 @@
         };
 
         #handleClickLogOut(){
-            document.querySelector(".log-out").addEventListener("click", () => {
-                showContent("inicio",null);
+            document.querySelector(".log-out").addEventListener("click", e => {
+                showContent("login");
             })
         }
     }
@@ -1687,7 +1693,7 @@
             const isPay= button.classList.contains("btn-add-cart") || button.classList.contains("btn-in-cart");                         
 
            
-            button.addEventListener("click", (e)=> {
+            button.addEventListener("click", e=> {
                 let isMyGame = this.#game.id == "20";
                 if(isPay){
                     this.#toggleStateCart(button)
@@ -1699,8 +1705,6 @@
                 }else{
                     console.log("CLICK EN JUGAR ");
                 }
-              
-               
             })
             
         }
@@ -2005,7 +2009,7 @@
             const btn = document.querySelector(".registrarse");
             btn.addEventListener("click", e => {
                 e.preventDefault();
-
+                showContent("registro");
             })
         }
 
@@ -2033,6 +2037,62 @@
             this.#loginForm.listenEvents();
         }
 
+    }
+
+
+    class Registro {
+        #user;              /*si no hay logueado el user es nulo */ //*este usuario seria el extraído de la base de datos, que permite comparar lo que ingresa el usuario con lo que hay en la db*//
+        #registroForm
+
+        constructor(user = null){
+            this.#user=user;
+            this.#registroForm = new RegistroForm(this.#user);
+        }
+       
+
+        getComponent(){
+            let container = document.createElement("div");
+            container.id="registro";
+            container.appendChild(this.#registroForm.getComponent())
+            
+            return container;
+        }
+
+        listenEvents(){
+            this.#registroForm.listenEvents();
+        }
+    }
+
+
+    class RegistroForm {
+        #userCompare;    
+        
+        constructor(userCompare) {
+            this.#userCompare=userCompare;
+        }
+
+        getComponent() {
+            let container = document.createElement("div");
+            container.id="registro-form";
+            container.innerHTML = `<h2>Iniciar sesion en <span class="flaming">Flaming</span><span class="games">Games</span></h2>
+            <form action="">
+                <input type="text" name="user" id="user" placeholder="Usuario" class="form-field">
+                <div class="wrong-user-message p-s hidden">El usuario ingresado no existe</div>
+                <input type="password" name="password" id="password" placeholder="Contraseña" class="form-field">
+                <div class="wrong-password-message p-s hidden">La contraseña es incorrecta</div>
+                <input type="submit" value="Iniciar sesión" class="primary-btn">
+            </form>\
+            <p><a class="p-s texto-link" href="#">Recuperar contraseña</a></p>
+            <p class="p-s">¿No tienes una cuenta? <a href="" class="texto-link registrarse">Registrate</a></p>
+            <hr>\
+            <button class="google-btn"><img src="static/favicon/google-icon.png"><span>Iniciar sesión con Google</span></button>
+            <button class="facebook-btn"><span>${Utils.customSVG("FACEBOOK", Constants.colors.white)}</span><span>Continuar con Facebook</span></button>`;
+            
+            return container;
+        }
+
+        listenEvents() {
+        }
     }
 
 
