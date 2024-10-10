@@ -534,7 +534,7 @@ input, #log-in-form button, #registro-form button {
     height: 36px;
     width: 340px;
     border-radius: 23px;
-    margin: 10px 0 3px 0;
+    margin: 8px 0 3px 0;
     cursor: pointer;
 }
 
@@ -551,14 +551,20 @@ input, #log-in-form button, #registro-form button {
     display: none;
 }
 
-input[type="text"], input[type="password"] {
+input {
     color: black;
     padding-left: 20px;
     width: 320px;
 }
 
+input[type="submit"] {
+    padding-left: 0;
+    width: 340px;
+}
+
 .primary-btn {
     background-color: #4C5EC2;
+    color: white;
     font-size: 14px;
 }
 
@@ -616,6 +622,92 @@ input[type="text"], input[type="password"] {
     height: 1px;
     margin: 20px 0;
 }
+
+form label {
+    margin-top: 12px;
+}
+
+input[type="date"] {
+    width: fit-content;
+}
+
+input[type="date"] {
+    width: fit-content;
+    color: gray;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+.form-terms {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.form-terms label {
+    margin: 0;
+    margin-left: 3px;
+}
+
+input[type="checkbox"] {
+    width: auto;
+    height: auto;
+    display: inline;
+    margin: 0;
+}
+
+.form-captcha {
+    display: grid;
+    width: 340px;
+    grid-template-areas:"label image image"
+                        "input image image"
+                        "error error error";
+    grid-template-columns: 110px 110px 110px;
+    grid-column-gap: 5px;
+    margin-top: 12px;
+}
+
+.form-captcha label {
+    grid-area: label;
+    margin: 0;
+    width: auto;
+}
+
+.form-captcha input {
+    grid-area: input;
+    width: auto;
+}
+
+.form-captcha img {
+    grid-area: image;
+    width: 90%;
+    background-color: white;
+    align-self:self-end;
+    justify-self: end;
+    border-radius: 5px;
+}
+
+.form-captcha div {
+    grid-area: error;
+}
+
+#registro {
+    height: fit-content;
+}
+
+#registro-form {
+    margin-bottom: 100px;
+}
+
+#registro-form input[type="submit"] {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
 
 @keyframes primary-btn-hover {
     0% {

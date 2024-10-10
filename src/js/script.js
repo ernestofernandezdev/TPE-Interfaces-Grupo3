@@ -2074,20 +2074,35 @@
         getComponent() {
             let container = document.createElement("div");
             container.id="registro-form";
-            container.innerHTML = `<h2>Iniciar sesion en <span class="flaming">Flaming</span><span class="games">Games</span></h2>
+            container.innerHTML = `<h2>Registrarse en <span class="flaming">Flaming</span><span class="games">Games</span></h2>
             <form action="">
-                <input type="text" name="user" id="user" placeholder="Usuario" class="form-field">
-                <div class="wrong-user-message p-s hidden">El usuario ingresado no existe</div>
-                <input type="password" name="password" id="password" placeholder="Contraseña" class="form-field">
-                <div class="wrong-password-message p-s hidden">La contraseña es incorrecta</div>
-                <input type="submit" value="Iniciar sesión" class="primary-btn">
+                <label for="nombre" class="p-m">Nombre</label>
+                <input type="text" name="nombre" id="nombre" placeholder="Juan" class="form-field">
+                <label for="nombre" class="p-m">Apellido</label>
+                <input type="text" name="apellido" id="apellido" placeholder="Gómez" class="form-field">
+                <label for="nickname" class="p-m">Nickname<span class="form-opcional">(opcional)</span></label>
+                <input type="text" name="nickname" id="nickname" placeholder="juancito238" class="form-field">
+                <label for="nacimiento" class="p-m">Fecha de nacimiento</label>
+                <input type="date" name="nacimiento" id="nacimiento" placeholder="dd/mm/yyyy" class="form-field">
+                <label for="correo" class="p-m">Correo</label>
+                <input type="mail" name="correo" id="correo" placeholder="juan.gomez@gmail.com" class="form-field">
+                <label for="password" class="p-m">Contraseña</label>
+                <input type="password" name="password" id="password" class="form-field form-password">
+                <label for="repeat-password" class="p-m">Repetir contraseña</label>
+                <input type="password" name="repeat-password" id="repeat-password" class="form-field">
+                <div class="wrong-password-message p-s hidden">Las contraseñas no coinciden</div>
+                <div class="form-captcha">
+                    <label for="captcha" class="p-m">Captcha</label>
+                    <img src="static/assets/captcha.png">
+                    <input type="text" name="captcha" id="captcha" class="form-field">
+                    <div class="wrong-password-message p-s hidden">El captcha es incorrecto</div>
+                </div>
+                <div class="form-terms">
+                    <input type="checkbox" name="terms" id="terms"><label for="terms" class="p-s">Acepto los términos y condiciones</label>
+                </div>
+                <input type="submit" value="Registrarse" class="primary-btn">
             </form>\
-            <p><a class="p-s texto-link" href="#">Recuperar contraseña</a></p>
-            <p class="p-s">¿No tienes una cuenta? <a href="" class="texto-link registrarse">Registrate</a></p>
-            <hr>\
-            <button class="google-btn"><img src="static/favicon/google-icon.png"><span>Iniciar sesión con Google</span></button>
-            <button class="facebook-btn"><span>${Utils.customSVG("FACEBOOK", Constants.colors.white)}</span><span>Continuar con Facebook</span></button>`;
-            
+            <p class="p-s">Ya tienes una cuenta? <a href="" class="texto-link iniciar-sesion">Iniciar sesión</a></p>`
             return container;
         }
 
