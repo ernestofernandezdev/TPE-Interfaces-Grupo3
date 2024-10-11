@@ -487,19 +487,6 @@
             likes:28732
         },
         {
-            id:"55",
-            titulo:"super bike the champions: race and driver motorbike",
-            frontImg:'static/assets/moto.png',
-            categoria:"motos",
-            multimedia:[null,null],
-            descipcion:"es un asjkdha",
-            controles:"askdfjlasd",
-            comentarios:["obj1","obj2"],
-            precio:null,
-            esPago:false,
-            likes:10293
-        },
-        {
             id:"18",
             titulo:"tower swap match 3 tower defense",
             frontImg:'static/assets/tower-swap.png',
@@ -722,7 +709,19 @@
             esPago:false,
             likes:19832
         },
-    
+        {
+            id:"55",
+            titulo:"super bike the champions: race and driver motorbike",
+            frontImg:'static/assets/moto.png',
+            categoria:"motos",
+            multimedia:[null,null],
+            descipcion:"es un asjkdha",
+            controles:"askdfjlasd",
+            comentarios:["obj1","obj2"],
+            precio:null,
+            esPago:false,
+            likes:10293
+        },
     ]
 
     const games4=[
@@ -1247,14 +1246,7 @@
         listenEvents(){
             this.#handleClickAvatar();
             this.#handleClickHamburMenu();
-            this.#handleClickLogo();
             
-        }
-        #handleClickLogo(){
-            const logo = document.querySelector(".logo");
-            logo.addEventListener("click",()=>{
-                showContent('inicio',this.#userLogin);
-            })
         }
     
         /*esto se ejecuta 1 sola vez cuando lo invoca la pagina que quiere cargar/hacer uso de un header*/
@@ -1357,10 +1349,6 @@
 
         getComponent(){
             const sidebar = document.createElement("sidebar");
-            const viewAll = document.createElement("a");
-            viewAll.id='view-all-categories';
-            viewAll.innerHTML="Ver todas las categorias";
-            viewAll.className="category p-link"
             sidebar.className="sidebar-categories";
             const hr = document.createElement("hr");
             hr.className="separator-categories";
@@ -1372,7 +1360,7 @@
             });
            
             sidebar.insertBefore(hr,sidebar.children[4]);
-            sidebar.appendChild(viewAll);
+            sidebar.style.overflow='hidden';
 
            
             return sidebar;
@@ -1402,8 +1390,7 @@
             catContainer.href=`#${Utils.replaceSpaces(categoryObj.name)}`;
                 
                 
-            const template = `${Utils.SVGTemplate( categoryObj.iconSVG,"category-svg" )}
-                              ${this.#getCategoryName(`category p-m p-bold `,`${Utils.capitalizeAndFormatter(categoryObj.name)}`,`${Utils.replaceSpaces(categoryObj.name)}`)}`;
+            const template = `${Utils.SVGTemplate( categoryObj.iconSVG,"category-svg" )}`;
                 
             catContainer.innerHTML=template;
            
@@ -1417,45 +1404,66 @@
             
         }
 
+        //crea un componente <p> personalizando clase y contenido para el nombre de las categorias
         #getCategoryName(classname, content){
-            return`<p class=${classname}>${content}</p>`;
+            const p = document.createElement("p");
+            p.className=classname;
+            p.innerText=content;
+           
+
+            return p;
         }
 
         //al pasar el mouse por el sidebar se crean y renderizan los nombres de las categorias
         #handleMouseEnterLeave(){
+            let linksCreated = false; 
             const sidebar = document.querySelector(".sidebar-categories");
             
 
             sidebar.addEventListener("mouseenter", () => {
-                const namesCategories = document.querySelectorAll(".category");
-
-                namesCategories.forEach((t)=>{
-                    t.style.display="flex";
-                    
-                })
-          
+                const allCategories = document.querySelectorAll(".category-item");
                 sidebar.classList.add("sidebar-expands");
-            
+                let pos = 0;
+
                 this.#scrollPosition=sidebar.scrollTop;
                 sidebar.style.overflow = 'auto';
                 
+                // Verifica si los enlaces ya fueron creados
+                if (!linksCreated) {
+                    this.#categoriesList.forEach((categ) => {
+                        const p = this.#getCategoryName(`category p-m p-bold `,`${Utils.capitalizeAndFormatter(categ.name)}`,`${Utils.replaceSpaces(categ.name)}`);
+                      
+                        
+                        allCategories[pos].appendChild(p);
+                        pos++;
+
+                    });
+                 
+                    const showAllCateg = this.#getCategoryName(`category show-all-categories p-s p-bold`,"Ver todas las categorias");
+                    
+                    sidebar.appendChild(showAllCateg);
+                   
+                    linksCreated = true; 
+                   
+                } 
 
                 this.#handleScrollSidebar(sidebar);
                 
+              
             });
 
             
             sidebar.addEventListener("mouseleave", () => {
-                const namesCategories = document.querySelectorAll(".category");
-                namesCategories.forEach((t)=>{
-                    t.style.display="none";
-                    
-                })
                 sidebar.classList.remove("sidebar-expands");
                
                 sidebar.scrollTop=this.#scrollPosition;
                 sidebar.style.overflow = 'hidden';
 
+                document.querySelectorAll(".category").forEach((item) => {
+                    item.remove();
+                });
+
+                linksCreated = false;
             });
         }
 
@@ -2157,19 +2165,18 @@
 
         #getListComments(){
             const container = document.createElement("section");
+            const viewAll = document.createElement("a");
+            viewAll.className="view-all-comments p-s p-bold";
+            viewAll.textContent="Ver más comentarios";
             container.className="section-all-comments";
             this.#getAllComments(container, this.#game.comentarios);
-           
+            container.appendChild(viewAll);
 
             return container;
 
         }
 
         #getAllComments(parent,listComments){
-            const viewAll = document.createElement("a");
-            viewAll.className="view-all-comments p-s p-bold";
-            viewAll.textContent="Ver más comentarios";
-
             listComments.sort((c1,c2)=>{
                 const [dayA, monthA, yearA] = c1.fecha.split("-");
                 const [dayB, monthB, yearB] = c2.fecha.split("-");
@@ -2205,7 +2212,6 @@
                 container.innerHTML=template;
 
                 parent.appendChild(container);
-                parent.appendChild(viewAll);
             })
 
         }
@@ -2401,276 +2407,114 @@
         #isRenderMain=false;
         #directionAnimation=true;  /*cuando esta en false se mueve a la izq , cuando esta en true se mueve a la derecha */
         #isScrolling;
+        #interval;
+        #index=1;
 
         constructor(game){
             this.#game=game;
         }
 
         getComponent(){
+            const contene = document.createElement("div");
+            contene.className="slider";
             const container = document.createElement("div");
-            container.className="container-multimedia";
-            container.id=`container-media-${this.#game.id}`;
+            container.className="slider-inner";
+            
+            this.#getCards(container);
+            
+            contene.appendChild(container);
 
-
-            container.appendChild(this.#getMainMedia(this.#game.multimedia[0],0));
-            container.appendChild(this.#getCarouselMultimedia());
-
-            return container;
+            return contene;
         }
 
         listenEvents(){
-            this.#handleScroll();
-            this.#handleHoverArrowsPrevNext();
-            this.#handleClickPlayVideo();
-            this.#handleClickCardCarrousel();
-        }
-
-        #getMainMedia(urlMedia,posInMediaList){
-            let main='';
-            const isVideo= urlMedia.slice(-4) == '.mp4';
-
-            if(!this.#isRenderMain){
-                main = document.createElement("div");
-                main.id=`reprod-container`;
-            }else{
-                main=document.querySelector("#reprod-container");
-            }
-            
-            
-            if(isVideo){
-                main.style.backgroundImage=`url(${this.#game.frontImg})`;
-                main.style.backgroundSize='cover';
-                main.style.backgroundPosition='center';
-                const btnPlay = `</div><button id="${posInMediaList}" class="btn btn-play-game btn-play-video">Reproducir ${Utils.SVGTemplate(Utils.customSVG("PLAY_GAME",Constants.colors.white))}</button>`;
-
-                main.innerHTML=btnPlay;
-            }else{
-                const container =document.createElement("div")
-                container.className="container-media-main";
-                const img = document.createElement("img");
-                img.src=`${urlMedia}`;
-
-                container.appendChild(img)
-
-                main.appendChild(container);
-            }
-
-            this.#isRenderMain=true;
-            
-            return main;
-        }
-
-        #getCarouselMultimedia(){
-            const container = document.createElement("div");
-            container.className="carousel-multimedia";
-            const btnPrev = this.#getDisplaceBtn("prev");
-            const btnNext = this.#getDisplaceBtn("next");
-            let pos =0;
-
-            container.appendChild(btnPrev);
-
-            this.#game.multimedia.forEach((urlMultimedia)=>{
-                
-                container.appendChild(this.#getCard(urlMultimedia,pos));
-                
-                pos++;
-            })
-
-            container.appendChild(btnNext);
-
-            return container;
-        }
-
-    
-        #getCard(urlMedia,index){
-            const isVideo= urlMedia.slice(-4) == '.mp4';
-           
-            return this.#getCardMultimedia(isVideo,index);
-            
-        }
-
-        #getCardMultimedia(isVideo, index){
-            const container = document.createElement("div");
-            container.className="card-carousel-media";
-            container.setAttribute("data-value",`${index}`);
-            let template ='';
-
-            if(isVideo){
-                container.style.backgroundImage=`url(${this.#game.frontImg})`;
-                container.style.backgroundSize='cover';
-                container.style.backgroundPosition='center';
-                container.classList.add("card-video");
-                template = `<button class="btn-play-game btn">${Utils.SVGTemplate(Utils.customSVG("PLAY_GAME",Constants.colors.white))}</button>`;
-            }else{
-                template = `<img src=${this.#game.multimedia[index]}>`;
-            }
-
-            container.innerHTML=template;
-
-            return container;
-        }
-
-        #getVideoPlayer(pos){
-            const urlVideo= this.#game.multimedia[pos];
-            const container = document.createElement("div");
-            const video= document.createElement("video");
-            container.className="container-media-main";
-            video.src=`${urlVideo}`;
-            video.controls=true;
-            video.play();
-            container.appendChild(video);
-
-            return container;
-        }
-
-
-        #getDisplaceBtn(type){
-            const container = document.createElement("button");
-            container.className =`btn-displace btn-${type}`;
-         
-            if(type=='prev'){
-                container.style.display="none";
-            }
-
-            const template = `${Utils.SVGTemplate( Utils.customSVG(`ARROW_${type.toUpperCase()}`,"transparent"))}`;
-
-            container.innerHTML=template;
-
-            return container;
-
-        }
-        #addAnimationCards(){
-            const cards = document.querySelectorAll(".card-carousel-media");
-            cards.forEach((card)=>{
-                card.classList.add("animation-item-right");
-            })
-
-        }
-        #disableAnimation(){
-            const cards = document.querySelectorAll(".card-carousel-media");
-            cards.forEach((card)=>{
-                card.classList.remove("animation-item-right");
-            })
-        }
-
-        #handleScroll(){
-            const carousel = document.querySelector(`.carousel-multimedia`);
-            const scrollAmount = carousel.offsetWidth * 0.4;
+            this.#handleCarousel();
+            this.#handleVideoEnd();
+      
           
-            
-          
-            
-            document.querySelector(`.btn-next`).addEventListener("click", ()=> {
-                this.#directionAnimation=true;
-                this.#displaceScrollPosition(scrollAmount); 
-            });
-         
-            document.querySelector(`.btn-prev`).addEventListener("click", ()=> {
-                this.#directionAnimation=true;
-                this.#displaceScrollPosition(-scrollAmount); 
-            });
-
-            carousel.addEventListener("scroll", this.#dismountArrowsPrevNext); 
         }
 
-        #dismountArrowsPrevNext = () => {
-            const carousel = document.querySelector(`.carousel-multimedia`);
-            const btnPrev = document.querySelector(`.btn-prev`);
-            const btnNext = document.querySelector(`.btn-next`);
-            const scrollEnd = carousel.scrollWidth - carousel.clientWidth;
-       
-          
-            clearTimeout(this.#isScrolling);
-            this.#addAnimationCards();
-            this.#isScrolling=setTimeout(() => {
-                setTimeout(() => {
-                    this.#disableAnimation();
-                }, 1200);
-            }, 54);
-           
-            
-            if (carousel.scrollLeft <= 6) {
-                btnPrev.style.display="none";
+        #handleCarousel() {
+        
+            this.startSlider();
+        
+        }
+
+        startSlider(){
+            const slider = document.querySelector(".slider-inner");
+            let cards = document.querySelectorAll(".ui-card");
+            const totalCards = cards.length;
+
+            this.#interval = setInterval(() => {
+                let percentage = this.#index * -100;
+                slider.style.transform = `translateX(${percentage}%)`;
                 
-            }else if(carousel.scrollLeft >= scrollEnd - 6){   
                 
-                            
-                btnNext.style.display = "none"; 
-                
-            }else{
-                btnNext.style.display = "flex";
-                btnPrev.style.display = "flex"; 
-            }
+                this.#index++;
+                if (this.#index >= totalCards) {
+                    this.#index = 1;
+                }
+            }, 5000);
+        };
+
+
+        stopSlider(interval){
+            clearInterval(interval);
         };
         
     
+        #handleVideoEnd(){
+            const vs= document.querySelectorAll("video");
 
-        #displaceScrollPosition(amount){
-          
-     
-            const carousel = document.querySelector(`.carousel-multimedia`);
-            
-            
-            carousel.scrollBy({
-              left: amount, 
-              behavior: "smooth" 
-            });
-        }
+            vs.forEach((v)=>{
+                v.addEventListener('play', () => {
+                    this.stopSlider(this.#interval);
+                });
+    
+                v.addEventListener('ended', () => {
+                    this.startSlider();
+                   
+                });
 
-        #handleHoverArrowsPrevNext(){
-            const next = document.querySelector(`.btn-next`);
-            const prev = document.querySelector(`.btn-prev`);
-        
-            const updateButtonIcon = (button, type, color) => {
-                button.innerHTML = Utils.SVGTemplate(Utils.customSVG(type, color));
-            };
-        
-            const addHoverEffect = (button, type) => {
-                button.addEventListener("mouseenter", () => updateButtonIcon(button, type, `${Constants.colors.white}`));
-                button.addEventListener("mouseleave", () => updateButtonIcon(button, type, "transparent"));
-            };
-        
-            addHoverEffect(next, "ARROW_NEXT");
-            addHoverEffect(prev, "ARROW_PREV");
-        }
-
-        #handleClickPlayVideo(){
-            const btn = document.querySelector(".btn-play-video");
-            const container = document.querySelector("#reprod-container");
-       
-            btn.addEventListener("click", (e)=>{
-                container.innerHTML='';
-                container.appendChild(this.#getVideoPlayer(e.target.id));
             })
             
-          
+
         }
+      
 
-        #handleClickCardCarrousel(){
-            const card = document.querySelectorAll(".card-carousel-media");
-            const container = document.querySelector("#reprod-container");
-            
-
-            card.forEach((c)=>{
-                c.addEventListener("click",(e)=>{
-                    const pos= e.currentTarget.dataset.value;
-                    const media = this.#game.multimedia[pos];
-                    const isVideo= media.slice(-4) == '.mp4';
-                    container.innerHTML=""
-
-                    if(isVideo){
-                        container.appendChild(this.#getVideoPlayer(pos));
-                    }else{
-                        this.#getMainMedia(media,pos);
-
-                    }
-                    
-                })
+        #getCards(parent) {
+            let pos = 0;
+            this.#game.multimedia.forEach((c) => {
+                const isVideo = c.slice(-4) == '.mp4';
+                const container = document.createElement("div");
+                container.className = "ui-card";
+                container.id = `card-${pos}`;
+        
+                if (isVideo) {
+                   
+                    const video = document.createElement("video");
+                    video.src = c;
+                    video.controls = true;
+                    video.className = "video-player";
+                    container.appendChild(video);
+        
+                   
+        
+                } else {
+                    const img = document.createElement("img");
+                    img.src = c;
+                    container.appendChild(img);
+                }
+        
+                parent.appendChild(container);
+                pos++;
             });
-            
         }
+
+      
 
     }
+
 
 
     class LoginForm {
@@ -2769,3 +2613,5 @@
 
 
 })();
+
+

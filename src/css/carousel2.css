@@ -7,7 +7,6 @@
     font-family: 'Nunito';
     color: white;
     font-weight: normal;
-   
 }
 
 a{
@@ -23,9 +22,7 @@ img{
     font-weight: 600;
     letter-spacing: 0.5px;
     color: red;
-    cursor: pointer;
 }
-
 
 
 .flaming {
@@ -58,12 +55,6 @@ img{
 .p-bold{
     font-weight: bold;
 }
-h4{
-    cursor: default;
-}
-h2{
-    cursor: default;
-}
 
 .text-black {
     font-weight: bold;
@@ -89,6 +80,7 @@ h2{
 
 body{
     background-color: #141414;
+
 }
 button{
     cursor: pointer;
@@ -120,7 +112,7 @@ header {
     justify-content: space-between;
     align-items: center;
     background-color: #1A1B28;
-    z-index: 10;
+    z-index: 90;
 }
 .navbar-list{
     width: 75px;            /*este espacio es importante para que en mobile tambien se vea bien*/
@@ -144,7 +136,7 @@ header {
 .session-card{
     position: absolute;
     right: 20px;
-    top: 40px;
+    top: 65px;
     height: 480px;
     width: 280px;
     padding: 50px 15px 0px 15px;
@@ -258,36 +250,37 @@ header {
 .sidebar-categories{
     background-color: #1A1B28;
     position: fixed;
-    width: max-content;
     left: 0;
-    height: calc(100vh - 65px);
+    width: min-content;
+    height: calc(100vh - 25px);
     display: flex;
     flex-direction: column;
-    padding: 5px;
+    padding: 0 0 5px 0;
     overflow-y: auto;
+    align-items: center;
     z-index: 10;
-    overflow: hidden;
    
 }
 
 .sidebar-categories > hr{
     background-color: #4c5ec23b; 
-    min-height: 2px;
-    width: 100%; 
+    min-height: 1px;
+    margin: 5px 0 5px 8px;
+    width: 70%; 
+    transition: width 0.7s ease;
 }
 
 
 .sidebar-expands{
-  width: 230px;
-} 
-
-.category{
-    display: none;
-    color:#B7BEE4;
-}
-#view-all-categories{
-    justify-content: center;
-    margin: 10px 0 20px 0;
+    background-color: #1A1B28;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 200px;
+    height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 0 10px 0;
 }
 
 
@@ -297,6 +290,7 @@ header {
 
 .category-item{
     margin: 5px 0;
+    width: 100%;
     border-left: 8px solid transparent;
     box-sizing: border-box;
     display: flex;
@@ -715,6 +709,8 @@ article{
     padding: 1% 8%;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
+    z-index: 20;
 
 }
 
@@ -937,134 +933,37 @@ textarea{
 
 /*//////////////////////////////////////PROPIEDADES SECCION MULTIMEDIA/////////////////////////////////////////////*/
 
-.container-multimedia{
+.slider {
+    overflow: hidden;
     width: 100%;
-    height: 580px; 
-    
+    height: 600px;
 }
 
-#reprod-container{
-    width: 100%;
-    height: 440px;
+.slider-inner {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    transition: all 0.3s ease-in;
+    width: 100%; /* Ajusta este ancho dinámicamente en JavaScript */
+    height: 100%;
+}
+
+.ui-card {
+    flex: 0 0 100%; /* Asegura que cada tarjeta ocupe el 100% del ancho del contenedor */
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
-    margin-bottom: 5px;
-    
-}
-#reprod-container > button{
-    z-index: 3;
-}
-#reprod-container > button > .container-svg{
-    animation: none;
-}
-#reprod-container::before{
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.801); /* Capa semitransparente */
-    z-index: 1; /* Superpone la capa sobre la imagen */
-}
-
-.carousel-multimedia{
-    display: flex;
-    width: 100%;
-    overflow-x: scroll;
-    height: max-content;
-    
-}
-.card-carousel-media{
-    flex: 0 0 220px;                           
-    margin: 5px 8px;
-    height: 120px;   
-    border: 1px solid #4C5EC2;
-    border-radius: 8px;
-   
-}
-.card-carousel-media > img{
-    border-radius: 8px;
-    width: 100%;
-    height: 100%;
-}
-
-.card-video{
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
- 
-}
-.card-video > button{
-    z-index: 2;
-    width: 80px;
 
 }
-.card-video::before{
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.801); /* Capa semitransparente */
-    z-index: 1; /* Superpone la capa sobre la imagen */
-    border-radius: 8px;
-}
-.card-carousel-media:hover {
-    border: 1px solid #F14343;
-}
-.carousel-multimedia::-webkit-scrollbar {
-    display: none; 
-}
-.container-media-main{
-    z-index: 5;
-    width: 100%;
-    height: 100%;
-    background-color: black;
-}
-.container-media-main img {
-    width: 100%;
-    height: 100%; 
+
+.ui-card > img {
+    aspect-ratio: 16 / 9;
     object-fit: contain; 
+    width: 100%;
 }
+
 
 video{
     width: 100%;
     height: 100%;
-}
-
-.animation-item-right{
-
-    animation: spin2 0.8s ease-in-out infinite;
-}
-
-@keyframes spin2 {
-  0% {
-    transform: rotateY(0deg);
-  }
-  to{
-    transform: rotateY(360deg);
-  }
-}
-
-@media only screen and (min-width: 0px) and (max-width: 768px) {
-    .section-title{
-      width: max-content;
-    }
-    .sidebar-categories{
-        width: 100%;
-        overflow-y: auto;
-    }
-    .category{
-        display: flex;
-    }
-    .session-card{
-       right: 0;
-       top:25px;
-    }
-    
 }
