@@ -17,11 +17,20 @@
         
         if(section == "inicio"){
             document.title="Inicio | FlamingGames";
+            const spinner = new Spinner();
             const home = new Home(user);
-            root.appendChild(home.getComponent());
+            root.appendChild(spinner.getComponent());
+
+            setTimeout(() => {
+                root.innerHTML='';
+                root.appendChild(header.getComponent());
+                root.appendChild(home.getComponent());
+                header.listenEvents();
+                home.listenEvents();
+                
+            }, 5000);
             
-           
-            home.listenEvents();
+            
             
         }else if(section == "game"){
             document.title="Ver juego | FlamingGames";
@@ -2618,7 +2627,48 @@
             });
             
         }
+    }
 
+    class Spinner{
+
+        constructor(){}
+
+        getComponent(){
+            let index=0;
+            let totalSeg=500;
+            const container = document.createElement("div");
+            container.className="container-spinner";
+            const percentage=document.createElement("p");
+            percentage.className='percentage-spinner';
+            const spinner = document.createElement("div");
+            spinner.className='textWrapper';
+            spinner.innerHTML=`<p class="text-spinner">Loading...</p>
+                                <div class="invertbox"></div>`;
+
+            container.appendChild(spinner);
+            container.appendChild(percentage);
+
+            const interval= setInterval(() => {
+                let render= (index * 100) / totalSeg;
+                
+                if(render > 100){
+                    render=100;
+                }
+                percentage.innerHTML='';
+                percentage.innerHTML=` ${render} %`;
+                index=index+10;
+
+            }, 90);
+
+            setTimeout(()=>{
+                clearInterval(interval);
+                console.log("se detuvo");
+                
+            },5000);
+
+            return container;
+
+        }
     }
 
 
