@@ -7,7 +7,6 @@
         
     });
   
-
     function showContent(section,user=null) {
         const root= document.querySelector("#root");
         root.innerHTML=' ';
@@ -41,8 +40,6 @@
             console.log("render error");
         }
     }
-
-
     const games1=[
         {
             id:"1",
@@ -470,7 +467,6 @@
             liikes:2987
         },
        
-
     ]
     const games3=[
         {
@@ -1014,9 +1010,6 @@
                 </svg>`
             }
         ]
-
-        
-        
     }
 
     class Utils{
@@ -1224,8 +1217,6 @@
             this.#sessionCard=new SessionCard(userLogin);
             this.#parentElement=parentElement;
             this.#sectionActive=sectionActive;
-
-           
         }
     
         getComponent(){
@@ -1271,7 +1262,6 @@
             }
 
             this.#handleClickSessionCard(avatar);
-    
         }
 
         #handleClickSessionCard(clickElement){
@@ -1304,8 +1294,6 @@
             const hambur = document.querySelector(".hambur-menu");
             const sidebarObj = new SidebarCategory(Constants.categories,this.#sectionActive,this.#userLogin);
             
-            
-
             hambur.addEventListener("click", ()=>{
 
                 if(isRender){
@@ -1321,10 +1309,7 @@
 
                     isRender=true;
                 }
-
-                
             })
-
         }
 
         //esta funcion se encarga de guardar en un atributo de clase la posicion en la que el usuario deja el scroll de la sidebar antes de hacer click en el menu
@@ -1339,7 +1324,6 @@
         }
     
     }
-
 
     class SidebarCategory {
         #categoriesList; /*esto deberian ser objetos que contengan nombre de la categoria y el emoji apropiado */
@@ -1425,7 +1409,6 @@
         #handleMouseEnterLeave(){
             const sidebar = document.querySelector(".sidebar-categories");
             
-
             sidebar.addEventListener("mouseenter", () => {
                 const namesCategories = document.querySelectorAll(".category");
 
@@ -1444,7 +1427,6 @@
                 
             });
 
-            
             sidebar.addEventListener("mouseleave", () => {
                 const namesCategories = document.querySelectorAll(".category");
                 namesCategories.forEach((t)=>{
@@ -1466,7 +1448,6 @@
             })
         }
 
-       
         //captura en la categoria que se clickea a traves del data-value
         #handleClickCategory(element){
             const hrefValue= element.getAttribute("href");
@@ -1525,7 +1506,6 @@
             card.innerHTML=template;
 
             return card;
-
         }
 
         listenEvents(){
@@ -1593,7 +1573,6 @@
             return socialTemplate;
         }
 
-       
         #handleClickBtnClose(){
             const btn = document.querySelector(".btn-close-info");
          
@@ -1624,9 +1603,6 @@
             })
         }
     }
-
-
-
 
     class Home {
         #user;
@@ -1669,10 +1645,7 @@
                 pos++
             })
         }
-
-
     }
-
 
     class Card{
         #game;
@@ -1739,9 +1712,7 @@
                 this.#inCart ? 
                 Utils.customButton("btn-in-cart btn btn-card", `En el carrito ${ Utils.SVGTemplate( Utils.customSVG("IN_CART",`${Constants.colors.white}`))}`, `btn-${this.#game.id}`) :
                 Utils.customButton("btn-play-game btn btn-card", `<span class="p-bold" >Jugar</span> ${ Utils.SVGTemplate( Utils.customSVG("PLAY_GAME",`${Constants.colors.white}`))}`, `btn-${this.#game.id}`)
-            }`
-
-            
+            }`;
 
             return templateButton;                   
         }
@@ -1754,17 +1725,13 @@
             return templatePrice;
         }
 
-      
         #convertPrice(price) {
             let num=parseFloat(price);
 
-            // convierte el número a un string con dos decimales
             let formattedNum = num.toFixed(2);
         
-            // separa la parte entera de la parte decimal
             let [integerPart, decimalPart] = formattedNum.split('.');
         
-            // añade puntos como separador de miles
             integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         
             
@@ -1836,8 +1803,6 @@
             }
 
         }
-
-
     }
 
     class Carousel {
@@ -1968,7 +1933,6 @@
             }
         };
 
-
         #displaceScrollPosition(amount){
             const carousel = document.getElementById(`carousel-${this.#id}`);
             carousel.scrollBy({
@@ -1996,7 +1960,6 @@
 
         
     }
-
 
     class SectionGame {
         #game;
@@ -2098,8 +2061,7 @@
                 return `<li class=${className}>
                             ${content}
                         </li>`
-            } 
-                            
+            }            
             const barContainer = `<div class="bar-game-exec">
                                     <h2>${Utils.capitalizeFirst(this.#game.titulo)}</h2>
                                     <ul>
@@ -2274,11 +2236,7 @@
                     this.#getAllComments(container, this.#game.comentarios);
                     textarea.value='';
                     btn.disabled = true;
-
-                    
-                }
-                
-                
+                }    
             })
         }
 
@@ -2308,9 +2266,7 @@
                     }else{
                         unlike.classList.add("unlike-active");
                         unlike.innerHTML=`${Utils.customSVG("SVG_UNLIKE",Constants.colors.secondary)}`
-                    }
-                    
-                      
+                    }    
                 })
             })
         }
@@ -2366,6 +2322,7 @@
                 
             });
         }
+
         #convertDate(date){
             const [d,m,a]=date.split("-");
             const format = new Date(`${a}-${m}-${d}`);
@@ -2376,7 +2333,6 @@
             }).format(format);
 
             return formatDate;
-
         }
 
         #convertLikes(likes){
@@ -2394,12 +2350,9 @@
 
     }
 
-  
-
     class Multimedia{
         #game;
         #isRenderMain=false;
-        #directionAnimation=true;  /*cuando esta en false se mueve a la izq , cuando esta en true se mueve a la derecha */
         #isScrolling;
 
         constructor(game){
@@ -2558,15 +2511,11 @@
             const scrollAmount = carousel.offsetWidth * 0.4;
           
             
-          
-            
             document.querySelector(`.btn-next`).addEventListener("click", ()=> {
-                this.#directionAnimation=true;
                 this.#displaceScrollPosition(scrollAmount); 
             });
          
             document.querySelector(`.btn-prev`).addEventListener("click", ()=> {
-                this.#directionAnimation=true;
                 this.#displaceScrollPosition(-scrollAmount); 
             });
 
