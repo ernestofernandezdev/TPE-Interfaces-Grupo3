@@ -2291,9 +2291,9 @@
         #handleClickLikeComment(){
             const likesBtn = document.querySelectorAll(".like-comment");
             const unlikesBtn=document.querySelectorAll(".unlike-comment");
-
+            
             likesBtn.forEach((like)=>{
-                like.addEventListener("click",()=>{
+                like.addEventListener("click",(e)=>{
                     like.innerHTML='';
                     if(like.classList.contains("like-active")){
                         like.classList.remove("like-active");
@@ -2405,6 +2405,8 @@
     class Multimedia{
         #game;
         #isRenderMain=false;
+        #directionAnimation=true;  /*cuando esta en false se mueve a la izq , cuando esta en true se mueve a la derecha */
+        #isScrolling;
 
         constructor(game){
             this.#game=game;
@@ -2543,16 +2545,34 @@
             return container;
 
         }
+        #addAnimationCards(){
+            const cards = document.querySelectorAll(".card-carousel-media");
+            cards.forEach((card)=>{
+                card.classList.add("animation-item-right");
+            })
+
+        }
+        #disableAnimation(){
+            const cards = document.querySelectorAll(".card-carousel-media");
+            cards.forEach((card)=>{
+                card.classList.remove("animation-item-right");
+            })
+        }
 
         #handleScroll(){
             const carousel = document.querySelector(`.carousel-multimedia`);
-            const scrollAmount = carousel.offsetWidth * 0.95;
+            const scrollAmount = carousel.offsetWidth * 0.4;
+          
+            
+          
             
             document.querySelector(`.btn-next`).addEventListener("click", ()=> {
+                this.#directionAnimation=true;
                 this.#displaceScrollPosition(scrollAmount); 
             });
          
             document.querySelector(`.btn-prev`).addEventListener("click", ()=> {
+                this.#directionAnimation=true;
                 this.#displaceScrollPosition(-scrollAmount); 
             });
 
@@ -2564,12 +2584,23 @@
             const btnPrev = document.querySelector(`.btn-prev`);
             const btnNext = document.querySelector(`.btn-next`);
             const scrollEnd = carousel.scrollWidth - carousel.clientWidth;
+       
+          
+            clearTimeout(this.#isScrolling);
+            this.#addAnimationCards();
+            this.#isScrolling=setTimeout(() => {
+                setTimeout(() => {
+                    this.#disableAnimation();
+                }, 1200);
+            }, 54);
            
             
             if (carousel.scrollLeft <= 6) {
                 btnPrev.style.display="none";
                 
-            }else if(carousel.scrollLeft >= scrollEnd - 6){               
+            }else if(carousel.scrollLeft >= scrollEnd - 6){   
+                
+                            
                 btnNext.style.display = "none"; 
                 
             }else{
@@ -2577,10 +2608,15 @@
                 btnPrev.style.display = "flex"; 
             }
         };
-
+        
+    
 
         #displaceScrollPosition(amount){
+          
+     
             const carousel = document.querySelector(`.carousel-multimedia`);
+            
+            
             carousel.scrollBy({
               left: amount, 
               behavior: "smooth" 

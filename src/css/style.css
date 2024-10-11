@@ -967,6 +967,7 @@ textarea{
     display: flex;
     width: 100%;
     overflow-x: scroll;
+    height: max-content;
     
 }
 .card-carousel-media{
@@ -1028,3 +1029,17 @@ video{
     width: 100%;
     height: 100%;
 }
+
+.animation-item-right{
+
+    animation: spin2 0.8s ease-in-out infinite;
+}
+
+  @keyframes spin2 {
+    0% {
+      transform: rotateY(0deg);
+    }
+    to{
+      transform: rotateY(360deg);
+    }
+  }
