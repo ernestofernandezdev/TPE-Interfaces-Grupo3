@@ -19,8 +19,10 @@ Cada **clase** cuenta con 2 funciones principales que son ***getComponent()*** y
 > Mostrado con imagenes: 
 > **Organismo HOME**
  ![home](./src/static/docs/home.PNG) 
+
  **Molecula Carousel**
- ![carousel](./src/static/docs/carousel.PNG) 
+ ![carousel](./src/static/docs/carousel.PNG)
+
  **Atomo Card**
  ![card](./src/static/docs/card.PNG) 
  
@@ -32,6 +34,7 @@ Las clases *Utils* y *Constants* son utilizadas para acceder a colores y funcion
  - **section**: string del nombre de la sección a la que se debe redirigir.
  - **user** : user que está activo en la web, puede ser nulo en caso de que no haya logueados.
  - **sectionActive** : este parametro es opcional para la convivencia particular de la seccion **login** . Login puede contener secciónes detras activas.
+
  ![showcontent](./src/static/docs/showcontent.PNG) 
 
 ## Spinner
@@ -43,5 +46,6 @@ Las clases *Utils* y *Constants* son utilizadas para acceder a colores y funcion
  2. Se vacía la etiqueta que muestra el porcentaje y se agrega el actual porcentaje (variable **render**).
  3. Se incrementa en **100** la variable index, para que al volver al paso 1 el porcentaje sea distinto e incremental.
  A los 5000ms (variable *totalSeg*) se corta el *setInterval de 90ms*, llegando casi al total de 100%, se pasa minimamente por tiempos de ejecucion imperfectos.
+ 
  ![spinner](./src/static/docs/spinner.PNG) 
 
