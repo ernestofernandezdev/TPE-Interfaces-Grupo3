@@ -15,7 +15,7 @@
 ### Formas de acceder a **INICIAR SESION**:
 > 1. Con usuario inicialmente logueado:
 >    - Presionando el avatar del header > presionando la opción "Cerrar sesión" > volviendo a presionar el avatar deslogueado.
->  2. Con usuario inicialmente deslogueado:
+> 2. Con usuario inicialmente deslogueado:
 >    - Presionando el avatar desolgueado ubicado en el header al lado del simbolo de carrito.
 
 ### Formas de acceder a **REGISTRARSE**:
