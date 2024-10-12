@@ -3037,7 +3037,7 @@
                 <div class="wrong-input-message p-s hidden">Debes aceptar los términos y condiciones</div>
                 <input type="submit" value="Registrarse" class="primary-btn">
             </form>\
-            <p class="p-s">Ya tienes una cuenta? <a href="" class="texto-link iniciar-sesion">Iniciar sesión</a></p>`
+            <p class="p-s">¿Ya tienes una cuenta? <a href="" class="texto-link iniciar-sesion">Iniciar sesión</a></p>`
             return container;
         }
 
