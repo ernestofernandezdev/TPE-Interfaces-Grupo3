@@ -8,9 +8,9 @@
  > La web comienza con un usuario logueado y en la seccion inicio por defecto.El usuario logueado está contenido en la variable ***player*** del archivo script.js.
 
  ### Datos para el inicio de sesión simulado:
-> Usuario: juancito28673
-> Contraseña: 1234
-> También se puede ingresar sin completar datos ingresando con Facebook o Google
+> - Usuario: juancito28673
+> - Contraseña: 1234
+> - También se puede ingresar sin completar datos ingresando con Facebook o Google
  
  ### Formas de acceder a **INICIO**:
 > - Al iniciar por primera vez la pagina.
