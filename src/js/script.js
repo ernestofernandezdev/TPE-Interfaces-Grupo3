@@ -14,7 +14,6 @@
         root.appendChild(header.getComponent());
         
        
-     
         if(section == "inicio"){
             document.title="Inicio | FlamingGames";
             const spinner = new Spinner();
@@ -2744,8 +2743,8 @@
                                         </label>
                                         <p class='p-m suscription-text p-bold'>¡Suscribite a nuestro <span class='p-bold p-m'>newsletter</span> para recibir promociones y lanzamientos de nuevos juegos!</p>
                                         <div class='container-suscription'>   
-                                            <form action=''>
-                                                <input type='email' id='email-suscripcion' placeholder="correo@ejemplo.com" maxlength='90' required>
+                                            <form id="form-suscription"action=''>
+                                                <input type='email'name="email" id='email-suscripcion' placeholder="correo@ejemplo.com" maxlength='90' required>
                                                 <button class='btn btn-primary' type="submit">Suscribirse</button>
                                             </form>
                                         </div>
@@ -2766,6 +2765,7 @@
 
         listenEvents(){
             this.#handleCheckbox();
+            this.#handleSubmitSuscription();
         }
 
         #handleCheckbox(){
@@ -2790,6 +2790,19 @@
                     }
                     
                 })
+            })
+        }
+
+        #handleSubmitSuscription(){
+            const form = document.querySelector("#form-suscription");
+            form.addEventListener("submit", (e)=>{
+                e.preventDefault();
+                let f = new FormData(form);
+                const input = document.getElementById("email-suscripcion");
+                input.value='';
+                console.log("Suscripcion para: "+ f.get("email"));
+                
+                
             })
         }
     }
