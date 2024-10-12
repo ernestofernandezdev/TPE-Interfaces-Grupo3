@@ -1260,7 +1260,6 @@
            
             return header;
         }
-        
         listenEvents(){
             this.#handleClickAvatar();
             this.#handleClickHamburMenu();
@@ -1273,7 +1272,6 @@
                 showContent('inicio',this.#userLogin);
             })
         }
-    
         /*esto se ejecuta 1 sola vez cuando lo invoca la pagina que quiere cargar/hacer uso de un header*/
         #handleClickAvatar(){
             const avatar = document.querySelector(".avatar-login");
@@ -1339,7 +1337,6 @@
                 }
             })
         }
-
         //esta funcion se encarga de guardar en un atributo de clase la posicion en la que el usuario deja el scroll de la sidebar antes de hacer click en el menu
         //hamburguesa para ocultar el menu de categorias
         #savePositionScrollSidebar(){
@@ -1394,7 +1391,6 @@
             this.#handleScrollPositionSidebar(position);
             this.#handleMouseEnterLeave();
         }
-
         //esta funcion se encarga de recibir del elemento padre la posicion del scroll en la que se debe renderizar la lista de categorias
         #handleScrollPositionSidebar(position){
             const sidebar = document.querySelector(".sidebar-categories");
@@ -1402,7 +1398,6 @@
             this.#scrollPosition=position;
             sidebar.scrollTop=position;
         }
-
         //crea el contenedor de cada categoria solo con el icono y le asigna los eventos para que al ser clickeado pueda ser identificado con data-value
         #getCategoryItem(categoryObj){
             const catContainer= document.createElement("a");
@@ -1428,11 +1423,9 @@
             return catContainer;
             
         }
-
         #getCategoryName(classname, content){
             return`<p class=${classname}>${content}</p>`;
         }
-
         //al pasar el mouse por el sidebar se crean y renderizan los nombres de las categorias
         #handleMouseEnterLeave(){
             const sidebar = document.querySelector(".sidebar-categories");
@@ -1468,14 +1461,12 @@
 
             });
         }
-
         //esta funcion se encarga de escuchar y mantener actualizado la posicion de la sidebar una vez desplegada
         #handleScrollSidebar(sidebarElement){
             sidebarElement.addEventListener("scroll", ()=>{
                 this.#scrollPosition=sidebarElement.scrollTop;
             })
         }
-
         //captura en la categoria que se clickea a traves del data-value
         #handleClickCategory(element){
             const hrefValue= element.getAttribute("href");
@@ -1498,8 +1489,6 @@
             }
            
         }
-
-
     }
     
     //este controla los eventos de la tarjeta, no los del avatar (porque avatar es del header)
@@ -2661,7 +2650,7 @@
 
         getComponent(){
             let index=0;
-            let totalSeg=500;
+            const totalSeg=5000;
             const container = document.createElement("div");
             container.className="container-spinner";
             const percentage=document.createElement("p");
@@ -2682,14 +2671,14 @@
                 }
                 percentage.innerHTML='';
                 percentage.innerHTML=` ${render} %`;
-                index=index+10;
+                index=index+100;
 
             }, 90);
 
             setTimeout(()=>{
                 clearInterval(interval);
                 
-            },5000);
+            },totalSeg);
 
             return container;
 
