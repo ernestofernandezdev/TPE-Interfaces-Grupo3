@@ -7,24 +7,24 @@
  ## Flujo de simulacion
  > La web comienza con un usuario logueado y en la seccion inicio por defecto.El usuario logueado está contenido en la variable ***player*** del archivo script.js.
  
- ### Formas de acceder a INICIO:
- > - Al iniciar por primera vez la pagina.
-   - Al clickear sobre el logo ("FlamingGames").
-   - Al clickear la opción INICIO en el menu desplegable hamburguesa.
+ ### Formas de acceder a **INICIO**:
+> - Al iniciar por primera vez la pagina.
+> - Al clickear sobre el logo ("FlamingGames").
+> - Al clickear la opción INICIO en el menu desplegable hamburguesa.
 
-### Formas de acceder a INICIAR SESION:
+### Formas de acceder a **INICIAR SESION**:
 > 1. Con usuario inicialmente logueado:
 >    - Presionando el avatar del header > presionando la opción "Cerrar sesión" > volviendo a presionar el avatar deslogueado.
 >  2. Con usuario inicialmente deslogueado:
 >    - Presionando el avatar desolgueado ubicado en el header al lado del simbolo de carrito.
 
-### Formas de acceder a REGISTRARSE:
+### Formas de acceder a **REGISTRARSE**:
 > 1. Con usuario inicialmente logueado:
->    - **Repitiendo los pasos de _Formas de acceder a INICIAR SESION, opcion 1_. Una vez allí, presionar la opción de *Registrarse* en el formulario de Inicio de Sesión.**
+>    - **Repitiendo los pasos de _Formas de acceder a INICIAR SESION, opcion 1_.** Una vez allí, presionar la opción de *Registrarse* en el formulario de Inicio de Sesión.
 > 2. Con usuario inicialmente deslogueado:
->    - **Repitiendo los pasos de _Formas de acceder a INICIAR SESION, opcion 2_. Una vez allí, presionar la opción de *Registrarse* en el formulario de Inicio de Sesión.**
+>    - **Repitiendo los pasos de _Formas de acceder a INICIAR SESION, opcion 2_.** Una vez allí, presionar la opción de *Registrarse* en el formulario de Inicio de Sesión.
 
-### Forma de acceder a SECCION DE EJECUCION DE JUEGO:
+### Forma de acceder a **SECCION DE EJECUCION DE JUEGO**:
 > Clickeando en el botón de Jugar de la card: "4 en linea: batman vs. guasón".
 
 ## Estructura "mamushka" de componentes de script.js
