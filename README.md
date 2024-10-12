@@ -20,10 +20,10 @@ Cada **clase** cuenta con 2 funciones principales que son ***getComponent()*** y
 > **Organismo HOME**
  ![home](./src/static/docs/home.PNG) 
 
- **Molecula Carousel**
+> **Molecula Carousel**
  ![carousel](./src/static/docs/carousel.PNG)
 
- **Atomo Card**
+> **Atomo Card**
  ![card](./src/static/docs/card.PNG) 
  
 ## Funciones constantes y utils
@@ -38,14 +38,14 @@ Las clases *Utils* y *Constants* son utilizadas para acceder a colores y funcion
  ![showcontent](./src/static/docs/showcontent.PNG) 
 
 ## Spinner
-> La simulacion del spinner se conforma por un contenedor principal con 2 elementos. El div spinner que contiene un *<p>* con el texto 'Loading' y un *<div>* que es la 
- caja que va de un lado al otro del texto cambiando su color por donde pasa. El segundo elemento es una etiqueta *<p>* que contiene el porcentaje simulado. 
+> La simulacion del spinner se conforma por un contenedor principal con 2 elementos. El div spinner que contiene un **p** con el texto 'Loading' y un **div** que es la 
+ caja que va de un lado al otro del texto cambiando su color por donde pasa. El segundo elemento es una etiqueta **p** que contiene el porcentaje simulado. 
  La logica del porcentaje es cada **90** milisegundos hacer una **regla de 3 simple** entre el 100% , el **total de segundos** en el que el spinner va a terminar con el uso de *setTimeOut* y un *index*.
  Cada **90ms**: 
  1. Se hace la regla de 3, que en principio es 0 (valor de index).
  2. Se vacía la etiqueta que muestra el porcentaje y se agrega el actual porcentaje (variable **render**).
  3. Se incrementa en **100** la variable index, para que al volver al paso 1 el porcentaje sea distinto e incremental.
  A los 5000ms (variable *totalSeg*) se corta el *setInterval de 90ms*, llegando casi al total de 100%, se pasa minimamente por tiempos de ejecucion imperfectos.
- 
+
  ![spinner](./src/static/docs/spinner.PNG) 
 
