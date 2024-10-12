@@ -32,10 +32,11 @@ Cada **clase** se puede observar como un ***componente*** u ***organismo*** de l
 Cada **clase** cuenta con 2 funciones principales que son ***getComponent()*** y ***listenEvents()***
  - *getComponent()* : Se encarga de rotarnar codigo **HTML** para que sea agregado (*appenchild()*) por el **componente padre**. 
  - *listenEvents()* : Se encarga de ***poner a escuchar*** todos los eventos que contenga la clase.
-Cada **componente padre** que haga uso de algun **componente hijo** debe:
- >  1. Instanciar un objeto hijo utilizando _new_ , ejemplo: **const header = _new_ Header()**;
- >  2. Llamar a la funcion _getComponent()_ de su hijo para agregar en sí su contenido, ejemplo: **padre.appenchild(header.getComponent());**;
- >  3. Llamar a la funcion _listenEvents()_ de los hijos que haga uso, ejemplo: **header.listenEvents()**;
+ 
+ Cada **componente padre** que haga uso de algun **componente hijo** debe:
+ >  1. Instanciar un objeto hijo utilizando _new_ , ejemplo: **const h = _new_ Header()**;
+ >  2. Llamar a la funcion _getComponent()_ de su hijo para agregar en sí su contenido, ejemplo: **padre.appenchild( h.getComponent() );**
+ >  3. Llamar a la funcion _listenEvents()_ de los hijos que haga uso, ejemplo: **h.listenEvents()**;
 
    En esos **3** pasos un padre / **organismo** agrega codigo HTML y pone a escuchar eventos de un componente más pequeño / **molécula**.
 

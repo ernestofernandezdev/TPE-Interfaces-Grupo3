@@ -2968,7 +2968,7 @@
 
         constructor(user = null,sectionActive){
             this.#user=user;
-            this.#registroForm = new RegistroForm(this.#user);
+            this.#registroForm = new RegistroForm(this.#user, sectionActive);
             this.#sectionActive=sectionActive;
         }
        
@@ -2997,10 +2997,12 @@
     }
 
     class RegistroForm {
-        #userCompare;    
+        #userCompare; 
+        #sectionActive;   
         
-        constructor(userCompare) {
+        constructor(userCompare, sectionActive) {
             this.#userCompare=userCompare;
+            this.#sectionActive=sectionActive;
         }
 
         getComponent() {
@@ -3047,7 +3049,7 @@
         #handleLoginBtn() {
             document.querySelector(".iniciar-sesion").addEventListener("click", e => {
                 e.preventDefault();
-                showContent("login",null);
+                showContent("login",null,this.#sectionActive);
             })
         }
 
