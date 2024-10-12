@@ -109,6 +109,7 @@ button{
     padding: 1% 8%;
     display: flex;
     flex-direction: column;
+  
 }
 
 
@@ -154,11 +155,11 @@ header {
     background-color: #1A1B28;
     border-radius: 8px;
     box-shadow: -5px 8px 15px rgba(0, 0, 0, 0.993); /* sombra negra semitransparente */
-    z-index: 100;
+    z-index: 82;
 }
 .container-session{
     position: relative;
-    z-index: 99;
+    z-index: 82;
 }
 #overlay {
     position: fixed;
@@ -167,7 +168,7 @@ header {
     width: 100vw;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5); 
-    z-index: 98; 
+    z-index: 79; 
  
 }
 .user-info-card{
@@ -268,7 +269,7 @@ header {
     flex-direction: column;
     padding: 5px;
     overflow-y: auto;
-    z-index: 90;
+    z-index:4;
     overflow: hidden;
    
 }
@@ -1110,7 +1111,9 @@ footer{
     display: flex;
     flex-direction: column;
     padding: 2% 8%;
-    z-index: 91;
+    z-index: 5;
+    position: relative;
+  
 }
 .list-footer{
     display: flex;
