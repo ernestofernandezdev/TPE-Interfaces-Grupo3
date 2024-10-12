@@ -32,7 +32,7 @@ Cada **clase** se puede observar como un ***componente*** u ***organismo*** de l
 Cada **clase** cuenta con 2 funciones principales que son ***getComponent()*** y ***listenEvents()***
  - *getComponent()* : Se encarga de rotarnar codigo **HTML** para que sea agregado (*appenchild()*) por el **componente padre**. 
  - *listenEvents()* : Se encarga de ***poner a escuchar*** todos los eventos que contenga la clase.
- > Cada **componente padre** que haga uso de algun **componente hijo** debe:
+Cada **componente padre** que haga uso de algun **componente hijo** debe:
  >  1. Instanciar un objeto hijo utilizando _new_ , ejemplo: **const header = _new_ Header()**;
  >  2. Llamar a la funcion _getComponent()_ de su hijo para agregar en sí su contenido, ejemplo: **padre.appenchild(header.getComponent());**;
  >  3. Llamar a la funcion _listenEvents()_ de los hijos que haga uso, ejemplo: **header.listenEvents()**;
@@ -57,7 +57,8 @@ Mostrado con imágenes:
 Las clases *Utils* y *Constants* son utilizadas para acceder a colores y funciones que son necesarias en todos los componentes.
 
 ## Ruteo entre secciones
-> Para el ruteo hay una funcion general *showContent(section,user,sectionActive)* . Esta funcion contiene el elemento raíz del HTML *root* y es encargada de *appendarle* los **componentes/organismos** que integran una sección. Es llamada por todas las clases que tienen algun componente que se encarga de redirigir a otra sección. Parametros:
+> Para el ruteo hay una funcion general *showContent(section,user,sectionActive)* . Esta funcion contiene el elemento raíz del HTML *root* y es encargada de *appendarle* los **componentes/organismos** que integran una sección. Es llamada por todas las clases que tienen algun componente que se encarga de redirigir a otra sección.
+ Parametros:
  - **section**: string del nombre de la sección a la que se debe redirigir.
  - **user** : user que está activo en la web, puede ser nulo en caso de que no haya logueados.
  - **sectionActive** : este parametro es opcional para la convivencia particular de la seccion **login** . Login puede contener secciónes detras activas.
