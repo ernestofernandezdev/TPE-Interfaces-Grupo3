@@ -47,9 +47,12 @@
             
         }else if(section == "login"){
             /*new login */
+            const home = new Home(user);
             const login = new Login(player);    /*aca siempre debe pasarle player que es el simulado que llega de la DB */
+            root.appendChild(home.getComponent());
             root.appendChild(login.getComponent());
             login.listenEvents();
+            home.listenEvents();
         }else{
             console.log("render error");
         }
@@ -2827,6 +2830,7 @@
             this.#handleLogIn();
             this.#handleRegistrarseButton();
         }
+      
 
         #handleLogIn() {
             const form = document.querySelector("#log-in-form");
@@ -2886,6 +2890,16 @@
 
         listenEvents(){
             this.#loginForm.listenEvents();
+            this.#handleClickCloseLogin();
+        }
+
+        #handleClickCloseLogin(){
+            const parentElement = document.querySelector("#log-in");
+            parentElement.addEventListener("click",(e)=>{
+                if(e.target === parentElement){
+                    parentElement.remove();
+                }
+            })
         }
 
     }

@@ -154,11 +154,11 @@ header {
     background-color: #1A1B28;
     border-radius: 8px;
     box-shadow: -5px 8px 15px rgba(0, 0, 0, 0.993); /* sombra negra semitransparente */
-    z-index: 20;
+    z-index: 100;
 }
 .container-session{
     position: relative;
-    z-index: 9;
+    z-index: 99;
 }
 #overlay {
     position: fixed;
@@ -167,7 +167,7 @@ header {
     width: 100vw;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5); 
-    z-index: 15; 
+    z-index: 98; 
  
 }
 .user-info-card{
@@ -268,7 +268,7 @@ header {
     flex-direction: column;
     padding: 5px;
     overflow-y: auto;
-    z-index: 8;
+    z-index: 90;
     overflow: hidden;
    
 }
@@ -576,14 +576,14 @@ article{
 
 
 /*///////////////////////////////////////////////PROPIEDADES DEL LOGIN//////////////////////////////////////////////////////////////*/
-
-#log-in {
-    grid-area: 'main';
-    background-image: url("/src/static/assets/login-background.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
+#log-in{
+    background-color: rgba(0, 0, 0, 0.712);
+    position: fixed;
+    top: 60px;
+    left: 0;
     width: 100%;
-    height: 62vw;
+    height: 100%;
+    z-index: 95;
     display: flex;
     justify-content: center;
 }
@@ -599,6 +599,8 @@ article{
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
+   
 }
 
 #log-in-form form {
@@ -1108,7 +1110,7 @@ footer{
     display: flex;
     flex-direction: column;
     padding: 2% 8%;
-    z-index: 9;
+    z-index: 91;
 }
 .list-footer{
     display: flex;
