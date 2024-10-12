@@ -16,15 +16,19 @@ Cada **clase** cuenta con 2 funciones principales que son ***getComponent()*** y
 
    En estos **3** pasos un padre / **organismo** agrega codigo HTML y pone a escuchar eventos de un componente mas pequeño / **molécula**.
 
-> Mostrado con imagenes: 
+> Mostrado con imágenes:
+
 > **Organismo HOME**
- ![home](./src/static/docs/home.PNG) 
 
-> **Molecula Carousel**
- ![carousel](./src/static/docs/carousel.PNG)
+![home](./src/static/docs/home.PNG)
 
-> **Atomo Card**
- ![card](./src/static/docs/card.PNG) 
+> **Molécula Carousel**
+
+![carousel](./src/static/docs/carousel.PNG)
+
+> **Átomo Card**
+
+![card](./src/static/docs/card.PNG)
  
 ## Funciones constantes y utils
 Las clases *Utils* y *Constants* son utilizadas para acceder a colores y funciones que son necesarias en todos los componentes.
