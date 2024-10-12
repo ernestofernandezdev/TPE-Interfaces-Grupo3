@@ -13,7 +13,7 @@
         const footer = new Footer();
         root.appendChild(header.getComponent());
         
-        header.listenEvents();
+       
      
         if(section == "inicio"){
             document.title="Inicio | FlamingGames";
@@ -26,17 +26,20 @@
                 root.appendChild(header.getComponent());
                 root.appendChild(home.getComponent());
                 root.appendChild(footer.getComponent());
+
                 header.listenEvents();
                 home.listenEvents();
                 footer.listenEvents();
-                
             }, 5000);
               
         }else if(section == "game"){
             document.title="Ver juego | FlamingGames";
             const gameEject = new SectionGame(games1[1],user)
+
             root.appendChild(gameEject.getComponent());
+
             gameEject.listenEvents();
+            header.listenEvents();
            
         }else if(section == "login"){
             let section;
@@ -49,6 +52,8 @@
             const login = new Login(player);    /*aca siempre debe pasarle player que es el simulado que llega de la DB */
             root.appendChild(section.getComponent());
             root.appendChild(login.getComponent());
+
+            header.listenEvents();
             login.listenEvents();
             section.listenEvents();
         }else{
@@ -56,8 +61,7 @@
         }
 
         root.appendChild(footer.getComponent());
-        footer.listenEvents();
-        
+        footer.listenEvents();  
     }
 
     const player={
