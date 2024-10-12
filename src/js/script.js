@@ -2745,7 +2745,7 @@
                                         <div class='container-suscription'>   
                                             <form id="form-suscription"action=''>
                                                 <input type='email'name="email" id='email-suscripcion' placeholder="correo@ejemplo.com" maxlength='90' required>
-                                                <button class='btn btn-primary' type="submit">Suscribirse</button>
+                                                <button id='btn-suscription' class='btn btn-primary' type="submit">Suscribirse</button>
                                             </form>
                                         </div>
                                     </li>
@@ -2799,6 +2799,16 @@
                 e.preventDefault();
                 let f = new FormData(form);
                 const input = document.getElementById("email-suscripcion");
+                const btn = document.getElementById("btn-suscription");
+                btn.classList.add("suscript-success");
+                btn.innerHTML=''
+                btn.innerHTML="Suscrito ✔"
+                btn.disabled=true;
+                setTimeout(() => {
+                    btn.classList.toggle("suscript-success");
+                    btn.innerHTML="Suscribirse";
+                    btn.disabled=false;
+                }, 1000);
                 input.value='';
                 console.log("Suscripcion para: "+ f.get("email"));
                 
