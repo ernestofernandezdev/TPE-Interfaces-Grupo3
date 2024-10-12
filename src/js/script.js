@@ -48,13 +48,30 @@
                 section=new Home(user);
             }
       
-            const login = new Login(player);    /*aca siempre debe pasarle player que es el simulado que llega de la DB */
+            const login = new Login(player,sectionActive);    /*aca siempre debe pasarle player que es el simulado que llega de la DB */
             root.appendChild(section.getComponent());
             root.appendChild(login.getComponent());
 
             header.listenEvents();
             login.listenEvents();
             section.listenEvents();
+        }else if(section == "registro"){
+            
+            let section;
+            if(sectionActive == "game"){
+                section = new SectionGame(games1[1],user);
+            }else{
+                section=new Home(user);
+            }
+           
+            const registro = new Registro(player,sectionActive);    /*aca siempre debe pasarle player que es el simulado que llega de la DB */
+            root.appendChild(section.getComponent());
+            root.appendChild(registro.getComponent());
+            
+            header.listenEvents();
+            registro.listenEvents();
+            section.listenEvents();
+        
         }else{
             console.log("render error");
         }
@@ -878,8 +895,8 @@
             black:"#141414",
             primary80Clean:"#4C5EC2",
             transparent:"#D9D9D9",
-            blackTransp:"#141414",
-            facebook:"#3B5998"
+            blackTransp:"#141414"
+
         }
 
 
@@ -1041,7 +1058,7 @@
 
         static LinksTemplate=(content,customClass)=>{
            
-           return `<a class="${customClass ? customClass : ''}"> ${content}</a>`;
+           return `<a class="${customClass}"> ${content}</a>`;
         }
 
         //los svg si no le determinas el tamaño, se adaptan a su contenedor
@@ -1618,8 +1635,8 @@
         };
 
         #handleClickLogOut(){
-            document.querySelector(".log-out").addEventListener("click", e => {
-                showContent("login");
+            document.querySelector(".log-out").addEventListener("click", () => {
+                showContent("inicio",null);
             })
         }
     }
@@ -1792,7 +1809,7 @@
             const isPay= button.classList.contains("btn-add-cart") || button.classList.contains("btn-in-cart");                         
 
            
-            button.addEventListener("click", e=> {
+            button.addEventListener("click", (e)=> {
                 let isMyGame = this.#game.id == "20";
                 if(isPay){
                     this.#toggleStateCart(button)
@@ -1804,6 +1821,8 @@
                 }else{
                     console.log("CLICK EN JUGAR ");
                 }
+              
+               
             })
             
         }
@@ -2818,9 +2837,11 @@
 
     class LoginForm {
         #userCompare;    
+        #sectionActive;
         
-        constructor(userCompare) {
+        constructor(userCompare,sectionActive) {
             this.#userCompare=userCompare;
+            this.#sectionActive=sectionActive;
     
         }
 
@@ -2838,8 +2859,8 @@
             <p><a class="p-s texto-link" href="#">Recuperar contraseña</a></p>
             <p class="p-s">¿No tienes una cuenta? <a href="" class="texto-link registrarse">Registrate</a></p>
             <hr>\
-            <button class="google-btn"><img src="static/favicon/google-icon.png"><span>Iniciar sesión con Google</span></button>
-            <button class="facebook-btn"><span>${Utils.customSVG("FACEBOOK", Constants.colors.white)}</span><span>Continuar con Facebook</span></button>`;
+            <button class="session-social google-btn"><img src="static/favicon/google-icon.png"><span>Iniciar sesión con Google</span></button>
+            <button class="session-social facebook-btn"><span>${Utils.customSVG("FACEBOOK", Constants.colors.white)}</span><span>Continuar con Facebook</span></button>`;
             
             return container;
         }
@@ -2847,6 +2868,15 @@
         listenEvents() {
             this.#handleLogIn();
             this.#handleRegistrarseButton();
+            this.#handleLoginSocial();
+        }
+        #handleLoginSocial(){
+            const btns= document.querySelectorAll(".session-social");
+            btns.forEach((btn)=>{
+                btn.addEventListener("click",()=>{
+                    showContent("inicio",player);
+                })
+            })
         }
       
 
@@ -2886,7 +2916,8 @@
             const btn = document.querySelector(".registrarse");
             btn.addEventListener("click", e => {
                 e.preventDefault();
-                showContent("registro");
+                showContent("registro",null,this.#sectionActive)
+
             })
         }
 
@@ -2894,11 +2925,13 @@
 
     class Login {
         #user;              /*si no hay logueado el user es nulo */ //*este usuario seria el extraído de la base de datos, que permite comparar lo que ingresa el usuario con lo que hay en la db*//
-        #loginForm
+        #loginForm;
+        #sectionActive;
 
-        constructor(user = null){
+        constructor(user = null,sectionActive){
             this.#user=user;
-            this.#loginForm = new LoginForm(this.#user);
+            this.#sectionActive=sectionActive;
+            this.#loginForm = new LoginForm(this.#user,this.#sectionActive);
         }
        
 
@@ -2912,6 +2945,16 @@
 
         listenEvents(){
             this.#loginForm.listenEvents();
+            this.#handleClickCloseLogin();
+        }
+
+        #handleClickCloseLogin(){
+            const parentElement = document.querySelector("#log-in");
+            parentElement.addEventListener("click",(e)=>{
+                if(e.target === parentElement){
+                    parentElement.remove();
+                }
+            })
         }
 
     }
@@ -2919,11 +2962,14 @@
 
     class Registro {
         #user;              /*si no hay logueado el user es nulo */ //*este usuario seria el extraído de la base de datos, que permite comparar lo que ingresa el usuario con lo que hay en la db*//
-        #registroForm
+        #registroForm;
+        #sectionActive;
 
-        constructor(user = null){
+
+        constructor(user = null,sectionActive){
             this.#user=user;
             this.#registroForm = new RegistroForm(this.#user);
+            this.#sectionActive=sectionActive;
         }
        
 
@@ -2937,9 +2983,18 @@
 
         listenEvents(){
             this.#registroForm.listenEvents();
+            this.#handleClickCloseLogin();
+        }
+
+        #handleClickCloseLogin(){
+            const parentElement = document.querySelector("#registro");
+            parentElement.addEventListener("click",(e)=>{
+                if(e.target === parentElement){
+                    parentElement.remove();
+                }
+            })
         }
     }
-
 
     class RegistroForm {
         #userCompare;    
@@ -2952,13 +3007,13 @@
             let container = document.createElement("div");
             container.id="registro-form";
             container.innerHTML = `<h2>Registrarse en <span class="flaming">Flaming</span><span class="games">Games</span></h2>
-            <form action="">
+            <form class='form-register' action="">
                 <label for="nombre" class="p-m">Nombre</label>
                 <input type="text" name="nombre" id="nombre" placeholder="Juan" class="form-field">
                 <label for="nombre" class="p-m">Apellido</label>
                 <input type="text" name="apellido" id="apellido" placeholder="Gómez" class="form-field">
                 <label for="nickname" class="p-m">Nickname<span class="form-opcional">(opcional)</span></label>
-                <input type="text" name="nickname" id="nickname" placeholder="juancito238" class="form-field">
+                <input type="text" name="nickname" id="nickname" placeholder="juancito238">
                 <label for="nacimiento" class="p-m">Fecha de nacimiento</label>
                 <input type="date" name="nacimiento" id="nacimiento" placeholder="dd/mm/yyyy" class="form-field">
                 <label for="correo" class="p-m">Correo</label>
@@ -2992,7 +3047,7 @@
         #handleLoginBtn() {
             document.querySelector(".iniciar-sesion").addEventListener("click", e => {
                 e.preventDefault();
-                showContent("login");
+                showContent("login",null);
             })
         }
 
@@ -3022,7 +3077,7 @@
                 })
 
                 if (passwordsMatch && captchaMatch && terms && allFieldsFull) {
-                    showContent("login");
+                    showContent("login",null);
                 }
 
 
