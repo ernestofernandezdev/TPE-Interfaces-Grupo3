@@ -28,18 +28,18 @@
 > Clickeando en el botón de Jugar de la card: "4 en linea: batman vs. guasón".
 
 ## Estructura "mamushka" de componentes de script.js
-Cada **clase** se puede observar como un *componente* u *organismo* de los elaborados en la etapa de diseño en Figma.
+Cada **clase** se puede observar como un ***componente*** u ***organismo*** de los elaborados en la etapa de diseño en Figma.
 Cada **clase** cuenta con 2 funciones principales que son ***getComponent()*** y ***listenEvents()***
- - *getComponent* : Se encarga de rotarnar codigo **HTML** para que sea agregado (*appenchild()*) por el **componente padre**. 
- - *listenEvents* : Se encarga de ***poner a escuchar*** todos los eventos que contenga la clase.
+ - *getComponent()* : Se encarga de rotarnar codigo **HTML** para que sea agregado (*appenchild()*) por el **componente padre**. 
+ - *listenEvents()* : Se encarga de ***poner a escuchar*** todos los eventos que contenga la clase.
  > Cada **componente padre** que haga uso de algun **componente hijo** debe:
-   1. Instanciar un objeto hijo utilizando _new_ , ejemplo: **const header = _new_ Header()**;
-   2. Llamar a la funcion _getComponent()_ de su hijo para agregar en sí su contenido, ejemplo: **padre.appenchild(header.getComponent());**;
-   3. Llamar a la funcion _listenEvents()_ de los hijos que haga uso, ejemplo: **header.listenEvents()**;
+ >  1. Instanciar un objeto hijo utilizando _new_ , ejemplo: **const header = _new_ Header()**;
+ >  2. Llamar a la funcion _getComponent()_ de su hijo para agregar en sí su contenido, ejemplo: **padre.appenchild(header.getComponent());**;
+ >  3. Llamar a la funcion _listenEvents()_ de los hijos que haga uso, ejemplo: **header.listenEvents()**;
 
-   En estos **3** pasos un padre / **organismo** agrega codigo HTML y pone a escuchar eventos de un componente mas pequeño / **molécula**.
+   En esos **3** pasos un padre / **organismo** agrega codigo HTML y pone a escuchar eventos de un componente más pequeño / **molécula**.
 
-> Mostrado con imágenes:
+Mostrado con imágenes:
 
 > **Organismo HOME**
 
