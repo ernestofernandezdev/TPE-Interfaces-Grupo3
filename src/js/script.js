@@ -12,8 +12,11 @@
         root.innerHTML=' ';
 
         const header = new Header(user,root,section);
+        const footer = new Footer();
         root.appendChild(header.getComponent());
+        
         header.listenEvents();
+        footer.listenEvents();
         
         if(section == "inicio"){
             document.title="Inicio | FlamingGames";
@@ -25,8 +28,10 @@
                 root.innerHTML='';
                 root.appendChild(header.getComponent());
                 root.appendChild(home.getComponent());
+                root.appendChild(footer.getComponent());
                 header.listenEvents();
                 home.listenEvents();
+                footer.listenEvents();
                 
             }, 5000);
             
@@ -48,6 +53,8 @@
         }else{
             console.log("render error");
         }
+
+        root.appendChild(footer.getComponent());
     }
     const games1=[
         {
@@ -1179,7 +1186,12 @@
                     <g id="SVGRepo_bgCarrier" stroke-width="0"/><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/><g id="SVGRepo_iconCarrier">
                     <path d="M11.42 9.49c-.19-.09-1.1-.54-1.27-.61s-.29-.09-.42.1-.48.6-.59.73-.21.14-.4 0a5.13 5.13 0 0 1-1.49-.92 5.25 5.25 0 0 1-1-1.29c-.11-.18 0-.28.08-.38s.18-.21.28-.32a1.39 1.39 0 0 0 .18-.31.38.38 0 0 0 0-.33c0-.09-.42-1-.58-1.37s-.3-.32-.41-.32h-.4a.72.72 0 0 0-.5.23 2.1 2.1 0 0 0-.65 1.55A3.59 3.59 0 0 0 5 8.2 8.32 8.32 0 0 0 8.19 11c.44.19.78.3 1.05.39a2.53 2.53 0 0 0 1.17.07 1.93 1.93 0 0 0 1.26-.88 1.67 1.67 0 0 0 .11-.88c-.05-.07-.17-.12-.36-.21z"/>
                     <path d="M13.29 2.68A7.36 7.36 0 0 0 8 .5a7.44 7.44 0 0 0-6.41 11.15l-1 3.85 3.94-1a7.4 7.4 0 0 0 3.55.9H8a7.44 7.44 0 0 0 5.29-12.72zM8 14.12a6.12 6.12 0 0 1-3.15-.87l-.22-.13-2.34.61.62-2.28-.14-.23a6.18 6.18 0 0 1 9.6-7.65 6.12 6.12 0 0 1 1.81 4.37A6.19 6.19 0 0 1 8 14.12z"/></g>
-                    </svg>`
+                    </svg>`,
+
+                DETAILS:`<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke=${color}>
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"/><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                        <g id="SVGRepo_iconCarrier"> <path d="M12 4V20M4 12L20 12" stroke=${color} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </g>
+                        </svg>`
                     
             }
            
@@ -2117,7 +2129,7 @@
             const template = `<h3 class="p-l p-bold">Dejanos tu comentario</h3>
                               <div class="container-form-comment">
                                     <form id="form-comment" action="">
-                                        <textarea placeholder="  Escribe un comentario" rows="5" maxlength="480"></textarea>
+                                        <textarea placeholder="  Escribe un comentario" rows="5" required maxlength="480"></textarea>
                                         <button type="submit" class="btn" id="post-comment">Comentar</button>
                                     </form>
                               </div>`;
@@ -2308,8 +2320,15 @@
                 }
                 
             });
+            textarea.addEventListener("click",(e)=>{
+                if(e.target.value == ''){
+                    textarea.insertAdjacentElement('afterend',error);
+                }
+                
+            })
 
             textarea.addEventListener("focus", ()=>{
+               
                 if(document.querySelector(".empty-comment")){
                     textarea.classList.toggle("textarea-empty");
                     const p = document.querySelector(".empty-comment");
@@ -2650,7 +2669,7 @@
 
             const interval= setInterval(() => {
                 let render= (index * 100) / totalSeg;
-                
+
                 if(render > 100){
                     render=100;
                 }
@@ -2668,6 +2687,111 @@
 
             return container;
 
+        }
+    }
+
+    class Footer {
+
+        constructor(){}
+
+        getComponent(){
+            const footer = document.createElement("footer");
+
+            const template = `<div>
+                                <ul class='list-footer'>
+                                    <li class='contacto-item footer-item' >
+                                        <h2 class='p-xl p-bold'>Contacto</h2>
+                                        <label class='most-details-container'>
+                                            <input id='check-0' class='most-details' type='checkbox'>
+                                            ${Utils.SVGTemplate(Utils.customSVG("DETAILS",Constants.colors.white))}
+                                        </label>
+                                        <p class='p-m p-bold'>juegoscontacto@gmail.com.</p>
+                                        <p class='p-m p-bold'>+54-2494-673325.</p>
+                                        <p class='p-m p-bold'>Av. Santamarina 1237, Tandil, Bs. As., Argentina.</p>
+                                    </li>
+                                    <li class='legal-item footer-item'>
+                                        <h2 class='p-xl p-bold'>Legal </h2>
+                                         <label class='most-details-container'>
+                                            <input id='check-1' class='most-details' type='checkbox'>
+                                            ${Utils.SVGTemplate(Utils.customSVG("DETAILS",Constants.colors.white))}
+                                        </label>
+                                        <a class='p-m p-bold'>Copyright.</a>
+                                        <a class='p-m p-bold'>Licencias de software.</a>
+                                    </li>
+                                    <li class='nosotros-item footer-item'>
+                                        <h2 class='p-xl p-bold'>Nosotros</h2>
+                                        <label class='most-details-container'>
+                                            <input id='check-2' class='most-details' type='checkbox'>
+                                            ${Utils.SVGTemplate(Utils.customSVG("DETAILS",Constants.colors.white))}
+                                        </label>
+                                        <a class='p-m p-bold'>Desarrolladores.</a>
+                                        <a class='p-m p-bold'>Comunidad.</a>
+                                        <a class='p-m p-bold'>Historia.</a>
+                                    </li>
+                                    <li class='ayuda-item footer-item'>
+                                        <h2 class='p-xl p-bold'>Ayuda</h2>
+                                        <label class='most-details-container'>
+                                            <input id='check-3' class='most-details' type='checkbox'>
+                                            ${Utils.SVGTemplate(Utils.customSVG("DETAILS",Constants.colors.white))}
+                                        </label>
+                                        <a class='p-m p-bold'>Preguntas frecuentes.</a>
+                                        <a class='p-m p-bold'>Lista de categorias de juegos.</a>
+                                    </li>
+                                    <li class='suscribirse-item footer-item'>
+                                        <h2 class='p-xl p-bold'>Suscribirse</h2>
+                                         <label class='most-details-container'>
+                                            <input id='check-4' class='most-details' type='checkbox'>
+                                            ${Utils.SVGTemplate(Utils.customSVG("DETAILS",Constants.colors.white))}
+                                        </label>
+                                        <p class='p-m suscription-text p-bold'>¡Suscribite a nuestro <span class='p-bold p-m'>newsletter</span> para recibir promociones y lanzamientos de nuevos juegos!</p>
+                                        <div class='container-suscription'>   
+                                            <form action=''>
+                                                <input type='email' id='email-suscripcion' placeholder="correo@ejemplo.com" maxlength='90' required>
+                                                <button class='btn btn-primary' type="submit">Suscribirse</button>
+                                            </form>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <hr class='separator-footer'>
+                            <div class='social-footer'>
+                                ${Utils.SVGTemplate(Utils.customSVG("FACEBOOK",Constants.colors.white))}
+                                ${Utils.SVGTemplate(Utils.customSVG("INSTAGRAM",Constants.colors.white))}
+                                ${Utils.SVGTemplate(Utils.customSVG("TIKTOK",Constants.colors.white))}
+                            </div>`;
+
+            footer.innerHTML=template;
+
+            return footer;
+        }
+
+        listenEvents(){
+            this.#handleCheckbox();
+        }
+
+        #handleCheckbox(){
+            const checks = document.querySelectorAll(".most-details");
+            const items = document.querySelectorAll(".footer-item");
+
+            checks.forEach((checkbox)=>{
+                checkbox.addEventListener("change",()=>{
+                    const pos = checkbox.id.slice(-1);
+                
+                    if(checkbox.checked){
+                        const childrens = items[pos].querySelectorAll(":not(h2):not(input[type='checkbox']):not(.suscription-text)");
+                        childrens.forEach((children)=>{
+                            children.style.display="flex";
+                        })
+                    }else{
+                        const childrens = items[pos].querySelectorAll(":not(h2):not(.most-details-container):not(.most-details-container *)");
+      
+                        childrens.forEach((children)=>{
+                            children.style.display="none";
+                        })
+                    }
+                    
+                })
+            })
         }
     }
 
