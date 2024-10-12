@@ -18,11 +18,11 @@ Cada **clase** cuenta con 2 funciones principales que son ***getComponent()*** y
 
 > Mostrado con imagenes: 
 > **Organismo HOME**
- ![home](./static/docs/home.PNG) 
+ ![home](./src/static/docs/home.PNG) 
  **Molecula Carousel**
- ![carousel](./static/docs/carousel.PNG) 
+ ![carousel](./src/static/docs/carousel.PNG) 
  **Atomo Card**
- ![card](./static/docs/card.PNG) 
+ ![card](./src/static/docs/card.PNG) 
  
 ## Funciones constantes y utils
 Las clases *Utils* y *Constants* son utilizadas para acceder a colores y funciones que son necesarias en todos los componentes.
@@ -32,7 +32,7 @@ Las clases *Utils* y *Constants* son utilizadas para acceder a colores y funcion
  - **section**: string del nombre de la sección a la que se debe redirigir.
  - **user** : user que está activo en la web, puede ser nulo en caso de que no haya logueados.
  - **sectionActive** : este parametro es opcional para la convivencia particular de la seccion **login** . Login puede contener secciónes detras activas.
- ![showcontent](./static/docs/showcontent.PNG) 
+ ![showcontent](./src/static/docs/showcontent.PNG) 
 
 ## Spinner
 > La simulacion del spinner se conforma por un contenedor principal con 2 elementos. El div spinner que contiene un *<p>* con el texto 'Loading' y un *<div>* que es la 
@@ -43,5 +43,5 @@ Las clases *Utils* y *Constants* son utilizadas para acceder a colores y funcion
  2. Se vacía la etiqueta que muestra el porcentaje y se agrega el actual porcentaje (variable **render**).
  3. Se incrementa en **100** la variable index, para que al volver al paso 1 el porcentaje sea distinto e incremental.
  A los 5000ms (variable *totalSeg*) se corta el *setInterval de 90ms*, llegando casi al total de 100%, se pasa minimamente por tiempos de ejecucion imperfectos.
- ![spinner](./static/docs/spinner.PNG) 
+ ![spinner](./src/static/docs/spinner.PNG) 
 
