@@ -14,8 +14,7 @@
         root.appendChild(header.getComponent());
         
         header.listenEvents();
-        footer.listenEvents();
-        
+     
         if(section == "inicio"){
             document.title="Inicio | FlamingGames";
             const spinner = new Spinner();
@@ -57,6 +56,8 @@
         }
 
         root.appendChild(footer.getComponent());
+        footer.listenEvents();
+        
     }
 
     const player={
