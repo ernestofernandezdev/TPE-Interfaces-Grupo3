@@ -5,11 +5,11 @@
         
     });
   
-    function showContent(section,user=null) {
+    function showContent(section,user=null,sectionActive=null) {
         const root= document.querySelector("#root");
         root.innerHTML=' ';
 
-        const header = new Header(user,root,section);
+        const header = new Header(user,root,sectionActive || section);
         const footer = new Footer();
         root.appendChild(header.getComponent());
         
@@ -44,13 +44,18 @@
             /*new secciongame */
             
         }else if(section == "login"){
-            /*new login */
-            const home = new Home(user);
+            let section;
+            if(sectionActive == "game"){
+                section = new SectionGame(games1[1],user);
+            }else{
+                section=new Home(user);
+            }
+      
             const login = new Login(player);    /*aca siempre debe pasarle player que es el simulado que llega de la DB */
-            root.appendChild(home.getComponent());
+            root.appendChild(section.getComponent());
             root.appendChild(login.getComponent());
             login.listenEvents();
-            home.listenEvents();
+            section.listenEvents();
         }else{
             console.log("render error");
         }
@@ -1276,7 +1281,9 @@
           
             if(!this.#userLogin){
                 avatar.addEventListener("click", ()=>{
-                    showContent("login",null);
+                    console.log(this.#sectionActive);
+                    
+                    showContent("login",null,this.#sectionActive);
                     
                 })
 
@@ -2131,7 +2138,7 @@
                               <div class="container-form-comment">
                                     <form id="form-comment" action="">
                                         <textarea placeholder="  Escribe un comentario" rows="5" required maxlength="480"></textarea>
-                                        <button type="submit" class="btn" id="post-comment">Comentar</button>
+                                        <button type="submit" ${this.#user == null ? 'disabled':''} class="btn" id="post-comment">Comentar</button>
                                     </form>
                               </div>`;
             container.innerHTML=template;
@@ -2801,13 +2808,14 @@
         
         constructor(userCompare) {
             this.#userCompare=userCompare;
+    
         }
 
         getComponent() {
             let container = document.createElement("div");
             container.id="log-in-form";
             container.innerHTML = `<h2>Iniciar sesion en <span class="flaming">Flaming</span><span class="games">Games</span></h2>
-            <form action="">
+            <form id="form-login" action="">
                 <input type="text" name="user" id="user" placeholder="Usuario" class="form-field">
                 <div class="wrong-user-message p-s hidden">El usuario ingresado no existe</div>
                 <input type="password" name="password" id="password" placeholder="Contraseña" class="form-field">
@@ -2831,7 +2839,7 @@
 
         #handleLogIn() {
             const form = document.querySelector("#log-in-form");
-            const f=document.querySelector("form");
+            const f=document.querySelector("#form-login");
             form.addEventListener("submit", e => {
                 e.preventDefault();
                 document.querySelectorAll(".form-field").forEach(e => {
@@ -2840,7 +2848,11 @@
                 })
                 
                 let formData = new FormData(f);
+                
                 if (formData.get("user") != this.#userCompare.nick) {
+                    
+                    
+                    
                     const user = document.querySelector("#user");
                     user.classList.add("bad-input");
                     user.nextElementSibling.classList.remove("hidden");
