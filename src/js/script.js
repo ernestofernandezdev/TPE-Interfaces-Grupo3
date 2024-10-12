@@ -2085,21 +2085,22 @@
                 <label for="nacimiento" class="p-m">Fecha de nacimiento</label>
                 <input type="date" name="nacimiento" id="nacimiento" placeholder="dd/mm/yyyy" class="form-field">
                 <label for="correo" class="p-m">Correo</label>
-                <input type="mail" name="correo" id="correo" placeholder="juan.gomez@gmail.com" class="form-field">
+                <input type="email" name="correo" id="correo" placeholder="juan.gomez@gmail.com" class="form-field">
                 <label for="password" class="p-m">Contraseña</label>
                 <input type="password" name="password" id="password" class="form-field form-password">
                 <label for="repeat-password" class="p-m">Repetir contraseña</label>
                 <input type="password" name="repeat-password" id="repeat-password" class="form-field">
-                <div class="wrong-password-message p-s hidden">Las contraseñas no coinciden</div>
+                <div class="wrong-input-message p-s hidden">Las contraseñas no coinciden</div>
                 <div class="form-captcha">
                     <label for="captcha" class="p-m">Captcha</label>
                     <img src="static/assets/captcha.png">
                     <input type="text" name="captcha" id="captcha" class="form-field">
-                    <div class="wrong-password-message p-s hidden">El captcha es incorrecto</div>
+                    <div class="wrong-input-message p-s hidden">El captcha es incorrecto</div>
                 </div>
                 <div class="form-terms">
                     <input type="checkbox" name="terms" id="terms"><label for="terms" class="p-s">Acepto los términos y condiciones</label>
                 </div>
+                <div class="wrong-input-message p-s hidden">Debes aceptar los términos y condiciones</div>
                 <input type="submit" value="Registrarse" class="primary-btn">
             </form>\
             <p class="p-s">Ya tienes una cuenta? <a href="" class="texto-link iniciar-sesion">Iniciar sesión</a></p>`
@@ -2107,7 +2108,66 @@
         }
 
         listenEvents() {
+            this.#handleRegistro();
+            this.#handleLoginBtn();
         }
+
+        #handleLoginBtn() {
+            document.querySelector(".iniciar-sesion").addEventListener("click", e => {
+                e.preventDefault();
+                showContent("login");
+            })
+        }
+
+        #handleRegistro() {
+            const form = document.querySelector("#registro-form form");
+            form.addEventListener("submit", e => {
+                e.preventDefault();
+                
+                let formData = new FormData(form);
+
+                let passwordsMatch = formData.get("password") == formData.get("repeat-password");
+                let captchaMatch = formData.get("captcha").toLowerCase() == "smwm";
+                let terms = formData.get("terms");
+                let allFieldsFull = true;
+                
+                
+                document.querySelectorAll(".form-field").forEach(e => {
+                    e.classList.remove("bad-input");
+                    if (e.value == "" || e.value == null) {
+                        e.classList.add("bad-input");
+                        allFieldsFull = false;
+                    }
+                })
+
+                document.querySelectorAll(".wrong-input-message").forEach(e => {
+                    e.classList.add("hidden");
+                })
+
+                if (passwordsMatch && captchaMatch && terms && allFieldsFull) {
+                    showContent("login");
+                }
+
+
+                if (!passwordsMatch) {
+                    document.querySelectorAll(".wrong-input-message")[0].classList.remove("hidden");
+                    document.querySelector("#password").classList.add("bad-input");
+                    document.querySelector("#repeat-password").classList.add("bad-input");
+                }
+
+                if (!captchaMatch) {
+                    document.querySelectorAll(".wrong-input-message")[1].classList.remove("hidden");
+                    document.querySelector("#captcha").classList.add("bad-input");
+                }
+
+                if (!terms) {
+                    document.querySelectorAll(".wrong-input-message")[2].classList.remove("hidden");
+                }
+
+                
+            })
+        }
+
     }
 
 
