@@ -345,28 +345,6 @@ header {
     color:#6C7BD1;
 }
 
-@keyframes animation-category {
-    0% {
-      transform: rotate(0deg) translate3d(0, 0, 0);
-    }
-  
-    25% {
-      transform: rotate(7deg) translate3d(0, 0, 0);
-    }
-  
-    50% {
-      transform: rotate(-7deg) translate3d(0, 0, 0);
-    }
-  
-    75% {
-      transform: rotate(1deg) translate3d(0, 0, 0);
-    }
-  
-    100% {
-      transform: rotate(0deg) translate3d(0, 0, 0);
-    }
-}
-
 /*///////////////////////////////////////////////////////////PROPIEDADES DE LAS CARDS//////////////////////////////////////////////////*/
 
 .price{
@@ -434,6 +412,11 @@ article{
     cursor: pointer;
    
 }
+
+.btn-card:focus {
+    animation: btn-cart 0.5s 1 linear;
+}
+
 .btn > .container-svg{
     margin-left: 5px;
 }
@@ -447,32 +430,6 @@ article{
     border: 1px solid #AF1F1F;
     box-sizing: border-box;
 }
-  
-.btn-in-cart:hover {
-    animation: btn-cart 0.5s 1 linear;
-}
-  
-@keyframes btn-cart {
-  0% {
-    transform: scale(0.7, 1.3);
-  }
-
-  25% {
-    transform: scale(1.3, 0.7);
-  }
-
-  50% {
-    transform: scale(0.7, 1.3);
-  }
-
-  75% {
-    transform: scale(1.3, 0.7);
-  }
-
-  100% {
-    transform: scale(1, 1);
-  }
-}
  
 
 .btn-play-game{
@@ -485,19 +442,6 @@ article{
 }
 .btn-play-game:hover span {
     display: none;
-}
-
-@keyframes btn-play {
-    0% {
-        transform: scale(1.2 , 1.2); /* Comienza en la posición original */
-    }
-    50% {
-        transform: scale(0.5,0.5); /* Se mueve hacia la derecha hasta el borde */
-    }
-    100%{
-        transform: scale(1.2,1.2);
-    }
-    
 }
 
 /*//////////////////////////////////////////////////////////////PROPIEDADES DEL CARROUSEL/////////////////////////////////////////////////////////////////////////////////*/
@@ -577,11 +521,12 @@ article{
 
 
 /*///////////////////////////////////////////////PROPIEDADES DEL LOGIN//////////////////////////////////////////////////////////////*/
-#log-in{
-    background-color: rgba(0, 0, 0, 0.712);
-    position: fixed;
-    top: 60px;
-    left: 0;
+
+#log-in {
+    grid-area: 'main';
+    background-image: url("/src/static/assets/login-background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
     width: 100%;
     height: 100%;
     z-index: 95;
@@ -589,7 +534,7 @@ article{
     justify-content: center;
 }
 
-#log-in-form {
+#log-in-form, #registro-form {
     margin-top: 40px;
     padding: 80px 0;
     width: 800px;
@@ -604,21 +549,22 @@ article{
    
 }
 
-#log-in-form form {
+#log-in-form form, #registro-form form {
     display: flex;
     flex-direction: column;
     margin-top: 40px;
 }
 
-#log-in-form p {
+#log-in-form p, #registro-form p {
     margin-top: 5px;
 }
 
-#log-in-form input, #log-in-form button {
+input, #log-in-form button, #registro-form button {
     height: 36px;
     width: 340px;
     border-radius: 23px;
-    margin: 10px 0 3px 0;
+    margin: 8px 0 3px 0;
+    cursor: pointer;
 }
 
 .bad-input {
@@ -634,14 +580,20 @@ article{
     display: none;
 }
 
-#log-in-form input[type="text"], #log-in-form input[type="password"] {
+input {
     color: black;
     padding-left: 20px;
     width: 320px;
 }
 
+input[type="submit"] {
+    padding-left: 0;
+    width: 340px;
+}
+
 .primary-btn {
     background-color: #4C5EC2;
+    color: white;
     font-size: 14px;
 }
 
@@ -699,6 +651,97 @@ article{
     height: 1px;
     margin: 20px 0;
 }
+
+form label {
+    margin-top: 12px;
+}
+
+input[type="date"] {
+    width: fit-content;
+}
+
+input[type="date"] {
+    width: fit-content;
+    color: gray;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+.form-terms {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.form-terms label {
+    margin: 0;
+    margin-left: 3px;
+}
+
+input[type="checkbox"] {
+    width: auto;
+    height: auto;
+    display: inline;
+    margin: 0;
+}
+
+.form-captcha {
+    display: grid;
+    width: 340px;
+    grid-template-areas:"label image image"
+                        "input image image"
+                        "error error error";
+    grid-template-columns: 110px 110px 110px;
+    grid-column-gap: 5px;
+    margin-top: 12px;
+}
+
+.form-captcha label {
+    grid-area: label;
+    margin: 0;
+    width: auto;
+}
+
+.form-captcha input {
+    grid-area: input;
+    width: auto;
+}
+
+.form-captcha img {
+    grid-area: image;
+    width: 90%;
+    background-color: white;
+    align-self:self-end;
+    justify-self: end;
+    border-radius: 5px;
+}
+
+.form-captcha div {
+    grid-area: error;
+}
+
+#registro {
+    height: fit-content;
+}
+
+#registro-form {
+    margin-bottom: 100px;
+}
+
+#registro-form input[type="submit"] {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.wrong-input-message {
+    color:#F14343;
+    margin-top: 3px;
+}
+
 
 @keyframes primary-btn-hover {
     0% {
@@ -1243,3 +1286,56 @@ footer{
    
 }
 
+
+
+@keyframes btn-play {
+    0% {
+        transform: scale(1 , 1);
+    }
+    50% {
+        transform: scale(0.5,0.5);
+    }
+    100%{
+        transform: scale(1,1);
+    }
+    
+}
+
+
+@keyframes animation-category {
+    0% {
+      transform: rotate(0deg) translate3d(0, 0, 0);
+    }
+  
+    25% {
+      transform: rotate(7deg) translate3d(0, 0, 0);
+    }
+  
+    50% {
+      transform: rotate(-7deg) translate3d(0, 0, 0);
+    }
+  
+    75% {
+      transform: rotate(1deg) translate3d(0, 0, 0);
+    }
+  
+    100% {
+      transform: rotate(0deg) translate3d(0, 0, 0);
+    }
+}
+
+  
+@keyframes btn-cart {
+    0% {
+        transform: scale(1);
+    }
+    20% {
+        transform: scale(1.1, 0.9);
+    }
+    60% {
+        transform: scale(0.9, 1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

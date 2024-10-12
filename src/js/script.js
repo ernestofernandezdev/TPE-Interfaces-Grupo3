@@ -878,8 +878,8 @@
             black:"#141414",
             primary80Clean:"#4C5EC2",
             transparent:"#D9D9D9",
-            blackTransp:"#141414"
-
+            blackTransp:"#141414",
+            facebook:"#3B5998"
         }
 
 
@@ -1041,7 +1041,7 @@
 
         static LinksTemplate=(content,customClass)=>{
            
-           return `<a class="${customClass}"> ${content}</a>`;
+           return `<a class="${customClass ? customClass : ''}"> ${content}</a>`;
         }
 
         //los svg si no le determinas el tamaño, se adaptan a su contenedor
@@ -1618,8 +1618,8 @@
         };
 
         #handleClickLogOut(){
-            document.querySelector(".log-out").addEventListener("click", () => {
-                showContent("inicio",null);
+            document.querySelector(".log-out").addEventListener("click", e => {
+                showContent("login");
             })
         }
     }
@@ -1792,7 +1792,7 @@
             const isPay= button.classList.contains("btn-add-cart") || button.classList.contains("btn-in-cart");                         
 
            
-            button.addEventListener("click", (e)=> {
+            button.addEventListener("click", e=> {
                 let isMyGame = this.#game.id == "20";
                 if(isPay){
                     this.#toggleStateCart(button)
@@ -1804,8 +1804,6 @@
                 }else{
                     console.log("CLICK EN JUGAR ");
                 }
-              
-               
             })
             
         }
@@ -2888,7 +2886,7 @@
             const btn = document.querySelector(".registrarse");
             btn.addEventListener("click", e => {
                 e.preventDefault();
-
+                showContent("registro");
             })
         }
 
@@ -2914,15 +2912,136 @@
 
         listenEvents(){
             this.#loginForm.listenEvents();
-            this.#handleClickCloseLogin();
         }
 
-        #handleClickCloseLogin(){
-            const parentElement = document.querySelector("#log-in");
-            parentElement.addEventListener("click",(e)=>{
-                if(e.target === parentElement){
-                    parentElement.remove();
+    }
+
+
+    class Registro {
+        #user;              /*si no hay logueado el user es nulo */ //*este usuario seria el extraído de la base de datos, que permite comparar lo que ingresa el usuario con lo que hay en la db*//
+        #registroForm
+
+        constructor(user = null){
+            this.#user=user;
+            this.#registroForm = new RegistroForm(this.#user);
+        }
+       
+
+        getComponent(){
+            let container = document.createElement("div");
+            container.id="registro";
+            container.appendChild(this.#registroForm.getComponent())
+            
+            return container;
+        }
+
+        listenEvents(){
+            this.#registroForm.listenEvents();
+        }
+    }
+
+
+    class RegistroForm {
+        #userCompare;    
+        
+        constructor(userCompare) {
+            this.#userCompare=userCompare;
+        }
+
+        getComponent() {
+            let container = document.createElement("div");
+            container.id="registro-form";
+            container.innerHTML = `<h2>Registrarse en <span class="flaming">Flaming</span><span class="games">Games</span></h2>
+            <form action="">
+                <label for="nombre" class="p-m">Nombre</label>
+                <input type="text" name="nombre" id="nombre" placeholder="Juan" class="form-field">
+                <label for="nombre" class="p-m">Apellido</label>
+                <input type="text" name="apellido" id="apellido" placeholder="Gómez" class="form-field">
+                <label for="nickname" class="p-m">Nickname<span class="form-opcional">(opcional)</span></label>
+                <input type="text" name="nickname" id="nickname" placeholder="juancito238" class="form-field">
+                <label for="nacimiento" class="p-m">Fecha de nacimiento</label>
+                <input type="date" name="nacimiento" id="nacimiento" placeholder="dd/mm/yyyy" class="form-field">
+                <label for="correo" class="p-m">Correo</label>
+                <input type="email" name="correo" id="correo" placeholder="juan.gomez@gmail.com" class="form-field">
+                <label for="password" class="p-m">Contraseña</label>
+                <input type="password" name="password" id="password" class="form-field form-password">
+                <label for="repeat-password" class="p-m">Repetir contraseña</label>
+                <input type="password" name="repeat-password" id="repeat-password" class="form-field">
+                <div class="wrong-input-message p-s hidden">Las contraseñas no coinciden</div>
+                <div class="form-captcha">
+                    <label for="captcha" class="p-m">Captcha</label>
+                    <img src="static/assets/captcha.png">
+                    <input type="text" name="captcha" id="captcha" class="form-field">
+                    <div class="wrong-input-message p-s hidden">El captcha es incorrecto</div>
+                </div>
+                <div class="form-terms">
+                    <input type="checkbox" name="terms" id="terms"><label for="terms" class="p-s">Acepto los términos y condiciones</label>
+                </div>
+                <div class="wrong-input-message p-s hidden">Debes aceptar los términos y condiciones</div>
+                <input type="submit" value="Registrarse" class="primary-btn">
+            </form>\
+            <p class="p-s">Ya tienes una cuenta? <a href="" class="texto-link iniciar-sesion">Iniciar sesión</a></p>`
+            return container;
+        }
+
+        listenEvents() {
+            this.#handleRegistro();
+            this.#handleLoginBtn();
+        }
+
+        #handleLoginBtn() {
+            document.querySelector(".iniciar-sesion").addEventListener("click", e => {
+                e.preventDefault();
+                showContent("login");
+            })
+        }
+
+        #handleRegistro() {
+            const form = document.querySelector("#registro-form form");
+            form.addEventListener("submit", e => {
+                e.preventDefault();
+                
+                let formData = new FormData(form);
+
+                let passwordsMatch = formData.get("password") == formData.get("repeat-password");
+                let captchaMatch = formData.get("captcha").toLowerCase() == "smwm";
+                let terms = formData.get("terms");
+                let allFieldsFull = true;
+                
+                
+                document.querySelectorAll(".form-field").forEach(e => {
+                    e.classList.remove("bad-input");
+                    if (e.value == "" || e.value == null) {
+                        e.classList.add("bad-input");
+                        allFieldsFull = false;
+                    }
+                })
+
+                document.querySelectorAll(".wrong-input-message").forEach(e => {
+                    e.classList.add("hidden");
+                })
+
+                if (passwordsMatch && captchaMatch && terms && allFieldsFull) {
+                    showContent("login");
                 }
+
+
+                if (!passwordsMatch) {
+                    document.querySelectorAll(".wrong-input-message")[0].classList.remove("hidden");
+                    document.querySelector("#password").classList.add("bad-input");
+                    document.querySelector("#repeat-password").classList.add("bad-input");
+                }
+
+                if (!captchaMatch) {
+                    document.querySelectorAll(".wrong-input-message")[1].classList.remove("hidden");
+                    document.querySelector("#captcha").classList.add("bad-input");
+                }
+
+                if (!terms) {
+                    document.querySelectorAll(".wrong-input-message")[2].classList.remove("hidden");
+                }
+
+                
             })
         }
 
@@ -2930,3 +3049,10 @@
 
 
 })();
+
+
+
+
+
+
+
