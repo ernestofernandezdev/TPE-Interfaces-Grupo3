@@ -1,8 +1,6 @@
 (function(){
 
     window.addEventListener("DOMContentLoaded", ()=>{
-        
-        console.log("se ejecuto");
         showContent("inicio",player);
         
     });
@@ -2684,7 +2682,6 @@
 
             setTimeout(()=>{
                 clearInterval(interval);
-                console.log("se detuvo");
                 
             },5000);
 
