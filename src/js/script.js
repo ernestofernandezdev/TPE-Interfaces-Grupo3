@@ -1292,16 +1292,13 @@
                 showContent('inicio',this.#userLogin);
             })
         }
-        /*esto se ejecuta 1 sola vez cuando lo invoca la pagina que quiere cargar/hacer uso de un header*/
+      
         #handleClickAvatar(){
             const avatar = document.querySelector(".avatar-login");
           
             if(!this.#userLogin){
                 avatar.addEventListener("click", ()=>{
-                    console.log(this.#sectionActive);
-                    
                     showContent("login",null,this.#sectionActive);
-                    
                 })
 
                 return
