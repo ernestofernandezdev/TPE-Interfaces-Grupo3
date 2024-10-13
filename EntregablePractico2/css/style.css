@@ -628,6 +628,11 @@ article{
     border: 1px solid #F14343;
 }
 
+.wrong-user-message {
+    color: #F14343;
+    margin-left: 20px;
+}
+
 .wrong-user-message > span, .wrong-password-message > span {
     color: #F14343;
     margin-left: 20px;
