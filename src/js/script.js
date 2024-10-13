@@ -2850,14 +2850,14 @@
             container.innerHTML = `<h2>Iniciar sesion en <span class="flaming">Flaming</span><span class="games">Games</span></h2>
             <form id="form-login" action="">
                 <input type="text" name="user" id="user" placeholder="Usuario" class="form-field" required>
-                <div class="wrong-user-message p-s hidden">El usuario ingresado no existe</div>
+                <div class="wrong-user-message p-s hidden"><span>El usuario ingresado no existe</span></div>
                 <input type="password" name="password" id="password" placeholder="Contraseña" class="form-field" required>
-                <div class="wrong-password-message p-s hidden">La contraseña es incorrecta</div>
+                <div class="wrong-password-message p-s hidden"><span>La contraseña es incorrecta</span></div>
                 <input type="submit" value="Iniciar sesión" class="primary-btn">
-            </form>\
+            </form>
             <p><a class="p-s texto-link" href="#">Recuperar contraseña</a></p>
             <p class="p-s">¿No tienes una cuenta? <a href="" class="texto-link registrarse">Registrate</a></p>
-            <hr>\
+            <hr>
             <button class="session-social google-btn"><img src="static/favicon/google-icon.png"><span>Iniciar sesión con Google</span></button>
             <button class="session-social facebook-btn"><span>${Utils.customSVG("FACEBOOK", Constants.colors.white)}</span><span>Continuar con Facebook</span></button>`;
             
