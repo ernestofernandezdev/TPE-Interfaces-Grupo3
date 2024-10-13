@@ -1174,6 +1174,7 @@ footer{
 }
 .list-footer > li > a{
     text-decoration:rgb(119, 115, 115) underline;
+    width: max-content;
 }
 .suscribirse-item{
     width: 280px;
@@ -1406,5 +1407,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         width: 100%;
         margin-bottom: 10px;
     }
+   
    
 }
