@@ -2850,9 +2850,9 @@
             container.innerHTML = `<h2>Iniciar sesion en <span class="flaming">Flaming</span><span class="games">Games</span></h2>
             <form id="form-login" action="">
                 <input type="text" name="user" id="user" placeholder="Usuario" class="form-field" required>
-                <div class="wrong-user-message p-s hidden"><span>El usuario ingresado no existe</span></div>
+                <div class="wrong-user-message p-s hidden"><span class='p-bold'>El usuario ingresado no existe</span></div>
                 <input type="password" name="password" id="password" placeholder="Contraseña" class="form-field" required>
-                <div class="wrong-password-message p-s hidden"><span>La contraseña es incorrecta</span></div>
+                <div class="wrong-password-message p-s hidden"><span clas='p-bold'>La contraseña es incorrecta</span></div>
                 <input type="submit" value="Iniciar sesión" class="primary-btn">
             </form>
             <p><a class="p-s texto-link" href="#">Recuperar contraseña</a></p>
