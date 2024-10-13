@@ -1163,6 +1163,8 @@ footer{
     display: flex;
     flex-direction: column;
 }
+
+
 .list-footer > li > h2{
     margin-bottom: 8px;
     color: #4C5EC2;
@@ -1214,9 +1216,17 @@ footer{
 .social-footer > .container-svg > svg{
     height: 100%;
 }
-.most-details-container{
+
+.check-hidden{
     display: none;
 }
+.check-hidden input[type="checkbox"]{
+    display: none;
+}
+.check-hidden{
+    display: none;
+}
+
 #btn-suscription{
     transition: background-color 0.5s, color 0.5s;
 }
@@ -1370,30 +1380,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
        right: 0;
        top:25px;
     }
-    .list-footer  > li > a{
-        display: none;
-    }
-    .list-footer  > li > p{
-        display: none;
-    }
-    .list-footer  > li > div > form{
-        display: none;
-    }
+  
     .list-footer{
         flex-direction: column;
     }
     .social-footer{
         width: 60%;
     }
-    .most-details-container{
+   
+    .hidden-mobile{
+        display: none;
+    }
+    .check-hidden{
         display: flex;
         position: absolute;
         right: 50px;
-    }
-    .most-details-container input[type="checkbox"]{
-        display: none;
-    }
-    .most-details-container .container-svg{
         width: 24px;
         height: 24px;
         cursor: pointer;

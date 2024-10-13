@@ -2714,51 +2714,51 @@
                                 <ul class='list-footer'>
                                     <li class='contacto-item footer-item' >
                                         <h2 class='p-xl p-bold'>Contacto</h2>
-                                        <label class='most-details-container'>
+                                        <label class='most-details-container check-hidden'>
                                             <input id='check-0' class='most-details' type='checkbox'>
                                             ${Utils.SVGTemplate(Utils.customSVG("DETAILS",Constants.colors.white))}
                                         </label>
-                                        <p class='p-m p-bold'>juegoscontacto@gmail.com.</p>
-                                        <p class='p-m p-bold'>+54-2494-673325.</p>
-                                        <p class='p-m p-bold'>Av. Santamarina 1237, Tandil, Bs. As., Argentina.</p>
+                                        <p class='p-m p-bold hidden-mobile'>juegoscontacto@gmail.com.</p>
+                                        <p class='p-m p-bold hidden-mobile'>+54-2494-673325.</p>
+                                        <p class='p-m p-bold hidden-mobile'>Av. Santamarina 1237, Tandil, Bs. As., Argentina.</p>
                                     </li>
                                     <li class='legal-item footer-item'>
                                         <h2 class='p-xl p-bold'>Legal </h2>
-                                         <label class='most-details-container'>
+                                         <label class='most-details-container check-hidden'>
                                             <input id='check-1' class='most-details' type='checkbox'>
                                             ${Utils.SVGTemplate(Utils.customSVG("DETAILS",Constants.colors.white))}
                                         </label>
-                                        <a class='p-m p-bold'>Copyright.</a>
-                                        <a class='p-m p-bold'>Licencias de software.</a>
+                                        <a class='p-m p-bold hidden-mobile'>Copyright.</a>
+                                        <a class='p-m p-bold hidden-mobile'>Licencias de software.</a>
                                     </li>
                                     <li class='nosotros-item footer-item'>
                                         <h2 class='p-xl p-bold'>Nosotros</h2>
-                                        <label class='most-details-container'>
+                                        <label class='most-details-container check-hidden'>
                                             <input id='check-2' class='most-details' type='checkbox'>
                                             ${Utils.SVGTemplate(Utils.customSVG("DETAILS",Constants.colors.white))}
                                         </label>
-                                        <a class='p-m p-bold'>Desarrolladores.</a>
-                                        <a class='p-m p-bold'>Comunidad.</a>
-                                        <a class='p-m p-bold'>Historia.</a>
+                                        <a class='p-m p-bold hidden-mobile'>Desarrolladores.</a>
+                                        <a class='p-m p-bold hidden-mobile'>Comunidad.</a>
+                                        <a class='p-m p-bold hidden-mobile'>Historia.</a>
                                     </li>
                                     <li class='ayuda-item footer-item'>
                                         <h2 class='p-xl p-bold'>Ayuda</h2>
-                                        <label class='most-details-container'>
+                                        <label class='most-details-container check-hidden'>
                                             <input id='check-3' class='most-details' type='checkbox'>
                                             ${Utils.SVGTemplate(Utils.customSVG("DETAILS",Constants.colors.white))}
                                         </label>
-                                        <a class='p-m p-bold'>Preguntas frecuentes.</a>
-                                        <a class='p-m p-bold'>Lista de categorias de juegos.</a>
+                                        <a class='p-m p-bold hidden-mobile'>Preguntas frecuentes.</a>
+                                        <a class='p-m p-bold hidden-mobile'>Lista de categorias de juegos.</a>
                                     </li>
                                     <li class='suscribirse-item footer-item'>
                                         <h2 class='p-xl p-bold'>Suscribirse</h2>
-                                         <label class='most-details-container'>
+                                         <label class='most-details-container check-hidden'>
                                             <input id='check-4' class='most-details' type='checkbox'>
                                             ${Utils.SVGTemplate(Utils.customSVG("DETAILS",Constants.colors.white))}
                                         </label>
-                                        <p class='p-m suscription-text p-bold'>¡Suscribite a nuestro <span class='p-bold p-m'>newsletter</span> para recibir promociones y lanzamientos de nuevos juegos!</p>
-                                        <div class='container-suscription'>   
-                                            <form id="form-suscription"action=''>
+                                        <p class='p-m suscription-text p-bold hidden-mobile'>¡Suscribite a nuestro <span class='p-bold p-m'>newsletter</span> para recibir promociones y lanzamientos de nuevos juegos!</p>
+                                        <div class='container-suscription hidden-mobile'>   
+                                            <form class='hidden-mobile' id="form-suscription"action=''>
                                                 <input type='email'name="email" id='email-suscripcion' placeholder="correo@ejemplo.com" maxlength='90' required>
                                                 <button id='btn-suscription' class='btn btn-primary' type="submit">Suscribirse</button>
                                             </form>
@@ -2791,16 +2791,17 @@
                 checkbox.addEventListener("change",()=>{
                     const pos = checkbox.id.slice(-1);
                 
+                    const parent = checkbox.closest(".footer-item");
+                    let childs = '';
                     if(checkbox.checked){
-                        const childrens = items[pos].querySelectorAll(":not(h2):not(input[type='checkbox']):not(.suscription-text)");
-                        childrens.forEach((children)=>{
-                            children.style.display="flex";
+                        childs=parent.querySelectorAll("p,a,.container-suscription");
+                        childs.forEach((children)=>{
+                            children.classList.remove("hidden-mobile");
                         })
                     }else{
-                        const childrens = items[pos].querySelectorAll(":not(h2):not(.most-details-container):not(.most-details-container *)");
-      
-                        childrens.forEach((children)=>{
-                            children.style.display="none";
+                        childs=parent.querySelectorAll("p,a,.container-suscription");
+                        childs.forEach((children)=>{
+                            children.classList.add("hidden-mobile");
                         })
                     }
                     
