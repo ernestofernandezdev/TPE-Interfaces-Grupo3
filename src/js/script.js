@@ -3122,11 +3122,11 @@
                     const label = document.querySelector(`label[for='${input.id}']`);
                     const span= label.querySelector("span");
                     if(input.value == '' || input.value == null){
-                        span.classList.toggle("hidden");
-                        input.classList.toggle("bad-input");
+                        span.classList.remove("hidden");
+                        input.classList.add("bad-input");
                     }else{
-                        span.classList.toggle("hidden");
-                        input.classList.toggle("bad-input");
+                        span.classList.add("hidden");
+                        input.classList.remove("bad-input");
                     }
                     
                  })
