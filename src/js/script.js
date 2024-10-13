@@ -3036,18 +3036,18 @@
                 <input type="password" name="password" id="password" class="form-field form-password">
                 <label for="repeat-password" class="p-m">Repetir contraseña <span class='hidden p-s p-bold alert-field-empty'>¡Requerido!</span></label>
                 <input type="password" name="repeat-password" id="repeat-password" class="form-field">
-                <div class="wrong-input-message p-s hidden">Las contraseñas no coinciden</div>
+                <div class="wrong-input-message alert-password p-s hidden"><span class='p-bold'>Las contraseñas no coinciden</span></div>
                 <div class="form-captcha">
-                    <label for="captcha" class="p-m">Captcha <span class='hidden p-m p-bold alert-field-empty'>*</span></label>
+                    <label for="captcha" class="p-m">Captcha <span class='hidden p-s p-bold alert-field-empty'>*</span></label>
                     <img src="static/assets/captcha.png">
                     <input type="text" name="captcha" id="captcha" class="form-field">
-                    <div class="wrong-input-message p-s hidden">El captcha es incorrecto</div>
+                    <div class="wrong-input-message alert-captcha p-s hidden"><span class='p-bold'>El captcha es incorrecto</span></div>
                 </div>
                 <div class="form-terms">
                     <input type="checkbox" name="terms" id="terms"><label for="terms" class="p-s">Acepto los términos y condiciones</label>
                 </div>
-                <div class="wrong-input-message p-s hidden">Debes aceptar los términos y condiciones</div>
-                <input type="submit" value="Registrarse" class="primary-btn">
+                <div class="wrong-input-message alert-terms p-s hidden"><span class='p-bold'>Debes aceptar los términos y condiciones</span></div>
+                <button type="submit" class="primary-btn btn-register">Registrarse</button>
             </form>\
             <p class="p-s">¿Ya tienes una cuenta? <a href="" class="texto-link iniciar-sesion">Iniciar sesión</a></p>`
             return container;
@@ -3057,6 +3057,9 @@
             this.#handleRegistro();
             this.#handleLoginBtn();
             this.#handleBlurInputs();
+            this.#handleBlurPassword();
+            this.#handleBlurCaptcha();
+            this.#handleCheckedCheckbox();
         }
 
         #handleLoginBtn() {
@@ -3076,13 +3079,18 @@
                 let passwordsMatch = formData.get("password") == formData.get("repeat-password");
                 let captchaMatch = formData.get("captcha").toLowerCase() == "smwm";
                 let terms = formData.get("terms");
+                this.#allFieldsFull=true;
               
+
                 
-                
-                document.querySelectorAll(".form-field").forEach(e => {
-                    e.classList.remove("bad-input");
-                    if (e.value == "" || e.value == null) {
-                        e.classList.add("bad-input");
+                const inputs = document.querySelectorAll(".form-field");
+                inputs.forEach(input => {
+                    const label = document.querySelector(`label[for='${input.id}']`);
+                    const span= label.querySelector("span");
+                    input.classList.remove("bad-input");
+                    if (input.value == "" || input.value == null) {
+                        span.classList.remove("hidden");
+                        input.classList.add("bad-input");
                         this.#allFieldsFull = false;
                     }
                 })
@@ -3091,8 +3099,16 @@
                     e.classList.add("hidden");
                 })
 
-                if (passwordsMatch && captchaMatch && terms && allFieldsFull) {
-                    showContent("login",null);
+                if (passwordsMatch && captchaMatch && terms && this.#allFieldsFull) {
+                    document.querySelector(".form-register").reset();
+                    const btn = document.querySelector(".btn-register");
+                    btn.classList.add("register-success");
+                    btn.innerHTML='';
+                    btn.innerText="Registrado ✔";
+                    setTimeout(() => {
+                        showContent("login",null);
+                    }, 1500);
+                   
                 }
 
 
@@ -3130,6 +3146,48 @@
                     }
                     
                  })
+            })
+        }
+        #handleCheckedCheckbox(){
+            const check = document.getElementById("terms");
+            check.addEventListener("change",()=>{
+                if(check.checked){
+                    if(document.querySelector(".alert-terms")){
+                        document.querySelector(".alert-terms").classList.add("hidden");
+                    }
+                }
+            })
+        }
+
+        #handleBlurCaptcha(){
+            const captcha = document.getElementById("captcha");
+            const alert = document.querySelector(".alert-captcha");
+            captcha.addEventListener("blur", ()=>{
+                if(captcha.value.toLowerCase() != 'smwm'){
+                    alert.classList.remove("hidden");
+                    captcha.classList.add("bad-input");
+                }else{
+                    alert.classList.add("hidden");
+                    captcha.classList.remove("bad-input");
+                }
+            })
+        }
+
+        #handleBlurPassword(){
+            const repeat = document.getElementById("repeat-password");
+            const password = document.getElementById("password");
+            const alertPass=document.querySelector(".alert-password");
+
+            repeat.addEventListener("blur",()=>{
+                if(repeat.value != password.value){
+                    alertPass.classList.remove("hidden");
+                    password.classList.add("bad-input");
+                    repeat.classList.add("bad-input");
+                }else{
+                    alertPass.classList.add("hidden");
+                    repeat.classList.remove("bad-input");
+                    password.classList.remove("bad-input");
+                }
             })
         }
 
