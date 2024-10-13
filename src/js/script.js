@@ -2883,9 +2883,9 @@
             inputs.forEach((input) => {
                  input.addEventListener("blur",()=>{
                     if(input.value == '' || input.value == null){
-                        input.classList.toggle("bad-input");
+                        input.classList.add("bad-input");
                     }else{
-                        input.classList.toggle("bad-input");
+                        input.classList.remove("bad-input");
                     }
                     
                  })
