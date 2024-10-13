@@ -3204,6 +3204,12 @@
             })
 
             repeat.addEventListener("input",(e)=>{
+                if(repeat.value.trim() != ''){
+                    const label = document.querySelector(`label[for='${repeat.id}']`);
+                    const span= label.querySelector("span");
+                    span.classList.add("hidden");
+                }
+
                 if(repeat.value.trim() == password.value ){
                     if(document.querySelector(".alert-password")){
                         const alert = document.querySelector(".alert-password");
