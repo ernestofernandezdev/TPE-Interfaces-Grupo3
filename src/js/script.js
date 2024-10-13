@@ -3012,7 +3012,7 @@
                 <input type="text" name="nombre" id="nombre" placeholder="Juan" class="form-field">
                 <label for="apellido" class="p-m" >Apellido <span class='hidden p-s p-bold alert-field-empty'>¡Requerido!</span></label>
                 <input type="text" name="apellido" id="apellido" placeholder="Gómez" class="form-field">
-                <label for="nickname" class="p-m">Nickname<span class="form-opcional">(opcional)</span></label>
+                <label for="nickname" class="p-m">Nickname <span class="form-opcional p-s">(opcional)</span></label>
                 <input type="text" name="nickname" id="nickname" placeholder="juancito238">
                 <label for="nacimiento" class="p-m">Fecha de nacimiento <span class='hidden p-s p-bold alert-field-empty'>¡Requerido!</span></label>
                 <input type="date" name="nacimiento" id="nacimiento" placeholder="dd/mm/yyyy" class="form-field">
