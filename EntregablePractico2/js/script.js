@@ -3069,7 +3069,7 @@
             this.#handleRegistro();
             this.#handleLoginBtn();
             this.#handleBlurInputs();
-            this.#handleBlurPassword();
+            this.#handleBlurInputPassword();
             this.#handleBlurCaptcha();
             this.#handleCheckedCheckbox();
         }
@@ -3186,7 +3186,7 @@
             })
         }
 
-        #handleBlurPassword(){
+        #handleBlurInputPassword(){
             const repeat = document.getElementById("repeat-password");
             const password = document.getElementById("password");
             const alertPass=document.querySelector(".alert-password");
@@ -3200,6 +3200,26 @@
                     alertPass.classList.add("hidden");
                     repeat.classList.remove("bad-input");
                     password.classList.remove("bad-input");
+                }
+            })
+
+            repeat.addEventListener("input",(e)=>{
+                if(repeat.value.trim() == password.value ){
+                    if(document.querySelector(".alert-password")){
+                        const alert = document.querySelector(".alert-password");
+                        alert.classList.add("hidden");
+                        if(repeat.classList.contains("bad-input")){
+                            password.classList.remove("bad-input");
+                            repeat.classList.remove("bad-input");
+                        }  
+                    }
+                }else{
+                    if(repeat.value.trim() != '' || repeat.value.length > password.value.length){
+                        const alert = document.querySelector(".alert-password");
+                        alert.classList.remove("hidden");
+                        repeat.classList.add("bad-input");
+                        password.classList.add("bad-input");
+                    }
                 }
             })
         }
