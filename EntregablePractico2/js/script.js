@@ -2785,12 +2785,9 @@
 
         #handleCheckbox(){
             const checks = document.querySelectorAll(".most-details");
-            const items = document.querySelectorAll(".footer-item");
 
             checks.forEach((checkbox)=>{
                 checkbox.addEventListener("change",()=>{
-                    const pos = checkbox.id.slice(-1);
-                
                     const parent = checkbox.closest(".footer-item");
                     let childs = '';
                     if(checkbox.checked){
