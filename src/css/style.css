@@ -630,6 +630,9 @@ article{
     color: #F14343;
     margin-left: 20px;
 }
+.alert-field-empty{
+   color: #F14343;;
+}
 
 .hidden {
     display: none;

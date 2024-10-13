@@ -2967,8 +2967,8 @@
 
         constructor(user = null,sectionActive){
             this.#user=user;
-            this.#registroForm = new RegistroForm(this.#user, sectionActive);
             this.#sectionActive=sectionActive;
+            this.#registroForm = new RegistroForm(this.#user, this.#sectionActive);
         }
        
 
@@ -2996,11 +2996,10 @@
     }
 
     class RegistroForm {
-        #userCompare; 
-        #sectionActive;   
+        #sectionActive;
+        #allFieldsFull=true;
         
-        constructor(userCompare, sectionActive) {
-            this.#userCompare=userCompare;
+        constructor(sectionActive) {
             this.#sectionActive=sectionActive;
         }
 
@@ -3009,23 +3008,23 @@
             container.id="registro-form";
             container.innerHTML = `<h2>Registrarse en <span class="flaming">Flaming</span><span class="games">Games</span></h2>
             <form class='form-register' action="">
-                <label for="nombre" class="p-m">Nombre</label>
+                <label for="nombre" class="p-m">Nombre <span class='hidden p-s p-bold alert-field-empty'>¡Requerido!</span></label>
                 <input type="text" name="nombre" id="nombre" placeholder="Juan" class="form-field">
-                <label for="nombre" class="p-m">Apellido</label>
+                <label for="apellido" class="p-m" >Apellido <span class='hidden p-s p-bold alert-field-empty'>¡Requerido!</span></label>
                 <input type="text" name="apellido" id="apellido" placeholder="Gómez" class="form-field">
                 <label for="nickname" class="p-m">Nickname<span class="form-opcional">(opcional)</span></label>
                 <input type="text" name="nickname" id="nickname" placeholder="juancito238">
-                <label for="nacimiento" class="p-m">Fecha de nacimiento</label>
+                <label for="nacimiento" class="p-m">Fecha de nacimiento <span class='hidden p-s p-bold alert-field-empty'>¡Requerido!</span></label>
                 <input type="date" name="nacimiento" id="nacimiento" placeholder="dd/mm/yyyy" class="form-field">
-                <label for="correo" class="p-m">Correo</label>
+                <label for="correo" class="p-m">Correo <span class='hidden p-s p-bold alert-field-empty'>¡Requerido!</span></label>
                 <input type="email" name="correo" id="correo" placeholder="juan.gomez@gmail.com" class="form-field">
-                <label for="password" class="p-m">Contraseña</label>
+                <label for="password" class="p-m">Contraseña <span class='hidden p-s p-bold alert-field-empty'>¡Requerido!</span></label>
                 <input type="password" name="password" id="password" class="form-field form-password">
-                <label for="repeat-password" class="p-m">Repetir contraseña</label>
+                <label for="repeat-password" class="p-m">Repetir contraseña <span class='hidden p-s p-bold alert-field-empty'>¡Requerido!</span></label>
                 <input type="password" name="repeat-password" id="repeat-password" class="form-field">
                 <div class="wrong-input-message p-s hidden">Las contraseñas no coinciden</div>
                 <div class="form-captcha">
-                    <label for="captcha" class="p-m">Captcha</label>
+                    <label for="captcha" class="p-m">Captcha <span class='hidden p-m p-bold alert-field-empty'>*</span></label>
                     <img src="static/assets/captcha.png">
                     <input type="text" name="captcha" id="captcha" class="form-field">
                     <div class="wrong-input-message p-s hidden">El captcha es incorrecto</div>
@@ -3043,6 +3042,7 @@
         listenEvents() {
             this.#handleRegistro();
             this.#handleLoginBtn();
+            this.#handleBlurInputs();
         }
 
         #handleLoginBtn() {
@@ -3062,14 +3062,14 @@
                 let passwordsMatch = formData.get("password") == formData.get("repeat-password");
                 let captchaMatch = formData.get("captcha").toLowerCase() == "smwm";
                 let terms = formData.get("terms");
-                let allFieldsFull = true;
+              
                 
                 
                 document.querySelectorAll(".form-field").forEach(e => {
                     e.classList.remove("bad-input");
                     if (e.value == "" || e.value == null) {
                         e.classList.add("bad-input");
-                        allFieldsFull = false;
+                        this.#allFieldsFull = false;
                     }
                 })
 
@@ -3098,6 +3098,25 @@
                 }
 
                 
+            })
+        }
+
+        #handleBlurInputs(){
+            const inputs = document.querySelectorAll(".form-field");
+            inputs.forEach((input) => {
+                 input.addEventListener("blur",()=>{
+                    console.log(input.value);
+                    const label = document.querySelector(`label[for='${input.id}']`);
+                    const span= label.querySelector("span");
+                    if(input.value == '' || input.value == null){
+                        span.classList.toggle("hidden");
+                        input.classList.toggle("bad-input");
+                    }else{
+                        span.classList.toggle("hidden");
+                        input.classList.toggle("bad-input");
+                    }
+                    
+                 })
             })
         }
 
