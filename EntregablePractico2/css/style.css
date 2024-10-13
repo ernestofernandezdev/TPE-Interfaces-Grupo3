@@ -1407,6 +1407,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         width: 100%;
         margin-bottom: 10px;
     }
+    .sidebar-categories{
+        z-index: 6;
+    }
    
    
 }
