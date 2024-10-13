@@ -70,10 +70,11 @@ h2{
 }
 .btn-primary{
     background-color: #4C5EC2;
+   
 }
 
 .texto-link {
-    color: #4C5EC2;
+    color: #929DDA;
 }
 .p-link{
     color:#929DDA;
@@ -627,7 +628,7 @@ article{
     border: 1px solid #F14343;
 }
 
-.wrong-user-message, .wrong-password-message {
+.wrong-user-message > span, .wrong-password-message > span {
     color: #F14343;
     margin-left: 20px;
 }
@@ -648,6 +649,9 @@ article{
 .primary-btn {
     background-color: #4C5EC2;
     font-size: 14px;
+    height: 36px;
+    width: 340px;
+    border-radius: 20px;
 }
 
 .primary-btn:hover {
@@ -1214,7 +1218,7 @@ footer{
     background-color: #D52626;
 }
 
-/*///////////////////////////////////////SECCION REGISTRO////////////////////////////////////////////////////////////////////*/
+/*///////////////////////////////////////////////////////////SECCION REGISTRO////////////////////////////////////////////////////////////////////*/
 
 input[type="submit"]{
     cursor: pointer;
@@ -1253,7 +1257,8 @@ input[type="submit"]{
     cursor: pointer;
 }
 
-.wrong-input-message {
+
+.wrong-input-message > span{
     color:#F14343;
     margin-top: 1px;
 }
@@ -1289,6 +1294,9 @@ input[type="submit"]{
     margin: 0;
 }
 
+.form-register > button {
+    margin: 5px 0;
+}
 
 .form-captcha img {
     grid-area: image;
@@ -1326,6 +1334,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .form-terms label {
     margin: 0;
     margin-left: 3px;
+}
+.btn-register{
+    transition: background-color 0.5s, color 0.5s;
+}
+.register-success{
+    border: 1px solid #4C5EC2;
+    background-color: black;
+}
+.register-success:hover{
+    border: 1px solid #4C5EC2;
+    background-color: black;
 }
 
 
