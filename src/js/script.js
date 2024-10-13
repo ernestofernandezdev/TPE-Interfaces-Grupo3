@@ -2849,9 +2849,9 @@
             container.id="log-in-form";
             container.innerHTML = `<h2>Iniciar sesion en <span class="flaming">Flaming</span><span class="games">Games</span></h2>
             <form id="form-login" action="">
-                <input type="text" name="user" id="user" placeholder="Usuario" class="form-field">
+                <input type="text" name="user" id="user" placeholder="Usuario" class="form-field" required>
                 <div class="wrong-user-message p-s hidden">El usuario ingresado no existe</div>
-                <input type="password" name="password" id="password" placeholder="Contraseña" class="form-field">
+                <input type="password" name="password" id="password" placeholder="Contraseña" class="form-field" required>
                 <div class="wrong-password-message p-s hidden">La contraseña es incorrecta</div>
                 <input type="submit" value="Iniciar sesión" class="primary-btn">
             </form>\
@@ -2868,6 +2868,7 @@
             this.#handleLogIn();
             this.#handleRegistrarseButton();
             this.#handleLoginSocial();
+            this.#handleBlurInputs();
         }
         #handleLoginSocial(){
             const btns= document.querySelectorAll(".session-social");
@@ -2875,6 +2876,19 @@
                 btn.addEventListener("click",()=>{
                     showContent("inicio",player);
                 })
+            })
+        }
+        #handleBlurInputs(){
+            const inputs = document.querySelectorAll(".form-field");
+            inputs.forEach((input) => {
+                 input.addEventListener("blur",()=>{
+                    if(input.value == '' || input.value == null){
+                        input.classList.toggle("bad-input");
+                    }else{
+                        input.classList.toggle("bad-input");
+                    }
+                    
+                 })
             })
         }
       
