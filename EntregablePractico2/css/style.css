@@ -478,6 +478,7 @@ article{
 
 .btn-play-game{
     background-color: #4C5EC2;
+    position: absolute;
 }
 
 .btn-play-game:hover .container-svg {
@@ -758,7 +759,7 @@ article{
     width: 100%;
     height: 600px;
     margin-top: 10px;
-    background-color: #F2C9C9;
+    background-color: #141414;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -769,7 +770,15 @@ article{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100%;
 }
+
+.img-game {
+    width: 100%;
+    height: 95%;
+}
+
 .execution-game > button >.container-svg:hover{
     animation: none;
 }
@@ -809,8 +818,8 @@ article{
 }
 .img-game > img {
     border-radius: 8px;
-    width: 220px;
-    height: 120px;
+    width: 100%;
+    height: 100%;
 }
 
 section > h3{
@@ -1053,7 +1062,7 @@ video{
 
 .animation-item-right{
 
-    animation: spin2 0.8s ease-in-out infinite;
+    animation: spin3 0.5s ease-in-out;
 }
 
 @keyframes spin2 {
@@ -1062,6 +1071,18 @@ video{
   }
   to{
     transform: rotateY(360deg);
+  }
+}
+
+@keyframes spin3 {
+  0% {
+    transform: scale(1,1);
+  }
+  50% {
+    transform: scale(0.9,1.05);
+  }
+  100%{
+    transform: scale(1,1);
   }
 }
 
