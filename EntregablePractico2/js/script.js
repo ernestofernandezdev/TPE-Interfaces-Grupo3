@@ -3072,6 +3072,7 @@
             this.#handleBlurInputPassword();
             this.#handleBlurCaptcha();
             this.#handleCheckedCheckbox();
+            this.#handleIpuntNotEmpty();
         }
 
         #handleLoginBtn() {
@@ -3142,6 +3143,20 @@
 
                 
             })
+        }
+
+        #handleIpuntNotEmpty(){
+            const inputs = document.querySelectorAll(".form-field");
+            inputs.forEach(input =>{
+                input.addEventListener("input",()=>{
+                    if(input.value.trim() != ''){
+                        const label = document.querySelector(`label[for='${input.id}']`);
+                        const span= label.querySelector("span");
+                        span.classList.add("hidden");
+                    }
+                })
+            })
+            
         }
 
         #handleBlurInputs(){
