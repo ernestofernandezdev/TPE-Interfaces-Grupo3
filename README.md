@@ -35,7 +35,7 @@
 ## Estructura "atómica" de componentes de script.js
 Cada **clase** se puede observar como un ***componente*** u ***organismo*** de los elaborados en la etapa de diseño en Figma.
 Cada **clase-componente** cuenta con 2 funciones principales que son ***getComponent()*** y ***listenEvents()***:
- - ***getComponent()*** : Se encarga de retarnar codigo **HTML** para que sea agregado (*appenchild()*) por el **componente padre**. 
+ - ***getComponent()*** : Se encarga de retornar codigo **HTML** para que sea agregado (*appenchild()*) por el **componente padre**. 
  - ***listenEvents()*** : Se encarga de ***poner a escuchar*** todos los eventos que contenga la clase.
  
  Cada **componente padre** que haga uso de algun **componente hijo** debe:
