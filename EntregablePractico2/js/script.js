@@ -1813,7 +1813,6 @@
                 if(isPay){
                     this.#toggleStateCart(button)
                 }else if(isMyGame){
-                    console.log("GUASONN");
                     // showContent(`game/${this.#game.id}`);
                     showContent("game",this.#user);
                     
