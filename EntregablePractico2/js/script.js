@@ -2083,7 +2083,7 @@
 
             const template = `<div class="execution-game">
                                 <div class="img-game"><img  src=${this.#game.frontImg} src="batman vs guason"></div>
-                                <button class="btn-play-game btn">Jugar ${Utils.SVGTemplate(Utils.customSVG("PLAY_GAME",Constants.colors.white))}</button>
+                                <button class="btn-play-game btn-eject btn">Jugar ${Utils.SVGTemplate(Utils.customSVG("PLAY_GAME",Constants.colors.white))}</button>
                                 ${this.#getBarExect()}
                             </div>`;
 
