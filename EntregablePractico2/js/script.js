@@ -2880,7 +2880,7 @@
             const inputs = document.querySelectorAll(".form-field");
             inputs.forEach((input) => {
                  input.addEventListener("blur",()=>{
-                    if(input.value == ''.trim() || input.value == null){
+                    if(input.value.trim() == '' || input.value == null){
                         input.classList.add("bad-input");
                     }else{
                         input.classList.remove("bad-input");
