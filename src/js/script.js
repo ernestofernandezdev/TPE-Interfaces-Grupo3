@@ -3105,7 +3105,6 @@
             const inputs = document.querySelectorAll(".form-field");
             inputs.forEach((input) => {
                  input.addEventListener("blur",()=>{
-                    console.log(input.value);
                     const label = document.querySelector(`label[for='${input.id}']`);
                     const span= label.querySelector("span");
                     if(input.value == '' || input.value == null){
