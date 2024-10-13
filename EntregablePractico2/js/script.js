@@ -2850,9 +2850,9 @@
             container.innerHTML = `<h2>Iniciar sesion en <span class="flaming">Flaming</span><span class="games">Games</span></h2>
             <form id="form-login" action="">
                 <input type="text" name="user" id="user" placeholder="Usuario" class="form-field" required>
-                <div class="wrong-user-message p-s hidden"><span class='p-bold'>El usuario ingresado no existe</span></div>
-                <input type="password" name="password" id="password" placeholder="Contraseña" class="form-field" required>
-                <div class="wrong-password-message p-s hidden"><span clas='p-bold'>La contraseña es incorrecta</span></div>
+                <div class="wrong-user-message alert-user p-s hidden"><span class='p-bold'>El usuario ingresado no existe</span></div>
+                <input type="password" name="password" id="password-login" placeholder="Contraseña" class="form-field" required>
+                <div class="wrong-password-message alert-pass p-s hidden"><span class='p-bold'>La contraseña es incorrecta</span></div>
                 <input type="submit" value="Iniciar sesión" class="primary-btn">
             </form>
             <p><a class="p-s texto-link" href="#">Recuperar contraseña</a></p>
@@ -2869,6 +2869,7 @@
             this.#handleRegistrarseButton();
             this.#handleLoginSocial();
             this.#handleBlurInputs();
+            this.#handleFocus();
         }
         #handleLoginSocial(){
             const btns= document.querySelectorAll(".session-social");
@@ -2889,6 +2890,20 @@
                     }
                     
                  })
+            })
+        }
+        #handleFocus(){
+            const btnUser=document.getElementById("user");
+            const btnPass=document.getElementById("password-login");
+            btnUser.addEventListener("focus",()=>{
+                if(document.querySelector(".alert-user")){
+                    document.querySelector(".alert-user").classList.add("hidden");
+                }
+            })
+            btnPass.addEventListener("focus",()=>{
+                if(document.querySelector(".alert-pass")){
+                    document.querySelector(".alert-pass").classList.add("hidden");
+                }
             })
         }
       
@@ -2915,7 +2930,7 @@
                     return;
                 }
                 if (formData.get("password") != this.#userCompare.password) {
-                    const password = document.querySelector("#password");
+                    const password = document.querySelector("#password-login");
                     password.classList.add("bad-input");
                     password.nextElementSibling.classList.remove("hidden");
                     return;
