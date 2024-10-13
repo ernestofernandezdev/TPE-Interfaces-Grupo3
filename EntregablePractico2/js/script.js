@@ -3203,6 +3203,15 @@
                     captcha.classList.remove("bad-input");
                 }
             })
+            captcha.addEventListener("input", ()=>{
+                if(captcha.value.length >= 4 && captcha.value.toLowerCase() != 'smwm'){
+                    alert.classList.remove("hidden");
+                    captcha.classList.add("bad-input");
+                }else{
+                    alert.classList.add("hidden");
+                    captcha.classList.remove("bad-input");
+                }
+            })
         }
 
         #handleBlurInputPassword(){
