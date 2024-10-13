@@ -8,9 +8,9 @@
  > La web comienza con un usuario logueado y en la seccion inicio por defecto.El usuario logueado está contenido en la variable ***player*** del archivo script.js.
 
  ### Datos para el inicio de sesión simulado:
-> - Usuario: juancito28673
-> - Contraseña: 1234
-> - También se puede ingresar sin completar datos ingresando con Facebook o Google
+> - Usuario: juancito28673.
+> - Contraseña: 1234.
+> - También se puede ingresar sin completar datos ingresando con Facebook o Google.
  
  ### Formas de acceder a **INICIO**:
 > - Al iniciar por primera vez la pagina.
@@ -32,10 +32,10 @@
 ### Forma de acceder a **SECCION DE EJECUCION DE JUEGO**:
 > Clickeando en el botón de Jugar de la card: "4 en linea: batman vs. guasón".
 
-## Estructura "mamushka" de componentes de script.js
+## Estructura "atómica" de componentes de script.js
 Cada **clase** se puede observar como un ***componente*** u ***organismo*** de los elaborados en la etapa de diseño en Figma.
-Cada **clase** cuenta con 2 funciones principales que son ***getComponent()*** y ***listenEvents()***
- - *getComponent()* : Se encarga de rotarnar codigo **HTML** para que sea agregado (*appenchild()*) por el **componente padre**. 
+Cada **clase-componente** cuenta con 2 funciones principales que son ***getComponent()*** y ***listenEvents()***
+ - *getComponent()* : Se encarga de retarnar codigo **HTML** para que sea agregado (*appenchild()*) por el **componente padre**. 
  - *listenEvents()* : Se encarga de ***poner a escuchar*** todos los eventos que contenga la clase.
  
  Cada **componente padre** que haga uso de algun **componente hijo** debe:
@@ -43,7 +43,8 @@ Cada **clase** cuenta con 2 funciones principales que son ***getComponent()*** y
  >  2. Llamar a la funcion _getComponent()_ de su hijo para agregar en sí su contenido, ejemplo: **padre.appenchild( h.getComponent() );**
  >  3. Llamar a la funcion _listenEvents()_ de los hijos que haga uso, ejemplo: **h.listenEvents()**;
 
-   En esos **3** pasos un padre / **organismo** agrega codigo HTML y pone a escuchar eventos de un componente más pequeño / **molécula**.
+   En esos **3** pasos un padre / **organismo** agrega codigo HTML y pone a escuchar eventos de un componente más pequeño / **molécula**. 
+   **Cada paso es importante y necesario:** el primero _crea_ el objeto, el segundo _agrega_ lo visual (html) y el tercero el _comportamiento_ (eventos).
 
 Mostrado con imágenes:
 
