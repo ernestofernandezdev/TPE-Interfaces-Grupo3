@@ -3183,6 +3183,10 @@
                     if(document.querySelector(".alert-terms")){
                         document.querySelector(".alert-terms").classList.add("hidden");
                     }
+                }else{
+                    if(document.querySelector(".alert-terms")){
+                        document.querySelector(".alert-terms").classList.remove("hidden");
+                    }
                 }
             })
         }
