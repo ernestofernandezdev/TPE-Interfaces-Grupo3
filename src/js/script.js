@@ -3105,6 +3105,7 @@
                     btn.classList.add("register-success");
                     btn.innerHTML='';
                     btn.innerText="Registrado ✔";
+                    btn.disabled=true;
                     setTimeout(() => {
                         showContent("login",null);
                     }, 1500);
