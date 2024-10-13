@@ -2880,7 +2880,7 @@
             const inputs = document.querySelectorAll(".form-field");
             inputs.forEach((input) => {
                  input.addEventListener("blur",()=>{
-                    if(input.value == '' || input.value == null){
+                    if(input.value == ''.trim() || input.value == null){
                         input.classList.add("bad-input");
                     }else{
                         input.classList.remove("bad-input");
@@ -3100,7 +3100,7 @@
                     const label = document.querySelector(`label[for='${input.id}']`);
                     const span= label.querySelector("span");
                     input.classList.remove("bad-input");
-                    if (input.value == "" || input.value == null) {
+                    if (input.value.trim() == "" || input.value == null) {
                         span.classList.remove("hidden");
                         input.classList.add("bad-input");
                         this.#allFieldsFull = false;
@@ -3150,7 +3150,7 @@
                  input.addEventListener("blur",()=>{
                     const label = document.querySelector(`label[for='${input.id}']`);
                     const span= label.querySelector("span");
-                    if(input.value == '' || input.value == null){
+                    if(input.value.trim() == '' || input.value == null){
                         span.classList.remove("hidden");
                         input.classList.add("bad-input");
                     }else{
