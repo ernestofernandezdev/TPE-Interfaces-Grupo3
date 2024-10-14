@@ -478,8 +478,11 @@ article{
 
 .btn-play-game{
     background-color: #4C5EC2;
-    position: absolute;
     box-shadow: 0 0 5px black;
+}
+
+.btn-eject {
+    position: absolute;
 }
 
 .btn-play-game:hover .container-svg {
