@@ -1,4 +1,4 @@
-# TPE-Interfaces-Grupo3
+# TPE-Interfaces-Grupo3 - Segunda entrega
 > Integrantes:
 > - Fernandez, Ernesto.
 > - Villa, Leopoldo.
