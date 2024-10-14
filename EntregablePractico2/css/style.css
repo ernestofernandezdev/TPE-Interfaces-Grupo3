@@ -478,7 +478,8 @@ article{
 
 .btn-play-game{
     background-color: #4C5EC2;
-    
+    position: absolute;
+    box-shadow: 0 0 5px black;
 }
 
 .btn-play-game:hover .container-svg {
@@ -628,11 +629,6 @@ article{
     border: 1px solid #F14343;
 }
 
-.wrong-user-message {
-    color: #F14343;
-    margin-left: 20px;
-}
-
 .wrong-user-message > span, .wrong-password-message > span {
     color: #F14343;
     margin-left: 20px;
@@ -776,14 +772,15 @@ article{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #F2C9C9;
+    background-color: #141414;
     width: 100%;
     height: 100%;
 }
 
 .img-game {
-    width: 220px;
-    height: 120px;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
 }
 
 .execution-game > button >.container-svg:hover{

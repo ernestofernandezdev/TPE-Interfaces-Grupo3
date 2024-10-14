@@ -2082,7 +2082,7 @@
 
             const template = `<div class="execution-game">
                                 <div class="img-game"><img  src=${this.#game.frontImg} src="batman vs guason"></div>
-                                <button class="btn-play-game btn-eject btn">Jugar ${Utils.SVGTemplate(Utils.customSVG("PLAY_GAME",Constants.colors.white))}</button>
+                                <button class="btn-play-game btn-eject btn"><span>Jugar</span> ${Utils.SVGTemplate(Utils.customSVG("PLAY_GAME",Constants.colors.white))}</button>
                                 ${this.#getBarExect()}
                             </div>`;
 
@@ -2846,9 +2846,9 @@
             container.id="log-in-form";
             container.innerHTML = `<h2>Iniciar sesion en <span class="flaming">Flaming</span><span class="games">Games</span></h2>
             <form id="form-login" action="">
-                <input type="text" name="user" id="user" placeholder="Usuario" class="form-field" required>
+                <input type="text" name="user" id="user" placeholder="Usuario" class="form-field">
                 <div class="wrong-user-message alert-user p-s hidden"><span class='p-bold'>El usuario ingresado no existe</span></div>
-                <input type="password" name="password" id="password-login" placeholder="Contraseña" class="form-field" required>
+                <input type="password" name="password" id="password-login" placeholder="Contraseña" class="form-field">
                 <div class="wrong-password-message alert-pass p-s hidden"><span class='p-bold'>La contraseña es incorrecta</span></div>
                 <input type="submit" value="Iniciar sesión" class="primary-btn">
             </form>
