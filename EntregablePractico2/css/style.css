@@ -475,7 +475,6 @@ article{
   }
 }
  
-
 .btn-play-game{
     background-color: #4C5EC2;
     box-shadow: 0 0 5px black;
@@ -580,8 +579,6 @@ article{
     background-color: black;
 }
 
-
-
 /*///////////////////////////////////////////////PROPIEDADES DEL LOGIN//////////////////////////////////////////////////////////////*/
 #log-in, #registro{
     background-color: rgba(0, 0, 0, 0.712);
@@ -609,7 +606,6 @@ article{
     position: relative;
    
 }
-
 
 #log-in-form form{
     display: flex;
@@ -736,7 +732,6 @@ article{
     flex-direction: column;
 
 }
-
 
 .breadcrum{
     margin-bottom: 20px;
@@ -1041,8 +1036,8 @@ textarea{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.801); /* Capa semitransparente */
-    z-index: 1; /* Superpone la capa sobre la imagen */
+    background-color: rgba(0, 0, 0, 0.801); 
+    z-index: 1; 
     border-radius: 8px;
 }
 .card-carousel-media:hover {
@@ -1069,7 +1064,6 @@ video{
 }
 
 .animation-item-right{
-
     animation: spin3 0.5s ease-in-out;
 }
 
@@ -1087,7 +1081,7 @@ video{
     transform: scale(1,1);
   }
   50% {
-    transform: scale(0.9,1.05);
+    transform: scale(0.8,1.1);
   }
   100%{
     transform: scale(1,1);
