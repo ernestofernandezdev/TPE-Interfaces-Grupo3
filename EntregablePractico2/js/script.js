@@ -1564,7 +1564,7 @@
                                 <div class="container-info-session">
                                     <div class="avatar-session">${this.#user.avatar}</div>
                                     <h2 class="p-xl p-bold" >${this.#user.nick}</h2>
-                                    <h4 class="p-m p-bold" >${this.#user.email}</h4>
+                                    <h4 class="p-m p-bold email-session" >${this.#user.email}</h4>
                                 </div>
                             </div>`;
 

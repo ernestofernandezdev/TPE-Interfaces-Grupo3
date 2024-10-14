@@ -180,6 +180,10 @@ header {
     width: 60px;
     height: 60px;
 }
+.email-session{
+    color: rgb(128, 128, 128);
+    margin-top: -5px;
+}
 
 .container-info-session{
     position: relative;
