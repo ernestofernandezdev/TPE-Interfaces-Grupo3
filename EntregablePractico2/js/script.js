@@ -3274,12 +3274,21 @@
                     span.innerHTML='';
                     span.innerHTML='*';
                 }else{
+                   
                     span.classList.remove("hidden");
                     span.classList.remove("alert-field-empty");
                     span.classList.add("alert-field-accep")
                     captcha.classList.remove("bad-input");
                     span.innerHTML='';
                     span.innerHTML='¡Correcto!';
+                }
+            })
+            captcha.addEventListener("input", ()=>{
+                if(captcha.value.toLowerCase() == 'smwm'){
+                    if(document.querySelector(".alert-captcha")){
+                        const alert =document.querySelector(".alert-captcha");
+                        alert.remove();
+                    }
                 }
             })
         
