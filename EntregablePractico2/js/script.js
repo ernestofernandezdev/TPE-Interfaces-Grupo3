@@ -3119,6 +3119,14 @@
                     btn.innerHTML='';
                     btn.innerText="Registrado ✔";
                     btn.disabled=true;
+                    inputs.forEach((input)=>{
+                        const label = document.querySelector(`label[for='${input.id}']`);
+                        const span= label.querySelector("span");
+                        span.classList.add("hidden");
+                    })
+                    const alertPass=document.querySelector(".alert-password");
+                    const span = alertPass.querySelector("span");
+                    span.remove();
                     setTimeout(() => {
                         showContent("login",null);
                     }, 1500);
@@ -3149,15 +3157,71 @@
             const inputs = document.querySelectorAll(".form-field");
             inputs.forEach(input =>{
                 input.addEventListener("input",()=>{
+                    const label = document.querySelector(`label[for='${input.id}']`);
+                    const span= label.querySelector("span");
                     if(input.value.trim() != ''){
-                        const label = document.querySelector(`label[for='${input.id}']`);
-                        const span= label.querySelector("span");
-                        span.classList.add("hidden");
+                        span.classList.remove("hidden");
+                        span.classList.remove("alert-field-empty");
+                        let validations = this.#typesValidations(input);
+                        if(validations){
+                          this.#renderValidations(span,validations);
+                           
+                        }else{
+                            span.classList.add("hidden");
+                        }
+
+                    }else{
+                        span.classList.remove("alert-field-accep");
+                        span.classList.remove("alert-field-medium");
+                        span.classList.add("alert-field-empty");
+                        span.innerHTML='';
+                        if(input.id == 'captcha'){
+                            span.innerHTML='*';
+                        }else{
+                            span.innerHTML='¡Requerido!';
+                        }
                     }
                 })
             })
             
         }
+        #renderValidations(span, validations){
+            
+            if(validations[1] == 0){
+                span.classList.remove("alert-field-medium");
+                span.classList.remove("alert-field-accep");
+                span.classList.add("alert-field-empty");
+                if(validations[0]){
+                    span.innerHTML=`${validations[0]}`;
+                }
+            }else if(validations[1] == 1){
+                span.classList.remove("alert-field-empty");
+                span.classList.remove("alert-field-accep");
+                span.classList.add("alert-field-medium");
+                span.innerHTML=`${validations[0]}`;
+
+            }else if(validations[1]==2){
+                span.classList.remove("alert-field-empty");
+                span.classList.remove("alert-field-medium");
+                span.classList.add("alert-field-accep");
+                span.innerHTML=`${validations[0]}`;
+            }
+           
+        }
+
+        #typesValidations(input){
+            const regex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,4}$/;
+         
+            let emailSinArroba= (input.id == 'correo' && !regex.test(input.value.trim())) ? ['E-mail no valido', 0]: (input.id == 'correo' && regex.test(input.value.trim()))? ["Aceptable",2]:false;
+            let nombreAndApellidoCorto= ((input.id == 'nombre' || input.id == 'apellido') && input.value.trim().length <= 2) ? ['Demasiado corto',1]:(input.id == 'nombre' || input.id == 'apellido') && input.value.trim().length >= 3 ? ['Aceptable',2]:false;
+            let passwordLow = (input.id == 'password' && input.value.trim().length < 7) ? ['Demasiado corta',1]: (input.id == 'password' && input.value.trim().length >= 7) ? ['Aceptable',2]: false;
+            let captcha = (input.id == 'captcha' && input.value.trim() != 'smwm' && input.value.trim().length >= 4 )?['Incorrecto',0]:(input.id == 'captcha' && input.value.trim() == 'smwm')?['¡Correcto!',2]:false;
+
+            return emailSinArroba || nombreAndApellidoCorto || passwordLow || captcha;
+
+        }
+
+        
 
         #handleBlurInputs(){
             const inputs = document.querySelectorAll(".form-field");
@@ -3169,8 +3233,13 @@
                         span.classList.remove("hidden");
                         input.classList.add("bad-input");
                     }else{
-                        span.classList.add("hidden");
+                        let validations = this.#typesValidations(input);
+                        if(validations){
+                          this.#renderValidations(span,validations);
+                           
+                        }
                         input.classList.remove("bad-input");
+                      
                     }
                     
                  })
@@ -3193,25 +3262,27 @@
 
         #handleBlurCaptcha(){
             const captcha = document.getElementById("captcha");
-            const alert = document.querySelector(".alert-captcha");
             captcha.addEventListener("blur", ()=>{
+                const label = document.querySelector(`label[for='${captcha.id}']`);
+                const span= label.querySelector("span");
+
                 if(captcha.value.toLowerCase() != 'smwm'){
-                    alert.classList.remove("hidden");
+                    span.classList.remove("hidden");
+                    span.classList.remove("alert-field-accep")
+                    span.classList.add("alert-field-empty");
                     captcha.classList.add("bad-input");
+                    span.innerHTML='';
+                    span.innerHTML='*';
                 }else{
-                    alert.classList.add("hidden");
+                    span.classList.remove("hidden");
+                    span.classList.remove("alert-field-empty");
+                    span.classList.add("alert-field-accep")
                     captcha.classList.remove("bad-input");
+                    span.innerHTML='';
+                    span.innerHTML='¡Correcto!';
                 }
             })
-            captcha.addEventListener("input", ()=>{
-                if(captcha.value.length >= 4 && captcha.value.toLowerCase() != 'smwm'){
-                    alert.classList.remove("hidden");
-                    captcha.classList.add("bad-input");
-                }else{
-                    alert.classList.add("hidden");
-                    captcha.classList.remove("bad-input");
-                }
-            })
+        
         }
 
         #handleBlurInputPassword(){
@@ -3219,43 +3290,31 @@
             const password = document.getElementById("password");
             const alertPass=document.querySelector(".alert-password");
 
-            repeat.addEventListener("blur",()=>{
-                if(repeat.value != password.value){
+            repeat.addEventListener("input",()=>{
+              
+                const span= alertPass.querySelector("span");
+
+                if(repeat.value.trim() != password.value.trim()){
                     alertPass.classList.remove("hidden");
-                    password.classList.add("bad-input");
-                    repeat.classList.add("bad-input");
+                    span.classList.remove("alert-field-accep");
+                    alertPass.classList.add("wrong-input-message");
+                    span.innerHTML='';
+                    span.innerHTML='Las contraseñas no coinciden';
+                    
                 }else{
-                    alertPass.classList.add("hidden");
-                    repeat.classList.remove("bad-input");
-                    password.classList.remove("bad-input");
+                    alertPass.classList.remove("hidden");
+                    alertPass.classList.remove("alert-field-empty");
+                    alertPass.classList.remove("wrong-input-message");
+                    span.classList.add("alert-field-accep");
+                    span.innerHTML='';
+                    span.innerHTML='Coinciden';
                 }
+               
             })
 
-            repeat.addEventListener("input",(e)=>{
-                if(repeat.value.trim() != ''){
-                    const label = document.querySelector(`label[for='${repeat.id}']`);
-                    const span= label.querySelector("span");
-                    span.classList.add("hidden");
-                }
+          
 
-                if(repeat.value.trim() == password.value ){
-                    if(document.querySelector(".alert-password")){
-                        const alert = document.querySelector(".alert-password");
-                        alert.classList.add("hidden");
-                        if(repeat.classList.contains("bad-input")){
-                            password.classList.remove("bad-input");
-                            repeat.classList.remove("bad-input");
-                        }  
-                    }
-                }else{
-                    if(repeat.value.trim() != '' || repeat.value.length > password.value.length){
-                        const alert = document.querySelector(".alert-password");
-                        alert.classList.remove("hidden");
-                        repeat.classList.add("bad-input");
-                        password.classList.add("bad-input");
-                    }
-                }
-            })
+
         }
 
     }

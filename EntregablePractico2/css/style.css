@@ -639,6 +639,12 @@ article{
 .alert-field-empty{
    color: #F14343;;
 }
+.alert-field-accep{
+    color: #2ba52b;;
+ }
+ .alert-field-medium{
+    color: rgb(196, 196, 30);
+ }
 
 .hidden {
     display: none;
