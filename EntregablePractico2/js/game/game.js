@@ -61,9 +61,9 @@ class Game {
             const mouseY = e.clientY - rect.top;
             this.#selectedFile=null;
           
-    
+            let isClicked=false;
            /*se itera de atras hacia delante porque la ultima ficha seria la ultima renderizada,osea la ultima que se dibujo en el canvas y mas arriba de todas está */
-            for (let i = this.#files.length - 1; i >= 0; i--) {    
+            for (let i = this.#files.length - 1; !isClicked && i >= 0; i--) {    
                 
                 const f = this.#files[i];
                 const distanceFromCenter = Math.sqrt(             /*calcula la distancia entre el punto de clic del mouse (mouseX, mouseY) y el centro de una ficha (f.getX(), f.getY()).  */
@@ -72,7 +72,8 @@ class Game {
     
                 if (distanceFromCenter <= f.getRadius()) {     /*si esta en el radio de la ficha, la marca como "agarrada/seleccionada" */
                     this.#selectedFile = f; 
-                    break; 
+                    isClicked=true;
+                   
                 }
             }
     
