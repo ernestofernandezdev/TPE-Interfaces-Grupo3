@@ -16,19 +16,19 @@
        
         if(section == "inicio"){
             document.title="Inicio | FlamingGames";
-            const spinner = new Spinner();
+            //const spinner = new Spinner();
             const home = new Home(user);
-            root.appendChild(spinner.getComponent());
+            //.appendChild(spinner.getComponent());
 
+            root.innerHTML='';
+            root.appendChild(header.getComponent());
+            root.appendChild(home.getComponent());
+            root.appendChild(footer.getComponent());
+
+            header.listenEvents();
+            home.listenEvents();
+            footer.listenEvents();
             setTimeout(() => {
-                root.innerHTML='';
-                root.appendChild(header.getComponent());
-                root.appendChild(home.getComponent());
-                root.appendChild(footer.getComponent());
-
-                header.listenEvents();
-                home.listenEvents();
-                footer.listenEvents();
             }, 5000);
               
         }else if(section == "game"){
@@ -1997,15 +1997,16 @@
     }
 
     class SectionGame {
-        #game;
+        #gameData;
         #user;          /*el obejto user deberia tener su arreglo de juegos jugados recientemente */
         #multimedia;
         #isLiked=false;
+        #game= new Game();
 
-        constructor(game,user){
-            this.#game=game;
+        constructor(gameData,user){
+            this.#gameData=gameData;
             this.#user=user;
-            this.#multimedia=new Multimedia(this.#game);
+            this.#multimedia=new Multimedia(this.#gameData);
         }
 
 
@@ -2016,8 +2017,8 @@
             container.appendChild(this.#getBreadcrum());
             container.appendChild(this.#getShareSection());
             container.appendChild(this.#getSectionGameExect());
-            container.appendChild(this.#getTextSection("Descripción",this.#game.descipcion));
-            container.appendChild(this.#getTextSection("Controles",this.#game.controles));
+            container.appendChild(this.#getTextSection("Descripción",this.#gameData.descipcion));
+            container.appendChild(this.#getTextSection("Controles",this.#gameData.controles));
             container.appendChild(this.#getMultimediaSection());
             container.appendChild(this.#getCommentSection());
             container.appendChild(this.#getListComments());
@@ -2031,6 +2032,15 @@
             this.#handleClickPostComment();
             this.#handleInputTextArea();
             this.#handleClickLikeComment();
+
+
+            this.#loadGame();
+        }
+
+        #loadGame(){
+            this.#game.createComponents();
+            this.#game.loadConfig();
+           
         }
 
 
@@ -2038,8 +2048,8 @@
             const container = document.createElement("div");
             container.className="breadcrum";
             const sectionName= "Jugados recientemente";     /*para hacer esto dinamico seria util tener los juegos como arreglo del usuario */
-            const category = this.#game.categoria;
-            const name= this.#game.titulo;
+            const category = this.#gameData.categoria;
+            const name= this.#gameData.titulo;
 
             const template = `<h4 class="p-m">
                                 ${Utils.capitalizeFirst(sectionName)}<span class="p-bold"> > </span> 
@@ -2055,7 +2065,7 @@
             const container = document.createElement("div");
             container.className="container-share";
 
-            const template = `<h2>${Utils.capitalizeFirst(this.#game.titulo)}</h2>
+            const template = `<h2>${Utils.capitalizeFirst(this.#gameData.titulo)}</h2>
                               <div class="share-elements"><button id="btn-share" class="btn">${Utils.SVGTemplate( Utils.customSVG("SVG_SHARE",Constants.colors.white) )} Compartir</button></div>`;
             
             container.innerHTML=template;
@@ -2076,37 +2086,49 @@
             return container;
         }
 
+
+
+
         #getSectionGameExect(){
             const container = document.createElement("section");
+            const containerGame = document.createElement("div");
+            containerGame.classList='execution-game';
             container.className="container-execution";
 
-            const template = `<div class="execution-game">
-                                <div class="img-game"><img  src=${this.#game.frontImg} src="batman vs guason"></div>
-                                <button class="btn-play-game btn-eject btn"><span class='p-bold'>Jugar</span> ${Utils.SVGTemplate(Utils.customSVG("PLAY_GAME",Constants.colors.white))}</button>
-                                ${this.#getBarExect()}
-                            </div>`;
-
-            container.innerHTML=template;
+            // const template = `<div class="execution-game">
+            //                     <div class="img-game"><img  src=${this.#game.frontImg} src="batman vs guason"></div>
+            //                     <button class="btn-play-game btn-eject btn"><span class='p-bold'>Jugar</span> ${Utils.SVGTemplate(Utils.customSVG("PLAY_GAME",Constants.colors.white))}</button>
+            //                     ${this.#getBarExect()}
+            //                 </div>`;
+            containerGame.appendChild(this.#game.getComponent());
+            container.appendChild(containerGame);
+            container.appendChild(this.#getBarExect());
 
             return container;
         }
+        
+
+
+
+
 
         #getBarExect(){
+            const bar = document.createElement("div");
+            bar.classList='bar-game-exec';
             const customLi = (content='',className='') =>{
                 return `<li class=${className}>
                             ${content}
                         </li>`
             }            
-            const barContainer = `<div class="bar-game-exec">
-                                    <h2>${Utils.capitalizeFirst(this.#game.titulo)}</h2>
+            const template = `<h2>${Utils.capitalizeFirst(this.#gameData.titulo)}</h2>
                                     <ul>
-                                        ${customLi(`${Utils.SVGTemplate(Utils.customSVG("SVG_LIKE",Constants.colors.white),"btn-like-game")}<span class='count-likes'>${this.#convertLikes(this.#game.likes)}<span>`,"likes")}
+                                        ${customLi(`${Utils.SVGTemplate(Utils.customSVG("SVG_LIKE",Constants.colors.white),"btn-like-game")}<span class='count-likes'>${this.#convertLikes(this.#gameData.likes)}<span>`,"likes")}
                                         ${customLi(Utils.SVGTemplate(Utils.customSVG("SVG_CTRL",Constants.colors.white),"controls"))}
                                         ${customLi(Utils.SVGTemplate(Utils.customSVG("SVG_EXPAND",Constants.colors.white),"expand"))}
-                                    </ul>
-                                </div>`;
+                                    </ul>`;
+            bar.innerHTML=template;
 
-            return barContainer;
+            return bar;
         }
           
         #getTextSection(title,content,className=''){
@@ -2155,7 +2177,7 @@
         #getListComments(){
             const container = document.createElement("section");
             container.className="section-all-comments";
-            this.#getAllComments(container, this.#game.comentarios);
+            this.#getAllComments(container, this.#gameData.comentarios);
            
 
             return container;
@@ -2231,13 +2253,13 @@
                 count.innerHTML='';
 
                 if(this.#isLiked){
-                    this.#game.likes=this.#game.likes+1;
+                    this.#gameData.likes=this.#gameData.likes+1;
                     btn.innerHTML=`${Utils.customSVG("SVG_LIKE",Constants.colors.secondary)}`;
                 }else{
-                    this.#game.likes=this.#game.likes-1;
+                    this.#gameData.likes=this.#gameData.likes-1;
                     btn.innerHTML=`${Utils.customSVG("SVG_LIKE",Constants.colors.white)}`;
                 }
-                count.innerHTML=`${this.#convertLikes(this.#game.likes)}`;
+                count.innerHTML=`${this.#convertLikes(this.#gameData.likes)}`;
             })
         }
 
@@ -2267,8 +2289,8 @@
                         likes:0,
                         unlikes:0
                     }
-                    this.#game.comentarios.push(newComment);
-                    this.#getAllComments(container, this.#game.comentarios);
+                    this.#gameData.comentarios.push(newComment);
+                    this.#getAllComments(container, this.#gameData.comentarios);
                     textarea.value='';
                     btn.disabled = true;
                 }    

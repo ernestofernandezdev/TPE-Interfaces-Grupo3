@@ -765,24 +765,22 @@ article{
     height: 20px;
     margin-right: 5px;
 }
+
+/*/////////////////////////////PRODPIEDADES QUE INVOLUCRAN AL JUEGO///////////////*/
 .container-execution{
     width: 100%;
-    height: 600px;
+    height: 755px;
     margin-top: 10px;
     background-color: #141414;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: relative;
+   
 }
 .execution-game{
+    background-color: yellowgreen;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #141414;
     width: 100%;
-    height: 100%;
+    height: 700px;
 }
 
 .img-game {
@@ -794,17 +792,19 @@ article{
 .execution-game > button >.container-svg:hover{
     animation: none;
 }
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 .bar-game-exec{
     position: absolute;
     bottom: 0;
-    left: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #4C5EC2;
-    width: 99%;
-    height: 60px;
-    padding: 0 0 0 1%;
+    width: 100%;
+    height: 55px;
+}
+.bar-game-exec > h2 {
+    padding-left: 10px;
 }
 .bar-game-exec > ul {
     padding: 0 5px 0 0;
@@ -969,6 +969,19 @@ textarea{
 .section-comment{
     height: max-content;
 }
+
+/*////////////////////////////////////////////PROPIEDADES DEL JUEGO//////////////////////////////////////////////////////////////*/
+#gameCanvas{
+    width: 100%;
+    height: 700px;   
+}
+
+
+
+
+
+
+
 
 /*//////////////////////////////////////PROPIEDADES SECCION MULTIMEDIA/////////////////////////////////////////////*/
 
