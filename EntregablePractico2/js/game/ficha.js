@@ -3,7 +3,6 @@ class Ficha {
     #y;        /*posicion de la ficha en y en relacion al canvas--------> se actualiza cada vez que se arrastra una ficha*/
     #startX; /*posicion del mouse en x relativa al canvas* */
     #startY; /*posicion del mouse en y relativa al canvas* */
-    #radius;
     #isDragging;
     static #images =[];
     static #imagePathsBatman=[
@@ -20,7 +19,6 @@ class Ficha {
     constructor(x,y,player,type) {
         this.#x = x;
         this.#y = y;
-        this.#radius=30;
         this.#isDragging=false;
         this.#player = player ? 'batman' : 'joker';
         this.#type = type; 
@@ -52,6 +50,30 @@ class Ficha {
         });
     }
 
+    drawCircle(ctx) {
+        ctx.save(); 
+        // dibujar un camino circular para el clipping
+        ctx.beginPath();
+        ctx.arc(this.#x, this.#y, Config.fileSize.radius, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.clip(); // recorta a la forma circular
+
+        // dibuja la imagen dentro del área recortada
+        const diameter = Config.fileSize.radius * 2;
+
+        const filterImg= ()=>{
+            if(this.#player == 'batman'){           /*si se mandan a crear fichas de batman, busco  si son de tipo 0 o 1 en el arreglo de imagenes */
+                return Ficha.#images[parseInt(this.#type)];
+            }else{
+                return Ficha.#images[Ficha.#imagePathsBatman.length+parseInt(this.#type)];/*si se mandan a crear fichas de joker, busco  si son de tipo 0 o 1 a partir de donde terminan las de batman*/
+            }
+        }
+     
+        ctx.drawImage(filterImg(), this.#x - Config.fileSize.radius, this.#y - Config.fileSize.radius, diameter, diameter);
+
+        ctx.restore(); 
+    }
+
     getX(){
         return this.#x;
     }
@@ -59,9 +81,11 @@ class Ficha {
         return this.#y;
     }
     getRadius(){
-        return this.#radius;
+        return Config.fileSize.radius;
     }
-
+    getPlayer(){
+        return this.#player;
+    }
 
     handleMouseDown(e,canvas){
         console.log(e);
@@ -74,9 +98,13 @@ class Ficha {
             Math.pow(this.#startX - this.#x, 2) + Math.pow(this.#startY - this.#y, 2)
         );
         
-        if(distanceFromCenter <= this.#radius){
+        if(distanceFromCenter <= Config.fileSize.radius){
             console.log("se clickea en ficha");
             this.#isDragging=true;                                              /*cuando se detecta un click en la ficha se empieza a draggear* */
+
+            this.#x = this.#startX;
+            this.#y = this.#startY;
+
             const gameInstance = Game.getInstance();        
             gameInstance.reorderFiles(this);                /*cuando se hace click en una ficha, se le pide al padre que a esa ficha la ponga primera en el renderizado para que al arrastrarla pase por encima de todas las otras renderizadas */
             
@@ -106,11 +134,7 @@ class Ficha {
         this.#isDragging=false;
     }
 
-    isDraggin(){
-        return this.#isDragging;
-    }
-
-
+   
     //al mover el mouse (con la ficha clickeada arrastrando) se va obteniendo la posicion del mouse/puntero
     //se va modificando la posicion de la ficha acorde a las posiciones que va tomando el mouse/puntero
     //si la nueva posicion que pretende tomar la ficha esta fuera del canvas, lo deja en la ultima coordenada (x,y) dentro del canvas
@@ -135,17 +159,18 @@ class Ficha {
             let newY = this.#y + dy;
         
         
+            const radius = Config.fileSize.radius
            
-            if (newX - this.#radius < 0) {
-                newX = this.#radius;  // mantiene dentro del borde izquierdo
-            } else if (newX + this.#radius > canvas.width) {
-                newX = canvas.width - this.#radius;  // mantiene dentro del borde derecho
+            if (newX - radius < 0) {
+                newX = radius;  // mantiene dentro del borde izquierdo
+            } else if (newX + radius> canvas.width) {
+                newX = canvas.width - radius;  // mantiene dentro del borde derecho
             }
         
-            if (newY - this.#radius < 0) {
-                newY = this.#radius;  // mantiene dentro del borde superior
-            } else if (newY + this.#radius > canvas.height) {
-                newY = canvas.height - this.#radius;  // mantiene dentro del borde inferior
+            if (newY - radius < 0) {
+                newY = radius;  // mantiene dentro del borde superior
+            } else if (newY + radius > canvas.height) {
+                newY = canvas.height - radius;  // mantiene dentro del borde inferior
             }
 
             // actualiza las coordenadas
@@ -160,8 +185,8 @@ class Ficha {
             context.restore(); // restaura el contexto
 
             // redibuja todas las otras fichas
-            this.#redrawAll(context);
-            
+            Game.getInstance().redraw(context);
+          
         
             this.#startX=mouseX;
             this.#startY=mouseY;
@@ -170,38 +195,9 @@ class Ficha {
         
     }
     
-    drawCircle(ctx) {
-        ctx.save(); 
-        // dibujar un camino circular para el clipping
-        ctx.beginPath();
-        ctx.arc(this.#x, this.#y, this.#radius, 0, Math.PI * 2);
-        ctx.closePath();
-        ctx.clip(); // recorta a la forma circular
-
-        // dibuja la imagen dentro del área recortada
-        const diameter = this.#radius * 2;
-
-        const filterImg= ()=>{
-            if(this.#player == 'batman'){           /*si se mandan a crear fichas de batman, busco  si son de tipo 0 o 1 en el arreglo de imagenes */
-                return Ficha.#images[parseInt(this.#type)];
-            }else{
-                return Ficha.#images[Ficha.#imagePathsBatman.length+parseInt(this.#type)];/*si se mandan a crear fichas de joker, busco  si son de tipo 0 o 1 a partir de donde terminan las de batman*/
-            }
-        }
-     
-        ctx.drawImage(filterImg(), this.#x - this.#radius, this.#y - this.#radius, diameter, diameter);
-
-        ctx.restore(); 
-    }
+ 
 
 
-    #redrawAll(context) {
-        // redibuja todas las fichas que existen en el juego
-        const gameInstance = Game.getInstance(); 
-        gameInstance.getFiles().forEach(ficha => {
-            ficha.drawCircle(context);
-        });
-    }
     
    
    

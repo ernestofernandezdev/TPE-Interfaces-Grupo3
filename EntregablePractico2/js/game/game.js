@@ -2,34 +2,44 @@ class Game {
     static #instance;
     #files = [];
     #selectedFile=null;
+    #board;
+   
 
     constructor() {
         if (Game.#instance) {
             return Game.#instance;
         }
         Game.#instance = this;
-        
-       
+        this.#board = new Tablero();
+     
     }
 
     static getInstance() {
         return Game.#instance;
     }
 
-    getFiles() {
-        return this.#files;
+    redraw(context){
+        this.#board.drawBoard();
+
+       this.#files.forEach(f=>{
+            f.drawCircle(context);
+        })
     }
 
+  
+    /*habria que precargar una imagen para que el fondo del juego sea una imagen, como en la clase ficha */
     getComponent() {
         const canvas = document.createElement("canvas");
         canvas.id = 'gameCanvas';
-        canvas.style.backgroundColor = "green";
-      
+        canvas.style.backgroundColor='green';
+
         return canvas;
     }
 
+    /*metodo para dibujar los componentes del juego */
     createComponents() {
         this.#createFiles();
+        this.#board.drawBoard();
 
         Ficha.loadImages().then(() => {
             this.#drawAllFiles(); 
@@ -40,6 +50,38 @@ class Game {
         Config.adjustCanvasResolution();
         this.#handleAllEvents();
     }
+
+
+    #createFiles() {
+        const canvas = document.getElementById("gameCanvas");
+        const qFiles = 21;
+        let acc =0;
+
+        for (let index = 0; index < qFiles; index++) {
+            this.#files.push(new Ficha(  canvas.offsetLeft+80  , (canvas.offsetTop + canvas.offsetHeight)-50-acc,true,0  ));
+            acc=acc+10;
+        }
+
+        acc=0;
+
+        for (let index = 0; index < qFiles; index++) {
+            this.#files.push(new Ficha(  (canvas.offsetLeft + canvas.offsetWidth)-80 ,  (canvas.offsetTop + canvas.offsetHeight)-50-acc,false,0  ));
+            acc=acc+10;
+        }
+      
+    }
+
+
+    #drawAllFiles() {
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext('2d');
+
+        this.#files.forEach(f => {
+            f.drawCircle(ctx);
+        });
+    }
+
+    /*///////////////////////////////////////////////////////////////////////metodos de eventos///////////////////////////////////////////////////////////////*/
 
     #handleAllEvents() {
         this.#handleFilesMouseDown();
@@ -90,6 +132,8 @@ class Game {
             this.#files.forEach((file) => {
                 file.handleMouseUp(e);
             });
+
+            this.#board.handleMouseUp(e);
         });
     }
 
@@ -114,24 +158,7 @@ class Game {
 
 
     
-    #createFiles() {
-        const canvas = document.getElementById("gameCanvas");
-        const qFiles = 21;
-        let acc =0;
-
-        for (let index = 0; index < qFiles; index++) {
-            this.#files.push(new Ficha(  canvas.offsetLeft+80  , (canvas.offsetTop + canvas.offsetHeight)-50-acc,true,0  ));
-            acc=acc+10;
-        }
-
-        acc=0;
-
-        for (let index = 0; index < qFiles; index++) {
-            this.#files.push(new Ficha(  (canvas.offsetLeft + canvas.offsetWidth)-80 ,  (canvas.offsetTop + canvas.offsetHeight)-50-acc,false,0  ));
-            acc=acc+10;
-        }
-      
-    }
+    ///*//////////////////////////////////////////////////////////metodos de reorden/////////////////////////////////////////////////////////////////////
 
     reorderFiles(f) {
         const index = this.#files.indexOf(f);
@@ -141,16 +168,7 @@ class Game {
         }
     }
 
-    #drawAllFiles() {
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext('2d');
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // limpiar el canvas antes de dibujar
-        this.#files.forEach(f => {
-            f.drawCircle(ctx);
-        });
-    }
-
+   
 
 
 }

@@ -2038,8 +2038,8 @@
         }
 
         #loadGame(){
-            this.#game.createComponents();
             this.#game.loadConfig();
+            this.#game.createComponents();
            
         }
 
