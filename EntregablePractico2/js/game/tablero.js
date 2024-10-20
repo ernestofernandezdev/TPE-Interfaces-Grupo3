@@ -45,17 +45,10 @@ class Tablero {
             
         }
   
-        this.#colsBoard();
-        
-        
+      
         
     }
 
-    #colsBoard(){
-        let colsSize = parseInt(Config.boardSize.width / Config.typeGame.columnsBoard) 
-        console.log("tamaño de las  columnas: "+colsSize);
-        
-    }
 
     #isInDropZone(mouseX,mouseY){
         let endX= parseInt(this.#startX)+parseInt(Config.boardSize.width);
