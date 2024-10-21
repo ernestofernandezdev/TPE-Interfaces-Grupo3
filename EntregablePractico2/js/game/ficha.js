@@ -10,6 +10,7 @@ class Ficha {
     #isDragging;
     #player;    /*toma valores:  'batman' o 'joker' . al constructor se le pasa true para batman y false para joker. Se puede agregar a clase Config*/
     #type;      /*toma valores: 1 o 2 para controlar la imagen/tematica de ficha. */
+    #transparent;
 
     constructor(x,y,player,type) {
         this.#x = x;
@@ -19,7 +20,7 @@ class Ficha {
         this.#isDragging=false;
         this.#player = player ? 'batman' : 'joker';
         this.#type = type; 
-        
+        this.#transparent;
     }
 
 
@@ -41,10 +42,32 @@ class Ficha {
                 return Ficha.images[Config.imgBatmanChips.length+parseInt(this.#type)];/*si se mandan a crear fichas de joker, busco  si son de tipo 0 o 1 a partir de donde terminan las de batman*/
             }
         }
-     
+        if (this.#transparent) {
+            ctx.globalAlpha = 0.4;
+        }
         ctx.drawImage(filterImg(), this.#x - Config.chipSize.radius, this.#y - Config.chipSize.radius, diameter, diameter);
 
         ctx.restore(); 
+    }
+
+    setTransparent() {
+        this.#transparent = true;
+    }
+
+    redrawChip(canvas,context) {
+
+        // actualiza las coordenadas
+        this.#x = this.#initX;
+        this.#y = this.#initY;
+        
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        context.save(); // guarda el contexto antes de dibujar
+        this.drawCircle(context);
+        context.restore(); // restaura el contexto
+
+        // redibuja todas las otras fichas
+        Game.getInstance().redraw(context);
     }
 
     getX(){
@@ -146,6 +169,14 @@ class Ficha {
             context.clearRect(0, 0, canvas.width, canvas.height);
 
             context.save(); // guarda el contexto antes de dibujar
+            let tablero = Tablero.getInstance();
+            if (tablero.isInDropZone(newX, newY)) {
+                let x = Math.trunc((e.offsetX-tablero.getStartX())/(Config.boxSize.width))*Config.boxSize.width + Config.boxSize.width/2 + tablero.getStartX();
+                let y = tablero.getStartY() - Config.boxSize.height/2;
+                let ficha = new Ficha(x, y, this.#player == 'batman' ? true : false,this.#type);
+                ficha.setTransparent();
+                ficha.drawCircle(context);
+            }
             this.drawCircle(context);
             context.restore(); // restaura el contexto
 

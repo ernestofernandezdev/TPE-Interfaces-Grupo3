@@ -3,6 +3,8 @@ class Game {
     #chips = [];    /*fichas disponibles para lanzar */
     #selectedchip=null; /*ficha seleccionada/arrastrada */
     #board; /*tablero */
+    #ctx;
+    #turn;
 
    
 
@@ -12,6 +14,7 @@ class Game {
         }
         Game.#instance = this;
         this.#board = new Tablero();
+        this.#turn = true;
 
      
     }
@@ -45,15 +48,15 @@ class Game {
     /*dibuja tablero,casilleros, fichas ..... */
     createComponents() {
         const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
+        this.#ctx = canvas.getContext("2d");
 
-        this.#board.drawBoard(ctx);
-        this.#board.drawAllBoxes(ctx)
+        this.#board.drawBoard(this.#ctx);
+        this.#board.drawAllBoxes(this.#ctx)
  
         this.#createchips();
         
         Config.loadChipsImgs().then(() => {
-            this.#drawAllchips(ctx); 
+            this.#drawAllchips(this.#ctx); 
         });
         
     }
@@ -87,11 +90,20 @@ class Game {
       
     }
 
+    removeChip(chip) {
+        let pos = this.#chips.indexOf(chip);
+        this.#chips.splice(pos,1);
+    }
+
     /*dibuja todas las fichas disponibles para lanzar*/
-    #drawAllchips(ctx) {
+    #drawAllchips(context) {
         this.#chips.forEach(f => {
-            f.drawCircle(ctx);
+            f.drawCircle(context);
         });
+    }
+
+    drawPlaceholderChip(chip) {
+        chip.drawCircle(this.#ctx);
     }
 
 
@@ -149,7 +161,7 @@ class Game {
                 chip.handleMouseUp(e);
             });
             if(this.#selectedchip){
-                this.#board.handleMouseUp(e,this.#selectedchip);
+                this.#board.handleMouseUp(e,this.#selectedchip,canvas,this.#ctx);
             }
         });
     }
@@ -157,10 +169,9 @@ class Game {
     /*le pasa el evento a sus hijos */
     #handleMouseMove() {
         const canvas = document.getElementById("gameCanvas");
-        let context = canvas.getContext("2d");
         canvas.addEventListener("mousemove", (e) => {
             this.#chips.forEach((chip) => {
-                chip.handleMouseMove(e, context, canvas);
+                chip.handleMouseMove(e, this.#ctx, canvas);
             });
         });
     }

@@ -1,12 +1,21 @@
 class Tablero {
+    static #instance;
     #startX;
     #startY;    /*con startX almacenan en que posicion comienza el tablero. (posicion respecto al canvas en que se renderiza)*/
     #boxes=[];  /*matriz de casilleros(boxes) */
 
     constructor(){
+        if (Tablero.#instance) {
+            return Tablero.#instance;
+        }
+        Tablero.#instance = this;
         for(let i = 0; i < Config.typeGame.rowsBoard; i++){
             this.#boxes.push([]);
         }
+    }
+
+    static getInstance() {
+        return Tablero.#instance;
     }
 
     /*debe dibujar el tablero con sus casilleros y fichas dentro */
@@ -27,24 +36,32 @@ class Tablero {
 
     handleMouseDown(){}
 
-    handleMouseMove(){}
+    handleMouseMove(){
+    }
 
     handleMouseOut(){}
 
     /*cuando se suelta el click en el canvas ---> recibe por parametro la ficha clickeada/arrastrada, verifica si hay ficha arrastrada y si el dropeo(mouseUp) esta en el area superior del tablero comprendida. */
     /*cuando recibe la ficha la agrega a su matriz de fichas.La Ficha se elimina de la clase game ----> sale de las fichas disponibles asi no se renderiza junto con las otras. */
-    handleMouseUp(e,chip){
+    handleMouseUp(e,chip,canvas,ctx){
         
-        if(this.#isInDropZone(e.offsetX , e.offsetY)){
+        if(this.isInDropZone(e.offsetX , e.offsetY)){
             let colData=this.#getColDrop(e.offsetX,e.offsetY);
             console.log("columna que quedaria: "+colData.col);
             this.#assingChipToBox(chip, colData.col);
             console.log(this.#boxes);
             
+            Game.getInstance().removeChip(chip);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save(); // guarda el contexto antes de dibujar
+            ctx.restore();
+            Game.getInstance().redraw(ctx);
             /*aca la mando a eliminar del arreglo de game */
             /*mando a guardar la ficha en el casillero vacio de la columna,pasando por todas los casilleros vacios en la columna */
             //console.log(chip);
             
+        } else {
+            chip.redrawChip(canvas,ctx);
         }
 
     }
@@ -78,7 +95,7 @@ class Tablero {
     }
 
     /*Parametros: posiciones de x e y de donde se hizo un mouseUp. Verifica si esta en la zona de dropeo de ficha(encima de tablero). */
-    #isInDropZone(mouseX,mouseY){
+    isInDropZone(mouseX,mouseY){
         let endX= parseInt(this.#startX)+parseInt(Config.boardSize.width);
 
         return (mouseX > parseInt(this.#startX)+Config.chipSize.radius/2 && mouseX < endX-Config.chipSize.radius/2) && (parseInt(mouseY) < parseInt(this.#startY));
