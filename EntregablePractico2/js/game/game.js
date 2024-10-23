@@ -71,7 +71,7 @@ class Game {
     /*tiene en cuenta los costados del canvas para crear/renderizar inicialmente las fichas. */
     #createchips() {
         const canvas = document.getElementById("gameCanvas");
-        const qchips = (Config.typeGame.columnsBoard * Config.typeGame.rowsBoard) / Config.typeGame.quantityPlayers;
+        const qchips = (Config.typeGame.quantityColumnsInBoard * Config.typeGame.quantityRowsInBoard) / Config.typeGame.quantityPlayers;
         const paddingXRespectCanvas=80;
         const paddingYRespectCanvas=50;
         let acc =0;

@@ -9,7 +9,7 @@ class Tablero {
             return Tablero.#instance;
         }
         Tablero.#instance = this;
-        for(let i = 0; i < Config.typeGame.rowsBoard; i++){
+        for(let i = 0; i < Config.typeGame.quantityRowsInBoard; i++){
             this.#boxes.push([]);
         }
     }
@@ -46,24 +46,33 @@ class Tablero {
     handleMouseUp(e,chip,canvas,ctx){
         
         if(this.isInDropZone(e.offsetX , e.offsetY)){
+            const quantityChipsAlignToWin= Config.typeGame.quantityChipsAlignToWin;
             let posOfColumnDrop=this.#getColDrop(e.offsetX) -1;
             const firstBoxEmpty= this.getFirstBoxEmptyInCol(posOfColumnDrop);
             
             
             if(firstBoxEmpty){
                 firstBoxEmpty.assignChip(chip);
-                if(this.checkWinForColumn(posOfColumnDrop).length === Config.typeGame.qunatityChipAlign){
-                    console.log("hay un ganadorrrrrrr");
+              
+                if(this.checkWinForColumn(posOfColumnDrop).length === quantityChipsAlignToWin){
+                    console.log("hay ganador por columna");
                     console.log(this.checkWinForColumn(posOfColumnDrop));
                     
                     
-                }else{
-                    console.log("se verifico la columna y no hay");
+                }else if(this.checkWinForRow(firstBoxEmpty).length === quantityChipsAlignToWin) {
+
+                   console.log("hay ganador por fila");
+                   console.log(this.checkWinForRow(firstBoxEmpty));
+                   
+                   
                     
+                }else{
+                    console.log("se verifico la columna y fila y no hay");
                 }
                
             }else{
-                console.log("no hay masss");
+                
+                console.log("no hay mas lugar en columna");
                 
             }
           
@@ -87,7 +96,7 @@ class Tablero {
   
     getFirstBoxEmptyInCol(j){
         /*en base a las columnas que hay,tomar la columna y preguntar si hay ficha */
-        let rowPos=Config.typeGame.rowsBoard-1;
+        let rowPos=Config.typeGame.quantityRowsInBoard-1;
         let box;
 
        while(!box && rowPos >= 0){
@@ -101,20 +110,20 @@ class Tablero {
     }
 
     checkWinForColumn(j){
-        const minWin=Config.typeGame.qunatityChipAlign;
+        const minWin=Config.typeGame.quantityChipsAlignToWin;
         let isWin=false;
         let notWin=false;
         let rowPos=this.#boxes.length-1;
-        let lineWin=[];
+        let winLine=[];
     
         while(!isWin && !notWin && rowPos >= 0){
             if(!this.#boxes[rowPos][j].isEmpty()){
-                lineWin.push(this.#boxes[rowPos][j]);
+                winLine.push(this.#boxes[rowPos][j]);
 
-                if(lineWin.length > 1){
-                    if(lineWin[0].getChip().getPlayer() != lineWin[lineWin.length-1].getChip().getPlayer()){
-                        lineWin=[];
-                        lineWin.push(this.#boxes[rowPos][j]);
+                if(winLine.length > 1){
+                    if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
+                        winLine=[];
+                        winLine.push(this.#boxes[rowPos][j]);
                     }
                 }
 
@@ -122,12 +131,73 @@ class Tablero {
                 notWin=true;
             }
 
-            isWin=minWin === lineWin.length;
+            isWin=minWin === winLine.length;
         
             rowPos--;
         }
 
-        return lineWin;
+        return winLine;
+    }
+
+    checkWinForRow(box){
+        const minWin=Config.typeGame.quantityChipsAlignToWin;
+        const quantityCol = Config.typeGame.quantityColumnsInBoard;
+
+        let rowBoard= this.#boxes[box.getRow()];
+        let colPosBox= box.getColumn();
+
+        let winLine=[];
+        let isNotWin=false;
+        let isWin=false;
+    
+        //recorro la fila desde la columna que se ingreso la ficha , hacia la derecha en las columnas. Guardo en arreglo si encuentro fichas iguales y consecutivas a la ingresada
+        while(colPosBox < quantityCol && !isNotWin && !isWin){
+            if(!rowBoard[colPosBox].isEmpty()){
+                winLine.push(rowBoard[colPosBox]);
+
+                if(winLine.length > 1){
+                    if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
+                        winLine.pop()
+                        isNotWin=true; 
+                    }
+                }
+
+                isWin= winLine.length === minWin;
+            }else{
+                isNotWin=true;
+            }
+            colPosBox++;
+        }
+       
+        if(isWin){
+            return winLine;
+        }
+
+        colPosBox=box.getColumn()-1;
+        isNotWin=false;
+        isNotWin=false;
+ 
+        //Con las fichas iguales a la derecha, recorro a la izquierda y guardo las iguales y consecutivas
+        while(colPosBox >= 0 && !isNotWin && !isWin){
+            if(!rowBoard[colPosBox].isEmpty()){
+                winLine.push(rowBoard[colPosBox]);
+
+                if(winLine.length > 1){
+                  
+                    if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
+                        winLine=[];
+                        isNotWin=true;
+                    }
+                }
+                isWin = winLine.length === minWin;
+            }else{
+                winLine=[]
+                isNotWin=true;
+            }
+            colPosBox--;
+        }
+
+        return winLine;  
     }
 
     getStartX(){
@@ -154,7 +224,7 @@ class Tablero {
     /*Parametros: posiciones de x e y de donde se hizo mouseUp. Retorna el numero de columna donde debe insertarse.*/
     /*Es el numero de columna, no la posicion (para obtener posicion restarle 1 a este numero)*/
     #getColDrop(mouseX){
-        let colSize=parseInt(Config.boardSize.width / Config.typeGame.columnsBoard);  /*tamaño de las columnas: total de ancho del tablero dividido el total de columnas de juego*/
+        let colSize=parseInt(Config.boardSize.width / Config.typeGame.quantityColumnsInBoard);  /*tamaño de las columnas: total de ancho del tablero dividido el total de columnas de juego*/
         let col=1;
         let isCol=true;
 
@@ -174,8 +244,8 @@ class Tablero {
         let initY= this.getPosBottom() - Config.boxSize.width;  /*se empiezan a renderizar casilleros en la posicion mas abajo del tablero (getPosBottom) - el tamaño del casillero Y mas a la izquierda posible(getStartX) */
         let initX = this.getStartX();
         let sizeBox= Config.boxSize.width;
-        let columns=Config.typeGame.columnsBoard;  
-        let totalRectangles= Config.typeGame.rowsBoard * Config.typeGame.columnsBoard;
+        let columns=Config.typeGame.quantityColumnsInBoard;  
+        let totalRectangles= Config.typeGame.quantityRowsInBoard * Config.typeGame.quantityColumnsInBoard;
 
         for(let i =this.#boxes.length-1; i >= 0; i-- ){
             for(let j =0; j < columns; j++){
@@ -207,7 +277,7 @@ class Tablero {
         let initY= this.getPosBottom() - Config.boxSize.width;  /*se empiezan a renderizar casilleros en la posicion mas abajo del tablero (getPosBottom) - el tamaño del casillero Y mas a la izquierda posible(getStartX) */
         let initX = this.getStartX();
         let sizeBox= Config.boxSize.width;
-        let columns=Config.typeGame.columnsBoard;    
+        let columns=Config.typeGame.quantityColumnsInBoard;    
        
         for(let i =this.#boxes.length-1; i >= 0; i-- ){
             for(let j =0; j < columns; j++){

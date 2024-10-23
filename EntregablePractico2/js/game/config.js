@@ -10,9 +10,9 @@ class Config{
     ];
 
     static typeGame={
-        rowsBoard:6,
-        columnsBoard:7,
-        qunatityChipAlign:4,
+        quantityRowsInBoard:6,
+        quantityColumnsInBoard:7,
+        quantityChipsAlignToWin:4,
         timeInSeg:900,
         quantityPlayers:2,
         quantityRounds:5,
@@ -34,8 +34,8 @@ class Config{
     }
 
     static boardSize={
-        width:Config.boxSize.width * Config.typeGame.columnsBoard,          /*serian 7 fichas(columns) de 60 + 30 en margenes : 90*7 = 630 */
-        height:Config.boxSize.height * Config.typeGame.rowsBoard             /*serian 6 fichas(rows) de 60 + 30 en margenes: 90*6 = 540 */
+        width:Config.boxSize.width * Config.typeGame.quantityColumnsInBoard,          /*serian 7 fichas(columns) de 60 + 30 en margenes : 90*7 = 630 */
+        height:Config.boxSize.height * Config.typeGame.quantityRowsInBoard             /*serian 6 fichas(rows) de 60 + 30 en margenes: 90*6 = 540 */
     }
 
     /*se activa para cargar las imagenes de las fichas antes de dibujar los circulos */
