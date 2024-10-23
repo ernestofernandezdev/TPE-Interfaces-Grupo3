@@ -1,10 +1,10 @@
 class Config{
 
-    static imgBatmanChips=[
+    static imgPlayerType1=[
         './static/assets/game/ficha-batman1.png',       /*importante que se carguen primero las de batman y luego las de joker--> Funcion drawCircle */
         './static/assets/game/ficha-batman2.png'
     ]
-    static imgJokerChips= [
+    static imgPlayerType2= [
         './static/assets/game/ficha-joker1.png',
         './static/assets/game/ficha-joker2.png',
     ];
@@ -12,9 +12,16 @@ class Config{
     static typeGame={
         rowsBoard:6,
         columnsBoard:7,
-        chipAlign:4,
+        qunatityChipAlign:4,
         timeInSeg:900,
-        quantityPlayers:2
+        quantityPlayers:2,
+        quantityRounds:5,
+    
+    }
+
+    static players={
+        type1:'batman',
+        type2:'joker'
     }
 
     static chipSize={
@@ -35,7 +42,7 @@ class Config{
     static loadChipsImgs() {
         return new Promise((resolve) => {
             let loadedCount = 0;
-            let imagePaths = [...Config.imgBatmanChips, ...Config.imgJokerChips];
+            let imagePaths = [...Config.imgPlayerType1, ...Config.imgPlayerType2];
             
             imagePaths.forEach((path, index) => {
                 const img = new Image();

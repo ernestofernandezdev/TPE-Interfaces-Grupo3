@@ -46,10 +46,27 @@ class Tablero {
     handleMouseUp(e,chip,canvas,ctx){
         
         if(this.isInDropZone(e.offsetX , e.offsetY)){
-            let colData=this.#getColDrop(e.offsetX,e.offsetY);
-            console.log("columna que quedaria: "+colData.col);
-            this.#assingChipToBox(chip, colData.col);
-            console.log(this.#boxes);
+            let posOfColumnDrop=this.#getColDrop(e.offsetX) -1;
+            const firstBoxEmpty= this.getFirstBoxEmptyInCol(posOfColumnDrop);
+            
+            
+            if(firstBoxEmpty){
+                firstBoxEmpty.assignChip(chip);
+                if(this.checkWinForColumn(posOfColumnDrop).length === Config.typeGame.qunatityChipAlign){
+                    console.log("hay un ganadorrrrrrr");
+                    console.log(this.checkWinForColumn(posOfColumnDrop));
+                    
+                    
+                }else{
+                    console.log("se verifico la columna y no hay");
+                    
+                }
+               
+            }else{
+                console.log("no hay masss");
+                
+            }
+          
             
             Game.getInstance().removeChip(chip);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -57,27 +74,60 @@ class Tablero {
             ctx.restore();
             Game.getInstance().redraw(ctx);
             /*aca la mando a eliminar del arreglo de game */
+
             /*mando a guardar la ficha en el casillero vacio de la columna,pasando por todas los casilleros vacios en la columna */
             //console.log(chip);
             
-        } else {
+        }else {
             chip.redrawChip(canvas,ctx);
         }
 
     }
 
-    /*Parametros: la ficha a agregar al tablero y el numero de colunmna (entre 1 y 7->total de columnas) */
-    /*asigna la ficha al primer lugar vacio de abajo para arriba de la columna. Se lo pasa al Casillero --> assignChip(ficha) */
-    #assingChipToBox(chip,col){
-        let isAssing=false;
-        for(let i = this.#boxes.length-1; i >= 0 && !isAssing ; i--){
-            for(let j = 0; j < this.#boxes[i].length && !isAssing; j++){
-                if(this.#boxes[i][j].isEmpty() && j == col-1){
-                    this.#boxes[i][j].assignChip(chip);
-                    isAssing=true;
-                }
+  
+    getFirstBoxEmptyInCol(j){
+        /*en base a las columnas que hay,tomar la columna y preguntar si hay ficha */
+        let rowPos=Config.typeGame.rowsBoard-1;
+        let box;
+
+       while(!box && rowPos >= 0){
+            if(this.#boxes[rowPos][j].isEmpty()){
+                box=this.#boxes[rowPos][j];
             }
+            rowPos--;
+       }
+        
+       return box;
+    }
+
+    checkWinForColumn(j){
+        const minWin=Config.typeGame.qunatityChipAlign;
+        let isWin=false;
+        let notWin=false;
+        let rowPos=this.#boxes.length-1;
+        let lineWin=[];
+    
+        while(!isWin && !notWin && rowPos >= 0){
+            if(!this.#boxes[rowPos][j].isEmpty()){
+                lineWin.push(this.#boxes[rowPos][j]);
+
+                if(lineWin.length > 1){
+                    if(lineWin[0].getChip().getPlayer() != lineWin[lineWin.length-1].getChip().getPlayer()){
+                        lineWin=[];
+                        lineWin.push(this.#boxes[rowPos][j]);
+                    }
+                }
+
+            }else{
+                notWin=true;
+            }
+
+            isWin=minWin === lineWin.length;
+        
+            rowPos--;
         }
+
+        return lineWin;
     }
 
     getStartX(){
@@ -101,27 +151,22 @@ class Tablero {
         return (mouseX > parseInt(this.#startX)+Config.chipSize.radius/2 && mouseX < endX-Config.chipSize.radius/2) && (parseInt(mouseY) < parseInt(this.#startY));
     }
 
-    /*Parametros: posiciones de x e y de donde se hizo mouseUp. Retorna un objeto que contiene las coordenadas donde se dropeo y la posicion de columna que deberia insertarse.*/
-    /*Posicion de columna: numero de columna -1. */
-    #getColDrop(mouseX,mouseY){
+    /*Parametros: posiciones de x e y de donde se hizo mouseUp. Retorna el numero de columna donde debe insertarse.*/
+    /*Es el numero de columna, no la posicion (para obtener posicion restarle 1 a este numero)*/
+    #getColDrop(mouseX){
         let colSize=parseInt(Config.boardSize.width / Config.typeGame.columnsBoard);  /*tamaño de las columnas: total de ancho del tablero dividido el total de columnas de juego*/
-        let pos={x:0,y:0,col:1};
+        let col=1;
         let isCol=true;
 
-        //*se observa en que posicion de X dropeo la ficha(mouseX) y busca la columna en base a donde comienzan las columnas y su tamaño  */
-        /*ejemplo para la primer columna: si mouseX esta entre: donde arrancan las columnas + el tamaño de la primer columna -> es la columna indicada */
-        /*segunda iteracion: si mouse X esta entre: donde arrancan las columnas + 2 veces el tamaño de la columna -> esta en la segunda columna */
         while(isCol){
-            if (mouseX < this.#startX + (colSize * pos.col) ){
-                pos.x=mouseX;
-                pos.y=mouseY;
+            if (mouseX < this.#startX + (colSize * col) ){
                 isCol=false;
             }else{
-                pos.col++;
+                col++;
             }
         }
 
-        return pos;
+        return col;
     }
 
     /*dibuja todos los rectangulos del tablero acorde al total y tamaños de casilleros */
@@ -166,7 +211,7 @@ class Tablero {
        
         for(let i =this.#boxes.length-1; i >= 0; i-- ){
             for(let j =0; j < columns; j++){
-                this.#boxes[i].push(new Casillero(initX,initY));
+                this.#boxes[i].push(new Casillero(initX,initY,i,j));
                
                 initX = initX+sizeBox;
             }

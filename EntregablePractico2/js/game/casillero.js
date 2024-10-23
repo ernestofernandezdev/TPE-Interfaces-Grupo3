@@ -9,24 +9,36 @@ class Casillero{
     #y;
     #isEmpty;
     #chip;
+    #row;
+    #column;
 
 
-    constructor(x,y){
+    constructor(x,y,row,column){
         this.#x=x;
         this.#y=y;
         this.#isEmpty=true;
         this.#chip=null;
+        this.#row=row;
+        this.#column=column;
     }
 
     isEmpty(){
         return this.#isEmpty;
     }
 
+    getRow(){
+        return this.#row;
+    }
+
+    getColumn(){
+        return this.#column;
+    }
+
+
     /*guarda la ficha en el casillero. Marca el casillero como completo*/
     assignChip(chip){
         this.#chip=chip;
-        console.log("se asigno una ficha");
-        console.log(chip);
+        console.log("se asigno ficha");
         
         this.#isEmpty=false;
     }
@@ -47,5 +59,9 @@ class Casillero{
         ctx.fill(); // Rellena el círculo
         //ctx.drawImage(filterImg(), this.#x - Config.chipSize.radius, this.#y - Config.chipSize.radius, diameter, diameter);
         ctx.restore();
+    }
+
+    getChip(){
+        return this.#chip;
     }
 }

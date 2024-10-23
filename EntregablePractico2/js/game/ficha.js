@@ -18,7 +18,7 @@ class Ficha {
         this.#initX=x;
         this.#initY=y;
         this.#isDragging=false;
-        this.#player = player ? 'batman' : 'joker';
+        this.#player = player ? Config.players.type1 : Config.players.type2;
         this.#type = type; 
         this.#transparent;
     }
@@ -36,10 +36,10 @@ class Ficha {
         const diameter = Config.chipSize.radius * 2;
 
         const filterImg= ()=>{
-            if(this.#player == 'batman'){           /*si se mandan a crear fichas de batman, busco  si son de tipo 0 o 1 en el arreglo de imagenes */
+            if(this.#player == Config.players.type1){           /*si se mandan a crear fichas de batman, busco  si son de tipo 0 o 1 en el arreglo de imagenes */
                 return Ficha.images[parseInt(this.#type)];
             }else{
-                return Ficha.images[Config.imgBatmanChips.length+parseInt(this.#type)];/*si se mandan a crear fichas de joker, busco  si son de tipo 0 o 1 a partir de donde terminan las de batman*/
+                return Ficha.images[Config.imgPlayerType1.length+parseInt(this.#type)];/*si se mandan a crear fichas de joker, busco  si son de tipo 0 o 1 a partir de donde terminan las de batman*/
             }
         }
         if (this.#transparent) {
@@ -83,6 +83,13 @@ class Ficha {
         return this.#player;
     }
 
+    setPosition(newX,newY){
+        this.#x=newX;
+        this.#y=newY;
+    }
+
+    
+
     //Parametros: el evento y el objeto de canvas. Detecta si el click esta dentro del radio de la ficha. */
     /*si esta en el radio, la marca como arrastrada --> isDragging .*/
     /*actualiza la posicion de la ficha con las coordenadas del mouse */
@@ -100,8 +107,7 @@ class Ficha {
           
             this.#isDragging=true;                                              /*cuando se detecta un click en la ficha se empieza a draggear* */
 
-            this.#x = this.#startX;
-            this.#y = this.#startY;
+            this.setPosition(this.#startX,this.#startY);
 
             const gameInstance = Game.getInstance();        
             gameInstance.reorderchips(this);                /*cuando se hace click en una ficha, se le pide al padre que a esa ficha la renderize ultima (mas recientemente). */ 
@@ -139,7 +145,6 @@ class Ficha {
             let mouseX = parseInt(e.clientX - rect.left); // Calcula la posición X relativa al canvas
             let mouseY = parseInt(e.clientY - rect.top); // Calcula la posición Y relativa al canvas
         
-            
             let dx=mouseX - this.#startX;
             let dy=mouseY - this.#startY;
 
@@ -161,9 +166,8 @@ class Ficha {
                 newY = canvas.height - radius;  // mantiene dentro del borde inferior
             }
 
-            // actualiza las coordenadas
-            this.#x = newX;
-            this.#y = newY;
+          
+            this.setPosition(newX,newY);
             
              
             context.clearRect(0, 0, canvas.width, canvas.height);
@@ -173,7 +177,7 @@ class Ficha {
             if (tablero.isInDropZone(newX, newY)) {
                 let x = Math.trunc((e.offsetX-tablero.getStartX())/(Config.boxSize.width))*Config.boxSize.width + Config.boxSize.width/2 + tablero.getStartX();
                 let y = tablero.getStartY() - Config.boxSize.height/2;
-                let ficha = new Ficha(x, y, this.#player == 'batman' ? true : false,this.#type);
+                let ficha = new Ficha(x, y, this.#player == Config.players.type1 ,this.#type);
                 ficha.setTransparent();
                 ficha.drawCircle(context);
             }

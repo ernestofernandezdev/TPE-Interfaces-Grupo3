@@ -27,9 +27,9 @@ class Game {
     redraw(context){
        
       
-        this.#drawAllchips(context)
         this.#board.drawBoard(context);
         this.#board.drawAllBoxes(context)
+        this.#drawAllchips(context)
       
        
     }
