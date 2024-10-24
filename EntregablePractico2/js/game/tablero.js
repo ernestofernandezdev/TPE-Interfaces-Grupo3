@@ -22,8 +22,10 @@ class Tablero {
     /*el tablero son muchos rectangulos. Los rectangulos contienen al circulo casillero en el centro (drawRectangles)*/
     drawBoard(ctx){
         const canvas = document.getElementById("gameCanvas");
+
+      
        
-        this.#startX = (canvas.width - Config.boardSize.width) / 2;  /*posicion en X donde arranca a dibujarse el tablero---> al centro del ancho del canvas*/
+        this.#startX = canvas.width/2 - Config.boardSize.width/2;  /*posicion en X donde arranca a dibujarse el tablero---> al centro del ancho del canvas*/
         this.#startY= canvas.height - Config.boardSize.height;      /*posicion en Y donde arranca a dibujarse el tablero---> total de altura del canvas - lo alto del tablero. seria como un "margen top" */
     
         if(this.#boxes[0][0] == null){
@@ -48,27 +50,22 @@ class Tablero {
     handleMouseUp(e,chip,canvas,ctx){
         
         if(this.isInDropZone(e.offsetX , e.offsetY)){
-            const quantityChipsAlignToWin= Config.typeGame.quantityChipsAlignToWin;
             let posOfColumnDrop=this.#getColDrop(e.offsetX) -1;
             const firstBoxEmpty= this.getFirstBoxEmptyInCol(posOfColumnDrop);
             
             
             if(firstBoxEmpty){
                 firstBoxEmpty.assignChip(chip,ctx);
-              
-                if(this.checkWinForColumn(posOfColumnDrop).length === quantityChipsAlignToWin){
-                    console.log("hay ganador por columna");
-                    console.log(this.checkWinForColumn(posOfColumnDrop));
+                let listBoxesWinner= this.checkWinner(posOfColumnDrop,firstBoxEmpty);
+                
+                if(listBoxesWinner){
+                    console.log("HAY GANADOR");
+                    console.log(listBoxesWinner);
                     
-                }else if(this.checkWinForRow(firstBoxEmpty).length === quantityChipsAlignToWin) {
-                   console.log("hay ganador por fila");
-                   console.log(this.checkWinForRow(firstBoxEmpty));
-                   
-                }else if(this.checkWinForDiagonal(firstBoxEmpty)){
-                    console.log(this.checkWinForDiagonal(firstBoxEmpty));
-
+                    
                 }else{
-                    console.log("se verifico la columna, fila y diagonales de la ficha ingresada y no hay 4 en linea");
+                    console.log("no hay ganador");
+                    
                 }
                
             }else{
@@ -84,13 +81,31 @@ class Tablero {
             Game.getInstance().redraw(ctx);
            
 
-            /*mando a guardar la ficha en el casillero vacio de la columna,pasando por todas los casilleros vacios en la columna */
-            //console.log(chip);
-            
         }else {
             chip.redrawChip(canvas,ctx);
         }
 
+    }
+
+    /*Parametros: posicion de columna donde se dropeo la ultima ficha, casillero donde se almacena la ultima ficha dropeada */
+    /*funcion para revisar si hay ganador por columnas, filas y diagonales */
+    checkWinner(posOfColumnDrop,firstBoxEmpty){
+        const quantityChipsAlignToWin= Config.typeGame.quantityChipsAlignToWin;
+        let winForColumn=this.checkWinForColumn(posOfColumnDrop);
+        let winForRow=this.checkWinForRow(firstBoxEmpty);
+        let winForDiagonal=this.checkWinForDiagonal(firstBoxEmpty);
+
+        if(winForColumn.length === quantityChipsAlignToWin){
+            return winForColumn;
+        
+        }else if(winForRow.length === quantityChipsAlignToWin) {
+            return winForRow;
+           
+        }else if(winForDiagonal){
+            return winForDiagonal;
+        }
+
+        return null;
     }
 
     /*Parametro: posicion de la columna donde se dropeo la ultima ficha*/
@@ -215,10 +230,8 @@ class Tablero {
         const diagLeft=this.checkLeftDiagonal(colInit,rowInit);
 
         if(diagRight.length === minToWin){
-            console.log("hay ganador por diagonal derecha");
             return diagRight;
         }else if(diagLeft.length === minToWin){
-            console.log("hay ganador por diagonal izquierda");
             return diagLeft;
         }
         return null;

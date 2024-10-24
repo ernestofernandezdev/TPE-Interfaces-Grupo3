@@ -16,8 +16,8 @@ class Config{
         timeInSeg:900,
         quantityPlayers:2,
         quantityRounds:5,
-        typeOfChipsPlayer1:1,
-        typeOfChipsPlayer2:1
+        typeOfChipsPlayer1:0,
+        typeOfChipsPlayer2:0
     
     }
 
