@@ -3,6 +3,7 @@ class Tablero {
     #startX;
     #startY;    /*con startX almacenan en que posicion comienza el tablero. (posicion respecto al canvas en que se renderiza)*/
     #boxes=[];  /*matriz de casilleros(boxes) */
+    #ctx;
 
     constructor(){
         if (Tablero.#instance) {
@@ -22,7 +23,7 @@ class Tablero {
     /*el tablero son muchos rectangulos. Los rectangulos contienen al circulo casillero en el centro (drawRectangles)*/
     drawBoard(ctx){
         const canvas = document.getElementById("gameCanvas");
-
+        this.#ctx=ctx;
       
        
         this.#startX = canvas.width/2 - Config.boardSize.width/2;  /*posicion en X donde arranca a dibujarse el tablero---> al centro del ancho del canvas*/
@@ -61,6 +62,16 @@ class Tablero {
                 if(listBoxesWinner){
                     console.log("HAY GANADOR");
                     console.log(listBoxesWinner);
+                    this.checkListWinner(listBoxesWinner,ctx);
+
+                    setTimeout(() => {
+                        this.resetAllBoxes();
+                        this.drawAllBoxes(ctx);
+                        Game.getInstance().createChips();
+                        Game.getInstance().drawAllAvailableChips(ctx);
+                        
+                    }, 2000);
+
                     
                     
                 }else{
@@ -85,6 +96,24 @@ class Tablero {
             chip.redrawChip(canvas,ctx);
         }
 
+    }
+
+    resetAllBoxes(){
+        this.#boxes.forEach(row =>{
+            row.forEach(box=>{
+                box.setIsWin(false);
+                box.setChip(null);
+            })
+        })
+
+    }   
+    
+
+    checkListWinner(list,ctx){
+        list.forEach(box =>{
+            box.setIsWin(true);
+            box.drawBox(ctx);
+        })
     }
 
     /*Parametros: posicion de columna donde se dropeo la ultima ficha, casillero donde se almacena la ultima ficha dropeada */
@@ -263,14 +292,16 @@ class Tablero {
                     if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
                         winLine.pop();
                         isEndSearch=true;
-                    }
-                    if(winLine.length === minToWin){
+
+                    }else if(winLine.length === minToWin){
                         isEndSearch= true;
+                        
                     }else{
                         index++;
 
                         isEndSearch= row-index < 0 || col-index < 0;
                     }
+                  
                 }else{
                     isEndSearch= true;
                 }
@@ -296,9 +327,7 @@ class Tablero {
                     if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
                         winLine.pop();
                         isEndSearch=true;
-                    }
-
-                    if(winLine.length === minToWin){
+                    }else if(winLine.length === minToWin){
                         isEndSearch= true;
                     }else{
                         index++;
@@ -340,10 +369,8 @@ class Tablero {
                     if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
                         winLine.pop();
                         isEndSearch=true;
-                    }
-                     
-                    if(winLine.length === minToWin){
-                        isEndSearch= true;
+                    }else if(winLine.length === minToWin){
+                        isEndSearch=true;
                     }else{
                         index++;
     
@@ -376,10 +403,9 @@ class Tablero {
                     if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
                         winLine.pop();
                         isEndSearch=true;
-                    }
-                    
-                    if(winLine.length === minToWin){
+                    }else if(winLine.length === minToWin){
                         isEndSearch=true;
+
                     }else{
                         index++;
                         isEndSearch= row+index > this.#boxes.length-1 || col-index < 0;
@@ -455,14 +481,12 @@ class Tablero {
 
     /*recorre la matriz de casilleros y manda a dibujar cada casillero */
     drawAllBoxes(ctx){
-        
         this.#boxes.forEach(row =>{
             row.forEach(col=>{
                 col.drawBox(ctx);
             })
         })
-
-       
+ 
     }
 
 }

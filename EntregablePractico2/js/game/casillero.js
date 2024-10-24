@@ -4,7 +4,7 @@ class Casillero{
     };
     #x;
     #y;
-    #isEmpty;
+    #isWin;
     #chip;
     #row;
     #column;
@@ -12,15 +12,15 @@ class Casillero{
 
     constructor(x,y,row,column){
         this.#x=x;
-        this.#y=y;
-        this.#isEmpty=true;
+        this.#y=y;     
+        this.#isWin=false;
         this.#chip=null;
         this.#row=row;
         this.#column=column;
     }
 
     isEmpty(){
-        return this.#isEmpty;
+        return this.#chip === null;
     }
 
     getRow(){
@@ -34,18 +34,22 @@ class Casillero{
 
     /*guarda la ficha en el casillero. Marca el casillero como completo*/
     assignChip(chip,ctx){
-        this.#chip=chip;
-        this.#isEmpty=false;
+        this.setChip(chip);
         this.drawBox(ctx);
+    }
+
+    setChip(chip){
+        this.#chip=chip;
     }
 
     drawBox(ctx){
         const centerX = this.#x + Config.boxSize.width/ 2;
         const centerY = this.#y + Config.boxSize.width/ 2;
         const radius = Config.chipSize.radius;
-        ctx.fillStyle='blue';
-        ctx.fillRect(this.#x,this.#y,Config.boxSize.width,Config.boxSize.height);
 
+        ctx.fillStyle= this.#isWin ? 'yellow' : 'blue';
+
+        ctx.fillRect(this.#x,this.#y,Config.boxSize.width,Config.boxSize.height);
 
         ctx.save()
         ctx.beginPath();
@@ -59,12 +63,16 @@ class Casillero{
         }else{
            ctx.drawImage(this.getImageChip(), centerX-radius ,centerY-radius, radius*2, radius*2);
         }
-        
+
         ctx.restore();
     }
 
     getChip(){
         return this.#chip;
+    }
+
+    setIsWin(newState){
+        this.#isWin = newState;
     }
 
     getImageChip(){
@@ -76,4 +84,7 @@ class Casillero{
         }
         
     }
+
+
+
 }

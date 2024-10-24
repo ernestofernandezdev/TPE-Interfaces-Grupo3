@@ -29,7 +29,7 @@ class Game {
       
         this.#board.drawBoard(context);
         this.#board.drawAllBoxes(context)
-        this.#drawAllchips(context)
+        this.drawAllAvailableChips(context)
       
        
     }
@@ -53,9 +53,9 @@ class Game {
         this.#board.drawBoard(this.#ctx);
         this.#board.drawAllBoxes(this.#ctx)
  
-        this.#createchips();
+        this.createChips();
         
-        this.#drawAllchips(this.#ctx); 
+        this.drawAllAvailableChips(this.#ctx); 
       
         
     }
@@ -68,7 +68,7 @@ class Game {
 
     /*crea los objetos de Ficha. Multiplica cantidad de filas por columnas del juego y los divide por la cantidad de jugadores (batman vs joker).*/
     /*tiene en cuenta los costados del canvas para crear/renderizar inicialmente las fichas. */
-    #createchips() {
+    createChips() {
         const canvas = document.getElementById("gameCanvas");
         const qchips = (Config.typeGame.quantityColumnsInBoard * Config.typeGame.quantityRowsInBoard) / Config.typeGame.quantityPlayers;
         const paddingXRespectCanvas=80;
@@ -76,6 +76,7 @@ class Game {
         const typeChip1=Config.typeGame.typeOfChipsPlayer1;
         const typeChip2=Config.typeGame.typeOfChipsPlayer2;
         let acc =0;
+        this.#chips=[];
 
         for (let index = 0; index < qchips; index++) {
             this.#chips.push(new Ficha(  canvas.offsetLeft+paddingXRespectCanvas  , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-acc,true,typeChip1));
@@ -97,16 +98,18 @@ class Game {
     }
 
     /*dibuja todas las fichas disponibles para lanzar*/
-    #drawAllchips(context) {
+    drawAllAvailableChips(context) {
         this.#chips.forEach(f => {
             f.drawCircle(context);
         });
     }
 
+
     drawPlaceholderChip(chip) {
         chip.drawCircle(this.#ctx);
     }
 
+    
 
     /*///////////////////////////////////////////////////////////////////////metodos de eventos///////////////////////////////////////////////////////////////*/
 
