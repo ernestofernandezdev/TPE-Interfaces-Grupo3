@@ -1,6 +1,5 @@
 class Ficha {
     static images =[];
-    
     #x;     /*posicion de la ficha en x en relacion al canvas ----> se actualiza cada vez que se arrastra una ficha*/
     #y;        /*posicion de la ficha en y en relacion al canvas--------> se actualiza cada vez que se arrastra una ficha*/
     #startX; /*posicion del mouse en x relativa al canvas* */
@@ -9,7 +8,7 @@ class Ficha {
     #initY;/*junto con initX sirven para saber en que coordenadas se renderizo la ficha (util para volver la ficha a su lugar) */
     #isDragging;
     #player;    /*toma valores:  'batman' o 'joker' . al constructor se le pasa true para batman y false para joker. Se puede agregar a clase Config*/
-    #type;      /*toma valores: 1 o 2 para controlar la imagen/tematica de ficha. */
+    #type;      /*toma valores: 0 o 1 para controlar la imagen/tematica de ficha. */
     #transparent;
 
     constructor(x,y,player,type) {

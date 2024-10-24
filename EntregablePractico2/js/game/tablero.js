@@ -30,7 +30,9 @@ class Tablero {
             this.createBoxes();
         }
 
-        this.#drawRectangles(ctx);
+        
+        ctx.fillStyle='red';
+        ctx.fillRect(this.#startX, this.#startY,Config.boardSize.width,Config.boardSize.height);
        
     }
 
@@ -52,7 +54,7 @@ class Tablero {
             
             
             if(firstBoxEmpty){
-                firstBoxEmpty.assignChip(chip);
+                firstBoxEmpty.assignChip(chip,ctx);
               
                 if(this.checkWinForColumn(posOfColumnDrop).length === quantityChipsAlignToWin){
                     console.log("hay ganador por columna");
@@ -270,8 +272,7 @@ class Tablero {
         index=1;
         col=winLine[0].getColumn();
         row=winLine[0].getRow();
-        console.log(winLine);
-        
+
         /*escala hacia abajo y a la derecha */
         if(!isRightCol && !isBottomRow){
             while(!isEndSearch){
@@ -418,45 +419,13 @@ class Tablero {
         return col;
     }
 
-    /*dibuja todos los rectangulos del tablero acorde al total y tamaños de casilleros */
-    #drawRectangles(ctx){
-        let initY= this.getPosBottom() - Config.boxSize.width;  /*se empiezan a renderizar casilleros en la posicion mas abajo del tablero (getPosBottom) - el tamaño del casillero Y mas a la izquierda posible(getStartX) */
-        let initX = this.getStartX();
-        let sizeBox= Config.boxSize.width;
-        let columns=Config.typeGame.quantityColumnsInBoard;  
-        let totalRectangles= Config.typeGame.quantityRowsInBoard * Config.typeGame.quantityColumnsInBoard;
-
-        for(let i =this.#boxes.length-1; i >= 0; i-- ){
-            for(let j =0; j < columns; j++){
-             
-                ctx.fillStyle='orange';
-                ctx.fillRect(initX,initY,sizeBox,sizeBox);
-                // const centerX = initX + Config.boxSize.width / 2;
-                // const centerY = initY + Config.boxSize.height / 2;
-                // const radius = Config.chipSize.radius;
-                
-                // ctx.save()
-                // ctx.fillStyle = 'red'; 
-                // ctx.beginPath();
-                // ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-                
-                // ctx.clearRect(centerX - radius, centerY - radius, radius * 2, radius * 2);
-                // ctx.restore();
-               
-                initX = initX+sizeBox;
-            }
-            initX= initX - (sizeBox*columns)
-            initY=initY - sizeBox;
-        }
-          
-    }
-
     /*crea objetos de casillero y los agrega a la matriz.  */
     createBoxes(){
+        const margin=Config.boxSize.margins;
         let initY= this.getPosBottom() - Config.boxSize.width;  /*se empiezan a renderizar casilleros en la posicion mas abajo del tablero (getPosBottom) - el tamaño del casillero Y mas a la izquierda posible(getStartX) */
         let initX = this.getStartX();
-        let sizeBox= Config.boxSize.width;
-        let columns=Config.typeGame.quantityColumnsInBoard;    
+        let sizeBox = Config.boxSize.width;
+        let columns = Config.typeGame.quantityColumnsInBoard;    
        
         for(let i =this.#boxes.length-1; i >= 0; i-- ){
             for(let j =0; j < columns; j++){
@@ -473,11 +442,14 @@ class Tablero {
 
     /*recorre la matriz de casilleros y manda a dibujar cada casillero */
     drawAllBoxes(ctx){
+        
         this.#boxes.forEach(row =>{
             row.forEach(col=>{
                 col.drawBox(ctx);
             })
         })
+
+       
     }
 
 }

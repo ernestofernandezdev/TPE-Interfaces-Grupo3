@@ -1,10 +1,7 @@
 class Casillero{
-    static images=[
-        {
-            chipImgs:[]
-        }
-    
-    ];
+    static images={
+        chipImgs:[]
+    };
     #x;
     #y;
     #isEmpty;
@@ -36,32 +33,47 @@ class Casillero{
 
 
     /*guarda la ficha en el casillero. Marca el casillero como completo*/
-    assignChip(chip){
+    assignChip(chip,ctx){
         this.#chip=chip;
-        console.log("se asigno ficha");
-        
         this.#isEmpty=false;
+        this.drawBox(ctx);
     }
 
     drawBox(ctx){
-        //ctx.fillStyle='blue';
-        //ctx.fillRect(this.#x,this.#y,Config.boxSize.width,Config.boxSize.width);
-        
-        const centerX = this.#x + Config.boxSize.width / 2;
-        const centerY = this.#y + Config.boxSize.height / 2;
+        const centerX = this.#x + Config.boxSize.width/ 2;
+        const centerY = this.#y + Config.boxSize.width/ 2;
         const radius = Config.chipSize.radius;
-        //ctx.clearRect(centerX - radius, centerY - radius, radius * 2, radius * 2);
-        
+        ctx.fillStyle='blue';
+        ctx.fillRect(this.#x,this.#y,Config.boxSize.width,Config.boxSize.height);
+
+
         ctx.save()
-        ctx.fillStyle = 'red'; 
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-        ctx.fill(); // Rellena el círculo
-        //ctx.drawImage(filterImg(), this.#x - Config.chipSize.radius, this.#y - Config.chipSize.radius, diameter, diameter);
+        ctx.closePath();
+        ctx.clip(); 
+
+        if(this.isEmpty()){
+            ctx.fillStyle='white';
+            ctx.fill();
+        }else{
+           ctx.drawImage(this.getImageChip(), centerX-radius ,centerY-radius, radius*2, radius*2);
+        }
+        
         ctx.restore();
     }
 
     getChip(){
         return this.#chip;
+    }
+
+    getImageChip(){
+ 
+        if(this.#chip.getPlayer() == Config.players.type1){           /*si se mandan a crear fichas de batman, busco  si son de tipo 0 o 1 en el arreglo de imagenes */
+            return Casillero.images.chipImgs[Config.typeGame.typeOfChipsPlayer1];
+        }else{
+            return Casillero.images.chipImgs[Config.imgPlayerType1.length+Config.typeGame.typeOfChipsPlayer2];/*si se mandan a crear fichas de joker, busco  si son de tipo 0 o 1 a partir de donde terminan las de batman*/
+        }
+        
     }
 }

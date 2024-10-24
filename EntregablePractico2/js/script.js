@@ -2033,8 +2033,9 @@
             this.#handleInputTextArea();
             this.#handleClickLikeComment();
 
-
-            this.#loadGame();
+            Config.loadChipsImgs().then(()=>{
+                this.#loadGame();
+            })
         }
 
         #loadGame(){

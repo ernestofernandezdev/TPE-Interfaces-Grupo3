@@ -16,6 +16,8 @@ class Config{
         timeInSeg:900,
         quantityPlayers:2,
         quantityRounds:5,
+        typeOfChipsPlayer1:1,
+        typeOfChipsPlayer2:1
     
     }
 
@@ -30,7 +32,8 @@ class Config{
 
     static boxSize={
         width:((Config.chipSize.radius*2) + 30),            /*tamaño de los casilleros= al tamaño perimetral de las fichas(60) + margenes de 15*2 */
-        height:((Config.chipSize.radius*2) + 30)  
+        height:((Config.chipSize.radius*2) + 30),
+        margins: 15,
     }
 
     static boardSize={
@@ -50,7 +53,7 @@ class Config{
 
                 img.onload = () => {
                     Ficha.images[index] = img;
-                    Casillero.images[0].chipImgs.push(img);
+                    Casillero.images.chipImgs[index]= img;
                     loadedCount++;
 
                     if (loadedCount === imagePaths.length) {

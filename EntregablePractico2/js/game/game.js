@@ -55,9 +55,8 @@ class Game {
  
         this.#createchips();
         
-        Config.loadChipsImgs().then(() => {
-            this.#drawAllchips(this.#ctx); 
-        });
+        this.#drawAllchips(this.#ctx); 
+      
         
     }
 
@@ -74,17 +73,19 @@ class Game {
         const qchips = (Config.typeGame.quantityColumnsInBoard * Config.typeGame.quantityRowsInBoard) / Config.typeGame.quantityPlayers;
         const paddingXRespectCanvas=80;
         const paddingYRespectCanvas=50;
+        const typeChip1=Config.typeGame.typeOfChipsPlayer1;
+        const typeChip2=Config.typeGame.typeOfChipsPlayer2;
         let acc =0;
 
         for (let index = 0; index < qchips; index++) {
-            this.#chips.push(new Ficha(  canvas.offsetLeft+paddingXRespectCanvas  , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-acc,true,0  ));
+            this.#chips.push(new Ficha(  canvas.offsetLeft+paddingXRespectCanvas  , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-acc,true,typeChip1));
             acc=acc+10;
         }
 
         acc=0;
 
         for (let index = 0; index < qchips; index++) {
-            this.#chips.push(new Ficha(  (canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectCanvas ,  (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-acc,false,0  ));
+            this.#chips.push(new Ficha(  (canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectCanvas ,  (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-acc,false,typeChip2));
             acc=acc+10;
         }
       
