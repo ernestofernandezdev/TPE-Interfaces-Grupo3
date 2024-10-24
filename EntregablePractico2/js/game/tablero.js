@@ -57,7 +57,7 @@ class Tablero {
             if(firstBoxEmpty){
                 firstBoxEmpty.assignChip(chip,ctx);
                 let listBoxesWinner= this.checkWinner(posOfColumnDrop,firstBoxEmpty);
-                
+
                 if(listBoxesWinner){
                     console.log("HAY GANADOR");
                     console.log(listBoxesWinner);
@@ -88,7 +88,7 @@ class Tablero {
     }
 
     /*Parametros: posicion de columna donde se dropeo la ultima ficha, casillero donde se almacena la ultima ficha dropeada */
-    /*funcion para revisar si hay ganador por columnas, filas y diagonales */
+    /*funcion para revisar si hay ganador por columnas, filas y diagonales. Si hay ganador retorna el arreglo ganador*/
     checkWinner(posOfColumnDrop,firstBoxEmpty){
         const quantityChipsAlignToWin= Config.typeGame.quantityChipsAlignToWin;
         let winForColumn=this.checkWinForColumn(posOfColumnDrop);
