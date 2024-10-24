@@ -58,21 +58,19 @@ class Tablero {
                     console.log("hay ganador por columna");
                     console.log(this.checkWinForColumn(posOfColumnDrop));
                     
-                    
                 }else if(this.checkWinForRow(firstBoxEmpty).length === quantityChipsAlignToWin) {
-
                    console.log("hay ganador por fila");
                    console.log(this.checkWinForRow(firstBoxEmpty));
                    
-                   
-                    
+                }else if(this.checkWinForDiagonal(firstBoxEmpty)){
+                    console.log(this.checkWinForDiagonal(firstBoxEmpty));
+
                 }else{
-                    console.log("se verifico la columna y fila y no hay");
+                    console.log("se verifico la columna, fila y diagonales de la ficha ingresada y no hay 4 en linea");
                 }
                
             }else{
-                
-                console.log("no hay mas lugar en columna");
+                console.log("no hay mas lugar en columna: "+ posOfColumnDrop);
                 
             }
           
@@ -82,7 +80,7 @@ class Tablero {
             ctx.save(); // guarda el contexto antes de dibujar
             ctx.restore();
             Game.getInstance().redraw(ctx);
-            /*aca la mando a eliminar del arreglo de game */
+           
 
             /*mando a guardar la ficha en el casillero vacio de la columna,pasando por todas los casilleros vacios en la columna */
             //console.log(chip);
@@ -93,9 +91,9 @@ class Tablero {
 
     }
 
-  
+    /*Parametro: posicion de la columna donde se dropeo la ultima ficha*/
+    /*Retorna el primer casillero disponible de abajo hacia arriba en una columna(j) */
     getFirstBoxEmptyInCol(j){
-        /*en base a las columnas que hay,tomar la columna y preguntar si hay ficha */
         let rowPos=Config.typeGame.quantityRowsInBoard-1;
         let box;
 
@@ -109,6 +107,8 @@ class Tablero {
        return box;
     }
 
+    /*Parametro: posicion de la columna donde se dropeo la ultima ficha */
+    /*recorre toda la columna de abajo hacia arriba para checkear si hay juego en la columna */
     checkWinForColumn(j){
         const minWin=Config.typeGame.quantityChipsAlignToWin;
         let isWin=false;
@@ -139,6 +139,9 @@ class Tablero {
         return winLine;
     }
 
+    /*Parametro: casillero donde se guarda la ultima ficha dropeada */
+    /*Recorre los casilleros a la derecha e izquierda del casillero donde se guarda la ultima ficha dropeada--->primero recorre a su derecha y luego a su izquierda. */
+    /*retorna un arreglo que para saber si es el ganador se debe verificar que su longitud sea igual al de la cantidad de fichas para hacer juego */
     checkWinForRow(box){
         const minWin=Config.typeGame.quantityChipsAlignToWin;
         const quantityCol = Config.typeGame.quantityColumnsInBoard;
@@ -198,6 +201,182 @@ class Tablero {
         }
 
         return winLine;  
+    }
+
+    /*Parametro: casillero donde se guarda la ultima ficha dropeada */
+    /*funcion que llama a chequear las 2 diagonales que atraviezan el casillero de la ultima ficha ingresada */
+    checkWinForDiagonal(box){
+        let colInit=box.getColumn();
+        let rowInit=box.getRow();
+        const minToWin=Config.typeGame.quantityChipsAlignToWin;
+        const diagRight=this.checkRightDiagonal(colInit,rowInit);
+        const diagLeft=this.checkLeftDiagonal(colInit,rowInit);
+
+        if(diagRight.length === minToWin){
+            console.log("hay ganador por diagonal derecha");
+            return diagRight;
+        }else if(diagLeft.length === minToWin){
+            console.log("hay ganador por diagonal izquierda");
+            return diagLeft;
+        }
+        return null;
+    }
+
+    /*Parametro: col: columna del casillero donde se guarda la ultima ficha dropeada. row: fila del casillero donde se guarda la ultima ficha dropeada */
+    /*recorre primero la diagonal arriba a la izquierda y despues abajo a la derecha ---> haciendo la forma de: "\" */
+    /*En cada recorrido agrega fichas del mismo jugador consecutivas al arreglo ganador */
+    checkLeftDiagonal(col,row){
+        const minToWin=Config.typeGame.quantityChipsAlignToWin;
+        let index=1;
+        let isBottomRow= row === this.#boxes.length-1;
+        let isTopRow = row === 0;
+
+        let isRightCol= col === this.#boxes[0].length-1;
+        let isLeftCol= col === 0;
+
+        let isEndSearch=false;
+        let winLine=[];
+
+        winLine.push(this.#boxes[row][col]);
+
+        /*escala hacia arriba y a la izquierda */
+        if(!isTopRow && !isLeftCol){
+            while(!isEndSearch){
+
+                if(!this.#boxes[row-index][col-index].isEmpty()){
+                    winLine.push(this.#boxes[row-index][col-index]);
+                    if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
+                        winLine.pop();
+                        isEndSearch=true;
+                    }
+                    if(winLine.length === minToWin){
+                        isEndSearch= true;
+                    }else{
+                        index++;
+
+                        isEndSearch= row-index < 0 || col-index < 0;
+                    }
+                }else{
+                    isEndSearch= true;
+                }
+            }
+        }
+        
+        if(winLine.length === minToWin){
+            return winLine;
+        }
+
+        isEndSearch=false;
+        index=1;
+        col=winLine[0].getColumn();
+        row=winLine[0].getRow();
+        console.log(winLine);
+        
+        /*escala hacia abajo y a la derecha */
+        if(!isRightCol && !isBottomRow){
+            while(!isEndSearch){
+                let diag = this.#boxes[row+index][col+index];
+
+                if(!diag.isEmpty()){
+                    winLine.push(this.#boxes[row+index][col+index]);
+                    if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
+                        winLine.pop();
+                        isEndSearch=true;
+                    }
+
+                    if(winLine.length === minToWin){
+                        isEndSearch= true;
+                    }else{
+                        index++;
+                        isEndSearch= row+index > this.#boxes.length-1 || col+index > Config.typeGame.quantityColumnsInBoard-1;
+                    }
+                }else{
+                    isEndSearch=true;
+                }
+            }
+        }
+
+        return winLine;
+    }
+
+    /*Parametro: col: columna del casillero donde se guarda la ultima ficha dropeada. row: fila del casillero donde se guarda la ultima ficha dropeada */
+    /*recorre primero la diagonal arriba a la derecha y despues abajo a la izquierda ---> haciendo la forma de: "/" */
+    /*En cada recorrido agrega fichas del mismo jugador consecutivas al arreglo ganador */
+    checkRightDiagonal(col, row){
+        const minToWin=Config.typeGame.quantityChipsAlignToWin;
+        let index=1;
+        let isBottomRow= row === this.#boxes.length-1;
+        let isTopRow = row === 0;
+
+        let isRightCol= col === this.#boxes[0].length-1;
+        let isLeftCol= col === 0;
+
+        let isEndSearch=false;
+        let winLine=[];
+
+        winLine.push(this.#boxes[row][col]);
+      
+        /*escala hacia arriba y a la derecha */
+        if(!isRightCol && !isTopRow){
+            while(!isEndSearch){
+
+                if(!this.#boxes[row-index][col+index].isEmpty()){
+                    winLine.push(this.#boxes[row-index][col+index]);
+
+                    if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
+                        winLine.pop();
+                        isEndSearch=true;
+                    }
+                     
+                    if(winLine.length === minToWin){
+                        isEndSearch= true;
+                    }else{
+                        index++;
+    
+                        isEndSearch=col+index > Config.typeGame.quantityColumnsInBoard || row-index < 0;
+                    }
+                    
+                }else{
+                    isEndSearch=true;
+                }
+
+            }
+        }
+
+        if(winLine.length === minToWin){
+            return winLine;
+        }
+
+        isEndSearch=false;
+        index=1;
+        col=winLine[0].getColumn();
+        row=winLine[0].getRow();
+      
+        /*escala hacia abajo y a la izquierda */
+        if(!isLeftCol && !isBottomRow){
+            while(!isEndSearch){
+                let diag=this.#boxes[row+index][col-index];
+
+                if(!diag.isEmpty()){
+                    winLine.push(this.#boxes[row+index][col-index]);
+                    if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
+                        winLine.pop();
+                        isEndSearch=true;
+                    }
+                    
+                    if(winLine.length === minToWin){
+                        isEndSearch=true;
+                    }else{
+                        index++;
+                        isEndSearch= row+index > this.#boxes.length-1 || col-index < 0;
+                    }
+
+                }else{
+                    isEndSearch=true;
+                }
+            }
+        }
+        return winLine;
     }
 
     getStartX(){
