@@ -17,10 +17,7 @@ class Game {
 
     ]
 
-    #animationDispenser=null;
-    #alternateAnimation=true;
 
-   
     constructor() {
         if (Game.#instance) {
             return Game.#instance;
@@ -121,6 +118,13 @@ class Game {
       
     }
 
+    alternateTurn(){
+        if(this.#playerTurn+1 <= Config.typeGame.quantityPlayers){
+            this.#playerTurn++;
+        }else{
+            this.#playerTurn=1;
+        }
+    }
 
 
     removeChip(chip) {
@@ -219,38 +223,32 @@ class Game {
             const mouseX = e.clientX - rect.left;
             const mouseY = e.clientY - rect.top;
             this.#selectedchip=null;
-            let isClicked=false;
-            const lastChips= this.#getLastChipsForPlayers();
+            const firstChipDrop= this.#getFirstChipForPlayerTurn(this.#playerTurn);
 
+            const distanceFromCenter = Math.sqrt(             /*calcula la distancia entre el punto de clic del mouse (mouseX, mouseY) y el centro de una ficha (f.getX(), f.getY()).  */
+                Math.pow(mouseX - firstChipDrop.getX(), 2) + Math.pow(mouseY - firstChipDrop.getY(), 2) /*mat.pow eleva al cuadrado las diferencias anteriores para quitar coordenadas negativas */
+            );
 
-            for (let i = 0; !isClicked && i < lastChips.length; i++) {    
-                const c = lastChips[i];
-                const distanceFromCenter = Math.sqrt(             /*calcula la distancia entre el punto de clic del mouse (mouseX, mouseY) y el centro de una ficha (f.getX(), f.getY()).  */
-                    Math.pow(mouseX - c.getX(), 2) + Math.pow(mouseY - c.getY(), 2) /*mat.pow eleva al cuadrado las diferencias anteriores para quitar coordenadas negativas */
-                );
-    
-                if (distanceFromCenter <= c.getRadius()) {     /*si esta en el radio de la ficha, la marca como "agarrada/seleccionada" */
-                    this.#selectedchip = c; 
-                    isClicked=true;
-                   
-                }
+            if (distanceFromCenter <= firstChipDrop.getRadius()) {     /*si esta en el radio de la ficha, la marca como "agarrada/seleccionada" */
+                this.#selectedchip = firstChipDrop; 
             }
-  
+
+          
             //agarro el personaje de la ficha que selecciono y le dejo usar solo la ultima renderizada.
             if (this.#selectedchip) {
+                console.log("la agarroooo");
+                
                 this.#selectedchip.handleMouseDown(e, canvas); 
             }
 
         });
     }
 
-    #getLastChipsForPlayers(){
-        const chipsType1= this.#chips.filter(c => c.getPlayer()===Config.players.type1);
-        const chipsType2= this.#chips.filter(c => c.getPlayer()===Config.players.type2);
-        let chip1= chipsType1[chipsType1.length-1];
-        let chip2= chipsType2[chipsType2.length-1];
-
-        return [chip1,chip2];
+    #getFirstChipForPlayerTurn(playerTurn){
+        const chipsPlayer= this.#chips.filter(c => c.getPlayer()===Config.listPlayerTypes[playerTurn-1]);
+        let chip= chipsPlayer[chipsPlayer.length-1];
+     
+        return chip;
     }
 
     /*le pasa el evento a sus hijos */

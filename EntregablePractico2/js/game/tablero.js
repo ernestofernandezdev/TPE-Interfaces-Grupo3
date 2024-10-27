@@ -59,6 +59,7 @@ class Tablero {
                 firstBoxEmpty.assignChip(chip,ctx);
                
                 let listBoxesWinner= this.checkWinner(posOfColumnDrop,firstBoxEmpty);
+                Game.getInstance().alternateTurn();
 
                 if(listBoxesWinner){
                     console.log("HAY GANADOR");
@@ -79,7 +80,7 @@ class Tablero {
                     console.log("no hay ganador");
                     
                 }
-               
+
             }else{
                 console.log("no hay mas lugar en columna: "+ posOfColumnDrop);
                 
