@@ -16,6 +16,7 @@ class Game {
         }
 
     ]
+    #posDispenser=null;
 
 
     constructor() {
@@ -141,13 +142,16 @@ class Game {
     }
 
     updatePositionChipsDrop(){
-        const chipsPlayer1=this.#chips.filter(c => c.getPlayer()===Config.players.type1);
-        const chipsPlayer2=this.#chips.filter(c => c.getPlayer()===Config.players.type2);
-        
-        chipsPlayer1[chipsPlayer1.length-1].setInitPositionX(this.#chipsDrop[0].x);
-        chipsPlayer1[chipsPlayer1.length-1].setInitPositionY(this.#chipsDrop[0].y);
-        chipsPlayer2[chipsPlayer2.length-1].setInitPositionX(this.#chipsDrop[1].x);
-        chipsPlayer2[chipsPlayer2.length-1].setInitPositionY(this.#chipsDrop[1].y);
+        if(this.#chips.length >= Config.typeGame.quantityPlayers){
+            const chipsPlayer1=this.#chips.filter(c => c.getPlayer()===Config.players.type1);
+            const chipsPlayer2=this.#chips.filter(c => c.getPlayer()===Config.players.type2);
+            
+            chipsPlayer1[chipsPlayer1.length-1].setInitPositionX(this.#chipsDrop[0].x);
+            chipsPlayer1[chipsPlayer1.length-1].setInitPositionY(this.#chipsDrop[0].y);
+            chipsPlayer2[chipsPlayer2.length-1].setInitPositionX(this.#chipsDrop[1].x);
+            chipsPlayer2[chipsPlayer2.length-1].setInitPositionY(this.#chipsDrop[1].y);
+
+        }
     }
 
     /*dibuja todas las fichas disponibles para lanzar*/
@@ -170,10 +174,22 @@ class Game {
         const width=200;
         const height=380;
         const radius=30;
+        if(this.#posDispenser === null){
+            this.#posDispenser=[
+                {
+                    x:chipsPlayer1[chipsPlayer1.length-1].getInitX()-paddingX,
+                    y:chipsPlayer1[0].getInitY()-paddingY
+                },
+                {
+                    x:chipsPlayer2[chipsPlayer2.length-1].getInitX()-paddingX,
+                    y:chipsPlayer2[0].getInitY()-paddingY
+                }
+            ]
+        }
   
         this.#ctx.fillStyle='black';
-        this.#drawRectangleRounded(this.#ctx,chipsPlayer1[chipsPlayer1.length-1].getInitX()-paddingX,chipsPlayer1[0].getInitY()-paddingY,width,height,radius);
-        this.#drawRectangleRounded(this.#ctx, chipsPlayer2[chipsPlayer2.length-1].getInitX()-paddingX, chipsPlayer2[0].getInitY()-paddingY,width,height,radius);
+        this.#drawRectangleRounded(this.#ctx,this.#posDispenser[0].x,this.#posDispenser[0].y,width,height,radius);
+        this.#drawRectangleRounded(this.#ctx,this.#posDispenser[1].x,this.#posDispenser[1].y,width,height,radius);
        
     }
 
@@ -292,11 +308,12 @@ class Game {
     }
 
 
+    getChips(){
+        return this.#chips;
+    }
+
     
     ///*//////////////////////////////////////////////////////////metodos de reorden/eliminacion/////////////////////////////////////////////////////////////////////
-
-    /*le llega por parametro la ficha clickeada y la agrega al final del arreglo de fichas para renderizarla ultima al dibujarla(mas recientemente). Parametro: ficha arrastrada/clikeada */
- 
 
     /*actualiza las fichas que estan disponibles para jugar . Parametro: ficha que se dropea en el tablero */
     updateChipsAvailable(chip){

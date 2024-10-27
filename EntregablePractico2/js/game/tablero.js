@@ -72,6 +72,8 @@ class Tablero {
                     
                 }
 
+               
+
             }else{
                 console.log("no hay mas lugar en columna: "+ posOfColumnDrop);
                 
@@ -91,6 +93,14 @@ class Tablero {
                         Game.getInstance().createChips();
                         Game.getInstance().redraw(ctx);
                     }, 2000);
+            }
+            if(Game.getInstance().getChips().length === 0){
+                setTimeout(() => {
+                    console.log("JUEGO EMPATADO");
+                    this.resetAllBoxes();
+                    Game.getInstance().createChips();
+                    Game.getInstance().redraw(ctx);
+                }, 2000);
             }
            
 
