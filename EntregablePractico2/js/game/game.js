@@ -126,6 +126,13 @@ class Game {
         }
     }
 
+    setTurnForWinner(box){
+        let players= Config.listPlayerTypes;
+        let win= players.findIndex(p => p===box.getChip().getPlayer());
+        
+        this.#playerTurn=win+1;
+    }
+
 
     removeChip(chip) {
         let pos = this.#chips.indexOf(chip);

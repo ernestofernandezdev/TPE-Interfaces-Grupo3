@@ -59,7 +59,7 @@ class Tablero {
                 firstBoxEmpty.assignChip(chip,ctx);
                
                 let listBoxesWinner= this.checkWinner(posOfColumnDrop,firstBoxEmpty);
-                Game.getInstance().alternateTurn();
+             
 
                 if(listBoxesWinner){
                     console.log("HAY GANADOR");
@@ -70,14 +70,15 @@ class Tablero {
                         this.resetAllBoxes();
                         this.drawAllBoxes(ctx);
                         Game.getInstance().createChips();
+                        Game.getInstance().setTurnForWinner(listBoxesWinner[0]);
                         Game.getInstance().drawAllAvailableChips(ctx);
                         
                     }, 2000);
 
                     
-                    
                 }else{
                     console.log("no hay ganador");
+                    Game.getInstance().alternateTurn();
                     
                 }
 
