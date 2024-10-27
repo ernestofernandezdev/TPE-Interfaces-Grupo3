@@ -35,8 +35,7 @@ class Game {
 
     /*redibuja los componentes del juego (fichas,tablero,casilleros). Se redibuja cada vez que hay cambios(movimientos de fichas, casillero completo,...) */
     redraw(context){
-       
-      
+    
         this.#board.drawBoard(context);
         this.#board.drawAllBoxes(context)
         this.drawChipDispenser();
@@ -128,6 +127,8 @@ class Game {
 
     setTurnForWinner(box){
         let players= Config.listPlayerTypes;
+        
+        
         let win= players.findIndex(p => p===box.getChip().getPlayer());
         
         this.#playerTurn=win+1;
@@ -151,7 +152,6 @@ class Game {
 
     /*dibuja todas las fichas disponibles para lanzar*/
     drawAllAvailableChips(context) {
-    
         this.#chips.forEach(f => {
             f.drawCircle(context);
         });
@@ -296,13 +296,7 @@ class Game {
     ///*//////////////////////////////////////////////////////////metodos de reorden/eliminacion/////////////////////////////////////////////////////////////////////
 
     /*le llega por parametro la ficha clickeada y la agrega al final del arreglo de fichas para renderizarla ultima al dibujarla(mas recientemente). Parametro: ficha arrastrada/clikeada */
-    reorderchips(c) {
-        const index = this.#chips.indexOf(c);
-        if (index !== -1) {
-            this.#chips.splice(index, 1); // remueve la ficha del arreglo
-            this.#chips.push(c); // la agrega al final
-        }
-    }
+ 
 
     /*actualiza las fichas que estan disponibles para jugar . Parametro: ficha que se dropea en el tablero */
     updateChipsAvailable(chip){

@@ -53,28 +53,18 @@ class Tablero {
         if(this.isInDropZone(e.offsetX , e.offsetY)){
             let posOfColumnDrop=this.#getColDrop(e.offsetX) -1;
             const firstBoxEmpty= this.getFirstBoxEmptyInCol(posOfColumnDrop);
-            
+            let listBoxesWinner=null;
+      
             
             if(firstBoxEmpty){
                 firstBoxEmpty.assignChip(chip,ctx);
-               
-                let listBoxesWinner= this.checkWinner(posOfColumnDrop,firstBoxEmpty);
-             
-
+                listBoxesWinner= this.checkWinner(posOfColumnDrop,firstBoxEmpty);
+            
                 if(listBoxesWinner){
                     console.log("HAY GANADOR");
                     console.log(listBoxesWinner);
                     this.checkListWinner(listBoxesWinner,ctx);
-
-                    setTimeout(() => {
-                        this.resetAllBoxes();
-                        this.drawAllBoxes(ctx);
-                        Game.getInstance().createChips();
-                        Game.getInstance().setTurnForWinner(listBoxesWinner[0]);
-                        Game.getInstance().drawAllAvailableChips(ctx);
-                        
-                    }, 2000);
-
+                  
                     
                 }else{
                     console.log("no hay ganador");
@@ -86,14 +76,22 @@ class Tablero {
                 console.log("no hay mas lugar en columna: "+ posOfColumnDrop);
                 
             }
-          
-            
+
             Game.getInstance().removeChip(chip);
             Game.getInstance().updatePositionChipsDrop();
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.save(); // guarda el contexto antes de dibujar
+            ctx.save(); 
             ctx.restore();
             Game.getInstance().redraw(ctx);
+
+            if(listBoxesWinner){
+                 setTimeout(() => {
+                        Game.getInstance().setTurnForWinner(listBoxesWinner[0]);
+                        this.resetAllBoxes();
+                        Game.getInstance().createChips();
+                        Game.getInstance().redraw(ctx);
+                    }, 2000);
+            }
            
 
         }else {
@@ -146,16 +144,29 @@ class Tablero {
     /*Retorna el primer casillero disponible de abajo hacia arriba en una columna(j) */
     getFirstBoxEmptyInCol(j){
         let rowPos=Config.typeGame.quantityRowsInBoard-1;
-        let box;
+        let pos={
+            row:-1,
+            col:-1
+        }
+ 
 
-       while(!box && rowPos >= 0){
+       while(pos.col===-1 && rowPos >= 0){
             if(this.#boxes[rowPos][j].isEmpty()){
-                box=this.#boxes[rowPos][j];
+              
+                pos.row=rowPos;
+                pos.col=j
             }
             rowPos--;
-       }
+        }
         
-       return box;
+        if(pos.col != -1){
+          
+            
+            return this.#boxes[parseInt(pos.row)][parseInt(pos.col)];
+
+        }else{
+            return null
+        }
     }
 
     /*Parametro: posicion de la columna donde se dropeo la ultima ficha */

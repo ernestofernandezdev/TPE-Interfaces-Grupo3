@@ -123,9 +123,7 @@ class Ficha {
             this.#isDragging=true;                                              /*cuando se detecta un click en la ficha se empieza a draggear* */
 
             this.setPosition(this.#startX,this.#startY);
-
-            const gameInstance = Game.getInstance();        
-            gameInstance.reorderchips(this);                /*cuando se hace click en una ficha, se le pide al padre que a esa ficha la renderize ultima (mas recientemente). */ 
+           
         }
     }
 
