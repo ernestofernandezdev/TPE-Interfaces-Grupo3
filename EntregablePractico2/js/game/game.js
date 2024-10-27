@@ -4,17 +4,30 @@ class Game {
     #selectedchip=null; /*ficha seleccionada/arrastrada */
     #board; /*tablero */
     #ctx;
-    #turn;
+    #playerTurn;
+    #chipsDrop=[
+        {
+            x:0,
+            y:0
+        },
+        {
+            x:0,
+            y:0
+        }
+
+    ]
+
+    #animationDispenser=null;
+    #alternateAnimation=true;
 
    
-
     constructor() {
         if (Game.#instance) {
             return Game.#instance;
         }
         Game.#instance = this;
         this.#board = new Tablero();
-        this.#turn = true;
+        this.#playerTurn = 1;
 
      
     }
@@ -29,6 +42,7 @@ class Game {
       
         this.#board.drawBoard(context);
         this.#board.drawAllBoxes(context)
+        this.drawChipDispenser();
         this.drawAllAvailableChips(context)
       
        
@@ -52,8 +66,9 @@ class Game {
 
         this.#board.drawBoard(this.#ctx);
         this.#board.drawAllBoxes(this.#ctx)
- 
         this.createChips();
+      
+        this.drawChipDispenser();
         
         this.drawAllAvailableChips(this.#ctx); 
       
@@ -71,34 +86,61 @@ class Game {
     createChips() {
         const canvas = document.getElementById("gameCanvas");
         const qchips = (Config.typeGame.quantityColumnsInBoard * Config.typeGame.quantityRowsInBoard) / Config.typeGame.quantityPlayers;
-        const paddingXRespectCanvas=80;
-        const paddingYRespectCanvas=50;
+        const paddingXRespectCanvas=Config.chipSize.radius+110;
+        const paddingYRespectCanvas=Config.chipSize.radius+200;
         const typeChip1=Config.typeGame.typeOfChipsPlayer1;
         const typeChip2=Config.typeGame.typeOfChipsPlayer2;
         let acc =0;
         this.#chips=[];
+       
 
         for (let index = 0; index < qchips; index++) {
-            this.#chips.push(new Ficha(  canvas.offsetLeft+paddingXRespectCanvas  , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-acc,true,typeChip1));
-            acc=acc+10;
+            if(index === qchips-1){
+                this.#chips.push(new Ficha(  canvas.offsetLeft+paddingXRespectCanvas  , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-acc-100,true,typeChip1));
+                this.#chipsDrop[0].x=canvas.offsetLeft+paddingXRespectCanvas,
+                this.#chipsDrop[0].y=(canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-acc-100;
+            }else{
+                this.#chips.push(new Ficha(  canvas.offsetLeft+paddingXRespectCanvas  , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-acc,true,typeChip1));
+            }
+            acc=acc+3;
         }
 
         acc=0;
+       
 
         for (let index = 0; index < qchips; index++) {
-            this.#chips.push(new Ficha(  (canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectCanvas ,  (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-acc,false,typeChip2));
-            acc=acc+10;
+            if(index === qchips-1){
+                this.#chips.push(new Ficha(  (canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectCanvas ,  (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-acc-100,false,typeChip2));
+                this.#chipsDrop[1].x=(canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectCanvas,
+                this.#chipsDrop[1].y=(canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-acc-100;
+            }else{
+                this.#chips.push(new Ficha(  (canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectCanvas ,  (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-acc,false,typeChip2));
+            }
+            acc=acc+3;
         }
       
     }
+
+
 
     removeChip(chip) {
         let pos = this.#chips.indexOf(chip);
         this.#chips.splice(pos,1);
     }
 
+    updatePositionChipsDrop(){
+        const chipsPlayer1=this.#chips.filter(c => c.getPlayer()===Config.players.type1);
+        const chipsPlayer2=this.#chips.filter(c => c.getPlayer()===Config.players.type2);
+        
+        chipsPlayer1[chipsPlayer1.length-1].setInitPositionX(this.#chipsDrop[0].x);
+        chipsPlayer1[chipsPlayer1.length-1].setInitPositionY(this.#chipsDrop[0].y);
+        chipsPlayer2[chipsPlayer2.length-1].setInitPositionX(this.#chipsDrop[1].x);
+        chipsPlayer2[chipsPlayer2.length-1].setInitPositionY(this.#chipsDrop[1].y);
+    }
+
     /*dibuja todas las fichas disponibles para lanzar*/
     drawAllAvailableChips(context) {
+    
         this.#chips.forEach(f => {
             f.drawCircle(context);
         });
@@ -107,6 +149,52 @@ class Game {
 
     drawPlaceholderChip(chip) {
         chip.drawCircle(this.#ctx);
+    }
+
+    drawChipDispenser(){
+        const chipsPlayer1= this.#chips.filter(c => c.getPlayer()===Config.players.type1);
+        const chipsPlayer2=this.#chips.filter(c => c.getPlayer()===Config.players.type2);
+        const paddingX= 100;
+        const paddingY= 220;
+        const width=200;
+        const height=380;
+        const radius=30;
+  
+        this.#ctx.fillStyle='black';
+        this.#drawRectangleRounded(this.#ctx,chipsPlayer1[chipsPlayer1.length-1].getInitX()-paddingX,chipsPlayer1[0].getInitY()-paddingY,width,height,radius);
+        this.#drawRectangleRounded(this.#ctx, chipsPlayer2[chipsPlayer2.length-1].getInitX()-paddingX, chipsPlayer2[0].getInitY()-paddingY,width,height,radius);
+       
+    }
+
+    // #startAnimationDispenser(p1Status,p2Status){
+    //     if(this.#animationDispenser == null){
+    //         this.#animationDispenser = setInterval(() => {
+    //             if(p1Status){
+    //                 this.drawChipDispenser(this.#alternateAnimation,p2Status); 
+    //                 console.log(this.#alternateAnimation);
+                    
+    //             }else{
+    //                 this.drawChipDispenser(p1Status,this.#alternateAnimation); 
+    //             }
+    //             this.#alternateAnimation=!this.#alternateAnimation;
+    //             this.drawAllAvailableChips(this.#ctx);
+    //         }, 1000);
+    //     }
+    // }
+
+    #drawRectangleRounded(ctx, x, y, width, height, radius){
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y); // Esquina superior izquierda
+        ctx.lineTo(x + width - radius, y); // Línea superior
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius); // Esquina superior derecha
+        ctx.lineTo(x + width, y + height - radius); // Línea derecha
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height); // Esquina inferior derecha
+        ctx.lineTo(x + radius, y + height); // Línea inferior
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius); // Esquina inferior izquierda
+        ctx.lineTo(x, y + radius); // Línea izquierda
+        ctx.quadraticCurveTo(x, y, x + radius, y); // Esquina superior izquierda de nuevo
+        ctx.closePath();
+        ctx.fill(); // Rellenar el rectángulo
     }
 
     
@@ -126,35 +214,43 @@ class Game {
         const canvas = document.getElementById("gameCanvas");
 
         canvas.addEventListener("mousedown", (e) => {
-            //console.log(e);
-            
             e.preventDefault();
             const rect = canvas.getBoundingClientRect();
             const mouseX = e.clientX - rect.left;
             const mouseY = e.clientY - rect.top;
             this.#selectedchip=null;
-          
             let isClicked=false;
-           /*se itera de atras hacia delante porque la ultima ficha seria la ultima renderizada,osea la ultima que se dibujo en el canvas y mas arriba de todas está */
-            for (let i = this.#chips.length - 1; !isClicked && i >= 0; i--) {    
-                
-                const f = this.#chips[i];
+            const lastChips= this.#getLastChipsForPlayers();
+
+
+            for (let i = 0; !isClicked && i < lastChips.length; i++) {    
+                const c = lastChips[i];
                 const distanceFromCenter = Math.sqrt(             /*calcula la distancia entre el punto de clic del mouse (mouseX, mouseY) y el centro de una ficha (f.getX(), f.getY()).  */
-                    Math.pow(mouseX - f.getX(), 2) + Math.pow(mouseY - f.getY(), 2) /*mat.pow eleva al cuadrado las diferencias anteriores para quitar coordenadas negativas */
+                    Math.pow(mouseX - c.getX(), 2) + Math.pow(mouseY - c.getY(), 2) /*mat.pow eleva al cuadrado las diferencias anteriores para quitar coordenadas negativas */
                 );
     
-                if (distanceFromCenter <= f.getRadius()) {     /*si esta en el radio de la ficha, la marca como "agarrada/seleccionada" */
-                    this.#selectedchip = f; 
+                if (distanceFromCenter <= c.getRadius()) {     /*si esta en el radio de la ficha, la marca como "agarrada/seleccionada" */
+                    this.#selectedchip = c; 
                     isClicked=true;
                    
                 }
             }
-    
+  
+            //agarro el personaje de la ficha que selecciono y le dejo usar solo la ultima renderizada.
             if (this.#selectedchip) {
                 this.#selectedchip.handleMouseDown(e, canvas); 
             }
 
         });
+    }
+
+    #getLastChipsForPlayers(){
+        const chipsType1= this.#chips.filter(c => c.getPlayer()===Config.players.type1);
+        const chipsType2= this.#chips.filter(c => c.getPlayer()===Config.players.type2);
+        let chip1= chipsType1[chipsType1.length-1];
+        let chip2= chipsType2[chipsType2.length-1];
+
+        return [chip1,chip2];
     }
 
     /*le pasa el evento a sus hijos */

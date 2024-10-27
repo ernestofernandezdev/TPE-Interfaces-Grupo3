@@ -87,7 +87,23 @@ class Ficha {
         this.#y=newY;
     }
 
+    getInitX(){
+        return this.#initX;
+    }
     
+    getInitY(){
+        return this.#initY;
+    }
+
+    setInitPositionX(value){
+        this.#initX=value;
+        this.#x=value;
+    }
+
+    setInitPositionY(value){
+        this.#initY=value;
+        this.#y=value;
+    }
 
     //Parametros: el evento y el objeto de canvas. Detecta si el click esta dentro del radio de la ficha. */
     /*si esta en el radio, la marca como arrastrada --> isDragging .*/

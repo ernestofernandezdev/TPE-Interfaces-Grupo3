@@ -57,6 +57,7 @@ class Tablero {
             
             if(firstBoxEmpty){
                 firstBoxEmpty.assignChip(chip,ctx);
+               
                 let listBoxesWinner= this.checkWinner(posOfColumnDrop,firstBoxEmpty);
 
                 if(listBoxesWinner){
@@ -86,6 +87,7 @@ class Tablero {
           
             
             Game.getInstance().removeChip(chip);
+            Game.getInstance().updatePositionChipsDrop();
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.save(); // guarda el contexto antes de dibujar
             ctx.restore();
@@ -93,6 +95,7 @@ class Tablero {
            
 
         }else {
+            Game.getInstance().updatePositionChipsDrop();
             chip.redrawChip(canvas,ctx);
         }
 
@@ -287,7 +290,7 @@ class Tablero {
         if(!isTopRow && !isLeftCol){
             while(!isEndSearch){
 
-                if(!this.#boxes[row-index][col-index].isEmpty()){
+                if(this.#boxes[row-index][col-index] && !this.#boxes[row-index][col-index].isEmpty()){
                     winLine.push(this.#boxes[row-index][col-index]);
                     if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
                         winLine.pop();
@@ -322,7 +325,7 @@ class Tablero {
             while(!isEndSearch){
                 let diag = this.#boxes[row+index][col+index];
 
-                if(!diag.isEmpty()){
+                if(diag && !diag.isEmpty()){
                     winLine.push(this.#boxes[row+index][col+index]);
                     if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
                         winLine.pop();
@@ -363,7 +366,7 @@ class Tablero {
         if(!isRightCol && !isTopRow){
             while(!isEndSearch){
 
-                if(!this.#boxes[row-index][col+index].isEmpty()){
+                if(this.#boxes[row-index][col+index] && !this.#boxes[row-index][col+index].isEmpty()){
                     winLine.push(this.#boxes[row-index][col+index]);
 
                     if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
@@ -398,7 +401,7 @@ class Tablero {
             while(!isEndSearch){
                 let diag=this.#boxes[row+index][col-index];
 
-                if(!diag.isEmpty()){
+                if(diag && !diag.isEmpty()){
                     winLine.push(this.#boxes[row+index][col-index]);
                     if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
                         winLine.pop();
