@@ -42,12 +42,12 @@ class Casillero{
         this.#chip=chip;
     }
 
-    drawBox(ctx){
+    drawBox(ctx, color=null){
         const centerX = this.#x + Config.boxSize.width/ 2;
         const centerY = this.#y + Config.boxSize.width/ 2;
         const radius = Config.chipSize.radius;
 
-        ctx.fillStyle= this.#isWin ? 'yellow' : 'blue';
+        ctx.fillStyle= this.#isWin ? 'yellow' : color ? color: 'blue';
 
         ctx.fillRect(this.#x,this.#y,Config.boxSize.width,Config.boxSize.height);
 

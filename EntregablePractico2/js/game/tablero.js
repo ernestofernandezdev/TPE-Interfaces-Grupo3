@@ -95,6 +95,7 @@ class Tablero {
                     }, 2000);
             }
             if(Game.getInstance().getChips().length === 0){
+                this.checkDrawBoxes(ctx);
                 setTimeout(() => {
                     console.log("JUEGO EMPATADO");
                     this.resetAllBoxes();
@@ -109,6 +110,14 @@ class Tablero {
             chip.redrawChip(canvas,ctx);
         }
 
+    }
+
+    checkDrawBoxes(ctx){
+        this.#boxes.forEach(row =>{
+            row.forEach(box=>{
+                box.drawBox(ctx,'red');
+            })
+        })
     }
 
     resetAllBoxes(){
