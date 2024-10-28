@@ -4,19 +4,24 @@ class Casillero{
     };
     #x;
     #y;
-    #isWin;
-    #chip;
     #row;
     #column;
 
+    #chip;
+    #isWin;
+    #borderRadius;
+    
 
-    constructor(x,y,row,column){
-        this.#x=x;
-        this.#y=y;     
-        this.#isWin=false;
+
+    constructor(prop){
+        this.#x=prop.initX;
+        this.#y=prop.initY,
+        this.#row=prop.row;
+        this.#column=prop.col;
+        this.#borderRadius=[...prop.borderRadius];
+        
         this.#chip=null;
-        this.#row=row;
-        this.#column=column;
+        this.#isWin=false;
     }
 
     isEmpty(){
@@ -61,9 +66,12 @@ class Casillero{
         const centerY = this.#y + Config.boxSize.width/ 2;
         const radius = Config.chipSize.radius;
 
-        ctx.fillStyle= this.#isWin ? 'yellow' : color ? color: 'blue';
+        ctx.fillStyle= this.#isWin ? '#EEF100' : color ? color: '#202888';
 
-        ctx.fillRect(this.#x,this.#y,Config.boxSize.width,Config.boxSize.height);
+        this.#drawRectangleRounded(ctx,this.#x,this.#y,Config.boxSize.width,Config.boxSize.height,Config.boxSize.height);
+        ctx.strokeStyle='blue';
+        ctx.lineWidth = 2; 
+        ctx.stroke();
 
         ctx.save()
         ctx.beginPath();
@@ -87,7 +95,6 @@ class Casillero{
     }
 
     getImageChip(){
- 
         if(this.#chip.getPlayer() == Config.players.type1){           /*si se mandan a crear fichas de batman, busco  si son de tipo 0 o 1 en el arreglo de imagenes */
             return Casillero.images.chipImgs[Config.typeGame.typeOfChipsPlayer1];
         }else{
@@ -95,6 +102,46 @@ class Casillero{
         }
         
     }
+
+    #drawRectangleRounded(ctx, x, y, width, height, r) {
+        ctx.beginPath();
+        const radius=r-50
+
+        // Punto de inicio en la esquina superior izquierda
+        ctx.moveTo(x + (this.#borderRadius[0] ? radius : 0), y);
+    
+        // Línea superior hasta la esquina superior derecha
+        ctx.lineTo(x + width - (this.#borderRadius[1] ? radius : 0), y);
+        if (this.#borderRadius[1]) {
+            // Esquina superior derecha, aplicando radio en la línea derecha
+            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        }
+    
+        // Línea derecha hasta la esquina inferior derecha
+        ctx.lineTo(x + width, y + height - (this.#borderRadius[2] ? radius : 0));
+        if (this.#borderRadius[2]) {
+            // Esquina inferior derecha, aplicando radio en la línea inferior
+            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        }
+    
+        // Línea inferior hasta la esquina inferior izquierda
+        ctx.lineTo(x + (this.#borderRadius[3] ? radius : 0), y + height);
+        if (this.#borderRadius[3]) {
+            // Esquina inferior izquierda, aplicando radio en la línea izquierda
+            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        }
+    
+        // Línea izquierda hasta la esquina superior izquierda
+        ctx.lineTo(x, y + (this.#borderRadius[0] ? radius : 0));
+        if (this.#borderRadius[0]) {
+            // Esquina superior izquierda, aplicando radio en la línea superior
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+        }
+    
+        ctx.closePath();
+        ctx.fill();
+    }
+
 
 
 

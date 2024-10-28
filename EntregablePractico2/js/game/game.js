@@ -65,7 +65,7 @@ class Game {
         this.#ctx = canvas.getContext("2d");
 
         this.#board.drawBoard(this.#ctx);
-        this.#board.drawAllBoxes(this.#ctx)
+        this.#board.drawAllBoxes(this.#ctx);
         this.createChips();
       
         this.drawChipDispenser();
@@ -195,9 +195,9 @@ class Game {
             ]
         }
   
-        this.#ctx.fillStyle='black';
-        this.#drawRectangleRounded(this.#ctx,this.#posDispenser[0].x,this.#posDispenser[0].y,width,height,radius);
-        this.#drawRectangleRounded(this.#ctx,this.#posDispenser[1].x,this.#posDispenser[1].y,width,height,radius);
+        this.#ctx.fillStyle=`rgba(0, 0, 0, 0.6)`;
+        this.#drawRectangleRounded(this.#ctx,this.#posDispenser[0].x,this.#posDispenser[0].y,width,height,radius,this.getPLayerTurn()===1);
+        this.#drawRectangleRounded(this.#ctx,this.#posDispenser[1].x,this.#posDispenser[1].y,width,height,radius,this.getPLayerTurn()===2);
        
     }
 
@@ -217,7 +217,8 @@ class Game {
     //     }
     // }
 
-    #drawRectangleRounded(ctx, x, y, width, height, radius){
+    #drawRectangleRounded(ctx, x, y, width, height, radius,state){
+        
         ctx.beginPath();
         ctx.moveTo(x + radius, y); // Esquina superior izquierda
         ctx.lineTo(x + width - radius, y); // Línea superior
@@ -230,6 +231,13 @@ class Game {
         ctx.quadraticCurveTo(x, y, x + radius, y); // Esquina superior izquierda de nuevo
         ctx.closePath();
         ctx.fill(); // Rellenar el rectángulo
+
+        if(state){
+            ctx.strokeStyle=`rgba(0, 0, 255, 0.6)`;
+            ctx.lineWidth = 5; 
+            ctx.stroke();
+           
+        }
     }
 
     

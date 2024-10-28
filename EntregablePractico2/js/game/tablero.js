@@ -13,6 +13,8 @@ class Tablero {
         for(let i = 0; i < Config.typeGame.quantityRowsInBoard; i++){
             this.#boxes.push([]);
         }
+        
+     
     }
 
     static getInstance() {
@@ -32,7 +34,7 @@ class Tablero {
         }
 
         
-        ctx.fillStyle='red';
+        ctx.fillStyle='transparent';
         ctx.fillRect(this.#startX, this.#startY,Config.boardSize.width,Config.boardSize.height);
        
     }
@@ -49,13 +51,11 @@ class Tablero {
     handleMouseUp(e,chip,canvas,ctx){
         
         if(this.isInDropZone(e.offsetX , e.offsetY)){
-            let posOfColumnDrop=this.#getColDrop(e.offsetX) -1;
+            const posOfColumnDrop=this.#getColDrop(e.offsetX) -1;
             const firstBoxEmpty= this.getFirstBoxEmptyInCol(posOfColumnDrop);
             let listBoxesWinner=null;
-      
-            
-
             chip.setPosition(this.#getColDrop(e.offsetX)*Config.boxSize.width-Config.boxSize.width/2 + this.#startX, this.#startY-Config.boxSize.height/2);
+
             if(firstBoxEmpty){
                 chip.setFalling(true);
                 firstBoxEmpty.assignChip(chip,ctx);
@@ -489,10 +489,12 @@ class Tablero {
         return this.#startY;
     }
 
-    /*el ultimo valor de Y que toma el tablero coincide con el final del canvas, por eso retorna el alto del canvas */
+    
     getPosBottom(){
         const canvas = document.getElementById("gameCanvas");
-        return  canvas.height;
+        const dHeight=Config.boardSize.height+(canvas.height-Config.boardSize.height);
+
+        return dHeight;
     }
 
     /*Parametros: posiciones de x e y de donde se hizo un mouseUp. Verifica si esta en la zona de dropeo de ficha(encima de tablero). */
@@ -522,20 +524,37 @@ class Tablero {
 
     /*crea objetos de casillero y los agrega a la matriz.  */
     createBoxes(){
-        const margin=Config.boxSize.margins;
-        let initY= this.getPosBottom() - Config.boxSize.width;  /*se empiezan a renderizar casilleros en la posicion mas abajo del tablero (getPosBottom) - el tamaño del casillero Y mas a la izquierda posible(getStartX) */
-        let initX = this.getStartX();
         let sizeBox = Config.boxSize.width;
-        let columns = Config.typeGame.quantityColumnsInBoard;    
+        let columns = Config.typeGame.quantityColumnsInBoard;
+
+        let properties={
+            initY: this.getPosBottom() - Config.boxSize.width,
+            initX:this.getStartX(),
+            row:0,
+            col:0,
+            borderRadius:[false,false,false,false],
+        }    
        
         for(let i =this.#boxes.length-1; i >= 0; i-- ){
+
             for(let j =0; j < columns; j++){
-                this.#boxes[i].push(new Casillero(initX,initY,i,j));
+                properties.row=i;
+                properties.col=j;
+                properties.borderRadius[0]=false;
+                properties.borderRadius[1]=false;
+                if(i===0 && j===0){
+                    properties.borderRadius[0]=true;
+                }
+                if(i===0 && j===columns-1){
+                    properties.borderRadius[1]=true;
+                }
+
+                this.#boxes[i].push(new Casillero(properties));
                
-                initX = initX+sizeBox;
+                properties.initX = properties.initX+sizeBox;
             }
-            initX= initX - (sizeBox*columns)
-            initY=initY - sizeBox;
+            properties.initX= properties.initX - (sizeBox*columns)
+            properties.initY=properties.initY - sizeBox;
         }
     
 
