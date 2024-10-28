@@ -59,7 +59,6 @@ class Tablero {
             if(firstBoxEmpty){
                 chip.setFalling(true);
                 firstBoxEmpty.assignChip(chip,ctx);
-                Game.getInstance().removeChip(chip);
                 listBoxesWinner= this.checkWinner(posOfColumnDrop,firstBoxEmpty);
             
                 if(listBoxesWinner){
