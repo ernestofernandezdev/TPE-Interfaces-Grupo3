@@ -248,7 +248,7 @@ class Tablero {
             }
             colPosBox++;
         }
-       
+ 
         colPosBox=box.getColumn()-1;
         isNotWin=false;
  
@@ -260,7 +260,7 @@ class Tablero {
                 if(winLine.length > 1){
                   
                     if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
-                        winLine=[];
+                        winLine.pop();
                         isNotWin=true;
                     }
                 }
@@ -270,7 +270,7 @@ class Tablero {
             }
             colPosBox--;
         }
-
+       
         return winLine;  
     }
 
