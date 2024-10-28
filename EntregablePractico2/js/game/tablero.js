@@ -51,47 +51,111 @@ class Tablero {
         if(this.isInDropZone(e.offsetX , e.offsetY)){
             let posOfColumnDrop=this.#getColDrop(e.offsetX) -1;
             const firstBoxEmpty= this.getFirstBoxEmptyInCol(posOfColumnDrop);
+            let listBoxesWinner=null;
+      
+            
 
             chip.setPosition(this.#getColDrop(e.offsetX)*Config.boxSize.width-Config.boxSize.width/2 + this.#startX, this.#startY-Config.boxSize.height/2);
             if(firstBoxEmpty){
                 chip.setFalling(true);
                 firstBoxEmpty.assignChip(chip,ctx);
                 Game.getInstance().removeChip(chip);
-                let listBoxesWinner= this.checkWinner(posOfColumnDrop,firstBoxEmpty);
-
+                listBoxesWinner= this.checkWinner(posOfColumnDrop,firstBoxEmpty);
+            
                 if(listBoxesWinner){
                     console.log("HAY GANADOR");
                     console.log(listBoxesWinner);
                     this.checkListWinner(listBoxesWinner,ctx);
-
-                    setTimeout(() => {
-                        this.resetAllBoxes();
-                        this.drawAllBoxes(ctx);
-                        Game.getInstance().createChips();
-                        Game.getInstance().drawAllAvailableChips(ctx);
-                        
-                    }, 2000);
-
-                    
+                  
                     
                 }else{
                     console.log("no hay ganador");
+                    Game.getInstance().alternateTurn();
                     
                 }
 
                 this.animateFall(ctx, canvas, chip, firstBoxEmpty)
+
                
+
             }else{
                 console.log("no hay mas lugar en columna: "+ posOfColumnDrop);
                 
             }
-          
-            
+
+            Game.getInstance().removeChip(chip);
+            Game.getInstance().updatePositionChipsDrop();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save(); 
+            ctx.restore();
+            Game.getInstance().redraw(ctx);
+
+            if(listBoxesWinner){
+                 setTimeout(() => {
+                        Game.getInstance().setTurnForWinner(listBoxesWinner[0]);
+                        this.resetAllBoxes();
+                        Game.getInstance().createChips();
+                        Game.getInstance().redraw(ctx);
+                    }, 2000);
+            }
+            if(Game.getInstance().getChips().length === 0){
+                this.checkDrawBoxes(ctx);
+                setTimeout(() => {
+                    console.log("JUEGO EMPATADO");
+                    this.resetAllBoxes();
+                    Game.getInstance().createChips();
+                    Game.getInstance().redraw(ctx);
+                }, 2000);
+            }
            
 
         }else {
+            Game.getInstance().updatePositionChipsDrop();
             chip.redrawChip(canvas,ctx);
         }
+
+    }
+    checkDrawBoxes(ctx){
+        this.#boxes.forEach(row =>{
+            row.forEach(box=>{
+                box.drawBox(ctx,'red');
+            })
+        })
+    }
+
+    animateFall(ctx, canvas, chip, firstBoxEmpty) {
+        const dt = 0.2;
+        let t = 0;
+        let y = chip.getY();
+        const y0 = y;
+        let x = chip.getX();
+        const g = 10;
+        const yMax = firstBoxEmpty.getY() + Config.boxSize.width/2;
+        
+
+        const id = setInterval(() => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.restore();
+            Game.getInstance().redraw(ctx);
+
+            t += dt;
+            y = y0 + 0.5*g*t*t;
+            chip.setPosition(x, y);
+            chip.drawCircle(ctx)
+
+            if (y > yMax) {
+                chip.setPosition(x, yMax);
+                chip.setFalling(false);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.save();
+                ctx.restore();
+                Game.getInstance().redraw(ctx);
+                chip.drawCircle(ctx)
+                clearInterval(id);
+            }
+        }, 1)
+
 
     }
 
@@ -131,6 +195,14 @@ class Tablero {
 
     }
 
+    checkDrawBoxes(ctx){
+        this.#boxes.forEach(row =>{
+            row.forEach(box=>{
+                box.drawBox(ctx,'red');
+            })
+        })
+    }
+
     resetAllBoxes(){
         this.#boxes.forEach(row =>{
             row.forEach(box=>{
@@ -160,7 +232,7 @@ class Tablero {
         if(winForColumn.length === quantityChipsAlignToWin){
             return winForColumn;
         
-        }else if(winForRow.length === quantityChipsAlignToWin) {
+        }else if(winForRow.length >= quantityChipsAlignToWin) {
             return winForRow;
            
         }else if(winForDiagonal){
@@ -174,16 +246,28 @@ class Tablero {
     /*Retorna el primer casillero disponible de abajo hacia arriba en una columna(j) */
     getFirstBoxEmptyInCol(j){
         let rowPos=Config.typeGame.quantityRowsInBoard-1;
-        let box;
+        let pos={
+            row:-1,
+            col:-1
+        }
+ 
 
-       while(!box && rowPos >= 0){
+       while(pos.col===-1 && rowPos >= 0){
             if(this.#boxes[rowPos][j].isEmpty()){
-                box=this.#boxes[rowPos][j];
+              
+                pos.row=rowPos;
+                pos.col=j
             }
             rowPos--;
-       }
+        }
         
-       return box;
+        if(pos.col != -1){
+          
+            return this.#boxes[parseInt(pos.row)][parseInt(pos.col)];
+
+        }else{
+            return null
+        }
     }
 
     /*Parametro: posicion de la columna donde se dropeo la ultima ficha */
@@ -222,7 +306,6 @@ class Tablero {
     /*Recorre los casilleros a la derecha e izquierda del casillero donde se guarda la ultima ficha dropeada--->primero recorre a su derecha y luego a su izquierda. */
     /*retorna un arreglo que para saber si es el ganador se debe verificar que su longitud sea igual al de la cantidad de fichas para hacer juego */
     checkWinForRow(box){
-        const minWin=Config.typeGame.quantityChipsAlignToWin;
         const quantityCol = Config.typeGame.quantityColumnsInBoard;
 
         let rowBoard= this.#boxes[box.getRow()];
@@ -230,10 +313,9 @@ class Tablero {
 
         let winLine=[];
         let isNotWin=false;
-        let isWin=false;
     
         //recorro la fila desde la columna que se ingreso la ficha , hacia la derecha en las columnas. Guardo en arreglo si encuentro fichas iguales y consecutivas a la ingresada
-        while(colPosBox < quantityCol && !isNotWin && !isWin){
+        while(colPosBox < quantityCol && !isNotWin){
             if(!rowBoard[colPosBox].isEmpty()){
                 winLine.push(rowBoard[colPosBox]);
 
@@ -244,41 +326,34 @@ class Tablero {
                     }
                 }
 
-                isWin= winLine.length === minWin;
             }else{
                 isNotWin=true;
             }
             colPosBox++;
         }
-       
-        if(isWin){
-            return winLine;
-        }
-
+ 
         colPosBox=box.getColumn()-1;
-        isNotWin=false;
         isNotWin=false;
  
         //Con las fichas iguales a la derecha, recorro a la izquierda y guardo las iguales y consecutivas
-        while(colPosBox >= 0 && !isNotWin && !isWin){
+        while(colPosBox >= 0 && !isNotWin){
             if(!rowBoard[colPosBox].isEmpty()){
                 winLine.push(rowBoard[colPosBox]);
 
                 if(winLine.length > 1){
                   
                     if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
-                        winLine=[];
+                        winLine.pop();
                         isNotWin=true;
                     }
                 }
-                isWin = winLine.length === minWin;
+                
             }else{
-                winLine=[]
                 isNotWin=true;
             }
             colPosBox--;
         }
-
+       
         return winLine;  
     }
 
@@ -291,9 +366,9 @@ class Tablero {
         const diagRight=this.checkRightDiagonal(colInit,rowInit);
         const diagLeft=this.checkLeftDiagonal(colInit,rowInit);
 
-        if(diagRight.length === minToWin){
+        if(diagRight.length >= minToWin){
             return diagRight;
-        }else if(diagLeft.length === minToWin){
+        }else if(diagLeft.length >= minToWin){
             return diagLeft;
         }
         return null;
@@ -320,15 +395,12 @@ class Tablero {
         if(!isTopRow && !isLeftCol){
             while(!isEndSearch){
 
-                if(!this.#boxes[row-index][col-index].isEmpty()){
+                if(this.#boxes[row-index][col-index] && !this.#boxes[row-index][col-index].isEmpty()){
                     winLine.push(this.#boxes[row-index][col-index]);
                     if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
                         winLine.pop();
                         isEndSearch=true;
 
-                    }else if(winLine.length === minToWin){
-                        isEndSearch= true;
-                        
                     }else{
                         index++;
 
@@ -341,10 +413,7 @@ class Tablero {
             }
         }
         
-        if(winLine.length === minToWin){
-            return winLine;
-        }
-
+        
         isEndSearch=false;
         index=1;
         col=winLine[0].getColumn();
@@ -355,13 +424,11 @@ class Tablero {
             while(!isEndSearch){
                 let diag = this.#boxes[row+index][col+index];
 
-                if(!diag.isEmpty()){
+                if(diag && !diag.isEmpty()){
                     winLine.push(this.#boxes[row+index][col+index]);
                     if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
                         winLine.pop();
                         isEndSearch=true;
-                    }else if(winLine.length === minToWin){
-                        isEndSearch= true;
                     }else{
                         index++;
                         isEndSearch= row+index > this.#boxes.length-1 || col+index > Config.typeGame.quantityColumnsInBoard-1;
@@ -396,13 +463,11 @@ class Tablero {
         if(!isRightCol && !isTopRow){
             while(!isEndSearch){
 
-                if(!this.#boxes[row-index][col+index].isEmpty()){
+                if(this.#boxes[row-index][col+index] && !this.#boxes[row-index][col+index].isEmpty()){
                     winLine.push(this.#boxes[row-index][col+index]);
 
                     if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
                         winLine.pop();
-                        isEndSearch=true;
-                    }else if(winLine.length === minToWin){
                         isEndSearch=true;
                     }else{
                         index++;
@@ -417,10 +482,6 @@ class Tablero {
             }
         }
 
-        if(winLine.length === minToWin){
-            return winLine;
-        }
-
         isEndSearch=false;
         index=1;
         col=winLine[0].getColumn();
@@ -431,14 +492,11 @@ class Tablero {
             while(!isEndSearch){
                 let diag=this.#boxes[row+index][col-index];
 
-                if(!diag.isEmpty()){
+                if(diag && !diag.isEmpty()){
                     winLine.push(this.#boxes[row+index][col-index]);
                     if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
                         winLine.pop();
                         isEndSearch=true;
-                    }else if(winLine.length === minToWin){
-                        isEndSearch=true;
-
                     }else{
                         index++;
                         isEndSearch= row+index > this.#boxes.length-1 || col-index < 0;

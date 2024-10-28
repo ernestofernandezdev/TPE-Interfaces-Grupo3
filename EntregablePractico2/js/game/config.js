@@ -25,6 +25,8 @@ class Config{
         type1:'batman',
         type2:'joker'
     }
+    
+    static listPlayerTypes=Object.values(Config.players);
 
     static chipSize={
         radius:30,

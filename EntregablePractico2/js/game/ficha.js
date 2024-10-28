@@ -97,7 +97,23 @@ class Ficha {
         this.#y=newY;
     }
 
+    getInitX(){
+        return this.#initX;
+    }
     
+    getInitY(){
+        return this.#initY;
+    }
+
+    setInitPositionX(value){
+        this.#initX=value;
+        this.#x=value;
+    }
+
+    setInitPositionY(value){
+        this.#initY=value;
+        this.#y=value;
+    }
 
     //Parametros: el evento y el objeto de canvas. Detecta si el click esta dentro del radio de la ficha. */
     /*si esta en el radio, la marca como arrastrada --> isDragging .*/
@@ -117,9 +133,7 @@ class Ficha {
             this.#isDragging=true;                                              /*cuando se detecta un click en la ficha se empieza a draggear* */
 
             this.setPosition(this.#startX,this.#startY);
-
-            const gameInstance = Game.getInstance();        
-            gameInstance.reorderchips(this);                /*cuando se hace click en una ficha, se le pide al padre que a esa ficha la renderize ultima (mas recientemente). */ 
+           
         }
     }
 
