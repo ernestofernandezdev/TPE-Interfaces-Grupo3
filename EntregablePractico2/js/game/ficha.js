@@ -7,6 +7,7 @@ class Ficha {
     #initX; 
     #initY;/*junto con initX sirven para saber en que coordenadas se renderizo la ficha (util para volver la ficha a su lugar) */
     #isDragging;
+    #isFalling;
     #player;    /*toma valores:  'batman' o 'joker' . al constructor se le pasa true para batman y false para joker. Se puede agregar a clase Config*/
     #type;      /*toma valores: 0 o 1 para controlar la imagen/tematica de ficha. */
     #transparent;
@@ -17,6 +18,7 @@ class Ficha {
         this.#initX=x;
         this.#initY=y;
         this.#isDragging=false;
+        this.#isFalling=false;
         this.#player = player ? Config.players.type1 : Config.players.type2;
         this.#type = type; 
         this.#transparent;
@@ -51,6 +53,14 @@ class Ficha {
 
     setTransparent() {
         this.#transparent = true;
+    }
+
+    isFalling() {
+        return this.#isFalling;
+    }
+
+    setFalling(bool) {
+        this.#isFalling = bool;
     }
 
     redrawChip(canvas,context) {

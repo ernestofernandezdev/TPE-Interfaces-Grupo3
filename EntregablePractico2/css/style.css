@@ -740,7 +740,7 @@ article{
     padding: 1% 8%;
     display: flex;
     flex-direction: column;
-
+    width: 84%;
 }
 
 .breadcrum{
@@ -776,8 +776,6 @@ article{
    
 }
 .execution-game{
-    display: flex;
-    flex-direction: column;
     width: 100%;
     height: 700px;
 }

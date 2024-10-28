@@ -24,8 +24,6 @@ class Tablero {
     drawBoard(ctx){
         const canvas = document.getElementById("gameCanvas");
         this.#ctx=ctx;
-      
-       
         this.#startX = canvas.width/2 - Config.boardSize.width/2;  /*posicion en X donde arranca a dibujarse el tablero---> al centro del ancho del canvas*/
         this.#startY= canvas.height - Config.boardSize.height;      /*posicion en Y donde arranca a dibujarse el tablero---> total de altura del canvas - lo alto del tablero. seria como un "margen top" */
     
@@ -53,10 +51,12 @@ class Tablero {
         if(this.isInDropZone(e.offsetX , e.offsetY)){
             let posOfColumnDrop=this.#getColDrop(e.offsetX) -1;
             const firstBoxEmpty= this.getFirstBoxEmptyInCol(posOfColumnDrop);
-            
-            
+
+            chip.setPosition(this.#getColDrop(e.offsetX)*Config.boxSize.width-Config.boxSize.width/2 + this.#startX, this.#startY-Config.boxSize.height/2);
             if(firstBoxEmpty){
+                chip.setFalling(true);
                 firstBoxEmpty.assignChip(chip,ctx);
+                Game.getInstance().removeChip(chip);
                 let listBoxesWinner= this.checkWinner(posOfColumnDrop,firstBoxEmpty);
 
                 if(listBoxesWinner){
@@ -78,6 +78,8 @@ class Tablero {
                     console.log("no hay ganador");
                     
                 }
+
+                this.animateFall(ctx, canvas, chip, firstBoxEmpty)
                
             }else{
                 console.log("no hay mas lugar en columna: "+ posOfColumnDrop);
@@ -85,16 +87,47 @@ class Tablero {
             }
           
             
-            Game.getInstance().removeChip(chip);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.save(); // guarda el contexto antes de dibujar
-            ctx.restore();
-            Game.getInstance().redraw(ctx);
            
 
         }else {
             chip.redrawChip(canvas,ctx);
         }
+
+    }
+
+    animateFall(ctx, canvas, chip, firstBoxEmpty) {
+        const dt = 0.1;
+        let t = 0;
+        let y = chip.getY();
+        const y0 = y;
+        let x = chip.getX();
+        const g = 30;
+        const yMax = firstBoxEmpty.getY() + Config.boxSize.width/2;
+        
+
+        const id = setInterval(() => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.restore();
+            Game.getInstance().redraw(ctx);
+
+            t += dt;
+            y = y0 + 0.5*g*t*t;
+            chip.setPosition(x, y);
+            chip.drawCircle(ctx)
+
+            if (y > yMax) {
+                chip.setPosition(x, yMax);
+                chip.setFalling(false);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.save();
+                ctx.restore();
+                Game.getInstance().redraw(ctx);
+                chip.drawCircle(ctx)
+                clearInterval(id);
+            }
+        }, 1)
+
 
     }
 
@@ -484,6 +517,9 @@ class Tablero {
         this.#boxes.forEach(row =>{
             row.forEach(col=>{
                 col.drawBox(ctx);
+                if (!col.isEmpty()) {
+                    col.drawChip(ctx);
+                }
             })
         })
  

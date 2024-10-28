@@ -39,7 +39,9 @@ class Game {
     getComponent() {
         const canvas = document.createElement("canvas");
         canvas.id = 'gameCanvas';
-        canvas.style.backgroundColor='green';
+        canvas.style.backgroundImage= 'url(./static/assets/game-background.jpg)';
+        canvas.style.backgroundRepeat = 'no-repeat';
+        canvas.style.backgroundSize = '100%';
 
         return canvas;
     }

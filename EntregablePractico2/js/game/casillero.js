@@ -31,6 +31,20 @@ class Casillero{
         return this.#column;
     }
 
+    getX() {
+        return this.#x;
+    }
+
+    getY() {
+        return this.#y;
+    }
+
+    drawChip(ctx) {
+        if (!this.#chip.isFalling()) {
+            this.#chip.drawCircle(ctx);
+        }
+    }
+
 
     /*guarda la ficha en el casillero. Marca el casillero como completo*/
     assignChip(chip,ctx){
@@ -57,12 +71,9 @@ class Casillero{
         ctx.closePath();
         ctx.clip(); 
 
-        if(this.isEmpty()){
-            ctx.fillStyle='white';
-            ctx.fill();
-        }else{
-           ctx.drawImage(this.getImageChip(), centerX-radius ,centerY-radius, radius*2, radius*2);
-        }
+        ctx.fillStyle='white';
+        ctx.fill();
+        
 
         ctx.restore();
     }
