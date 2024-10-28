@@ -149,7 +149,7 @@ class Tablero {
         if(winForColumn.length === quantityChipsAlignToWin){
             return winForColumn;
         
-        }else if(winForRow.length === quantityChipsAlignToWin) {
+        }else if(winForRow.length >= quantityChipsAlignToWin) {
             return winForRow;
            
         }else if(winForDiagonal){
@@ -180,7 +180,6 @@ class Tablero {
         
         if(pos.col != -1){
           
-            
             return this.#boxes[parseInt(pos.row)][parseInt(pos.col)];
 
         }else{
@@ -224,7 +223,6 @@ class Tablero {
     /*Recorre los casilleros a la derecha e izquierda del casillero donde se guarda la ultima ficha dropeada--->primero recorre a su derecha y luego a su izquierda. */
     /*retorna un arreglo que para saber si es el ganador se debe verificar que su longitud sea igual al de la cantidad de fichas para hacer juego */
     checkWinForRow(box){
-        const minWin=Config.typeGame.quantityChipsAlignToWin;
         const quantityCol = Config.typeGame.quantityColumnsInBoard;
 
         let rowBoard= this.#boxes[box.getRow()];
@@ -232,10 +230,9 @@ class Tablero {
 
         let winLine=[];
         let isNotWin=false;
-        let isWin=false;
     
         //recorro la fila desde la columna que se ingreso la ficha , hacia la derecha en las columnas. Guardo en arreglo si encuentro fichas iguales y consecutivas a la ingresada
-        while(colPosBox < quantityCol && !isNotWin && !isWin){
+        while(colPosBox < quantityCol && !isNotWin){
             if(!rowBoard[colPosBox].isEmpty()){
                 winLine.push(rowBoard[colPosBox]);
 
@@ -246,23 +243,17 @@ class Tablero {
                     }
                 }
 
-                isWin= winLine.length === minWin;
             }else{
                 isNotWin=true;
             }
             colPosBox++;
         }
        
-        if(isWin){
-            return winLine;
-        }
-
         colPosBox=box.getColumn()-1;
-        isNotWin=false;
         isNotWin=false;
  
         //Con las fichas iguales a la derecha, recorro a la izquierda y guardo las iguales y consecutivas
-        while(colPosBox >= 0 && !isNotWin && !isWin){
+        while(colPosBox >= 0 && !isNotWin){
             if(!rowBoard[colPosBox].isEmpty()){
                 winLine.push(rowBoard[colPosBox]);
 
@@ -273,9 +264,8 @@ class Tablero {
                         isNotWin=true;
                     }
                 }
-                isWin = winLine.length === minWin;
+                
             }else{
-                winLine=[]
                 isNotWin=true;
             }
             colPosBox--;
@@ -293,9 +283,9 @@ class Tablero {
         const diagRight=this.checkRightDiagonal(colInit,rowInit);
         const diagLeft=this.checkLeftDiagonal(colInit,rowInit);
 
-        if(diagRight.length === minToWin){
+        if(diagRight.length >= minToWin){
             return diagRight;
-        }else if(diagLeft.length === minToWin){
+        }else if(diagLeft.length >= minToWin){
             return diagLeft;
         }
         return null;
@@ -328,9 +318,6 @@ class Tablero {
                         winLine.pop();
                         isEndSearch=true;
 
-                    }else if(winLine.length === minToWin){
-                        isEndSearch= true;
-                        
                     }else{
                         index++;
 
@@ -343,10 +330,7 @@ class Tablero {
             }
         }
         
-        if(winLine.length === minToWin){
-            return winLine;
-        }
-
+        
         isEndSearch=false;
         index=1;
         col=winLine[0].getColumn();
@@ -362,8 +346,6 @@ class Tablero {
                     if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
                         winLine.pop();
                         isEndSearch=true;
-                    }else if(winLine.length === minToWin){
-                        isEndSearch= true;
                     }else{
                         index++;
                         isEndSearch= row+index > this.#boxes.length-1 || col+index > Config.typeGame.quantityColumnsInBoard-1;
@@ -404,8 +386,6 @@ class Tablero {
                     if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
                         winLine.pop();
                         isEndSearch=true;
-                    }else if(winLine.length === minToWin){
-                        isEndSearch=true;
                     }else{
                         index++;
     
@@ -417,10 +397,6 @@ class Tablero {
                 }
 
             }
-        }
-
-        if(winLine.length === minToWin){
-            return winLine;
         }
 
         isEndSearch=false;
@@ -438,9 +414,6 @@ class Tablero {
                     if(winLine[0].getChip().getPlayer() != winLine[winLine.length-1].getChip().getPlayer()){
                         winLine.pop();
                         isEndSearch=true;
-                    }else if(winLine.length === minToWin){
-                        isEndSearch=true;
-
                     }else{
                         index++;
                         isEndSearch= row+index > this.#boxes.length-1 || col-index < 0;
