@@ -64,10 +64,7 @@ class Ficha {
     }
 
     redrawChip(canvas,context) {
-
-        // actualiza las coordenadas
-        this.#x = this.#initX;
-        this.#y = this.#initY;
+        this.setPosition(this.#initX,this.#initY);
         
         context.clearRect(0, 0, canvas.width, canvas.height);
 

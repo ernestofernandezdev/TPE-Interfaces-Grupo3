@@ -50,8 +50,9 @@ class Game {
     getComponent() {
         const canvas = document.createElement("canvas");
         canvas.id = 'gameCanvas';
-        canvas.style.backgroundImage= 'url(./static/assets/game-background.jpg)';
+        canvas.style.backgroundImage= 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(./static/assets/game/batman4.png)';
         canvas.style.backgroundRepeat = 'no-repeat';
+        canvas.style.backgroundPosition = 'center top';
         canvas.style.backgroundSize = '100%';
 
         return canvas;
@@ -90,7 +91,7 @@ class Game {
         const typeChip1=Config.typeGame.typeOfChipsPlayer1;
         const typeChip2=Config.typeGame.typeOfChipsPlayer2;
         const paddingFirstX=60;
-        const paddingFirstY=135;
+        const paddingFirstY=120;
         const accRender=6;
         let acc =0;
         this.#chips=[];
@@ -124,11 +125,12 @@ class Game {
     }
 
     alternateTurn(){
-        if(this.#playerTurn+1 <= Config.typeGame.quantityPlayers){
-            this.#playerTurn++;
+        if(this.#playerTurn === 1){
+            this.#playerTurn = 2
         }else{
-            this.#playerTurn=1;
+            this.#playerTurn=1
         }
+       
     }
 
     setTurnForWinner(box){
@@ -176,7 +178,7 @@ class Game {
         const chipsPlayer1= this.#chips.filter(c => c.getPlayer()===Config.players.type1);
         const chipsPlayer2=this.#chips.filter(c => c.getPlayer()===Config.players.type2);
         const paddingX= canvas.offsetWidth/20;
-        const paddingY= 220;
+        const paddingY= 170;
         const width=200;
         const height=380;
         const radius=30;

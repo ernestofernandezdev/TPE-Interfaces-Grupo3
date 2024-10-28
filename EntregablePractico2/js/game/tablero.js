@@ -59,54 +59,46 @@ class Tablero {
             if(firstBoxEmpty){
                 chip.setFalling(true);
                 firstBoxEmpty.assignChip(chip,ctx);
-                listBoxesWinner= this.checkWinner(posOfColumnDrop,firstBoxEmpty);
+
+                this.animateFall(ctx, canvas, chip, firstBoxEmpty).then(()=>{
+                    listBoxesWinner= this.checkWinner(posOfColumnDrop,firstBoxEmpty);
+
+                    if(listBoxesWinner){
+                        console.log("HAY GANADOR");
+                        console.log(listBoxesWinner);
+                        this.checkListWinner(listBoxesWinner,ctx);
+                      
+                        
+                    }else{
+                        console.log("no hay ganador");
+                        Game.getInstance().alternateTurn();
+                        
+                    }
+              
+                    Game.getInstance().removeChip(chip);
+                    this.#updateChipsPositionAndRedrawGame(ctx,canvas);
+                    
+                    if(listBoxesWinner){
+                        setTimeout(() => {
+                            Game.getInstance().setTurnForWinner(listBoxesWinner[0]);
+                            this.#resetBoardAndGame(ctx);
+                        }, 2000);
+                    }
+
+                    if(Game.getInstance().getChips().length === 0 && !listBoxesWinner){
+                        this.checkDrawBoxes(ctx);
+                        setTimeout(() => {
+                            console.log("JUEGO EMPATADO");
+                            this.#resetBoardAndGame(ctx);
+                        }, 2000);
+                    }
+
+                });
             
-                if(listBoxesWinner){
-                    console.log("HAY GANADOR");
-                    console.log(listBoxesWinner);
-                    this.checkListWinner(listBoxesWinner,ctx);
-                  
-                    
-                }else{
-                    console.log("no hay ganador");
-                    Game.getInstance().alternateTurn();
-                    
-                }
-
-                this.animateFall(ctx, canvas, chip, firstBoxEmpty)
-
-               
-
             }else{
                 console.log("no hay mas lugar en columna: "+ posOfColumnDrop);
-                
+                this.#updateChipsPositionAndRedrawGame(ctx,canvas);
             }
-
-            Game.getInstance().removeChip(chip);
-            Game.getInstance().updatePositionChipsDrop();
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.save(); 
-            ctx.restore();
-            Game.getInstance().redraw(ctx);
-
-            if(listBoxesWinner){
-                 setTimeout(() => {
-                        Game.getInstance().setTurnForWinner(listBoxesWinner[0]);
-                        this.resetAllBoxes();
-                        Game.getInstance().createChips();
-                        Game.getInstance().redraw(ctx);
-                    }, 2000);
-            }
-            if(Game.getInstance().getChips().length === 0){
-                this.checkDrawBoxes(ctx);
-                setTimeout(() => {
-                    console.log("JUEGO EMPATADO");
-                    this.resetAllBoxes();
-                    Game.getInstance().createChips();
-                    Game.getInstance().redraw(ctx);
-                }, 2000);
-            }
-           
 
         }else {
             Game.getInstance().updatePositionChipsDrop();
@@ -114,6 +106,21 @@ class Tablero {
         }
 
     }
+
+    #updateChipsPositionAndRedrawGame(ctx,canvas){
+        Game.getInstance().updatePositionChipsDrop();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.save(); 
+        ctx.restore();
+        Game.getInstance().redraw(ctx);
+    }
+
+    #resetBoardAndGame(ctx){
+        this.resetAllBoxes();
+        Game.getInstance().createChips();
+        Game.getInstance().redraw(ctx);
+    }
+
     checkDrawBoxes(ctx){
         this.#boxes.forEach(row =>{
             row.forEach(box=>{
@@ -123,75 +130,40 @@ class Tablero {
     }
 
     animateFall(ctx, canvas, chip, firstBoxEmpty) {
-        const dt = 0.2;
-        let t = 0;
-        let y = chip.getY();
-        const y0 = y;
-        let x = chip.getX();
-        const g = 10;
-        const yMax = firstBoxEmpty.getY() + Config.boxSize.width/2;
-        
-
-        const id = setInterval(() => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.save();
-            ctx.restore();
-            Game.getInstance().redraw(ctx);
-
-            t += dt;
-            y = y0 + 0.5*g*t*t;
-            chip.setPosition(x, y);
-            chip.drawCircle(ctx)
-
-            if (y > yMax) {
-                chip.setPosition(x, yMax);
-                chip.setFalling(false);
+        return new Promise((resolve) => {
+            const dt = 0.2;
+            let t = 0;
+            let y = chip.getY();
+            const y0 = y;
+            let x = chip.getX();
+            const g = 10;
+            const yMax = firstBoxEmpty.getY() + Config.boxSize.width / 2;
+    
+            const id = setInterval(() => {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.save();
                 ctx.restore();
                 Game.getInstance().redraw(ctx);
-                chip.drawCircle(ctx)
-                clearInterval(id);
-            }
-        }, 1)
-
-
-    }
-
-    animateFall(ctx, canvas, chip, firstBoxEmpty) {
-        const dt = 0.2;
-        let t = 0;
-        let y = chip.getY();
-        const y0 = y;
-        let x = chip.getX();
-        const g = 10;
-        const yMax = firstBoxEmpty.getY() + Config.boxSize.width/2;
-        
-
-        const id = setInterval(() => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.save();
-            ctx.restore();
-            Game.getInstance().redraw(ctx);
-
-            t += dt;
-            y = y0 + 0.5*g*t*t;
-            chip.setPosition(x, y);
-            chip.drawCircle(ctx)
-
-            if (y > yMax) {
-                chip.setPosition(x, yMax);
-                chip.setFalling(false);
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.save();
-                ctx.restore();
-                Game.getInstance().redraw(ctx);
-                chip.drawCircle(ctx)
-                clearInterval(id);
-            }
-        }, 1)
-
-
+    
+                t += dt;
+                y = y0 + 0.5 * g * t * t;
+                chip.setPosition(x, y);
+                chip.drawCircle(ctx);
+    
+                if (y > yMax) {
+                    chip.setPosition(x, yMax);
+                    chip.setFalling(false);
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.save();
+                    ctx.restore();
+                    Game.getInstance().redraw(ctx);
+                    chip.drawCircle(ctx);
+                    clearInterval(id);
+                    
+                    resolve(); // Resuelve la promesa al finalizar la animación
+                }
+            }, 1);
+        });
     }
 
     checkDrawBoxes(ctx){
