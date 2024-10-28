@@ -254,7 +254,7 @@ class Game {
             const mouseX = e.clientX - rect.left;
             const mouseY = e.clientY - rect.top;
             this.#selectedchip=null;
-            const firstChipDrop= this.#getFirstChipForPlayerTurn(this.#playerTurn);
+            const firstChipDrop= this.#getFirstChipForPlayerTurn(this.getPLayerTurn());
 
             const distanceFromCenter = Math.sqrt(             /*calcula la distancia entre el punto de clic del mouse (mouseX, mouseY) y el centro de una ficha (f.getX(), f.getY()).  */
                 Math.pow(mouseX - firstChipDrop.getX(), 2) + Math.pow(mouseY - firstChipDrop.getY(), 2) /*mat.pow eleva al cuadrado las diferencias anteriores para quitar coordenadas negativas */
@@ -320,7 +320,9 @@ class Game {
         return this.#chips;
     }
 
-    
+    getPLayerTurn(){
+        return this.#playerTurn;
+    }
     ///*//////////////////////////////////////////////////////////metodos de reorden/eliminacion/////////////////////////////////////////////////////////////////////
 
     /*actualiza las fichas que estan disponibles para jugar . Parametro: ficha que se dropea en el tablero */

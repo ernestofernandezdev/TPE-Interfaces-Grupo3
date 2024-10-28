@@ -139,7 +139,7 @@ class Tablero {
             const g = 10;
             const yMax = firstBoxEmpty.getY() + Config.boxSize.width / 2;
     
-            const id = setInterval(() => {
+            const id = setInterval(() =>{
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.save();
                 ctx.restore();
