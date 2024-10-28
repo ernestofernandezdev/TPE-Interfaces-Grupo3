@@ -83,23 +83,26 @@ class Game {
     createChips() {
         const canvas = document.getElementById("gameCanvas");
         const qchips = (Config.typeGame.quantityColumnsInBoard * Config.typeGame.quantityRowsInBoard) / Config.typeGame.quantityPlayers;
-        const paddingXRespectCanvas=Config.chipSize.radius+110;
+        const paddingXRespectCanvas=Config.chipSize.radius+canvas.offsetWidth/15+10;
         const paddingYRespectCanvas=Config.chipSize.radius+200;
         const typeChip1=Config.typeGame.typeOfChipsPlayer1;
         const typeChip2=Config.typeGame.typeOfChipsPlayer2;
+        const paddingFirstX=60;
+        const paddingFirstY=135;
+        const accRender=6;
         let acc =0;
         this.#chips=[];
        
 
         for (let index = 0; index < qchips; index++) {
             if(index === qchips-1){
-                this.#chips.push(new Ficha(  canvas.offsetLeft+paddingXRespectCanvas  , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-acc-100,true,typeChip1));
-                this.#chipsDrop[0].x=canvas.offsetLeft+paddingXRespectCanvas,
-                this.#chipsDrop[0].y=(canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-acc-100;
+                this.#chips.push(new Ficha(  canvas.offsetLeft+paddingXRespectCanvas+paddingFirstX  , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-paddingFirstY,true,typeChip1));
+                this.#chipsDrop[0].x=canvas.offsetLeft+paddingXRespectCanvas+paddingFirstX,
+                this.#chipsDrop[0].y=(canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-paddingFirstY;
             }else{
-                this.#chips.push(new Ficha(  canvas.offsetLeft+paddingXRespectCanvas  , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-acc,true,typeChip1));
+                this.#chips.push(new Ficha(  canvas.offsetLeft+paddingXRespectCanvas+acc  , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas,true,typeChip1));
             }
-            acc=acc+3;
+            acc=acc+accRender;
         }
 
         acc=0;
@@ -107,13 +110,13 @@ class Game {
 
         for (let index = 0; index < qchips; index++) {
             if(index === qchips-1){
-                this.#chips.push(new Ficha(  (canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectCanvas ,  (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-acc-100,false,typeChip2));
-                this.#chipsDrop[1].x=(canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectCanvas,
-                this.#chipsDrop[1].y=(canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-acc-100;
+                this.#chips.push(new Ficha(  (canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectCanvas-paddingFirstX , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-paddingFirstY,false,typeChip2));
+                this.#chipsDrop[1].x=(canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectCanvas-paddingFirstX,
+                this.#chipsDrop[1].y=(canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-paddingFirstY;
             }else{
-                this.#chips.push(new Ficha(  (canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectCanvas ,  (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-acc,false,typeChip2));
+                this.#chips.push(new Ficha(  (canvas.offsetLeft + canvas.offsetWidth)-acc-paddingXRespectCanvas ,  (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas,false,typeChip2));
             }
-            acc=acc+3;
+            acc=acc+accRender;
         }
       
     }
@@ -167,9 +170,10 @@ class Game {
     }
 
     drawChipDispenser(){
+        const canvas = document.getElementById("gameCanvas");
         const chipsPlayer1= this.#chips.filter(c => c.getPlayer()===Config.players.type1);
         const chipsPlayer2=this.#chips.filter(c => c.getPlayer()===Config.players.type2);
-        const paddingX= 100;
+        const paddingX= canvas.offsetWidth/15;
         const paddingY= 220;
         const width=200;
         const height=380;
@@ -177,11 +181,11 @@ class Game {
         if(this.#posDispenser === null){
             this.#posDispenser=[
                 {
-                    x:chipsPlayer1[chipsPlayer1.length-1].getInitX()-paddingX,
+                    x:canvas.offsetLeft+paddingX,
                     y:chipsPlayer1[0].getInitY()-paddingY
                 },
                 {
-                    x:chipsPlayer2[chipsPlayer2.length-1].getInitX()-paddingX,
+                    x:canvas.offsetLeft + canvas.offsetWidth-(width+paddingX),
                     y:chipsPlayer2[0].getInitY()-paddingY
                 }
             ]
