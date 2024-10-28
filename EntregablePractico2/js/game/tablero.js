@@ -96,12 +96,12 @@ class Tablero {
     }
 
     animateFall(ctx, canvas, chip, firstBoxEmpty) {
-        const dt = 0.1;
+        const dt = 0.2;
         let t = 0;
         let y = chip.getY();
         const y0 = y;
         let x = chip.getX();
-        const g = 30;
+        const g = 10;
         const yMax = firstBoxEmpty.getY() + Config.boxSize.width/2;
         
 
