@@ -83,7 +83,7 @@ class Game {
     createChips() {
         const canvas = document.getElementById("gameCanvas");
         const qchips = (Config.typeGame.quantityColumnsInBoard * Config.typeGame.quantityRowsInBoard) / Config.typeGame.quantityPlayers;
-        const paddingXRespectCanvas=Config.chipSize.radius+canvas.offsetWidth/15+10;
+        const paddingXRespectCanvas=Config.chipSize.radius+canvas.offsetWidth/20+10;
         const paddingYRespectCanvas=Config.chipSize.radius+200;
         const typeChip1=Config.typeGame.typeOfChipsPlayer1;
         const typeChip2=Config.typeGame.typeOfChipsPlayer2;
@@ -173,7 +173,7 @@ class Game {
         const canvas = document.getElementById("gameCanvas");
         const chipsPlayer1= this.#chips.filter(c => c.getPlayer()===Config.players.type1);
         const chipsPlayer2=this.#chips.filter(c => c.getPlayer()===Config.players.type2);
-        const paddingX= canvas.offsetWidth/15;
+        const paddingX= canvas.offsetWidth/20;
         const paddingY= 220;
         const width=200;
         const height=380;
