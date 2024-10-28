@@ -85,7 +85,7 @@ class Game {
     /*tiene en cuenta los costados del canvas para crear/renderizar inicialmente las fichas. */
     createChips() {
         const canvas = document.getElementById("gameCanvas");
-        const qchips = (Config.typeGame.quantityColumnsInBoard * Config.typeGame.quantityRowsInBoard) / Config.typeGame.quantityPlayers;
+        const qchips = Math.ceil((Config.typeGame.quantityColumnsInBoard * Config.typeGame.quantityRowsInBoard) / Config.typeGame.quantityPlayers);
         const paddingXRespectCanvas=Config.chipSize.radius+canvas.offsetWidth/20+10;
         const paddingYRespectCanvas=Config.chipSize.radius+200;
         const typeChip1=Config.typeGame.typeOfChipsPlayer1;
@@ -121,7 +121,7 @@ class Game {
             }
             acc=acc+accRender;
         }
-      
+    
     }
 
     alternateTurn(){
