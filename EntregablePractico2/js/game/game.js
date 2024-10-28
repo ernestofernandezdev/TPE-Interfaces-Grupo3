@@ -50,7 +50,7 @@ class Game {
     getComponent() {
         const canvas = document.createElement("canvas");
         canvas.id = 'gameCanvas';
-        canvas.style.backgroundImage= 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(./static/assets/game/batman4.png)';
+        canvas.style.backgroundImage= 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(./static/assets/game/game-background.png)';
         canvas.style.backgroundRepeat = 'no-repeat';
         canvas.style.backgroundPosition = 'center top';
         canvas.style.backgroundSize = '100%';
