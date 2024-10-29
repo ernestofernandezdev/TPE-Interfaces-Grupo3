@@ -9,10 +9,8 @@ class Casillero{
     #color;
 
     #chip;
-    #isWin;
     #borderRadius;
     
-
 
     constructor(prop){
         this.#x=prop.initX;
@@ -23,7 +21,6 @@ class Casillero{
         this.#color=prop.color;
         
         this.#chip=null;
-        this.#isWin=false;
     }
 
     isEmpty(){
@@ -78,7 +75,7 @@ class Casillero{
         ctx.fillStyle= this.getColor() ;
         this.#drawRectangleRounded(ctx,this.#x,this.#y,Config.boxSize.width,Config.boxSize.height,Config.boxSize.height);
 
-        ctx.strokeStyle='blue';
+        ctx.strokeStyle=Config.boxesColor.borders;
         ctx.lineWidth = 2; 
         ctx.stroke();
 
@@ -88,7 +85,7 @@ class Casillero{
         ctx.closePath();
         ctx.clip(); 
 
-        ctx.fillStyle='white';
+        ctx.fillStyle=Config.boxesColor.emptyCircle;
         ctx.fill();
         
 
@@ -97,10 +94,6 @@ class Casillero{
 
     getChip(){
         return this.#chip;
-    }
-
-    setIsWin(newState){
-        this.#isWin = newState;
     }
 
     getImageChip(){
@@ -150,7 +143,6 @@ class Casillero{
         ctx.closePath();
         ctx.fill();
     }
-
 
 
 

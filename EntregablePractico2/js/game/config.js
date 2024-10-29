@@ -35,7 +35,19 @@ class Config{
     static boxSize={
         width:((Config.chipSize.radius*2) + 30),            /*tamaño de los casilleros= al tamaño perimetral de las fichas(60) + margenes de 15*2 */
         height:((Config.chipSize.radius*2) + 30),
-        margins: 15,
+    }
+
+    static boxesColor={
+        empty:"#202888",
+        winner:'#EEF100',
+        draw:'#A50000',
+        borders:'blue',
+        emptyCircle:'white'
+    }
+
+    static dispenserColor={
+        default:`rgba(0, 0, 0, 0.6)`,
+        border:`rgba(0, 0, 255, 0.6)`,
     }
 
     static boardSize={

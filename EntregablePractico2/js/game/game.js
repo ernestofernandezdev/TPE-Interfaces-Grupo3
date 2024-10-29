@@ -19,6 +19,7 @@ class Game {
     #posDispenser=null;
 
 
+
     constructor() {
         if (Game.#instance) {
             return Game.#instance;
@@ -195,7 +196,7 @@ class Game {
             ]
         }
   
-        this.#ctx.fillStyle=`rgba(0, 0, 0, 0.6)`;
+        this.#ctx.fillStyle=Config.dispenserColor.default;
         this.#drawRectangleRounded(this.#ctx,this.#posDispenser[0].x,this.#posDispenser[0].y,width,height,radius,this.getPLayerTurn()===1);
         this.#drawRectangleRounded(this.#ctx,this.#posDispenser[1].x,this.#posDispenser[1].y,width,height,radius,this.getPLayerTurn()===2);
        
@@ -233,7 +234,7 @@ class Game {
         ctx.fill(); // Rellenar el rectángulo
 
         if(state){
-            ctx.strokeStyle=`rgba(0, 0, 255, 0.6)`;
+            ctx.strokeStyle=Config.dispenserColor.border;
             ctx.lineWidth = 5; 
             ctx.stroke();
            

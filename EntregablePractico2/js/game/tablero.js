@@ -125,7 +125,7 @@ class Tablero {
     checkDrawBoxes(){
         this.#boxes.forEach(row =>{
             row.forEach(box=>{
-                box.setColor('#A50000');
+                box.setColor(Config.boxesColor.draw);
             })
         })
     }
@@ -170,7 +170,7 @@ class Tablero {
     resetAllBoxes(){
         this.#boxes.forEach(row =>{
             row.forEach(box=>{
-                box.setColor("#202888");
+                box.setColor(Config.boxesColor.empty);
                 box.setChip(null);
             })
         })
@@ -179,7 +179,7 @@ class Tablero {
     
     checkListWinner(list,ctx){
         list.forEach(box =>{
-            box.setColor('#EEF100');
+            box.setColor(Config.boxesColor.winner);
             box.drawBox(ctx);
         })
     }
@@ -525,7 +525,7 @@ class Tablero {
             row:0,
             col:0,
             borderRadius:[false,false,false,false],
-            color:'#202888',
+            color:`${Config.boxesColor.empty}`,
         }    
        
         for(let i =this.#boxes.length-1; i >= 0; i-- ){
