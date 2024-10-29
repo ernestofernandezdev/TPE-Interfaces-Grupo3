@@ -3,8 +3,6 @@ class Game {
     #chips = [];    /*fichas disponibles para lanzar */
     #selectedchip=null; /*ficha seleccionada/arrastrada */
     #board; /*tablero */
-    #ctx;
-    #canvas;
     #playerTurn;
     #chipsDrop=[
         {
@@ -15,10 +13,12 @@ class Game {
             x:0,
             y:0
         }
-
+        
     ]
     #posDispenser=null;
-
+    
+    #ctx;
+    #canvas;
 
 
     constructor() {
@@ -70,9 +70,7 @@ class Game {
     /*metodo para dibujar los componentes del juego en la primera ejecucion.*/
     /*dibuja tablero,casilleros, fichas ..... */
     createComponents() {
-        const canvas = document.getElementById("gameCanvas");
-        this.#ctx = canvas.getContext("2d");
-
+        this.#ctx = this.#canvas.getContext("2d");
         this.#board.drawBoard(this.#ctx);
         this.#board.drawAllBoxes(this.#ctx);
         this.createChips();
@@ -93,7 +91,7 @@ class Game {
     /*crea los objetos de Ficha. Multiplica cantidad de filas por columnas del juego y los divide por la cantidad de jugadores (batman vs joker).*/
     /*tiene en cuenta los costados del canvas para crear/renderizar inicialmente las fichas. */
     createChips() {
-        const canvas = document.getElementById("gameCanvas");
+        const canvas = this.#canvas;
         const qchips = Math.ceil((Config.typeGame.quantityColumnsInBoard * Config.typeGame.quantityRowsInBoard) / Config.typeGame.quantityPlayers);
         const paddingXRespectCanvas=Config.chipSize.radius+canvas.offsetWidth/20+10;
         const paddingYRespectCanvas=Config.chipSize.radius+200;
@@ -182,7 +180,7 @@ class Game {
     }
 
     drawChipDispenser(){
-        const canvas = document.getElementById("gameCanvas");
+        const canvas = this.#canvas;
         const chipsPlayer1= this.#chips.filter(c => c.getPlayer()===Config.players.type1);
         const chipsPlayer2=this.#chips.filter(c => c.getPlayer()===Config.players.type2);
         const paddingX= canvas.offsetWidth/20;
@@ -262,7 +260,7 @@ class Game {
 
     /*cuando baja el click, detecta si se hizo en una ficha (en el radio ), la marca como agarrada/clickeada (isClicked) y le pasa el evento a la clikeada*/
     #handlechipsMouseDown() {
-        const canvas = document.getElementById("gameCanvas");
+        const canvas = this.#canvas;
 
         canvas.addEventListener("mousedown", (e) => {
             e.preventDefault();
@@ -300,7 +298,7 @@ class Game {
 
     /*le pasa el evento a sus hijos */
     #handleMouseUp() {
-        const canvas = document.getElementById("gameCanvas");
+        const canvas = this.#canvas;
         canvas.addEventListener("mouseup", (e) => {
             this.#chips.forEach((chip) => {
                 chip.handleMouseUp(e);
@@ -313,7 +311,7 @@ class Game {
 
     /*le pasa el evento a sus hijos */
     #handleMouseMove() {
-        const canvas = document.getElementById("gameCanvas");
+        const canvas = this.#canvas;
         canvas.addEventListener("mousemove", (e) => {
             this.#chips.forEach((chip) => {
                 chip.handleMouseMove(e, this.#ctx, canvas);
@@ -323,7 +321,7 @@ class Game {
 
     /*le pasa el evento a sus hijos */
     #handleMouseOut() {
-        const canvas = document.getElementById("gameCanvas");
+        const canvas = this.#canvas;
         canvas.addEventListener("mouseout", (e) => {
             this.#chips.forEach((chip) => {
                 chip.handleMouseOut(e);
