@@ -79,7 +79,6 @@ class Game {
         
         this.drawAllAvailableChips(this.#ctx); 
       
-        
     }
 
     /*manda a cargar configuraciones del juego y escuchar eventos del mouse/usuario*/
@@ -131,52 +130,11 @@ class Game {
     
     }
 
-    alternateTurn(){
-        if(this.#playerTurn === 1){
-            this.#playerTurn = 2
-        }else{
-            this.#playerTurn=1
-        }
-       
-    }
-
-    setTurnForWinner(box){
-        let players= Config.listPlayerTypes;
-    
-        let win= players.findIndex(p => p===box.getChip().getPlayer());
-        
-        this.#playerTurn=win+1;
-    }
-
-
-    removeChip(chip) {
-        let pos = this.#chips.indexOf(chip);
-        this.#chips.splice(pos,1);
-    }
-
-    updatePositionChipsDrop(){
-        if(this.#chips.length >= Config.typeGame.quantityPlayers){
-            const chipsPlayer1=this.#chips.filter(c => c.getPlayer()===Config.players.type1);
-            const chipsPlayer2=this.#chips.filter(c => c.getPlayer()===Config.players.type2);
-            
-            chipsPlayer1[chipsPlayer1.length-1].setInitPositionX(this.#chipsDrop[0].x);
-            chipsPlayer1[chipsPlayer1.length-1].setInitPositionY(this.#chipsDrop[0].y);
-            chipsPlayer2[chipsPlayer2.length-1].setInitPositionX(this.#chipsDrop[1].x);
-            chipsPlayer2[chipsPlayer2.length-1].setInitPositionY(this.#chipsDrop[1].y);
-
-        }
-    }
-
     /*dibuja todas las fichas disponibles para lanzar*/
     drawAllAvailableChips(context) {
         this.#chips.forEach(f => {
             f.drawCircle(context);
         });
-    }
-
-
-    drawPlaceholderChip(chip) {
-        chip.drawCircle(this.#ctx);
     }
 
     drawChipDispenser(){
@@ -224,7 +182,6 @@ class Game {
     // }
 
     #drawRectangleRounded(ctx, x, y, width, height, radius,state){
-        
         ctx.beginPath();
         ctx.moveTo(x + radius, y); // Esquina superior izquierda
         ctx.lineTo(x + width - radius, y); // Línea superior
@@ -246,9 +203,50 @@ class Game {
         }
     }
 
-    
+    ///*//////////////////////////////////////////////////////////metodos de reorden/eliminacion/////////////////////////////////////////////////////////////////////
 
-    /*///////////////////////////////////////////////////////////////////////metodos de eventos///////////////////////////////////////////////////////////////*/
+    /*actualiza las fichas que estan disponibles para jugar . Parametro: ficha que se dropea en el tablero */
+    updateChipsAvailable(chip){
+        this.#chips = this.#chips.filter(c => c !== chip);
+    }
+
+    removeChip(chip) {
+        let pos = this.#chips.indexOf(chip);
+        this.#chips.splice(pos,1);
+    }
+
+    /*Actualiza la posicion de la ficha que puede ser dropeada por cada jugador */
+    updatePositionChipsDrop(){
+        if(this.#chips.length >= Config.typeGame.quantityPlayers){
+            const chipsPlayer1=this.#chips.filter(c => c.getPlayer()===Config.players.type1);
+            const chipsPlayer2=this.#chips.filter(c => c.getPlayer()===Config.players.type2);
+            
+            chipsPlayer1[chipsPlayer1.length-1].setInitPositionX(this.#chipsDrop[0].x);
+            chipsPlayer1[chipsPlayer1.length-1].setInitPositionY(this.#chipsDrop[0].y);
+            chipsPlayer2[chipsPlayer2.length-1].setInitPositionX(this.#chipsDrop[1].x);
+            chipsPlayer2[chipsPlayer2.length-1].setInitPositionY(this.#chipsDrop[1].y);
+
+        }
+    }
+
+    alternateTurn(){
+        if(this.#playerTurn === 1){
+            this.#playerTurn = 2
+        }else{
+            this.#playerTurn=1
+        }
+       
+    }
+
+    setTurnForWinner(box){
+        let players= Config.listPlayerTypes;
+    
+        let win= players.findIndex(p => p===box.getChip().getPlayer());
+        
+        this.#playerTurn=win+1;
+    }
+
+    /*///////////////////////////////////////////////////////////////////////Eventos///////////////////////////////////////////////////////////////*/
 
     /*funcion que contiene todos los eventos */
     #handleAllEvents() {
@@ -289,13 +287,6 @@ class Game {
         });
     }
 
-    #getFirstChipForPlayerTurn(playerTurn){
-        const chipsPlayer= this.#chips.filter(c => c.getPlayer()===Config.listPlayerTypes[playerTurn-1]);
-        let chip= chipsPlayer[chipsPlayer.length-1];
-     
-        return chip;
-    }
-
     /*le pasa el evento a sus hijos */
     #handleMouseUp() {
         const canvas = this.#canvas;
@@ -329,7 +320,7 @@ class Game {
         });
     }
 
-
+    /*//////////////////////////////////////////////////////////////////getters y setters//////////////////////////////////////////////////////////////////////*/
     getChips(){
         return this.#chips;
     }
@@ -337,12 +328,13 @@ class Game {
     getPLayerTurn(){
         return this.#playerTurn;
     }
-    ///*//////////////////////////////////////////////////////////metodos de reorden/eliminacion/////////////////////////////////////////////////////////////////////
 
-    /*actualiza las fichas que estan disponibles para jugar . Parametro: ficha que se dropea en el tablero */
-    updateChipsAvailable(chip){
-        this.#chips = this.#chips.filter(c => c !== chip);
+    #getFirstChipForPlayerTurn(playerTurn){
+        const chipsPlayer= this.#chips.filter(c => c.getPlayer()===Config.listPlayerTypes[playerTurn-1]);
+        let chip= chipsPlayer[chipsPlayer.length-1];
+     
+        return chip;
     }
-
+    
 
 }

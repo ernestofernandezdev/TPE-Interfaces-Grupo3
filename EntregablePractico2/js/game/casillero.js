@@ -11,7 +11,7 @@ class Casillero{
     #chip;
     #borderRadius;
     
-
+    
     constructor(prop){
         this.#x=prop.initX;
         this.#y=prop.initY,
@@ -21,50 +21,6 @@ class Casillero{
         this.#color=prop.color;
         
         this.#chip=null;
-    }
-
-    isEmpty(){
-        return this.#chip === null;
-    }
-
-    getRow(){
-        return this.#row;
-    }
-
-    getColumn(){
-        return this.#column;
-    }
-
-    getX() {
-        return this.#x;
-    }
-
-    getY() {
-        return this.#y;
-    }
-
-    drawChip(ctx) {
-        if (!this.#chip.isFalling()) {
-            this.#chip.drawCircle(ctx);
-        }
-    }
-
-
-    /*guarda la ficha en el casillero. Marca el casillero como completo*/
-    assignChip(chip,ctx){
-        this.setChip(chip);
-        this.drawBox(ctx);
-    }
-
-    setChip(chip){
-        this.#chip=chip;
-    }
-    setColor(color){
-        this.#color=color;
-    }
-    
-    getColor(){
-        return this.#color;
     }
 
     drawBox(ctx){
@@ -91,6 +47,36 @@ class Casillero{
 
         ctx.restore();
     }
+    
+    drawChip(ctx) {
+        if (!this.#chip.isFalling()) {
+            this.#chip.drawCircle(ctx);
+        }
+    }
+
+    isEmpty(){
+        return this.#chip === null;
+    }
+
+    getRow(){
+        return this.#row;
+    }
+
+    getColumn(){
+        return this.#column;
+    }
+
+    getX() {
+        return this.#x;
+    }
+
+    getY() {
+        return this.#y;
+    }
+
+    getColor(){
+        return this.#color;
+    }
 
     getChip(){
         return this.#chip;
@@ -102,9 +88,22 @@ class Casillero{
         }else{
             return Casillero.images.chipImgs[Config.imgPlayerType1.length+Config.typeGame.typeOfChipsPlayer2];/*si se mandan a crear fichas de joker, busco  si son de tipo 0 o 1 a partir de donde terminan las de batman*/
         }
-        
+    }
+    
+    /*guarda la ficha en el casillero. Marca el casillero como completo*/
+    assignChip(chip,ctx){
+        this.setChip(chip);
+        this.drawBox(ctx);
     }
 
+    setChip(chip){
+        this.#chip=chip;
+    }
+
+    setColor(color){
+        this.#color=color;
+    }
+    
     #drawRectangleRounded(ctx, x, y, width, height, r) {
         ctx.beginPath();
         const radius=r-50
