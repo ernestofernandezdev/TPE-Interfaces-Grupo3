@@ -92,7 +92,7 @@ class Game {
     createChips() {
         const canvas = this.#canvas;
         const qchips = Math.ceil((Config.typeGame.quantityColumnsInBoard * Config.typeGame.quantityRowsInBoard) / Config.typeGame.quantityPlayers);
-        const paddingXRespectCanvas=Config.chipSize.radius+canvas.offsetWidth/20+10;
+        const paddingXRespectBoard=Tablero.getInstance().getStartX()-190;
         const paddingYRespectCanvas=Config.chipSize.radius+200;
         const typeChip1=Config.typeGame.typeOfChipsPlayer1;
         const typeChip2=Config.typeGame.typeOfChipsPlayer2;
@@ -105,11 +105,11 @@ class Game {
 
         for (let index = 0; index < qchips; index++) {
             if(index === qchips-1){
-                this.#chips.push(new Ficha(  canvas.offsetLeft+paddingXRespectCanvas+paddingFirstX  , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-paddingFirstY,true,typeChip1));
-                this.#chipsDrop[0].x=canvas.offsetLeft+paddingXRespectCanvas+paddingFirstX,
+                this.#chips.push(new Ficha(  canvas.offsetLeft+paddingXRespectBoard+paddingFirstX  , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-paddingFirstY,true,typeChip1));
+                this.#chipsDrop[0].x=canvas.offsetLeft+paddingXRespectBoard+paddingFirstX,
                 this.#chipsDrop[0].y=(canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-paddingFirstY;
             }else{
-                this.#chips.push(new Ficha(  canvas.offsetLeft+paddingXRespectCanvas+acc  , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas,true,typeChip1));
+                this.#chips.push(new Ficha(  canvas.offsetLeft+paddingXRespectBoard+acc  , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas,true,typeChip1));
             }
             acc=acc+accRender;
         }
@@ -119,11 +119,11 @@ class Game {
 
         for (let index = 0; index < qchips; index++) {
             if(index === qchips-1){
-                this.#chips.push(new Ficha(  (canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectCanvas-paddingFirstX , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-paddingFirstY,false,typeChip2));
-                this.#chipsDrop[1].x=(canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectCanvas-paddingFirstX,
+                this.#chips.push(new Ficha(  (canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectBoard-paddingFirstX , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-paddingFirstY,false,typeChip2));
+                this.#chipsDrop[1].x=(canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectBoard-paddingFirstX,
                 this.#chipsDrop[1].y=(canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-paddingFirstY;
             }else{
-                this.#chips.push(new Ficha(  (canvas.offsetLeft + canvas.offsetWidth)-acc-paddingXRespectCanvas ,  (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas,false,typeChip2));
+                this.#chips.push(new Ficha(  (canvas.offsetLeft + canvas.offsetWidth)-acc-paddingXRespectBoard ,  (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas,false,typeChip2));
             }
             acc=acc+accRender;
         }
@@ -138,10 +138,9 @@ class Game {
     }
 
     drawChipDispenser(){
-        const canvas = this.#canvas;
         const chipsPlayer1= this.#chips.filter(c => c.getPlayer()===Config.players.type1);
         const chipsPlayer2=this.#chips.filter(c => c.getPlayer()===Config.players.type2);
-        const paddingX= canvas.offsetWidth/20;
+        const paddingXRespectBoard= 25;
         const paddingY= 170;
         const width=200;
         const height=380;
@@ -149,11 +148,11 @@ class Game {
         if(this.#posDispenser === null){
             this.#posDispenser=[
                 {
-                    x:canvas.offsetLeft+paddingX,
+                    x:Tablero.getInstance().getStartX()-width-paddingXRespectBoard,
                     y:chipsPlayer1[0].getInitY()-paddingY
                 },
                 {
-                    x:canvas.offsetLeft + canvas.offsetWidth-(width+paddingX),
+                    x:Tablero.getInstance().getEndX()+paddingXRespectBoard,
                     y:chipsPlayer2[0].getInitY()-paddingY
                 }
             ]

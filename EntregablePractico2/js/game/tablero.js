@@ -526,6 +526,11 @@ class Tablero {
         return winLine;
     }
 
+    getEndX(){
+        console.log(this.#startX+Config.boardSize.width);
+        
+        return this.#startX+Config.boardSize.width;
+    }
 
     getStartX(){
         return this.#startX;
