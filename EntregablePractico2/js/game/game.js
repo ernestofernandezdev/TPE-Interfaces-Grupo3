@@ -304,7 +304,7 @@ class Game {
                 chip.handleMouseUp(e);
             });
             if(this.#selectedchip){
-                this.#board.handleMouseUp(e,this.#selectedchip,canvas,this.#ctx);
+                this.#board.handleMouseUp(e,this.#selectedchip,this.#ctx);
             }
         });
     }

@@ -3,7 +3,6 @@ class Tablero {
     #startX;
     #startY;    /*con startX almacenan en que posicion comienza el tablero. (posicion respecto al canvas en que se renderiza)*/
     #boxes=[];  /*matriz de casilleros(boxes) */
-    #ctx;
 
     constructor(){
         if (Tablero.#instance) {
@@ -13,8 +12,6 @@ class Tablero {
         for(let i = 0; i < Config.typeGame.quantityRowsInBoard; i++){
             this.#boxes.push([]);
         }
-        
-     
     }
 
     static getInstance() {
@@ -25,7 +22,6 @@ class Tablero {
     /*el tablero son muchos rectangulos. Los rectangulos contienen al circulo casillero en el centro (drawRectangles)*/
     drawBoard(ctx){
         const canvas = document.getElementById("gameCanvas");
-        this.#ctx=ctx;
         this.#startX = canvas.width/2 - Config.boardSize.width/2;  /*posicion en X donde arranca a dibujarse el tablero---> al centro del ancho del canvas*/
         this.#startY= canvas.height - Config.boardSize.height;      /*posicion en Y donde arranca a dibujarse el tablero---> total de altura del canvas - lo alto del tablero. seria como un "margen top" */
     
@@ -33,22 +29,70 @@ class Tablero {
             this.createBoxes();
         }
 
-        
         ctx.fillStyle='transparent';
         ctx.fillRect(this.#startX, this.#startY,Config.boardSize.width,Config.boardSize.height);
+    }
+
+    /*crea objetos de casillero y los agrega a la matriz.  */
+    createBoxes(){
+        let sizeBox = Config.boxSize.width;
+        let columns = Config.typeGame.quantityColumnsInBoard;
+
+        let properties={
+            initY: this.getPosBottom() - Config.boxSize.width,
+            initX:this.getStartX(),
+            row:0,
+            col:0,
+            borderRadius:[false,false,false,false],
+            color:`${Config.boxesColor.empty}`,
+        }    
        
+        for(let i =this.#boxes.length-1; i >= 0; i-- ){
+
+            for(let j =0; j < columns; j++){
+                properties.row=i;
+                properties.col=j;
+                properties.borderRadius[0]=false;
+                properties.borderRadius[1]=false;
+                if(i===0 && j===0){
+                    properties.borderRadius[0]=true;
+                }
+                if(i===0 && j===columns-1){
+                    properties.borderRadius[1]=true;
+                }
+
+                this.#boxes[i].push(new Casillero(properties));
+               
+                properties.initX = properties.initX+sizeBox;
+            }
+            properties.initX= properties.initX - (sizeBox*columns)
+            properties.initY=properties.initY - sizeBox;
+        }
+    
+    }
+
+    /*recorre la matriz de casilleros y manda a dibujar cada casillero */
+    drawAllBoxes(ctx){
+        this.#boxes.forEach(row =>{
+            row.forEach(col=>{
+                col.drawBox(ctx);
+                if (!col.isEmpty()) {
+                    col.drawChip(ctx);
+                }
+            })
+        })
+ 
     }
 
     handleMouseDown(){}
 
-    handleMouseMove(){
-    }
+    handleMouseMove(){}
 
     handleMouseOut(){}
 
     /*cuando se suelta el click en el canvas ---> recibe por parametro la ficha clickeada/arrastrada, verifica si hay ficha arrastrada y si el dropeo(mouseUp) esta en el area superior del tablero comprendida. */
     /*cuando recibe la ficha la agrega a su matriz de fichas.La Ficha se elimina de la clase game ----> sale de las fichas disponibles asi no se renderiza junto con las otras. */
-    handleMouseUp(e,chip,canvas,ctx){
+    handleMouseUp(e,chip,ctx){
         
         if(this.isInDropZone(e.offsetX , e.offsetY)){
             const posOfColumnDrop=this.#getColDrop(e.offsetX) -1;
@@ -115,14 +159,6 @@ class Tablero {
 
     }
 
-    checkDrawBoxes(){
-        this.#boxes.forEach(row =>{
-            row.forEach(box=>{
-                box.setColor(Config.boxesColor.draw);
-            })
-        })
-    }
-
     animateFall(ctx, chip, firstBoxEmpty) {
         return new Promise((resolve) => {
             const dt = 0.2;
@@ -155,6 +191,20 @@ class Tablero {
         });
     }
 
+    checkDrawBoxes(){
+        this.#boxes.forEach(row =>{
+            row.forEach(box=>{
+                box.setColor(Config.boxesColor.draw);
+            })
+        })
+    }
+
+    checkListWinner(list){
+        list.forEach(box =>{
+            box.setColor(Config.boxesColor.winner);
+        })
+    }
+
     resetAllBoxes(){
         this.#boxes.forEach(row =>{
             row.forEach(box=>{
@@ -163,12 +213,57 @@ class Tablero {
             })
         })
 
-    }   
+    }  
+
+    /*Parametros: posiciones de x e y de donde se hizo un mouseUp. Verifica si esta en la zona de dropeo de ficha(encima de tablero). */
+    isInDropZone(mouseX,mouseY){
+        let endX= parseInt(this.#startX)+parseInt(Config.boardSize.width);
+
+        return (mouseX > parseInt(this.#startX)+Config.chipSize.radius/2 && mouseX < endX-Config.chipSize.radius/2) && (parseInt(mouseY) < parseInt(this.#startY));
+    }
+
+    /*Parametros: posiciones de x e y de donde se hizo mouseUp. Retorna el numero de columna donde debe insertarse.*/
+    /*Es el numero de columna, no la posicion (para obtener posicion restarle 1 a este numero)*/
+    #getColDrop(mouseX){
+        let colSize=parseInt(Config.boardSize.width / Config.typeGame.quantityColumnsInBoard);  /*tamaño de las columnas: total de ancho del tablero dividido el total de columnas de juego*/
+        let col=1;
+        let isCol=true;
+
+        while(isCol){
+            if (mouseX < this.#startX + (colSize * col) ){
+                isCol=false;
+            }else{
+                col++;
+            }
+        }
+        return col;
+    }
     
-    checkListWinner(list){
-        list.forEach(box =>{
-            box.setColor(Config.boxesColor.winner);
-        })
+    /*Parametro: posicion de la columna donde se dropeo la ultima ficha*/
+    /*Retorna el primer casillero disponible de abajo hacia arriba en una columna(j) */
+    getFirstBoxEmptyInCol(j){
+        let rowPos=Config.typeGame.quantityRowsInBoard-1;
+        let pos={
+            row:-1,
+            col:-1
+        }
+
+       while(pos.col===-1 && rowPos >= 0){
+            if(this.#boxes[rowPos][j].isEmpty()){
+              
+                pos.row=rowPos;
+                pos.col=j
+            }
+            rowPos--;
+        }
+        
+        if(pos.col != -1){
+          
+            return this.#boxes[parseInt(pos.row)][parseInt(pos.col)];
+
+        }else{
+            return null
+        }
     }
 
     /*Parametros: posicion de columna donde se dropeo la ultima ficha, casillero donde se almacena la ultima ficha dropeada */
@@ -190,34 +285,6 @@ class Tablero {
         }
 
         return null;
-    }
-
-    /*Parametro: posicion de la columna donde se dropeo la ultima ficha*/
-    /*Retorna el primer casillero disponible de abajo hacia arriba en una columna(j) */
-    getFirstBoxEmptyInCol(j){
-        let rowPos=Config.typeGame.quantityRowsInBoard-1;
-        let pos={
-            row:-1,
-            col:-1
-        }
- 
-
-       while(pos.col===-1 && rowPos >= 0){
-            if(this.#boxes[rowPos][j].isEmpty()){
-              
-                pos.row=rowPos;
-                pos.col=j
-            }
-            rowPos--;
-        }
-        
-        if(pos.col != -1){
-          
-            return this.#boxes[parseInt(pos.row)][parseInt(pos.col)];
-
-        }else{
-            return null
-        }
     }
 
     /*Parametro: posicion de la columna donde se dropeo la ultima ficha */
@@ -363,7 +430,6 @@ class Tablero {
             }
         }
         
-        
         isEndSearch=false;
         index=1;
         col=winLine[0].getColumn();
@@ -460,6 +526,7 @@ class Tablero {
         return winLine;
     }
 
+
     getStartX(){
         return this.#startX;
     }
@@ -468,89 +535,10 @@ class Tablero {
         return this.#startY;
     }
 
-    
     getPosBottom(){
         const canvas = document.getElementById("gameCanvas");
         const dHeight=Config.boardSize.height+(canvas.height-Config.boardSize.height);
 
         return dHeight;
     }
-
-    /*Parametros: posiciones de x e y de donde se hizo un mouseUp. Verifica si esta en la zona de dropeo de ficha(encima de tablero). */
-    isInDropZone(mouseX,mouseY){
-        let endX= parseInt(this.#startX)+parseInt(Config.boardSize.width);
-
-        return (mouseX > parseInt(this.#startX)+Config.chipSize.radius/2 && mouseX < endX-Config.chipSize.radius/2) && (parseInt(mouseY) < parseInt(this.#startY));
-    }
-
-    /*Parametros: posiciones de x e y de donde se hizo mouseUp. Retorna el numero de columna donde debe insertarse.*/
-    /*Es el numero de columna, no la posicion (para obtener posicion restarle 1 a este numero)*/
-    #getColDrop(mouseX){
-        let colSize=parseInt(Config.boardSize.width / Config.typeGame.quantityColumnsInBoard);  /*tamaño de las columnas: total de ancho del tablero dividido el total de columnas de juego*/
-        let col=1;
-        let isCol=true;
-
-        while(isCol){
-            if (mouseX < this.#startX + (colSize * col) ){
-                isCol=false;
-            }else{
-                col++;
-            }
-        }
-
-        return col;
-    }
-
-    /*crea objetos de casillero y los agrega a la matriz.  */
-    createBoxes(){
-        let sizeBox = Config.boxSize.width;
-        let columns = Config.typeGame.quantityColumnsInBoard;
-
-        let properties={
-            initY: this.getPosBottom() - Config.boxSize.width,
-            initX:this.getStartX(),
-            row:0,
-            col:0,
-            borderRadius:[false,false,false,false],
-            color:`${Config.boxesColor.empty}`,
-        }    
-       
-        for(let i =this.#boxes.length-1; i >= 0; i-- ){
-
-            for(let j =0; j < columns; j++){
-                properties.row=i;
-                properties.col=j;
-                properties.borderRadius[0]=false;
-                properties.borderRadius[1]=false;
-                if(i===0 && j===0){
-                    properties.borderRadius[0]=true;
-                }
-                if(i===0 && j===columns-1){
-                    properties.borderRadius[1]=true;
-                }
-
-                this.#boxes[i].push(new Casillero(properties));
-               
-                properties.initX = properties.initX+sizeBox;
-            }
-            properties.initX= properties.initX - (sizeBox*columns)
-            properties.initY=properties.initY - sizeBox;
-        }
-    
-
-    }
-
-    /*recorre la matriz de casilleros y manda a dibujar cada casillero */
-    drawAllBoxes(ctx){
-        this.#boxes.forEach(row =>{
-            row.forEach(col=>{
-                col.drawBox(ctx);
-                if (!col.isEmpty()) {
-                    col.drawChip(ctx);
-                }
-            })
-        })
- 
-    }
-
 }
