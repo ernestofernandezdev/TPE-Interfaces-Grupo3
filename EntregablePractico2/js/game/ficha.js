@@ -63,19 +63,7 @@ class Ficha {
         this.#isFalling = bool;
     }
 
-    redrawChip(canvas,context) {
-        this.setPosition(this.#initX,this.#initY);
-        
-        context.clearRect(0, 0, canvas.width, canvas.height);
-
-        context.save(); // guarda el contexto antes de dibujar
-        this.drawCircle(context);
-        context.restore(); // restaura el contexto
-
-        // redibuja todas las otras fichas
-        Game.getInstance().redraw(context);
-    }
-
+ 
     getX(){
         return this.#x;
     }

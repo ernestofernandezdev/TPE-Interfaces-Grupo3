@@ -4,6 +4,7 @@ class Game {
     #selectedchip=null; /*ficha seleccionada/arrastrada */
     #board; /*tablero */
     #ctx;
+    #canvas;
     #playerTurn;
     #chipsDrop=[
         {
@@ -35,15 +36,21 @@ class Game {
         return Game.#instance;
     }
 
-    /*redibuja los componentes del juego (fichas,tablero,casilleros). Se redibuja cada vez que hay cambios(movimientos de fichas, casillero completo,...) */
+   /*Util para cuando se desea dibujar mas cosas por encima de lo que ya hay(ejemplo placeholder de ficha, se agrega a lo que hay)*/
     redraw(context){
-    
         this.#board.drawBoard(context);
         this.#board.drawAllBoxes(context)
         this.drawChipDispenser();
         this.drawAllAvailableChips(context)
       
-       
+    }
+
+    /*Util cuando se cambia el estado de cosas del juego(se agregan fichas, se modifica la cantidad de fichas, se mueve la ficha, etc.) */
+    clearAndRedraw(ctx){
+        ctx.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
+        ctx.save(); 
+        ctx.restore();
+        this.redraw(ctx);
     }
 
   
@@ -51,6 +58,7 @@ class Game {
     getComponent() {
         const canvas = document.createElement("canvas");
         canvas.id = 'gameCanvas';
+        this.#canvas=canvas;
         canvas.style.backgroundImage= 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(./static/assets/game/game-background.png)';
         canvas.style.backgroundRepeat = 'no-repeat';
         canvas.style.backgroundPosition = 'center top';
@@ -136,8 +144,7 @@ class Game {
 
     setTurnForWinner(box){
         let players= Config.listPlayerTypes;
-        
-        
+    
         let win= players.findIndex(p => p===box.getChip().getPlayer());
         
         this.#playerTurn=win+1;

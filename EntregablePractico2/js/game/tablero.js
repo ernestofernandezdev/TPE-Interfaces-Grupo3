@@ -60,16 +60,14 @@ class Tablero {
                 chip.setFalling(true);
                 firstBoxEmpty.assignChip(chip,ctx);
 
-                this.animateFall(ctx, canvas, chip, firstBoxEmpty).then(()=>{
+                this.animateFall(ctx, chip, firstBoxEmpty).then(()=>{
                     listBoxesWinner= this.checkWinner(posOfColumnDrop,firstBoxEmpty);
 
                     if(listBoxesWinner){
                         console.log("HAY GANADOR");
                         console.log(listBoxesWinner);
                         this.checkListWinner(listBoxesWinner);
-                        
-                      
-                        
+
                     }else{
                         console.log("no hay ganador");
                         Game.getInstance().alternateTurn();
@@ -78,54 +76,43 @@ class Tablero {
               
                     Game.getInstance().removeChip(chip);
                     Game.getInstance().updatePositionChipsDrop();
-                    this.#clearAndRedrawGame(ctx,canvas);
+                    Game.getInstance().clearAndRedraw(ctx);
 
                     if(listBoxesWinner){
                         setTimeout(() => {
                             Game.getInstance().setTurnForWinner(listBoxesWinner[0]);
-                            this.#resetBoard();
-                            this.#clearAndRedrawGame(ctx,canvas);
+                            this.resetAllBoxes();
+                            Game.getInstance().createChips();
+                            Game.getInstance().clearAndRedraw(ctx);
                         }, 2000);
                     }
 
                     if(Game.getInstance().getChips().length === 0 && !listBoxesWinner){
                         this.checkDrawBoxes();
-                        Game.getInstance().redraw(ctx);
+                        Game.getInstance().clearAndRedraw(ctx);
                         
                         setTimeout(() => {
                             console.log("JUEGO EMPATADO");
-                            this.#resetBoard();
-                            this.#clearAndRedrawGame(ctx,canvas);
+                            this.resetAllBoxes();
+                            Game.getInstance().createChips();
+                            Game.getInstance().clearAndRedraw(ctx);
                         }, 2000);
                     }
 
                    
                 });
                 
-            
             }else{
                 console.log("no hay mas lugar en columna: "+ posOfColumnDrop);
                 Game.getInstance().updatePositionChipsDrop();
-                this.#clearAndRedrawGame(ctx,canvas);
+                Game.getInstance().clearAndRedraw(ctx);
             }
 
         }else {
             Game.getInstance().updatePositionChipsDrop();
-            chip.redrawChip(canvas,ctx);
+            Game.getInstance().clearAndRedraw(ctx);
         }
 
-    }
-
-    #clearAndRedrawGame(ctx,canvas){
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.save(); 
-        ctx.restore();
-        Game.getInstance().redraw(ctx);
-    }
-
-    #resetBoard(){
-        this.resetAllBoxes();
-        Game.getInstance().createChips();
     }
 
     checkDrawBoxes(){
@@ -136,7 +123,7 @@ class Tablero {
         })
     }
 
-    animateFall(ctx, canvas, chip, firstBoxEmpty) {
+    animateFall(ctx, chip, firstBoxEmpty) {
         return new Promise((resolve) => {
             const dt = 0.2;
             let t = 0;
@@ -147,10 +134,7 @@ class Tablero {
             const yMax = firstBoxEmpty.getY() + Config.boxSize.width / 2;
     
             const id = setInterval(() =>{
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.save();
-                ctx.restore();
-                Game.getInstance().redraw(ctx);
+                Game.getInstance().clearAndRedraw(ctx);
     
                 t += dt;
                 y = y0 + 0.5 * g * t * t;
@@ -160,10 +144,8 @@ class Tablero {
                 if (y > yMax) {
                     chip.setPosition(x, yMax);
                     chip.setFalling(false);
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.save();
-                    ctx.restore();
-                    Game.getInstance().redraw(ctx);
+                   
+                    Game.getInstance().clearAndRedraw(ctx);
                     chip.drawCircle(ctx);
                     clearInterval(id);
                     
