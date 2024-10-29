@@ -10,7 +10,7 @@ class Ficha {
     #isFalling;
     #player;    /*toma valores:  'batman' o 'joker' . al constructor se le pasa true para batman y false para joker. Se puede agregar a clase Config*/
     #type;      /*toma valores: 0 o 1 para controlar la imagen/tematica de ficha. */
-    #transparent;
+    #activePlaceholder;
 
     constructor(x,y,player,type) {
         this.#x = x;
@@ -21,19 +21,16 @@ class Ficha {
         this.#isFalling=false;
         this.#player = player ? Config.players.type1 : Config.players.type2;
         this.#type = type; 
-        this.#transparent;
     }
 
 
     drawCircle(ctx) {
         ctx.save(); 
-        // dibujar un camino circular para el clipping
         ctx.beginPath();
         ctx.arc(this.#x, this.#y, Config.chipSize.radius, 0, Math.PI * 2);
         ctx.closePath();
-        ctx.clip(); // recorta a la forma circular
+        ctx.clip(); 
 
-        // dibuja la imagen dentro del área recortada
         const diameter = Config.chipSize.radius * 2;
 
         const filterImg= ()=>{
@@ -43,27 +40,24 @@ class Ficha {
                 return Ficha.images[Config.imgPlayerType1.length+parseInt(this.#type)];/*si se mandan a crear fichas de joker, busco  si son de tipo 0 o 1 a partir de donde terminan las de batman*/
             }
         }
-        if (this.#transparent) {
+
+        if (this.isPlaceHolderActive()) {
             ctx.globalAlpha = 0.4;
         }
+
         ctx.drawImage(filterImg(), this.#x - Config.chipSize.radius, this.#y - Config.chipSize.radius, diameter, diameter);
 
         ctx.restore(); 
     }
 
-    setTransparent() {
-        this.#transparent = true;
+    
+    isPlaceHolderActive(){
+        return this.#activePlaceholder;
     }
-
+    
     isFalling() {
         return this.#isFalling;
     }
-
-    setFalling(bool) {
-        this.#isFalling = bool;
-    }
-
- 
     getX(){
         return this.#x;
     }
@@ -76,25 +70,34 @@ class Ficha {
     getPlayer(){
         return this.#player;
     }
-
+    getInitX(){
+        return this.#initX;
+    }
+    getInitY(){
+        return this.#initY;
+    }
+    
+    
+    activePlaceholder() {
+        this.#activePlaceholder = true;
+    }
+    setStartX(value){
+        this.#startX=value;
+    }
+    setStartY(value){
+        this.#startY=value;
+    }
+    setFalling(bool) {
+        this.#isFalling = bool;
+    }
     setPosition(newX,newY){
         this.#x=newX;
         this.#y=newY;
     }
-
-    getInitX(){
-        return this.#initX;
-    }
-    
-    getInitY(){
-        return this.#initY;
-    }
-
     setInitPositionX(value){
         this.#initX=value;
         this.#x=value;
     }
-
     setInitPositionY(value){
         this.#initY=value;
         this.#y=value;
@@ -149,7 +152,10 @@ class Ficha {
             return;
         }else{
             e.preventDefault();
+            const board = Tablero.getInstance();    /*se utiliza para renderizar el placeholder */
             const rect = canvas.getBoundingClientRect(); // Obtiene la posición del canvas
+            const radius = Config.chipSize.radius;
+
             let mouseX = parseInt(e.clientX - rect.left); // Calcula la posición X relativa al canvas
             let mouseY = parseInt(e.clientY - rect.top); // Calcula la posición Y relativa al canvas
         
@@ -160,7 +166,6 @@ class Ficha {
             let newY = this.#y + dy;
         
         
-            const radius = Config.chipSize.radius
            
             if (newX - radius < 0) {                                                /*verificaciones para que la ficha choque contra el borde del canvas */
                 newX = radius;  // mantiene dentro del borde izquierdo
@@ -174,35 +179,34 @@ class Ficha {
                 newY = canvas.height - radius;  // mantiene dentro del borde inferior
             }
 
-          
             this.setPosition(newX,newY);
             
-             
             context.clearRect(0, 0, canvas.width, canvas.height);
-
-            context.save(); // guarda el contexto antes de dibujar
-            let tablero = Tablero.getInstance();
-            if (tablero.isInDropZone(newX, newY)) {
-                let x = Math.trunc((e.offsetX-tablero.getStartX())/(Config.boxSize.width))*Config.boxSize.width + Config.boxSize.width/2 + tablero.getStartX();
-                let y = tablero.getStartY() - Config.boxSize.height/2;
-                let ficha = new Ficha(x, y, this.#player == Config.players.type1 ,this.#type);
-                ficha.setTransparent();
-                ficha.drawCircle(context);
+            context.save(); 
+           
+            if (board.isInDropZone(newX, newY)) {
+                this.showPlaceholder(e.offsetX,board,context);
             }
-            this.drawCircle(context);
-            context.restore(); // restaura el contexto
 
-            // redibuja todas las otras fichas
+            this.drawCircle(context);
+            context.restore(); 
+
             Game.getInstance().redraw(context);
           
-        
-            this.#startX=mouseX;
-            this.#startY=mouseY;
-            
+            this.setStartX(mouseX);
+            this.setStartY(mouseY);
         }
+
         
     }
     
+    showPlaceholder(mouseX,board,context){
+        let x = Math.trunc((mouseX-board.getStartX())/(Config.boxSize.width))*Config.boxSize.width + Config.boxSize.width/2 + board.getStartX();
+        let y = board.getStartY() - Config.boxSize.height/2;
+        let chip = new Ficha(x, y, this.#player == Config.players.type1 ,this.#type);
+        chip.activePlaceholder();
+        chip.drawCircle(context);
+    }
  
   
 }
