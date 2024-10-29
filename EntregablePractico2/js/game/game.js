@@ -19,6 +19,10 @@ class Game {
     
     #ctx;
     #canvas;
+    #winsForPlayer={
+        player1:0,
+        player2:0
+    }
 
 
     constructor() {
@@ -158,9 +162,9 @@ class Game {
             ]
         }
   
-        this.#ctx.fillStyle=Config.dispenserColor.default;
-        this.#drawRectangleRounded(this.#ctx,this.#posDispenser[0].x,this.#posDispenser[0].y,width,height,radius,this.getPLayerTurn()===1);
-        this.#drawRectangleRounded(this.#ctx,this.#posDispenser[1].x,this.#posDispenser[1].y,width,height,radius,this.getPLayerTurn()===2);
+        
+        this.#drawDispenser(this.#ctx,this.#posDispenser[0].x,this.#posDispenser[0].y,width,height,radius,this.getPLayerTurn()===1,this.getWinsPlayer1());
+        this.#drawDispenser(this.#ctx,this.#posDispenser[1].x,this.#posDispenser[1].y,width,height,radius,this.getPLayerTurn()===2,this.getWinsPlayer2());
        
     }
 
@@ -180,7 +184,8 @@ class Game {
     //     }
     // }
 
-    #drawRectangleRounded(ctx, x, y, width, height, radius,state){
+    #drawDispenser(ctx, x, y, width, height, radius,state,quantityWins){
+        this.#ctx.fillStyle=Config.dispenserColor.default;
         ctx.beginPath();
         ctx.moveTo(x + radius, y); // Esquina superior izquierda
         ctx.lineTo(x + width - radius, y); // Línea superior
@@ -200,6 +205,17 @@ class Game {
             ctx.stroke();
            
         }
+
+      
+        ctx.textAlign = 'center'; // Alineación horizontal del texto
+        ctx.textBaseline = 'middle'; // Alineación vertical del texto
+        ctx.font = '25px Nunito'; // Tamaño y tipo de fuente
+        ctx.fillStyle = 'white'; // Color del texto
+
+        ctx.fillText('Victorias', x+(width/2), y+((height/2)+80));
+        ctx.font = '15px Nunito'; // Tamaño y tipo de fuente
+        ctx.fillText(quantityWins, x+(width/2), y+((height/2)+120));
+
     }
 
     ///*//////////////////////////////////////////////////////////metodos de reorden/eliminacion/////////////////////////////////////////////////////////////////////
@@ -335,5 +351,34 @@ class Game {
         return chip;
     }
     
+    addWinPlayer1(){
+        this.#winsForPlayer.player1+=1;
+    }
+
+    addWinPlayer2(){
+        this.#winsForPlayer.player2+=1;
+    }
+
+    getWinsPlayer1(){
+        return this.#winsForPlayer.player1
+    }
+
+    getWinsPlayer2(){
+        return this.#winsForPlayer.player2
+    }
+
+    addWinForPlayer(boxWin){
+        const heroWin= boxWin.getChip().getPlayer();
+        if(heroWin === Config.players.type1){
+            this.addWinPlayer1();
+        }else{
+            this.addWinPlayer2();
+        }
+    }
+
+    resetAllRoundsWin(){
+        this.#winsForPlayer.player1=0;
+        this.#winsForPlayer.player2=0;
+    }
 
 }

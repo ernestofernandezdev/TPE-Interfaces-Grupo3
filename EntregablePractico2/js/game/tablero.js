@@ -111,6 +111,7 @@ class Tablero {
                         console.log("HAY GANADOR");
                         console.log(listBoxesWinner);
                         this.checkListWinner(listBoxesWinner);
+                        Game.getInstance().addWinForPlayer(listBoxesWinner[0]);
 
                     }else{
                         console.log("no hay ganador");
@@ -546,4 +547,6 @@ class Tablero {
 
         return dHeight;
     }
+
+   
 }
