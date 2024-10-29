@@ -66,7 +66,8 @@ class Tablero {
                     if(listBoxesWinner){
                         console.log("HAY GANADOR");
                         console.log(listBoxesWinner);
-                        this.checkListWinner(listBoxesWinner,ctx);
+                        this.checkListWinner(listBoxesWinner);
+                        
                       
                         
                     }else{
@@ -76,29 +77,36 @@ class Tablero {
                     }
               
                     Game.getInstance().removeChip(chip);
-                    this.#updateChipsPositionAndRedrawGame(ctx,canvas);
-                    
+                    Game.getInstance().updatePositionChipsDrop();
+                    this.#clearAndRedrawGame(ctx,canvas);
+
                     if(listBoxesWinner){
                         setTimeout(() => {
                             Game.getInstance().setTurnForWinner(listBoxesWinner[0]);
-                            this.#resetBoardAndGame(ctx);
+                            this.#resetBoard();
+                            this.#clearAndRedrawGame(ctx,canvas);
                         }, 2000);
                     }
 
                     if(Game.getInstance().getChips().length === 0 && !listBoxesWinner){
                         this.checkDrawBoxes();
                         Game.getInstance().redraw(ctx);
+                        
                         setTimeout(() => {
                             console.log("JUEGO EMPATADO");
-                            this.#resetBoardAndGame(ctx);
+                            this.#resetBoard();
+                            this.#clearAndRedrawGame(ctx,canvas);
                         }, 2000);
                     }
 
+                   
                 });
+                
             
             }else{
                 console.log("no hay mas lugar en columna: "+ posOfColumnDrop);
-                this.#updateChipsPositionAndRedrawGame(ctx,canvas);
+                Game.getInstance().updatePositionChipsDrop();
+                this.#clearAndRedrawGame(ctx,canvas);
             }
 
         }else {
@@ -108,18 +116,16 @@ class Tablero {
 
     }
 
-    #updateChipsPositionAndRedrawGame(ctx,canvas){
-        Game.getInstance().updatePositionChipsDrop();
+    #clearAndRedrawGame(ctx,canvas){
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.save(); 
         ctx.restore();
         Game.getInstance().redraw(ctx);
     }
 
-    #resetBoardAndGame(ctx){
+    #resetBoard(){
         this.resetAllBoxes();
         Game.getInstance().createChips();
-        Game.getInstance().redraw(ctx);
     }
 
     checkDrawBoxes(){
@@ -177,10 +183,9 @@ class Tablero {
 
     }   
     
-    checkListWinner(list,ctx){
+    checkListWinner(list){
         list.forEach(box =>{
             box.setColor(Config.boxesColor.winner);
-            box.drawBox(ctx);
         })
     }
 
