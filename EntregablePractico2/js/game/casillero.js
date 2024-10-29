@@ -6,6 +6,7 @@ class Casillero{
     #y;
     #row;
     #column;
+    #color;
 
     #chip;
     #isWin;
@@ -19,6 +20,7 @@ class Casillero{
         this.#row=prop.row;
         this.#column=prop.col;
         this.#borderRadius=[...prop.borderRadius];
+        this.#color=prop.color;
         
         this.#chip=null;
         this.#isWin=false;
@@ -60,15 +62,22 @@ class Casillero{
     setChip(chip){
         this.#chip=chip;
     }
+    setColor(color){
+        this.#color=color;
+    }
+    
+    getColor(){
+        return this.#color;
+    }
 
-    drawBox(ctx, color=null){
+    drawBox(ctx){
         const centerX = this.#x + Config.boxSize.width/ 2;
         const centerY = this.#y + Config.boxSize.width/ 2;
         const radius = Config.chipSize.radius;
 
-        ctx.fillStyle= this.#isWin ? '#EEF100' : color ? color: '#202888';
-
+        ctx.fillStyle= this.getColor() ;
         this.#drawRectangleRounded(ctx,this.#x,this.#y,Config.boxSize.width,Config.boxSize.height,Config.boxSize.height);
+
         ctx.strokeStyle='blue';
         ctx.lineWidth = 2; 
         ctx.stroke();

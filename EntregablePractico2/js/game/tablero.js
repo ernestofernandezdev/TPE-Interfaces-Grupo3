@@ -86,7 +86,8 @@ class Tablero {
                     }
 
                     if(Game.getInstance().getChips().length === 0 && !listBoxesWinner){
-                        this.checkDrawBoxes(ctx);
+                        this.checkDrawBoxes();
+                        Game.getInstance().redraw(ctx);
                         setTimeout(() => {
                             console.log("JUEGO EMPATADO");
                             this.#resetBoardAndGame(ctx);
@@ -121,10 +122,10 @@ class Tablero {
         Game.getInstance().redraw(ctx);
     }
 
-    checkDrawBoxes(ctx){
+    checkDrawBoxes(){
         this.#boxes.forEach(row =>{
             row.forEach(box=>{
-                box.drawBox(ctx,'red');
+                box.setColor('#A50000');
             })
         })
     }
@@ -166,28 +167,19 @@ class Tablero {
         });
     }
 
-    checkDrawBoxes(ctx){
-        this.#boxes.forEach(row =>{
-            row.forEach(box=>{
-                box.drawBox(ctx,'red');
-            })
-        })
-    }
-
     resetAllBoxes(){
         this.#boxes.forEach(row =>{
             row.forEach(box=>{
-                box.setIsWin(false);
+                box.setColor("#202888");
                 box.setChip(null);
             })
         })
 
     }   
     
-
     checkListWinner(list,ctx){
         list.forEach(box =>{
-            box.setIsWin(true);
+            box.setColor('#EEF100');
             box.drawBox(ctx);
         })
     }
@@ -533,6 +525,7 @@ class Tablero {
             row:0,
             col:0,
             borderRadius:[false,false,false,false],
+            color:'#202888',
         }    
        
         for(let i =this.#boxes.length-1; i >= 0; i-- ){
