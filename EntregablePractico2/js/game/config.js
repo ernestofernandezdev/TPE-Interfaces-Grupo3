@@ -29,7 +29,7 @@ class Config{
     static listPlayerTypes=Object.values(Config.players);
 
     static chipSize={
-        radius:20,
+        radius:30,
     }
 
     static boxSize={
