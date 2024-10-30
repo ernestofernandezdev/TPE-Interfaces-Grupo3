@@ -30,6 +30,7 @@ class Tablero {
             this.createBoxes();
         }
 
+        
     }
 
     /*crea objetos de casillero y los agrega a la matriz.  */
