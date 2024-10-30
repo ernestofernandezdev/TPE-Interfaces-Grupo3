@@ -12,6 +12,10 @@ class Game {
         {
             x:0,
             y:0
+        },
+        {
+            width:0,
+            height:0
         }
         
     ]
@@ -77,6 +81,7 @@ class Game {
         this.#ctx = this.#canvas.getContext("2d");
         this.#board.drawBoard(this.#ctx);
         this.#board.drawAllBoxes(this.#ctx);
+        this.initDispenserProperties();
         this.createChips();
       
         this.drawChipDispenser();
@@ -94,14 +99,16 @@ class Game {
     /*crea los objetos de Ficha. Multiplica cantidad de filas por columnas del juego y los divide por la cantidad de jugadores (batman vs joker).*/
     /*tiene en cuenta los costados del canvas para crear/renderizar inicialmente las fichas. */
     createChips() {
-        const canvas = this.#canvas;
-        const qchips = Math.ceil((Config.typeGame.quantityColumnsInBoard * Config.typeGame.quantityRowsInBoard) / Config.typeGame.quantityPlayers);
-        const paddingXRespectBoard=Tablero.getInstance().getStartX()-190;
-        const paddingYRespectCanvas=Config.chipSize.radius+200;
         const typeChip1=Config.typeGame.typeOfChipsPlayer1;
         const typeChip2=Config.typeGame.typeOfChipsPlayer2;
-        const paddingFirstX=60;
-        const paddingFirstY=120;
+        const qchips = Math.ceil((Config.typeGame.quantityColumnsInBoard * Config.typeGame.quantityRowsInBoard) / Config.typeGame.quantityPlayers);
+
+        const paddingFirstX=this.#posDispenser[2].width/2;
+        const paddingFirstY=this.#posDispenser[2].height*0.15;
+
+        const paddingXListChips=(paddingFirstX/3) + 2;
+        const paddingYListChips=(this.#posDispenser[2].height/2) - 15;
+
         const accRender=6;
         let acc =0;
         this.#chips=[];
@@ -109,11 +116,11 @@ class Game {
 
         for (let index = 0; index < qchips; index++) {
             if(index === qchips-1){
-                this.#chips.push(new Ficha(  canvas.offsetLeft+paddingXRespectBoard+paddingFirstX  , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-paddingFirstY,true,typeChip1));
-                this.#chipsDrop[0].x=canvas.offsetLeft+paddingXRespectBoard+paddingFirstX,
-                this.#chipsDrop[0].y=(canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-paddingFirstY;
+                this.#chips.push(new Ficha(  this.#posDispenser[0].x+paddingFirstX  , this.#posDispenser[0].y+paddingFirstY,true,typeChip1));
+                this.#chipsDrop[0].x=this.#posDispenser[0].x+paddingFirstX ,
+                this.#chipsDrop[0].y=this.#posDispenser[0].y+paddingFirstY;
             }else{
-                this.#chips.push(new Ficha(  canvas.offsetLeft+paddingXRespectBoard+acc  , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas,true,typeChip1));
+                this.#chips.push(new Ficha(  this.#posDispenser[0].x+paddingXListChips+acc  , this.#posDispenser[0].y+paddingYListChips,true,typeChip1));
             }
             acc=acc+accRender;
         }
@@ -123,15 +130,37 @@ class Game {
 
         for (let index = 0; index < qchips; index++) {
             if(index === qchips-1){
-                this.#chips.push(new Ficha(  (canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectBoard-paddingFirstX , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-paddingFirstY,false,typeChip2));
-                this.#chipsDrop[1].x=(canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectBoard-paddingFirstX,
-                this.#chipsDrop[1].y=(canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-paddingFirstY;
+                this.#chips.push(new Ficha(  this.#posDispenser[1].x+paddingFirstX , this.#posDispenser[1].y+paddingFirstY,false,typeChip2));
+                this.#chipsDrop[1].x=this.#posDispenser[1].x+paddingFirstX ,
+                this.#chipsDrop[1].y=this.#posDispenser[1].y+paddingFirstY;
             }else{
-                this.#chips.push(new Ficha(  (canvas.offsetLeft + canvas.offsetWidth)-acc-paddingXRespectBoard ,  (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas,false,typeChip2));
+                this.#chips.push(new Ficha(   this.#posDispenser[1].x+this.#posDispenser[2].width-paddingXListChips-acc ,  this.#posDispenser[1].y+paddingYListChips,false,typeChip2));
             }
             acc=acc+accRender;
         }
     
+    }
+
+    initDispenserProperties(){
+        const paddingXRespectBoard= 30;
+        const paddingY= 30;
+        const width=200;
+        const height=380;
+
+        this.#posDispenser=[
+            {
+                x:Tablero.getInstance().getStartX()-width-paddingXRespectBoard,
+                y:this.#canvas.offsetHeight-height-paddingY
+            },
+            {
+                x:Tablero.getInstance().getEndX()+paddingXRespectBoard,
+                y:this.#canvas.offsetHeight-height-paddingY
+            },
+            {
+                width:width,
+                height:height
+            }
+        ]
     }
 
     /*dibuja todas las fichas disponibles para lanzar*/
@@ -142,47 +171,14 @@ class Game {
     }
 
     drawChipDispenser(){
-        const chipsPlayer1= this.#chips.filter(c => c.getPlayer()===Config.players.type1);
-        const chipsPlayer2=this.#chips.filter(c => c.getPlayer()===Config.players.type2);
-        const paddingXRespectBoard= 25;
-        const paddingY= 170;
-        const width=200;
-        const height=380;
         const radius=30;
-        if(this.#posDispenser === null){
-            this.#posDispenser=[
-                {
-                    x:Tablero.getInstance().getStartX()-width-paddingXRespectBoard,
-                    y:chipsPlayer1[0].getInitY()-paddingY
-                },
-                {
-                    x:Tablero.getInstance().getEndX()+paddingXRespectBoard,
-                    y:chipsPlayer2[0].getInitY()-paddingY
-                }
-            ]
-        }
-  
-        
-        this.#drawDispenser(this.#ctx,this.#posDispenser[0].x,this.#posDispenser[0].y,width,height,radius,this.getPLayerTurn()===1,this.getWinsPlayer1());
-        this.#drawDispenser(this.#ctx,this.#posDispenser[1].x,this.#posDispenser[1].y,width,height,radius,this.getPLayerTurn()===2,this.getWinsPlayer2());
+       
+        this.#drawDispenser(this.#ctx,this.#posDispenser[0].x,this.#posDispenser[0].y,this.#posDispenser[2].width,this.#posDispenser[2].height,radius,this.getPLayerTurn()===1,this.getWinsPlayer1());
+        this.#drawDispenser(this.#ctx,this.#posDispenser[1].x,this.#posDispenser[1].y,this.#posDispenser[2].width,this.#posDispenser[2].height,radius,this.getPLayerTurn()===2,this.getWinsPlayer2());
        
     }
 
-    // #startAnimationDispenser(p1Status,p2Status){
-    //     if(this.#animationDispenser == null){
-    //         this.#animationDispenser = setInterval(() => {
-    //             if(p1Status){
-    //                 this.drawChipDispenser(this.#alternateAnimation,p2Status); 
-    //                 console.log(this.#alternateAnimation);
-                    
-    //             }else{
-    //                 this.drawChipDispenser(p1Status,this.#alternateAnimation); 
-    //             }
-    //             this.#alternateAnimation=!this.#alternateAnimation;
-    //             this.drawAllAvailableChips(this.#ctx);
-    //         }, 1000);
-    //     }
-    // }
+ 
 
     #drawDispenser(ctx, x, y, width, height, radius,state,quantityWins){
         this.#ctx.fillStyle=Config.dispenserColor.default;
@@ -238,6 +234,7 @@ class Game {
             
             chipsPlayer1[chipsPlayer1.length-1].setInitPositionX(this.#chipsDrop[0].x);
             chipsPlayer1[chipsPlayer1.length-1].setInitPositionY(this.#chipsDrop[0].y);
+
             chipsPlayer2[chipsPlayer2.length-1].setInitPositionX(this.#chipsDrop[1].x);
             chipsPlayer2[chipsPlayer2.length-1].setInitPositionY(this.#chipsDrop[1].y);
 
