@@ -395,7 +395,6 @@ class Tablero {
     /*recorre primero la diagonal arriba a la izquierda y despues abajo a la derecha ---> haciendo la forma de: "\" */
     /*En cada recorrido agrega fichas del mismo jugador consecutivas al arreglo ganador */
     checkLeftDiagonal(col,row){
-        const minToWin=Config.typeGame.quantityChipsAlignToWin;
         let index=1;
         let isBottomRow= row === this.#boxes.length-1;
         let isTopRow = row === 0;
@@ -462,7 +461,6 @@ class Tablero {
     /*recorre primero la diagonal arriba a la derecha y despues abajo a la izquierda ---> haciendo la forma de: "/" */
     /*En cada recorrido agrega fichas del mismo jugador consecutivas al arreglo ganador */
     checkRightDiagonal(col, row){
-        const minToWin=Config.typeGame.quantityChipsAlignToWin;
         let index=1;
         let isBottomRow= row === this.#boxes.length-1;
         let isTopRow = row === 0;
@@ -527,8 +525,6 @@ class Tablero {
     }
 
     getEndX(){
-        console.log(this.#startX+Config.boardSize.width);
-        
         return this.#startX+Config.boardSize.width;
     }
 
