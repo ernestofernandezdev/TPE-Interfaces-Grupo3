@@ -51,7 +51,7 @@ class Game {
 
     /*Util cuando se cambia el estado de cosas del juego(se agregan fichas, se modifica la cantidad de fichas, se mueve la ficha, etc.) */
     clearAndRedraw(ctx){
-        ctx.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
+        ctx.clearRect(0, 0, this.#canvas.offsetWidth, this.#canvas.offsetHeight);
         ctx.save(); 
         ctx.restore();
         this.redraw(ctx);

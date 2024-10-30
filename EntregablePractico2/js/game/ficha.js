@@ -169,8 +169,8 @@ class Ficha {
            
             if (newX - radius < 0) {                                                /*verificaciones para que la ficha choque contra el borde del canvas */
                 newX = radius;  // mantiene dentro del borde izquierdo
-            } else if (newX + radius> canvas.width) {
-                newX = canvas.width - radius;  // mantiene dentro del borde derecho
+            } else if (newX + radius> canvas.offsetWidth) {
+                newX = canvas.offsetWidth - radius;  // mantiene dentro del borde derecho
             }
         
             if (newY - radius < 0) {
@@ -181,7 +181,7 @@ class Ficha {
 
             this.setPosition(newX,newY);
             
-            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.clearRect(0, 0, canvas.offsetWidth, canvas.height);
             context.save(); 
            
             if (board.isInDropZone(newX, newY)) {
