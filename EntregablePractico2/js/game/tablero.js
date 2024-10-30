@@ -171,24 +171,23 @@ class Tablero {
             const yMax = firstBoxEmpty.getY() + Config.boxSize.width / 2;
     
             const id = setInterval(() =>{
-                Game.getInstance().clearAndRedraw(ctx);
-    
                 t += dt;
                 y = y0 + 0.5 * g * t * t;
                 chip.setPosition(x, y);
-                chip.drawCircle(ctx);
+                Game.getInstance().clearAndRedraw(ctx);
+          
     
                 if (y > yMax) {
                     chip.setPosition(x, yMax);
                     chip.setFalling(false);
                    
                     Game.getInstance().clearAndRedraw(ctx);
-                    chip.drawCircle(ctx);
+                 
                     clearInterval(id);
                     
                     resolve(); // Resuelve la promesa al finalizar la animación
                 }
-            }, 1);
+            }, 16);
         });
     }
 
