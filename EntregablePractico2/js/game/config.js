@@ -38,10 +38,10 @@ class Config{
     }
 
     static boxesColor={
-        empty:"#202888",
+        empty:"#00197c",
         winner:'#EEF100',
         draw:'#A50000',
-        borders:'blue',
+        borders:'#000e47',
         emptyCircle:'white'
     }
 

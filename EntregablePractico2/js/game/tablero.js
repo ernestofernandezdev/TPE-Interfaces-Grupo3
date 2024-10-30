@@ -23,14 +23,13 @@ class Tablero {
     drawBoard(ctx){
         const canvas = document.getElementById("gameCanvas");
         this.#startX = canvas.offsetWidth/2 - Config.boardSize.width/2;  /*posicion en X donde arranca a dibujarse el tablero---> al centro del ancho del canvas*/
-        this.#startY= canvas.height - Config.boardSize.height;      /*posicion en Y donde arranca a dibujarse el tablero---> total de altura del canvas - lo alto del tablero. seria como un "margen top" */
-    
+        this.#startY= canvas.offsetHeight - Config.boardSize.height;      /*posicion en Y donde arranca a dibujarse el tablero---> total de altura del canvas - lo alto del tablero. seria como un "margen top" */
+        
+
         if(this.#boxes[0][0] == null){
             this.createBoxes();
         }
 
-        ctx.fillStyle='transparent';
-        ctx.fillRect(this.#startX, this.#startY,Config.boardSize.width,Config.boardSize.height);
     }
 
     /*crea objetos de casillero y los agrega a la matriz.  */
@@ -163,21 +162,25 @@ class Tablero {
     animateFall(ctx, chip, firstBoxEmpty) {
         return new Promise((resolve) => {
             const dt = 0.2;
-            let t = 0;
             let y = chip.getY();
-            const y0 = y;
             let x = chip.getX();
-            const g = 10;
+            const g = 80;
+            let v = 0;
+            let dv;
+            let dy;
             const yMax = firstBoxEmpty.getY() + Config.boxSize.width / 2;
+            let bounces = 0;
     
             const id = setInterval(() =>{
-                t += dt;
-                y = y0 + 0.5 * g * t * t;
+                dv = dt*g;
+                v += dv;
+                dy = v*dt
+                y = y + dy;
                 chip.setPosition(x, y);
                 Game.getInstance().clearAndRedraw(ctx);
           
     
-                if (y > yMax) {
+                if (y > yMax && bounces == 2) {
                     chip.setPosition(x, yMax);
                     chip.setFalling(false);
                    
@@ -186,6 +189,11 @@ class Tablero {
                     clearInterval(id);
                     
                     resolve(); // Resuelve la promesa al finalizar la animación
+                } else if (y > yMax) {
+                    y = yMax - 1;
+                    chip.setPosition(x, y);
+                    v = -0.3*v;
+                    bounces++;
                 }
             }, 16);
         });
@@ -538,7 +546,7 @@ class Tablero {
 
     getPosBottom(){
         const canvas = document.getElementById("gameCanvas");
-        const dHeight=Config.boardSize.height+(canvas.height-Config.boardSize.height);
+        const dHeight=Config.boardSize.height+(canvas.offsetHeight-Config.boardSize.height);
 
         return dHeight;
     }

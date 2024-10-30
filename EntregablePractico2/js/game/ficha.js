@@ -26,6 +26,9 @@ class Ficha {
 
     drawCircle(ctx) {
         ctx.save(); 
+        if (this.#isFalling) {
+            ctx.globalCompositeOperation = "destination-over"
+        }
         ctx.beginPath();
         ctx.arc(this.#x, this.#y, Config.chipSize.radius, 0, Math.PI * 2);
         ctx.closePath();
@@ -48,6 +51,7 @@ class Ficha {
         ctx.drawImage(filterImg(), this.#x - Config.chipSize.radius, this.#y - Config.chipSize.radius, diameter, diameter);
 
         ctx.restore(); 
+        ctx.globalCompositeOperation = "source-over"
     }
 
     
@@ -175,13 +179,13 @@ class Ficha {
         
             if (newY - radius < 0) {
                 newY = radius;  // mantiene dentro del borde superior
-            } else if (newY + radius > canvas.height) {
-                newY = canvas.height - radius;  // mantiene dentro del borde inferior
+            } else if (newY + radius > canvas.offsetHeight) {
+                newY = canvas.offsetHeight - radius;  // mantiene dentro del borde inferior
             }
 
             this.setPosition(newX,newY);
             
-            context.clearRect(0, 0, canvas.offsetWidth, canvas.height);
+            context.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
             context.save(); 
            
             if (board.isInDropZone(newX, newY)) {

@@ -740,7 +740,7 @@ article{
     padding: 1% 8%;
     display: flex;
     flex-direction: column;
-    width: 84%;
+    width: 84vw;
 }
 
 .breadcrum{
@@ -770,8 +770,13 @@ article{
 .container-execution{
     width: 84vw;
     height: fit-content;
+    width: 84vw;
+    height: fit-content;
     margin-top: 10px;
     background-color: #141414;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -779,6 +784,8 @@ article{
    
 }
 .execution-game{
+    width: fit-content;
+    height: fit-content;
     width: fit-content;
     height: fit-content;
 }
