@@ -36,6 +36,7 @@ class Casillero{
         ctx.stroke();
 
         ctx.save()
+        ctx.globalCompositeOperation = "xor"
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
         ctx.closePath();

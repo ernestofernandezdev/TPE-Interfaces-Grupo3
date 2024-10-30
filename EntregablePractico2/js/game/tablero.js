@@ -22,7 +22,7 @@ class Tablero {
     /*el tablero son muchos rectangulos. Los rectangulos contienen al circulo casillero en el centro (drawRectangles)*/
     drawBoard(ctx){
         const canvas = document.getElementById("gameCanvas");
-        console.log(canvas.height)
+        console.log(canvas.width)
         this.#startX = canvas.width/2 - Config.boardSize.width/2;  /*posicion en X donde arranca a dibujarse el tablero---> al centro del ancho del canvas*/
         this.#startY= canvas.height - Config.boardSize.height;      /*posicion en Y donde arranca a dibujarse el tablero---> total de altura del canvas - lo alto del tablero. seria como un "margen top" */
     
@@ -30,8 +30,6 @@ class Tablero {
             this.createBoxes();
         }
 
-        ctx.fillStyle='transparent';
-        ctx.fillRect(this.#startX, this.#startY,Config.boardSize.width,Config.boardSize.height);
     }
 
     /*crea objetos de casillero y los agrega a la matriz.  */

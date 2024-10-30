@@ -26,6 +26,9 @@ class Ficha {
 
     drawCircle(ctx) {
         ctx.save(); 
+        if (this.#isFalling) {
+            ctx.globalCompositeOperation = "destination-over"
+        }
         ctx.beginPath();
         ctx.arc(this.#x, this.#y, Config.chipSize.radius, 0, Math.PI * 2);
         ctx.closePath();
