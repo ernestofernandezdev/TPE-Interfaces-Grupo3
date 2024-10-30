@@ -107,7 +107,7 @@ class Casillero{
     
     #drawRectangleRounded(ctx, x, y, width, height, r) {
         ctx.beginPath();
-        const radius=r-50
+        const radius=r-70
 
         // Punto de inicio en la esquina superior izquierda
         ctx.moveTo(x + (this.#borderRadius[0] ? radius : 0), y);
