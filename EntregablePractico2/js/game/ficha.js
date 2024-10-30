@@ -51,6 +51,7 @@ class Ficha {
         ctx.drawImage(filterImg(), this.#x - Config.chipSize.radius, this.#y - Config.chipSize.radius, diameter, diameter);
 
         ctx.restore(); 
+        ctx.globalCompositeOperation = "source-over"
     }
 
     
@@ -172,19 +173,19 @@ class Ficha {
            
             if (newX - radius < 0) {                                                /*verificaciones para que la ficha choque contra el borde del canvas */
                 newX = radius;  // mantiene dentro del borde izquierdo
-            } else if (newX + radius> canvas.width) {
-                newX = canvas.width - radius;  // mantiene dentro del borde derecho
+            } else if (newX + radius> canvas.offsetWidth) {
+                newX = canvas.offsetWidth - radius;  // mantiene dentro del borde derecho
             }
         
             if (newY - radius < 0) {
                 newY = radius;  // mantiene dentro del borde superior
-            } else if (newY + radius > canvas.height) {
-                newY = canvas.height - radius;  // mantiene dentro del borde inferior
+            } else if (newY + radius > canvas.offsetHeight) {
+                newY = canvas.offsetHeight - radius;  // mantiene dentro del borde inferior
             }
 
             this.setPosition(newX,newY);
             
-            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
             context.save(); 
            
             if (board.isInDropZone(newX, newY)) {

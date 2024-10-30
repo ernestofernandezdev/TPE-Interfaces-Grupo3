@@ -22,9 +22,9 @@ class Tablero {
     /*el tablero son muchos rectangulos. Los rectangulos contienen al circulo casillero en el centro (drawRectangles)*/
     drawBoard(ctx){
         const canvas = document.getElementById("gameCanvas");
-        console.log(canvas.width)
-        this.#startX = canvas.width/2 - Config.boardSize.width/2;  /*posicion en X donde arranca a dibujarse el tablero---> al centro del ancho del canvas*/
-        this.#startY= canvas.height - Config.boardSize.height;      /*posicion en Y donde arranca a dibujarse el tablero---> total de altura del canvas - lo alto del tablero. seria como un "margen top" */
+        console.log(canvas.offsetWidth)
+        this.#startX = canvas.offsetWidth/2 - Config.boardSize.width/2;  /*posicion en X donde arranca a dibujarse el tablero---> al centro del ancho del canvas*/
+        this.#startY= canvas.offsetHeight - Config.boardSize.height;      /*posicion en Y donde arranca a dibujarse el tablero---> total de altura del canvas - lo alto del tablero. seria como un "margen top" */
     
         if(this.#boxes[0][0] == null){
             this.createBoxes();
@@ -537,7 +537,7 @@ class Tablero {
 
     getPosBottom(){
         const canvas = document.getElementById("gameCanvas");
-        const dHeight=Config.boardSize.height+(canvas.height-Config.boardSize.height);
+        const dHeight=Config.boardSize.height+(canvas.offsetHeight-Config.boardSize.height);
 
         return dHeight;
     }

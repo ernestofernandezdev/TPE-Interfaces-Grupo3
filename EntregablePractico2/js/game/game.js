@@ -51,7 +51,7 @@ class Game {
 
     /*Util cuando se cambia el estado de cosas del juego(se agregan fichas, se modifica la cantidad de fichas, se mueve la ficha, etc.) */
     clearAndRedraw(ctx){
-        ctx.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
+        ctx.clearRect(0, 0, this.#canvas.offsetWidth, this.#canvas.offsetHeight);
         ctx.save(); 
         ctx.restore();
         this.redraw(ctx);
@@ -96,7 +96,7 @@ class Game {
     createChips() {
         const canvas = this.#canvas;
         const qchips = Math.ceil((Config.typeGame.quantityColumnsInBoard * Config.typeGame.quantityRowsInBoard) / Config.typeGame.quantityPlayers);
-        const paddingXRespectBoard=Tablero.getInstance().getStartX()-190;
+        const paddingXRespectBoard=Tablero.getInstance().getStartX()-265;
         const paddingYRespectCanvas=Config.chipSize.radius+200;
         const typeChip1=Config.typeGame.typeOfChipsPlayer1;
         const typeChip2=Config.typeGame.typeOfChipsPlayer2;
@@ -123,11 +123,11 @@ class Game {
 
         for (let index = 0; index < qchips; index++) {
             if(index === qchips-1){
-                this.#chips.push(new Ficha(  (canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectBoard-paddingFirstX , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-paddingFirstY,false,typeChip2));
-                this.#chipsDrop[1].x=(canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectBoard-paddingFirstX,
-                this.#chipsDrop[1].y=(canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-paddingFirstY;
+                this.#chips.push(new Ficha(  (-canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectBoard-paddingFirstX , (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-paddingFirstY,false,typeChip2));
+                this.#chipsDrop[1].x=(-canvas.offsetLeft + canvas.offsetWidth)-paddingXRespectBoard-paddingFirstX,
+                this.#chipsDrop[1].y=(-canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas-paddingFirstY;
             }else{
-                this.#chips.push(new Ficha(  (canvas.offsetLeft + canvas.offsetWidth)-acc-paddingXRespectBoard ,  (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas,false,typeChip2));
+                this.#chips.push(new Ficha(  (-canvas.offsetLeft + canvas.offsetWidth)-acc-paddingXRespectBoard ,  (canvas.offsetTop + canvas.offsetHeight)-paddingYRespectCanvas,false,typeChip2));
             }
             acc=acc+accRender;
         }
