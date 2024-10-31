@@ -4,6 +4,7 @@ class Game {
     #selectedchip=null; /*ficha seleccionada/arrastrada */
     #board; /*tablero */
     #playerTurn;
+    #isDragginChip=false;
     #chipsDrop=[
         {
             x:0,
@@ -27,6 +28,7 @@ class Game {
         player1:0,
         player2:0
     }
+    #isEndGame=false;
 
     #timer={
         min:0,
@@ -243,7 +245,77 @@ class Game {
 
     endGame(){
         console.log("terminooooooooooooooooo");
+        const win=this.getWinningPlayer();
+        this.setIsEndGame(true);
+        if(win==='empate'){
+            this.drawMenuContainer('rgba(0, 0, 0, 0.6)','red',`¡Empate!`,'asd');
+
+        }else{
+            this.drawMenuContainer('rgba(0, 0, 0, 0.6)','red',`¡${win.toLocaleUpperCase()} gana!`,'asd');
+        }
+
         
+    }
+
+
+    drawMenuContainer(colorBack,colorMenu,title,options){
+        const width= this.#canvas.offsetWidth;
+        const height=this.#canvas.offsetHeight;
+        const startX=0;
+        const startY=0;
+
+        this.#ctx.fillStyle=colorBack;
+        this.#ctx.fillRect(startX,startY,width,height);
+        this.drawMenu(width,height,colorMenu,title,options);
+
+    }
+
+    drawMenu(parentWidth,parentHeight,color,title,options){
+        const width=parentWidth/2;
+        const height=parentHeight/2 + parentHeight/3;
+        const startX=parentWidth/2-(width/2);
+        const startY=parentHeight/2-(height/2);
+
+        this.#ctx.fillStyle=color;
+        this.#ctx.fillRect(startX,startY,width,height);
+
+        this.drawText(this.#ctx,title,'white',startX+startX/2,startY+20,20,'Nunito');
+
+    }
+
+    drawCustomMenu(parentWidth,parentHeight,color){
+        const width=parentWidth/2;
+        const height=parentHeight/2 + parentHeight/3;
+        const startX=parentWidth/2-(width/2);
+        const startY=parentHeight/2-(height/2);
+
+
+    }
+
+    #drawRectangleRounded(ctx, x, y, width, height, r) {
+        ctx.beginPath();
+        const radius=r-20
+        
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        
+    
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    getWinningPlayer(){
+        const winP1=this.#winsForPlayer.player1;
+        const winP2=this.#winsForPlayer.player2;
+
+        return winP1 > winP2 ? Config.players.type1 : winP1===winP2 ? 'empate': Config.players.type2;
     }
 
     
@@ -338,55 +410,71 @@ class Game {
 
     /*cuando baja el click, detecta si se hizo en una ficha (en el radio ), la marca como agarrada/clickeada (isClicked) y le pasa el evento a la clikeada*/
     #handlechipsMouseDown() {
-        const canvas = this.#canvas;
 
-        canvas.addEventListener("mousedown", (e) => {
+        this.#canvas.addEventListener("mousedown", (e) => {
             e.preventDefault();
-            const rect = canvas.getBoundingClientRect();
-            const mouseX = e.clientX - rect.left;
-            const mouseY = e.clientY - rect.top;
-            this.#selectedchip=null;
-            const firstChipDrop= this.#getFirstChipForPlayerTurn(this.getPLayerTurn());
-
-            const distanceFromCenter = Math.sqrt(             /*calcula la distancia entre el punto de clic del mouse (mouseX, mouseY) y el centro de una ficha (f.getX(), f.getY()).  */
-                Math.pow(mouseX - firstChipDrop.getX(), 2) + Math.pow(mouseY - firstChipDrop.getY(), 2) /*mat.pow eleva al cuadrado las diferencias anteriores para quitar coordenadas negativas */
-            );
-
-            if (distanceFromCenter <= firstChipDrop.getRadius()) {     /*si esta en el radio de la ficha, la marca como "agarrada/seleccionada" */
-                this.#selectedchip = firstChipDrop; 
-            }
-
-          
-            //agarro el personaje de la ficha que selecciono y le dejo usar solo la ultima renderizada.
-            if (this.#selectedchip) {
-                console.log("la agarroooo");
-                
-                this.#selectedchip.handleMouseDown(e, canvas); 
+           
+            if(!this.getIsEndGame()){
+                this.#handleMouseDownFirstChip(e);
             }
 
         });
+    }
+
+    #handleMouseDownFirstChip(e){
+        const rect = this.#canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        this.#selectedchip=null;
+        const firstChipDrop= this.#getFirstChipForPlayerTurn(this.getPLayerTurn());
+
+        const distanceFromCenter = Math.sqrt(             /*calcula la distancia entre el punto de clic del mouse (mouseX, mouseY) y el centro de una ficha (f.getX(), f.getY()).  */
+            Math.pow(mouseX - firstChipDrop.getX(), 2) + Math.pow(mouseY - firstChipDrop.getY(), 2) /*mat.pow eleva al cuadrado las diferencias anteriores para quitar coordenadas negativas */
+        );
+
+        if (distanceFromCenter <= firstChipDrop.getRadius()) {     /*si esta en el radio de la ficha, la marca como "agarrada/seleccionada" */
+            this.setIsDragginChip(true);
+            this.#selectedchip = firstChipDrop; 
+        }
+
+      
+        //agarro el personaje de la ficha que selecciono y le dejo usar solo la ultima renderizada.
+        if (this.#selectedchip) {
+
+            this.#selectedchip.handleMouseDown(e, this.#canvas); 
+        }
     }
 
     /*le pasa el evento a sus hijos */
     #handleMouseUp() {
-        const canvas = this.#canvas;
-        canvas.addEventListener("mouseup", (e) => {
-            this.#chips.forEach((chip) => {
-                chip.handleMouseUp(e);
-            });
-            if(this.#selectedchip){
-                this.#board.handleMouseUp(e,this.#selectedchip,this.#ctx);
+        this.#canvas.addEventListener("mouseup", (e) => {
+            if(!this.getIsEndGame() ){
+                this.#handleMouseUpChipSelected(e);
             }
+
         });
+    }
+
+    #handleMouseUpChipSelected(e){
+        if(this.getSelectedChip()){
+            this.#board.handleMouseUp(e,this.#selectedchip,this.#ctx);
+        }
+
     }
 
     /*le pasa el evento a sus hijos */
     #handleMouseMove() {
-        const canvas = this.#canvas;
-        canvas.addEventListener("mousemove", (e) => {
-            this.#chips.forEach((chip) => {
-                chip.handleMouseMove(e, this.#ctx, canvas);
-            });
+        this.#canvas.addEventListener("mousemove", (e) => {
+            if(!this.getIsEndGame() && this.getIsDragginChip()){
+                this.#handleMouseMoveInChip(e);
+
+            }
+        });
+    }
+
+    #handleMouseMoveInChip(e){
+        this.#chips.forEach((chip) => {
+            chip.handleMouseMove(e, this.#ctx, this.#canvas);
         });
     }
 
@@ -394,9 +482,15 @@ class Game {
     #handleMouseOut() {
         const canvas = this.#canvas;
         canvas.addEventListener("mouseout", (e) => {
-            this.#chips.forEach((chip) => {
-                chip.handleMouseOut(e);
-            });
+            if(!this.getIsEndGame()){
+                this.#handleMouseOutChips(e);
+            }
+        });
+    }
+
+    #handleMouseOutChips(e){
+        this.#chips.forEach((chip) => {
+            chip.handleMouseOut(e);
         });
     }
 
@@ -415,6 +509,10 @@ class Game {
      
         return chip;
     }
+
+    getIsEndGame(){
+        return this.#isEndGame;
+    }
     
     addWinPlayer1(){
         this.#winsForPlayer.player1+=1;
@@ -432,6 +530,14 @@ class Game {
         return this.#winsForPlayer.player2
     }
 
+    getSelectedChip(){
+        return this.#selectedchip;
+    }
+
+    getIsDragginChip(){
+        return this.#isDragginChip;
+    }
+
     addWinForPlayer(boxWin){
         const heroWin= boxWin.getChip().getPlayer();
         if(heroWin === Config.players.type1){
@@ -439,6 +545,14 @@ class Game {
         }else{
             this.addWinPlayer2();
         }
+    }
+
+    setIsEndGame(bool){
+        this.#isEndGame=bool;
+    }
+
+    setIsDragginChip(value){
+        this.#isDragginChip=value;
     }
 
     resetAllRoundsWin(){

@@ -103,7 +103,8 @@ class Tablero {
             if(firstBoxEmpty){
                 chip.setFalling(true);
                 firstBoxEmpty.assignChip(chip,ctx);
-
+                Game.getInstance().setIsDragginChip(false);
+                
                 this.animateFall(ctx, chip, firstBoxEmpty).then(()=>{
                     listBoxesWinner= this.checkWinner(posOfColumnDrop,firstBoxEmpty);
 
