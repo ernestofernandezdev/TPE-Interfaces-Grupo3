@@ -13,7 +13,7 @@ class Config{
         quantityRowsInBoard:6,
         quantityColumnsInBoard:7,
         quantityChipsAlignToWin:4,
-        timeInSeg:900,
+        timeInMin:5,
         quantityPlayers:2,
         quantityRounds:5,
         typeOfChipsPlayer1:0,

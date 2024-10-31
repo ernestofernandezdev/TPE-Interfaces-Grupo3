@@ -28,6 +28,11 @@ class Game {
         player2:0
     }
 
+    #timer={
+        min:0,
+        seg:0
+    }
+
 
     constructor() {
         if (Game.#instance) {
@@ -46,6 +51,7 @@ class Game {
 
    /*Util para cuando se desea dibujar mas cosas por encima de lo que ya hay(ejemplo placeholder de ficha, se agrega a lo que hay)*/
     redraw(context){
+        this.drawTimer(context,this.convertTime(this.#timer.min,this.#timer.seg));
         this.#board.drawBoard(context);
         this.#board.drawAllBoxes(context)
         this.drawChipDispenser();
@@ -61,7 +67,7 @@ class Game {
         this.redraw(ctx);
     }
 
-  
+ 
     /*habria que precargar una imagen para que el fondo del juego sea una imagen, como en la clase ficha */
     getComponent() {
         const canvas = document.createElement("canvas");
@@ -79,6 +85,7 @@ class Game {
     /*dibuja tablero,casilleros, fichas ..... */
     createComponents() {
         this.#ctx = this.#canvas.getContext("2d");
+        this.animateTimer(this.#ctx);
         this.#board.drawBoard(this.#ctx);
         this.#board.drawAllBoxes(this.#ctx);
         this.initDispenserProperties();
@@ -181,6 +188,8 @@ class Game {
  
 
     #drawDispenser(ctx, x, y, width, height, radius,state,quantityWins){
+        const colorText='white';
+
         this.#ctx.fillStyle=Config.dispenserColor.default;
         ctx.beginPath();
         ctx.moveTo(x + radius, y); // Esquina superior izquierda
@@ -203,16 +212,75 @@ class Game {
         }
 
       
-        ctx.textAlign = 'center'; // Alineación horizontal del texto
-        ctx.textBaseline = 'middle'; // Alineación vertical del texto
-        ctx.font = '25px Nunito'; // Tamaño y tipo de fuente
-        ctx.fillStyle = 'white'; // Color del texto
-
-        ctx.fillText('Victorias', x+(width/2), y+((height/2)+80));
-        ctx.font = '15px Nunito'; // Tamaño y tipo de fuente
-        ctx.fillText(quantityWins, x+(width/2), y+((height/2)+120));
+        this.drawText(ctx,'Victorias',colorText,x+(width/2), y+((height/2)+80),25,'Nunito');
+        this.drawText(ctx,quantityWins,colorText,x+(width/2), y+((height/2)+120),20,'Nunito');
+     
 
     }
+
+    drawTimer(ctx,time){
+        const width=120;
+        const height=50;
+
+        ctx.beginPath();
+        ctx.fillStyle='#00197c';
+        ctx.fillRect(this.#canvas.offsetWidth-width,0,width,height);
+        if(this.#timer.min === 0 && this.#timer.seg <= 10){
+            this.drawText(ctx,time,'#EE4848',this.#canvas.offsetWidth-width/2, height/2, 35,'Impact');
+        }else{
+            this.drawText(ctx,time,'white',this.#canvas.offsetWidth-width/2, height/2, 35,'Impact');
+        }
+
+    }
+
+    drawText(ctx,text,color,x,y,size,family){
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle'; 
+        ctx.font = `${size}px ${family}`; 
+        ctx.fillStyle = color; 
+        ctx.fillText(text,x,y);
+    }
+
+    endGame(){
+        console.log("terminooooooooooooooooo");
+        
+    }
+
+    
+
+    animateTimer(ctx){
+        const maxMinutes=Config.typeGame.timeInMin;
+        this.#timer.min=maxMinutes;
+        this.#timer.seg=59;
+
+        this.drawTimer(ctx,this.convertTime(this.#timer.min,0));
+
+        const animation = setInterval(() =>{
+            if(this.#timer.seg === 59){
+                this.#timer.min=this.#timer.min-1;
+            }
+            
+            this.clearAndRedraw(ctx);
+          
+            if(this.#timer.min === 0 && this.#timer.seg===0){
+                clearInterval(animation);
+                this.endGame()
+            }else{
+                if(this.#timer.seg===0){
+                    this.#timer.seg=59;
+                }else{
+                    this.#timer.seg=this.#timer.seg-1;
+                }
+            }
+          
+        }, 990);
+    }
+
+    convertTime(min,seg){
+      console.log(min,seg);
+        return `${min.toString().padStart(2, '0')}:${seg.toString().padStart(2, '0')}`;
+    }
+
 
     ///*//////////////////////////////////////////////////////////metodos de reorden/eliminacion/////////////////////////////////////////////////////////////////////
 
