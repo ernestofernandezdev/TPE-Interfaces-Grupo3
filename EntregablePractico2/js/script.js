@@ -2039,8 +2039,7 @@
         }
 
         #loadGame(){
-            this.#game.loadConfig();
-            this.#game.createComponents();
+            this.#game.initGame();
            
         }
 

@@ -41,7 +41,6 @@ class Game {
             return Game.#instance;
         }
         Game.#instance = this;
-        this.#board = new Tablero();
         this.#playerTurn = 1;
 
      
@@ -54,7 +53,6 @@ class Game {
    /*Util para cuando se desea dibujar mas cosas por encima de lo que ya hay(ejemplo placeholder de ficha, se agrega a lo que hay)*/
     redraw(context){
         this.drawTimer(context,this.convertTime(this.#timer.min,this.#timer.seg));
-        this.#board.drawBoard(context);
         this.#board.drawAllBoxes(context)
         this.drawChipDispenser();
         this.drawAllAvailableChips(context)
@@ -83,24 +81,28 @@ class Game {
         return canvas;
     }
 
-    /*metodo para dibujar los componentes del juego en la primera ejecucion.*/
+    /*metodo para inicializar y dibujar los componentes del juego.*/
     /*dibuja tablero,casilleros, fichas ..... */
-    createComponents() {
-        this.#ctx = this.#canvas.getContext("2d");
-        this.animateTimer(this.#ctx);
-        this.#board.drawBoard(this.#ctx);
-        this.#board.drawAllBoxes(this.#ctx);
-        this.initDispenserProperties();
-        this.createChips();
-      
-        this.drawChipDispenser();
+    initGame() {
+
+        this.loadConfig();
+       
         
+        this.animateTimer(this.#ctx);
+        this.#board.drawAllBoxes(this.#ctx);
+        this.drawChipDispenser();
         this.drawAllAvailableChips(this.#ctx); 
       
     }
 
     /*manda a cargar configuraciones del juego y escuchar eventos del mouse/usuario*/
     loadConfig() {
+        this.#ctx = this.#canvas.getContext("2d");
+        this.#board = new Tablero();
+        this.setIsEndGame(false);
+        this.initDispenserProperties();
+        this.createChips();
+
         Config.adjustCanvasResolution();
         this.#handleAllEvents();
     }
@@ -272,15 +274,26 @@ class Game {
 
     drawMenu(parentWidth,parentHeight,color,title,options){
         const width=parentWidth/2;
-        const height=parentHeight/2 + parentHeight/3;
+        const height=parentHeight/2;
         const startX=parentWidth/2-(width/2);
         const startY=parentHeight/2-(height/2);
+        const btnWidth=100;
+        const btnHeight=40;
 
-        this.#ctx.fillStyle=color;
-        this.#ctx.fillRect(startX,startY,width,height);
+       
+        this.#drawRectangleRounded(this.#ctx,startX,startY,width,height,30,color);
+        this.drawText(this.#ctx,title,'white',startX+(width/2),startY+70,50,'Nunito');
 
-        this.drawText(this.#ctx,title,'white',startX+startX/2,startY+20,20,'Nunito');
+        this.drawButton(startX+(width/4),startY+(height/2),btnWidth,btnHeight,'black','Reiniciar');
+        this.drawButton(((startX+width)-(width/4))-btnWidth,startY+(height/2),btnWidth,btnHeight,'black','Configuración');
 
+    }
+
+   
+    drawButton(x, y, width, height,color,text){
+        const radiusButton=10;
+        this.#drawRectangleRounded(this.#ctx,x,y,width,height,radiusButton,color);
+        this.drawText(this.#ctx,text,'white',x+(width/2),y+(height/2),14,'Nunito');
     }
 
     drawCustomMenu(parentWidth,parentHeight,color){
@@ -292,9 +305,10 @@ class Game {
 
     }
 
-    #drawRectangleRounded(ctx, x, y, width, height, r) {
+    #drawRectangleRounded(ctx, x, y, width, height, radius,color) {
+        this.#ctx.fillStyle=color;
+  
         ctx.beginPath();
-        const radius=r-20
         
         ctx.moveTo(x + radius, y);
         ctx.lineTo(x + width - radius, y);
@@ -433,7 +447,6 @@ class Game {
         );
 
         if (distanceFromCenter <= firstChipDrop.getRadius()) {     /*si esta en el radio de la ficha, la marca como "agarrada/seleccionada" */
-            this.setIsDragginChip(true);
             this.#selectedchip = firstChipDrop; 
         }
 
@@ -446,35 +459,31 @@ class Game {
     }
 
     /*le pasa el evento a sus hijos */
+  /*le pasa el evento a sus hijos */
     #handleMouseUp() {
         this.#canvas.addEventListener("mouseup", (e) => {
-            if(!this.getIsEndGame() ){
-                this.#handleMouseUpChipSelected(e);
+            if(!this.getIsEndGame()){
+                this.#handleMouseUpChips(e);
             }
-
         });
     }
 
-    #handleMouseUpChipSelected(e){
-        if(this.getSelectedChip()){
+    #handleMouseUpChips(e){
+        this.#chips.forEach((chip) => {
+            chip.handleMouseUp(e);
+        });
+        if(this.#selectedchip){
             this.#board.handleMouseUp(e,this.#selectedchip,this.#ctx);
         }
-
     }
 
     /*le pasa el evento a sus hijos */
     #handleMouseMove() {
-        this.#canvas.addEventListener("mousemove", (e) => {
-            if(!this.getIsEndGame() && this.getIsDragginChip()){
-                this.#handleMouseMoveInChip(e);
-
-            }
-        });
-    }
-
-    #handleMouseMoveInChip(e){
-        this.#chips.forEach((chip) => {
-            chip.handleMouseMove(e, this.#ctx, this.#canvas);
+        const canvas = this.#canvas;
+        canvas.addEventListener("mousemove", (e) => {
+            this.#chips.forEach((chip) => {
+                chip.handleMouseMove(e, this.#ctx, canvas);
+            });
         });
     }
 
@@ -534,9 +543,7 @@ class Game {
         return this.#selectedchip;
     }
 
-    getIsDragginChip(){
-        return this.#isDragginChip;
-    }
+    
 
     addWinForPlayer(boxWin){
         const heroWin= boxWin.getChip().getPlayer();
@@ -551,9 +558,6 @@ class Game {
         this.#isEndGame=bool;
     }
 
-    setIsDragginChip(value){
-        this.#isDragginChip=value;
-    }
 
     resetAllRoundsWin(){
         this.#winsForPlayer.player1=0;

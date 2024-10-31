@@ -2,15 +2,20 @@ class Tablero {
     static #instance;
     #startX;
     #startY;    /*con startX almacenan en que posicion comienza el tablero. (posicion respecto al canvas en que se renderiza)*/
-    #boxes=[];  /*matriz de casilleros(boxes) */
+    #boxes=null;  /*matriz de casilleros(boxes) */
 
     constructor(){
         if (Tablero.#instance) {
             return Tablero.#instance;
         }
         Tablero.#instance = this;
-        for(let i = 0; i < Config.typeGame.quantityRowsInBoard; i++){
-            this.#boxes.push([]);
+       
+        const canvas = document.getElementById("gameCanvas");
+        this.#startX = canvas.offsetWidth/2 - Config.boardSize.width/2;  /*posicion en X donde arranca a dibujarse el tablero---> al centro del ancho del canvas*/
+        this.#startY= canvas.offsetHeight - Config.boardSize.height;      /*posicion en Y donde arranca a dibujarse el tablero---> total de altura del canvas - lo alto del tablero. seria como un "margen top" */
+        
+        if(!this.#boxes){
+           this.loadBoxes();
         }
     }
 
@@ -18,26 +23,20 @@ class Tablero {
         return Tablero.#instance;
     }
 
-    /*debe dibujar el tablero con sus casilleros y fichas dentro */
-    /*el tablero son muchos rectangulos. Los rectangulos contienen al circulo casillero en el centro (drawRectangles)*/
-    drawBoard(ctx){
-        const canvas = document.getElementById("gameCanvas");
-        this.#startX = canvas.offsetWidth/2 - Config.boardSize.width/2;  /*posicion en X donde arranca a dibujarse el tablero---> al centro del ancho del canvas*/
-        this.#startY= canvas.offsetHeight - Config.boardSize.height;      /*posicion en Y donde arranca a dibujarse el tablero---> total de altura del canvas - lo alto del tablero. seria como un "margen top" */
-        
-
-        if(this.#boxes[0][0] == null){
-            this.createBoxes();
+   
+    loadBoxes(){
+        this.#boxes=[];
+        for(let i = 0; i < Config.typeGame.quantityRowsInBoard; i++){
+            this.#boxes.push([]);
         }
 
-        
+        this.createBoxes();
     }
 
     /*crea objetos de casillero y los agrega a la matriz.  */
     createBoxes(){
         let sizeBox = Config.boxSize.width;
         let columns = Config.typeGame.quantityColumnsInBoard;
-
         let properties={
             initY: this.getPosBottom() - Config.boxSize.width,
             initX:this.getStartX(),
@@ -103,7 +102,6 @@ class Tablero {
             if(firstBoxEmpty){
                 chip.setFalling(true);
                 firstBoxEmpty.assignChip(chip,ctx);
-                Game.getInstance().setIsDragginChip(false);
                 
                 this.animateFall(ctx, chip, firstBoxEmpty).then(()=>{
                     listBoxesWinner= this.checkWinner(posOfColumnDrop,firstBoxEmpty);
