@@ -55,6 +55,11 @@ class Config{
         height:Config.boxSize.height * Config.typeGame.quantityRowsInBoard             /*serian 6 fichas(rows) de 60 + 30 en margenes: 90*6 = 540 */
     }
 
+    static sizeButtons={
+        width:100,
+        height:40
+    }
+
     /*se activa para cargar las imagenes de las fichas antes de dibujar los circulos */
     static loadChipsImgs() {
         return new Promise((resolve) => {

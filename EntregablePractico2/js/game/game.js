@@ -35,6 +35,16 @@ class Game {
         seg:0
     }
 
+    #buttonsProperties={
+        play:{
+            ...Config.sizeButtons,
+        },
+        config:{
+            ...Config.sizeButtons
+        },
+        arrows:[]
+    }
+
 
     constructor() {
         if (Game.#instance) {
@@ -42,7 +52,7 @@ class Game {
         }
         Game.#instance = this;
         this.#playerTurn = 1;
-
+      
      
     }
 
@@ -249,7 +259,7 @@ class Game {
         console.log("terminooooooooooooooooo");
         const win=this.getWinningPlayer();
         this.setIsEndGame(true);
-        if(win==='empate'){
+        if(!win){
             this.drawMenuContainer('rgba(0, 0, 0, 0.6)','red',`¡Empate!`,'asd');
 
         }else{
@@ -277,15 +287,28 @@ class Game {
         const height=parentHeight/2;
         const startX=parentWidth/2-(width/2);
         const startY=parentHeight/2-(height/2);
-        const btnWidth=100;
-        const btnHeight=40;
 
-       
+        this.#buttonsProperties.play={
+            ...this.#buttonsProperties.play,
+            x:startX+(width/4),
+            y:startY+(height/2),
+            
+        }
+
+        this.#buttonsProperties.config={
+            ...this.#buttonsProperties.config,
+            x:((startX+width)-(width/4))-this.#buttonsProperties.config.width,
+            y:startY+(height/2),
+        }
+
+        const config = this.#buttonsProperties.config;
+        const play = this.#buttonsProperties.play;
+
         this.#drawRectangleRounded(this.#ctx,startX,startY,width,height,30,color);
         this.drawText(this.#ctx,title,'white',startX+(width/2),startY+70,50,'Nunito');
 
-        this.drawButton(startX+(width/4),startY+(height/2),btnWidth,btnHeight,'black','Reiniciar');
-        this.drawButton(((startX+width)-(width/4))-btnWidth,startY+(height/2),btnWidth,btnHeight,'black','Configuración');
+        this.drawButton(play.x,play.y,play.width,play.height,'black','Reiniciar');
+        this.drawButton(config.x,config.y,config.width,config.height,'black','Configuración');
 
     }
 
@@ -329,10 +352,8 @@ class Game {
         const winP1=this.#winsForPlayer.player1;
         const winP2=this.#winsForPlayer.player2;
 
-        return winP1 > winP2 ? Config.players.type1 : winP1===winP2 ? 'empate': Config.players.type2;
+        return winP1 > winP2 ? Config.players.type1 : winP1===winP2 ? null : Config.players.type2;
     }
-
-    
 
     animateTimer(ctx){
         const maxMinutes=Config.typeGame.timeInMin;
@@ -363,7 +384,6 @@ class Game {
     }
 
     convertTime(min,seg){
-      console.log(min,seg);
         return `${min.toString().padStart(2, '0')}:${seg.toString().padStart(2, '0')}`;
     }
 
@@ -430,6 +450,8 @@ class Game {
            
             if(!this.getIsEndGame()){
                 this.#handleMouseDownFirstChip(e);
+            }else{
+                
             }
 
         });
