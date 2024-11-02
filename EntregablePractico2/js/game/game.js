@@ -10,6 +10,9 @@ class Game {
     #isNotStopGame=true;
     #ctx;
     #canvas;
+    #gameType;
+    #player1Type;
+    #player2Type;
 
     #chipsDrop=[
         {
@@ -58,9 +61,9 @@ class Game {
             return Game.#instance;
         }
         Game.#instance = this;
-        this.#playerTurn = 1;
-      
-     
+        this.#playerTurn = 0;
+        this.#gameType = 0;
+        this.#player1Type = 0;
     }
 
     static getInstance() {
@@ -109,7 +112,7 @@ class Game {
 
         this.loadConfig();
        
-        
+        this.setTypeGame(this.#gameType)
         this.animateTimer(this.#ctx);
         this.#board.drawAllBoxes(this.#ctx);
         this.drawChipDispenser();
@@ -118,6 +121,8 @@ class Game {
     }
 
     rebootGame(){
+        this.setTypeGame(this.#gameType)
+
         this.#board.resetAllBoxes();
         this.resetAllRoundsWin();
         this.setPlayerTurn(1);
@@ -126,6 +131,12 @@ class Game {
         this.animateTimer(this.#ctx);
 
         this.clearAndRedraw(this.#ctx);
+    }
+
+    setTypeGame(type) {
+        Config.typeGame.quantityRowsInBoard = type + 6;
+        Config.typeGame.quantityColumnsInBoard = type + 7;
+        Config.typeGame.quantityChipsAlignToWin = type + 4;
     }
 
     /*manda a cargar configuraciones del juego y escuchar eventos del mouse/usuario*/
@@ -313,6 +324,11 @@ class Game {
 
         this.drawButton(play.x,play.y,play.width,play.height,buttonsColor,options[0]);
         this.drawButton(config.x,config.y,config.width,config.height,buttonsColor,options[1]);
+
+        this.#canvas.addEventListener("mouseDown", e => {
+            this.#handleMouseDownRestart(e,play.x,play.y,play.width,play.height);
+            this.#handleMouseDownConfig(e,config.x,config.y,config.width,config.height);
+        })
     }
 
     #drawConfigMenu(){
@@ -344,7 +360,48 @@ class Game {
 
         this.#ctx.fillStyle='yellow';
         this.#ctx.fillRect(x,y,width,height);
+
+        this.drawText(this.#ctx, "Tamaño del tablero", "black", x+width/2, y+20, 20, "Nunito")
+        this.drawButton(x+width/7, y+50,width*2/7,40,'#2B35C6',"4 en linea")
+        this.drawButton(x+width*4/7, y+50,width*2/7,40,'#2B35C6',"5 en linea")
+        this.drawButton(x+width/7, y+100,width*2/7,40,'#2B35C6',"6 en linea")
+        this.drawButton(x+width*4/7, y+100,width*2/7,40,'#2B35C6',"7 en linea")
         
+        this.#canvas.addEventListener("click", e => {
+            this.#handleTypeGameSelection(e,x,y,width,height);
+        })
+        
+        this.drawText(this.#ctx, "Tamaño del tablero", "black", x+width/2, y+20, 20, "Nunito")
+        
+    }
+
+    #handleTypeGameSelection(e,x,y,width,height) {
+        const rect = this.#canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        if (mouseX < x+width*3/7 &&
+            mouseX > x+width/7 &&
+            mouseY > y+50 &&
+            mouseY < y+90) {
+            this.#gameType = 0;
+        } else if (mouseX < x+width*6/7 &&
+            mouseX > x+width*4/7 &&
+            mouseY > y+50 &&
+            mouseY < y+90) {
+                this.#gameType = 1;
+                this.initGame();
+        } else if (mouseX < x+width*3/7 &&
+            mouseX > x+width/7 &&
+            mouseY > y+100 &&
+            mouseY < y+140) {
+                this.#gameType = 2;
+        } else if (mouseX < x+width*6/7 &&
+            mouseX > x+width*4/7 &&
+            mouseY > y+100 &&
+            mouseY < y+140) {
+                this.#gameType = 3;
+        }
     }
 
     #drawOptionConfig(title,options,buttons,propSizing){
@@ -367,10 +424,10 @@ class Game {
 
     animateTimer(ctx){
         const maxMinutes=Config.typeGame.timeInMin;
-        this.#timer.min=maxMinutes;
-        this.#timer.seg=59;
+        this.#timer.min=0;
+        this.#timer.seg=4;
 
-        this.drawTimer(ctx,this.convertTime(this.#timer.min,0));
+        this.drawTimer(ctx,this.convertTime(this.#timer.min,this.#timer.seg));
 
         const animation = setInterval(() =>{
             if(this.#timer.seg === 59){
@@ -445,6 +502,7 @@ class Game {
         this.#strokeRectangle(1,'black');
 
         this.drawText(this.#ctx,text,'white',x+(width/2),y+(height/2),14,'Nunito');
+        
     }
 
     #strokeText(lineWidth,color,text,x,y){
@@ -573,6 +631,24 @@ class Game {
 
             this.#selectedchip.handleMouseDown(e, this.#canvas); 
         }
+    }
+
+    #handleMouseDownRestart(e,x,y,width,height) {
+        const rect = this.#canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        if (mouseX < x + width &&
+            mouseX > x &&
+            mouseY > y &&
+            mouseY < y + height
+        ) {
+            this.rebootGame()
+        }
+    }
+
+    #handleMouseDownConfig(e,x,y,width,height) {
+
     }
 
     #handleMouseUp() {

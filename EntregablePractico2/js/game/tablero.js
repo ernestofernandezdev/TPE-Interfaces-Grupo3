@@ -5,11 +5,6 @@ class Tablero {
     #boxes=null;  /*matriz de casilleros(boxes) */
 
     constructor(){
-        if (Tablero.#instance) {
-            return Tablero.#instance;
-        }
-        Tablero.#instance = this;
-       
         const canvas = document.getElementById("gameCanvas");
         this.#startX = canvas.offsetWidth/2 - Config.boardSize.width/2;  /*posicion en X donde arranca a dibujarse el tablero---> al centro del ancho del canvas*/
         this.#startY= canvas.offsetHeight - Config.boardSize.height;      /*posicion en Y donde arranca a dibujarse el tablero---> total de altura del canvas - lo alto del tablero. seria como un "margen top" */
@@ -20,7 +15,11 @@ class Tablero {
     }
 
     static getInstance() {
-        return Tablero.#instance;
+        if (Tablero.#instance) {
+            return Tablero.#instance;
+        }
+        Tablero.#instance = new Tablero();
+        return Tablero.#instance
     }
 
    
@@ -37,6 +36,7 @@ class Tablero {
     createBoxes(){
         let sizeBox = Config.boxSize.width;
         let columns = Config.typeGame.quantityColumnsInBoard;
+        console.log(Config.typeGame.quantityColumnsInBoard)
         let properties={
             initY: this.getPosBottom() - Config.boxSize.width,
             initX:this.getStartX(),
