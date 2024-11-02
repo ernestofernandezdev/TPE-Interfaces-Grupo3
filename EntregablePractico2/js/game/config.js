@@ -15,6 +15,8 @@ class Config{
         './static/assets/game/draw.png'
     ]
 
+    static menuImg='./static/assets/game/menu-default.png';
+
     static typeGame={
         quantityRowsInBoard:6,
         quantityColumnsInBoard:7,
@@ -70,7 +72,8 @@ class Config{
     static loadImages() {
         return Promise.all([
             Config.loadChipsImages(),
-            Config.loadWinImgs()
+            Config.loadWinImgs(),
+            Config.loadImgMenu()
         ]);
     }
 
@@ -125,8 +128,25 @@ class Config{
                 };
             })
         })
-
     }
+
+    static loadImgMenu(){
+        return new Promise((resolve)=>{
+            const img = new Image();
+            img.src=Config.menuImg;
+
+            img.onload=()=>{
+                Game.images={...Game.images, menu:img};
+                resolve();
+            }
+
+            img.onerror = () => {
+                console.error(`Error al cargar imagenes de menu.`);
+            };
+        })
+    }
+
+
     static adjustCanvasResolution() {
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext('2d');

@@ -67,21 +67,26 @@ class Game {
         return Game.#instance;
     }
 
-   /*Util para cuando se desea dibujar mas cosas por encima de lo que ya hay(ejemplo placeholder de ficha, se agrega a lo que hay)*/
+    
+    /*Util cuando se cambia el estado de cosas del juego(se agregan fichas, se modifica la cantidad de fichas, se mueve la ficha, etc.) */
+    clearAndRedraw(ctx){
+        this.clear(ctx);
+        this.redraw(ctx);
+    }
+
+    /*Util para cuando se desea dibujar mas cosas por encima de lo que ya hay(ejemplo placeholder de ficha, se agrega a lo que hay)*/
     redraw(context){
         this.drawTimer(context,this.convertTime(this.#timer.min,this.#timer.seg));
         this.#board.drawAllBoxes(context)
         this.drawChipDispenser();
         this.drawAllAvailableChips(context)
-      
+       
     }
 
-    /*Util cuando se cambia el estado de cosas del juego(se agregan fichas, se modifica la cantidad de fichas, se mueve la ficha, etc.) */
-    clearAndRedraw(ctx){
+    clear(ctx){
         ctx.clearRect(0, 0, this.#canvas.offsetWidth, this.#canvas.offsetHeight);
         ctx.save(); 
         ctx.restore();
-        this.redraw(ctx);
     }
 
  
@@ -262,27 +267,22 @@ class Game {
         }
 
         if(!win){
-            this.drawMenuContainer(Game.images.draw,`¡EMPATE!`,colorsText.draw,options);
+            this.drawEndMenu(Game.images.draw,`¡EMPATE!`,colorsText.draw,options);
         }else{
             const prop = win===Config.players.type1 ? {img: Game.images.batman, color: colorsText.p1} : {img:Game.images.joker,color:colorsText.p2};
 
-            this.drawMenuContainer(prop.img,`¡GANADOR!`,prop.color,options);
+            this.drawEndMenu(prop.img,`¡GANADOR!`,prop.color,options);
         }
 
         
     }
 
-    drawMenuContainer(img,title,textColor,options){
-        const backColor='rgba(0, 0, 0, 0.7)';
+    drawEndMenu(img,title,textColor,options){
         const width= this.#canvas.offsetWidth;
         const height=this.#canvas.offsetHeight;
-        const startX=0;
-        const startY=0;
 
-        this.#ctx.fillStyle=backColor;
-        this.#ctx.fillRect(startX,startY,width,height);
+        this.drawMenuContainer(width,height);
         this.drawMenu(width,height,img,title,textColor,options);
-
     }
 
     drawMenu(parentWidth,parentHeight,img,title,textColor,options){
@@ -308,37 +308,61 @@ class Game {
         const config = this.#buttonsProperties.config;
         const play = this.#buttonsProperties.play;
 
-        this.drawMenuImg(this.#ctx,startX,startY,width,height,30,img);
+        this.drawMenuImg(this.#ctx,startX,startY,width,height,30,img,'rgba(255, 255, 255, 0.2)');
         this.drawWinnerText(this.#ctx,title,textColor,startX+(width/2),startY+50);
 
         this.drawButton(play.x,play.y,play.width,play.height,buttonsColor,options[0]);
         this.drawButton(config.x,config.y,config.width,config.height,buttonsColor,options[1]);
-
     }
 
+    #drawConfigMenu(){
+        const width= this.#canvas.offsetWidth;
+        const height=this.#canvas.offsetHeight;
+
+        this.drawMenuContainer(width,height);
+
+        this.drawCustomMenuContainer(width,height,Game.images.menu);
+
+    }
    
-    drawCustomMenu(parentWidth,parentHeight,color){
+    drawCustomMenuContainer(parentWidth,parentHeight,img){
         const width=parentWidth/2;
         const height=parentHeight/2 + parentHeight/3;
         const startX=parentWidth/2-(width/2);
         const startY=parentHeight/2-(height/2);
 
+        this.drawMenuImg(this.#ctx,startX,startY,width,height,30,img,'rgba(0, 0, 0, 0.5)')
+       
+        this.drawCustomMenu(startX,startY,width,height);
+    }
+
+    drawCustomMenu(parentX,parentY,parentWidth,parentHeight){
+        const width=parentWidth-(parentWidth/4);
+        const height=parentHeight-(parentHeight/6);
+        const x=parentX+(parentWidth/8);
+        const y=parentY+10;
+
+        this.#ctx.fillStyle='yellow';
+        this.#ctx.fillRect(x,y,width,height);
+        
+    }
+
+    #drawOptionConfig(title,options,buttons,propSizing){
+        const width=propSizing.width;
+        const height=propSizing.height/quantityOptions; /*cantida de configuraciones, el parametro es las posibilidades que tiene esa config */
+        const x=propSizing.x;
+        const y= propSizing.y;
+
+        this.#drawOptionTitle(title,x,y);
+        
+
+
 
     }
 
-
-    drawMenuImg(ctx, x, y, width, height, radius,img){
-        this.#drawRectangleRounded(ctx, x, y, width, height, radius);
-        ctx.save(); 
-        ctx.clip(); 
-
-        if(img.complete){
-            ctx.drawImage(img, x,y,width,height);
-        }
-        
-        ctx.fillStyle='rgba(255, 255, 255, 0.2)';
-        ctx.fillRect(x, y, width, height);
-        ctx.restore();
+    #drawOptionTitle(title,x,y){
+        this.#strokeText(2,'black',title,x,y);
+        this.drawText(this.#ctx,title,'white',x,y,20,'Nunito');
     }
 
     animateTimer(ctx){
@@ -367,6 +391,29 @@ class Game {
             }
           
         }, 990);
+    }
+
+    drawMenuContainer(width,height){
+        const backColor='rgba(0, 0, 0, 0.7)';
+        const startX=0;
+        const startY=0;
+
+        this.#ctx.fillStyle=backColor;
+        this.#ctx.fillRect(startX,startY,width,height);
+    }
+
+    drawMenuImg(ctx, x, y, width, height, radius,img,gradientColor){
+        this.#drawRectangleRounded(ctx, x, y, width, height, radius);
+        ctx.save(); 
+        ctx.clip(); 
+
+        if(img.complete){
+            ctx.drawImage(img, x,y,width,height);
+        }
+        
+        ctx.fillStyle=gradientColor;
+        ctx.fillRect(x, y, width, height);
+        ctx.restore();
     }
 
     drawWinnerText(ctx,text,color,x,y){
@@ -539,6 +586,8 @@ class Game {
                     this.rebootGame();
                 }else if(this.isInConfigGame(e) && this.#buttonsActiveMenu.config){
                     console.log("CONFIGURACION");
+                    this.clearAndRedraw(this.#ctx);
+                    this.#drawConfigMenu();
                     
                 }
 
