@@ -23,7 +23,6 @@ class Config{
         quantityChipsAlignToWin:4,
         timeInMin:1,
         quantityPlayers:2,
-        quantityRounds:5,
         typeOfChipsPlayer1:0,
         typeOfChipsPlayer2:0
     

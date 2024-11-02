@@ -5,9 +5,16 @@ class Game {
     #selectedchip=null; /*ficha seleccionada/arrastrada */
     #board; 
     #playerTurn;
-    #isEndGame=false;
     #posDispenser=null;
-    #isNotStopGame=true;
+    #statesGame={
+        stop:false,
+        end:false,
+        inConfig:false,
+        inMainMenu:false,
+        inPlayGame:false,
+        inCustomGame:false,
+        inPlayWithCustom:false
+    }
     #ctx;
     #canvas;
 
@@ -36,6 +43,18 @@ class Game {
         seg:0
     }
 
+    #defaultConfig={
+        quantityRowsInBoard:6,
+        quantityColumnsInBoard:7,
+        quantityChipsAlignToWin:4,
+        timeInMin:1,
+        quantityPlayers:2,
+        typeOfChipsPlayer1:0,
+        typeOfChipsPlayer2:0
+    }
+
+    
+
     /*al momento de dibujar se agregan coordenadas de dibujo */
     #buttonsProperties={
         play:{
@@ -44,13 +63,12 @@ class Game {
         config:{
             ...Config.sizeButtons
         },
-        arrows:[]
+        groupArrows:[]
     }
 
-    #buttonsActiveMenu={
-        play:false,
-        config:false
-    }
+    #personalizeConfig=[];
+
+    #isArrowsRender=false;
 
 
     constructor() {
@@ -89,6 +107,11 @@ class Game {
         ctx.restore();
     }
 
+    clearAndRedrawMenuConfig(ctx){
+        this.clear(ctx);
+        this.redraw(ctx);
+        this.drawConfigMenu();
+    }
  
     /*habria que precargar una imagen para que el fondo del juego sea una imagen, como en la clase ficha */
     getComponent() {
@@ -121,7 +144,6 @@ class Game {
         this.#board.resetAllBoxes();
         this.resetAllRoundsWin();
         this.setPlayerTurn(1);
-        this.setIsEndGame(false);
         this.createChips();
         this.animateTimer(this.#ctx);
 
@@ -132,7 +154,6 @@ class Game {
     loadConfig() {
         this.#ctx = this.#canvas.getContext("2d");
         this.#board = new Tablero();
-        this.setIsEndGame(false);
         this.initDispenserProperties();
         this.createChips();
 
@@ -237,8 +258,8 @@ class Game {
            
         }
 
-        this.drawText(ctx,'Victorias',colorText,x+(width/2), y+((height/2)+80),25,'Nunito');
-        this.drawText(ctx,quantityWins,colorText,x+(width/2), y+((height/2)+120),20,'Nunito');
+        this.#drawText(ctx,'Victorias',colorText,x+(width/2), y+((height/2)+80),25,'Nunito');
+        this.#drawText(ctx,quantityWins,colorText,x+(width/2), y+((height/2)+120),20,'Nunito');
     }
 
     drawTimer(ctx,time){
@@ -249,9 +270,9 @@ class Game {
         ctx.fillStyle='#00197c';
         ctx.fillRect(this.#canvas.offsetWidth-width,0,width,height);
         if(this.#timer.min === 0 && this.#timer.seg <= 10){
-            this.drawText(ctx,time,'#EE4848',this.#canvas.offsetWidth-width/2, height/2, 35,'Impact');
+            this.#drawText(ctx,time,'#EE4848',this.#canvas.offsetWidth-width/2, height/2, 35,'Impact');
         }else{
-            this.drawText(ctx,time,'white',this.#canvas.offsetWidth-width/2, height/2, 35,'Impact');
+            this.#drawText(ctx,time,'white',this.#canvas.offsetWidth-width/2, height/2, 35,'Impact');
         }
 
     }
@@ -259,6 +280,8 @@ class Game {
     endGame(){
         const win=this.getWinningPlayer();
         this.setIsEndGame(true);
+        this.setIsInMainMenu(true);
+        
         const options=['Reiniciar','Configuración'];
         const colorsText={
             p1:'#151FB1',
@@ -281,11 +304,11 @@ class Game {
         const width= this.#canvas.offsetWidth;
         const height=this.#canvas.offsetHeight;
 
-        this.drawMenuContainer(width,height);
-        this.drawMenu(width,height,img,title,textColor,options);
+        this.#drawMenuContainer(width,height);
+        this.#drawMenu(width,height,img,title,textColor,options);
     }
 
-    drawMenu(parentWidth,parentHeight,img,title,textColor,options){
+    #drawMenu(parentWidth,parentHeight,img,title,textColor,options){
         const width=parentWidth/2;
         const height=parentHeight/2;
         const startX=parentWidth/2-(width/2);
@@ -308,62 +331,158 @@ class Game {
         const config = this.#buttonsProperties.config;
         const play = this.#buttonsProperties.play;
 
-        this.drawMenuImg(this.#ctx,startX,startY,width,height,30,img,'rgba(255, 255, 255, 0.2)');
-        this.drawWinnerText(this.#ctx,title,textColor,startX+(width/2),startY+50);
+        this.#drawMenuImg(this.#ctx,startX,startY,width,height,30,img,'rgba(255, 255, 255, 0.2)');
+        this.#drawWinnerText(this.#ctx,title,textColor,startX+(width/2),startY+50);
 
-        this.drawButton(play.x,play.y,play.width,play.height,buttonsColor,options[0]);
-        this.drawButton(config.x,config.y,config.width,config.height,buttonsColor,options[1]);
+        this.#drawButton(play.x,play.y,play.width,play.height,buttonsColor,options[0]);
+        this.#drawButton(config.x,config.y,config.width,config.height,buttonsColor,options[1]);
     }
 
-    #drawConfigMenu(){
+    drawConfigMenu(){
         const width= this.#canvas.offsetWidth;
         const height=this.#canvas.offsetHeight;
 
-        this.drawMenuContainer(width,height);
+        this.#drawMenuContainer(width,height);
 
-        this.drawCustomMenuContainer(width,height,Game.images.menu);
+        this.#drawCustomMenuContainer(width,height,Game.images.menu);
 
     }
    
-    drawCustomMenuContainer(parentWidth,parentHeight,img){
+    #drawCustomMenuContainer(parentWidth,parentHeight,img){
         const width=parentWidth/2;
         const height=parentHeight/2 + parentHeight/3;
         const startX=parentWidth/2-(width/2);
         const startY=parentHeight/2-(height/2);
+        const btnPlay=this.#buttonsProperties.play;
 
-        this.drawMenuImg(this.#ctx,startX,startY,width,height,30,img,'rgba(0, 0, 0, 0.5)')
+        this.#drawMenuImg(this.#ctx,startX,startY,width,height,30,img,'rgba(0, 0, 0, 0.5)')
        
-        this.drawCustomMenu(startX,startY,width,height);
+        this.#drawConfigList(startX,startY,width,height);
+
+        this.#drawButton(parentWidth/2-(btnPlay.width/2),(startY+height)-btnPlay.height-10,btnPlay.width,btnPlay.height,'#2B35C6','Jugar');
+
+        this.#buttonsProperties.play.x=parentWidth/2-(btnPlay.width/2);
+        this.#buttonsProperties.play.y=(startY+height)-btnPlay.height-10;
     }
 
-    drawCustomMenu(parentX,parentY,parentWidth,parentHeight){
-        const width=parentWidth-(parentWidth/4);
+    #drawConfigList(parentX,parentY,parentWidth,parentHeight){
+
+        if(this.#personalizeConfig.length===0){
+            this.#createObjectsConfig();
+        }
+        this.#sincronizedOptions();
+        const width=parentWidth-(parentWidth/2);
         const height=parentHeight-(parentHeight/6);
-        const x=parentX+(parentWidth/8);
-        const y=parentY+10;
+        const x=(parentX+(parentWidth/2))-(width/2);
+        const y=parentY+10;   
+        const qItems=this.#personalizeConfig.length;
+        let index=0;
+        let incrementY;  
 
-        this.#ctx.fillStyle='yellow';
-        this.#ctx.fillRect(x,y,width,height);
-        
+            
+        this.#ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        this.#drawRectangleRounded(this.#ctx,x,y,width,height,30);
+        this.#ctx.fill();
+
+        this.#personalizeConfig.forEach(c=>{
+            if(!c.options[c.optionPos]){
+                c.optionPos=0;
+            }
+            if(index===0){
+                this.#drawItemConfig(c.title,c.options,{x:x,y:y,width:width,height:height/qItems},index,c.optionPos);
+            }else{
+                this.#drawItemConfig(c.title,c.options,{x:x,y:incrementY,width:width,height:height/qItems},index,c.optionPos);
+            }
+            index++;
+            incrementY=y+(((height/qItems) * index) +8);
+        }) 
     }
 
-    #drawOptionConfig(title,options,buttons,propSizing){
+    #sincronizedOptions(){
+        const configs=this.#personalizeConfig;
+       
+        if(configs[2].optionPos >= configs[2].options.length-2){
+            this.#personalizeConfig[3].options=[3,4];
+        }else if(configs[2].optionPos === 1){
+            this.#personalizeConfig[3].options=[3,4,5,6];
+        }else{
+            this.#personalizeConfig[3].options=[3,4,5,6,7];
+        }
+    }
+
+    #createObjectsConfig(){
+        const configs=[
+            {
+                title:'Tiempo',
+                options:[1,5,10,20,30],
+                optionPos:0
+            },
+            {
+                title:'Fichas',
+                options:['Clasicas','Secundarias'],
+                optionPos:0,
+            },
+            {
+                title:'Tablero',
+                options:['6x7','6x6','4x5','4x4'],
+                optionPos:0
+            },
+            {
+                title:'Fichas en linea',
+                options:[],
+                optionPos:0
+            }];
+        
+        this.#personalizeConfig=[...configs];
+    }
+
+
+    #drawItemConfig(title,options,propSizing,numItem,optActive){
         const width=propSizing.width;
-        const height=propSizing.height/quantityOptions; /*cantida de configuraciones, el parametro es las posibilidades que tiene esa config */
+        const height=propSizing.height; 
         const x=propSizing.x;
         const y= propSizing.y;
 
-        this.#drawOptionTitle(title,x,y);
+        const titleSize=25;
+        const titleX=x+width/2, titleY=y+Math.ceil(titleSize/2);
+
+        const btnColor='#2B35C6';
+        const btnSize=30;
+        const arrowLeftX=x, arrowLeftY= y+height/3;
+        const arrowRightX=(x+width)-btnSize, arrowRightY=y+height/3;
+        
+        const opSize=15;
+        const opX=x+(width/2),opY=y+(height/3)+opSize;
+
+
+        if(this.#buttonsProperties.groupArrows.length < this.#personalizeConfig.length){
+            this.#buttonsProperties.groupArrows.push({
+                id:numItem,
+                left:{
+                    x:arrowLeftX,
+                    y:arrowLeftY,
+                    width:btnSize,
+                    height:btnSize
+                },
+                right:{
+                    x:arrowRightX,
+                    y:arrowRightY,
+                    width:btnSize,
+                    height:btnSize
+                }
+            })
+        }
         
 
+        this.#drawText(this.#ctx,title,'#5861E1',titleX,titleY,titleSize,'Nunito');
+        this.#drawButton(arrowLeftX,arrowLeftY,btnSize,btnSize,btnColor,'<');
+        this.#drawText(this.#ctx,options[optActive] ,'white',opX,opY,opSize,'Nunito');
+        this.#drawButton(arrowRightX,arrowRightY,btnSize,btnSize,btnColor,'>');
 
 
     }
 
-    #drawOptionTitle(title,x,y){
-        this.#strokeText(2,'black',title,x,y);
-        this.drawText(this.#ctx,title,'white',x,y,20,'Nunito');
-    }
+ 
 
     animateTimer(ctx){
         const maxMinutes=Config.typeGame.timeInMin;
@@ -393,7 +512,7 @@ class Game {
         }, 990);
     }
 
-    drawMenuContainer(width,height){
+    #drawMenuContainer(width,height){
         const backColor='rgba(0, 0, 0, 0.7)';
         const startX=0;
         const startY=0;
@@ -402,7 +521,7 @@ class Game {
         this.#ctx.fillRect(startX,startY,width,height);
     }
 
-    drawMenuImg(ctx, x, y, width, height, radius,img,gradientColor){
+    #drawMenuImg(ctx, x, y, width, height, radius,img,gradientColor){
         this.#drawRectangleRounded(ctx, x, y, width, height, radius);
         ctx.save(); 
         ctx.clip(); 
@@ -416,7 +535,7 @@ class Game {
         ctx.restore();
     }
 
-    drawWinnerText(ctx,text,color,x,y){
+    #drawWinnerText(ctx,text,color,x,y){
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle'; 
         ctx.font = `bold 45px Bubblegum Sans`; 
@@ -427,7 +546,7 @@ class Game {
         ctx.fillText(text, x, y);
     }
 
-    drawText(ctx,text,color,x,y,size,family){
+    #drawText(ctx,text,color,x,y,size,family){
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle'; 
         ctx.font = `bold ${size}px ${family}`; 
@@ -435,7 +554,7 @@ class Game {
         ctx.fillText(text,x,y);
     }
 
-    drawButton(x, y, width, height,color,text){
+    #drawButton(x, y, width, height,color,text){
         const radiusButton=10;
 
         this.#ctx.fillStyle=color;
@@ -444,8 +563,10 @@ class Game {
 
         this.#strokeRectangle(1,'black');
 
-        this.drawText(this.#ctx,text,'white',x+(width/2),y+(height/2),14,'Nunito');
+        this.#drawText(this.#ctx,text,'white',x+(width/2),y+(height/2),14,'Nunito');
     }
+
+
 
     #strokeText(lineWidth,color,text,x,y){
         this.#ctx.lineWidth = lineWidth;
@@ -523,19 +644,61 @@ class Game {
         this.#canvas.addEventListener("mousedown", (e) => {
             e.preventDefault();
            
-            if(!this.getIsEndGame() && this.getIsNotStopGame()){
-                this.#handleMouseDownFirstChip(e);
 
-            }else if(this.getIsEndGame()){
-
-                if(this.isInPlayGame(e)){
-                    this.#buttonsActiveMenu.play=true;
-                }else if(this.isInConfigGame(e)){
-                    this.#buttonsActiveMenu.config=true;
+            if(this.getIsInConfig()){                       /*si se está en el menu de configuracion */
+                if(this.#isInArrowsConfig(e)){              /*si se presionó en las arrows */
+                    this.setIsInConfig(false);              /*actualizo el estado de "en menu de config" a "en customizacion de juego" */
+                    this.setIsInCustomGame(true);
+                    
+                }
+            }else if(this.getIsInCustomGame()){                 /*si se está en customizacion del juego */
+                if(this.isInPlayGame(e)){                       /*si se hizo click en play game */
+                    this.setIsInPlayWithCustom(true);           /*actualizo el estado a jugar con reglas personalizadas */
                 }
             }
 
+            if(!this.getIsStopGame() && !this.getIsEndGame()){  /*si el juego no esta detenido y no es el fin del juego. Escucho los eventos del juego */
+                this.#handleMouseDownFirstChip(e);
+
+            }else if(this.getIsInMainMenu() && !this.getIsInCustomGame()){    /*si se esta en el menu principal y no se está en el menu de customizacion */
+
+                if(this.isInPlayGame(e)){               /*si se clickeo en play, actualizo a play sin cambios de reglas */
+                    this.setIsInPlayGame(true);
+                }else if(this.isInConfigGame(e)){
+                    this.setIsInConfig(true);       /*si se clickeo en cambiar reglas, actualizo a menu de configuracion (paso previo a customizacion) */
+                }
+
+            }
+
         });
+    }
+
+    #isInArrowsConfig(e){
+        const {offsetX,offsetY}=e;
+        let obj={
+            id:-1,
+            typeArrow:0
+        };
+
+      
+        this.#buttonsProperties.groupArrows.forEach(btn=>{
+            let btnLeft=btn.left;
+            let btnRight=btn.right;
+           
+            if(offsetX >= btnLeft.x && offsetX <= btnLeft.x+btnLeft.width && offsetY >= btnLeft.y && offsetY <= btnLeft.y+btnLeft.height){
+                obj.id=btn.id;
+                obj.typeArrow=0;
+            }else if(offsetX >= btnRight.x && offsetX <= btnRight.x+btnRight.width && offsetY >= btnRight.y && offsetY <= btnRight.y+btnRight.height){
+                obj.id=btn.id;
+                obj.typeArrow=1;
+            }
+        })
+
+        if(obj.id==-1){
+            return null;
+        }
+
+        return obj;
     }
 
     isInPlayGame(e){
@@ -577,26 +740,84 @@ class Game {
 
     #handleMouseUp() {
         this.#canvas.addEventListener("mouseup", (e) => {
-            if(!this.getIsEndGame() && this.getIsNotStopGame()){
+
+
+            if(!this.getIsEndGame() && !this.getIsStopGame()){
                 this.#handleMouseUpChips(e);
 
-            }else if(this.getIsEndGame()){
+            }else if(this.getIsInMainMenu()){
 
-                if(this.isInPlayGame(e) && this.#buttonsActiveMenu.play){
+                if(this.isInPlayGame(e) && this.getIsInPlayGame()){
+                    this.resetAllStates();
+                    
                     this.rebootGame();
-                }else if(this.isInConfigGame(e) && this.#buttonsActiveMenu.config){
-                    console.log("CONFIGURACION");
-                    this.clearAndRedraw(this.#ctx);
-                    this.#drawConfigMenu();
+
+                }else if(this.isInConfigGame(e) && this.getIsInConfig()){
+                    this.setIsInPlayGame(false);
+                    this.clearAndRedrawMenuConfig(this.#ctx);
                     
                 }
+                
+                if(!this.getIsInConfig() && this.getIsInCustomGame() && this.#isInArrowsConfig(e)){
+                    const arrow= this.#isInArrowsConfig(e);
+                    this.#setOptionPos(arrow);
+                    this.clearAndRedrawMenuConfig(this.#ctx);
 
-                Object.keys(this.#buttonsActiveMenu).forEach(prop => {
-                    this.#buttonsActiveMenu[prop] = false; 
-                });
+                }else if(this.getIsInCustomGame() && this.getIsInPlayWithCustom()){
+                    this.resetAllStates();
+                    this.#updateRules();
+                    this.rebootGame();
+                }
+
+             
 
             }
         });
+    }
+
+    #updateRules(){
+        const config = this.#personalizeConfig;
+        const time=config[0].options[config[0].optionPos];
+        const chips = config[1].optionPos;
+        const board= config[2].options[config[2].optionPos];
+        const lines=config[3].options[config[3].optionPos];
+        const rows=board.toString().at(0);
+        const cols=board.toString().at(-1);
+        
+        Config.typeGame.quantityRowsInBoard=parseInt(rows);
+        Config.typeGame.quantityColumnsInBoard=parseInt(cols);
+        Config.typeGame.timeInMin=parseInt(time);
+        Config.typeGame.quantityChipsAlignToWin=parseInt(lines);
+        Config.typeGame.typeOfChipsPlayer1=parseInt(chips);
+        Config.typeGame.typeOfChipsPlayer2=parseInt(chips);
+
+        Config.boardSize.width=Config.boxSize.width * parseInt(cols);
+        Config.boardSize.height=Config.boxSize.height * parseInt(rows);
+
+
+        Tablero.setInstance();
+        this.#board=new Tablero();
+        
+        
+    }
+
+    #setOptionPos(arrow){
+        let pos=this.#personalizeConfig[arrow.id].optionPos;
+        
+        if(arrow.typeArrow === 0){
+            if(pos-1 < 0){
+                this.#personalizeConfig[arrow.id].optionPos=this.#personalizeConfig[arrow.id].options.length-1;
+            }else{
+                this.#personalizeConfig[arrow.id].optionPos=pos-1;
+            }
+            
+        }else{
+            if(pos+1 > this.#personalizeConfig[arrow.id].options.length-1){
+                this.#personalizeConfig[arrow.id].optionPos=0;
+            }else{
+                this.#personalizeConfig[arrow.id].optionPos=pos+1;
+            }
+        }
     }
 
     #handleMouseUpChips(e){
@@ -648,9 +869,6 @@ class Game {
         return chip;
     }
 
-    getIsEndGame(){
-        return this.#isEndGame;
-    }
 
     getWinningPlayer(){
         const winP1=this.#winsForPlayer.player1;
@@ -671,10 +889,54 @@ class Game {
         return this.#selectedchip;
     }
 
-    getIsNotStopGame(){
-        return this.#isNotStopGame;
+    getIsStopGame(){
+        return this.#statesGame.stop;
+    }
+    getIsEndGame(){
+        return this.#statesGame.end;
+    }
+    getIsInConfig(){
+        return this.#statesGame.inConfig;
     }
 
+    getIsInMainMenu(){
+        return this.#statesGame.inMainMenu;
+    }
+    getIsInPlayGame(){
+        return this.#statesGame.inPlayGame;
+    }
+    getIsInCustomGame(){
+        return this.#statesGame.inCustomGame;
+    }
+    getIsInPlayWithCustom(){
+        return this.#statesGame.inPlayWithCustom;
+    }
+
+
+    resetAllStates(){
+        Object.keys(this.#statesGame).forEach(prop => {
+            this.#statesGame[prop] = false;
+        });
+    }
+
+    setIsInPlayWithCustom(bool){
+        this.#statesGame.inPlayWithCustom=bool;
+    }
+    setIsInCustomGame(bool){
+        this.#statesGame.inCustomGame=bool;
+    }
+    setIsInPlayGame(bool){
+        this.#statesGame.inPlayGame=bool;
+    }
+    setIsInMainMenu(bool){
+        this.#statesGame.inMainMenu=bool;
+    }
+    setIsInConfig(bool){
+        this.#statesGame.inConfig=bool;
+    }
+    setIsEndGame(bool){
+        this.#statesGame.end=bool;
+    }
 
     addWinPlayer1(){
         this.#winsForPlayer.player1+=1;
@@ -691,10 +953,6 @@ class Game {
         }else{
             this.addWinPlayer2();
         }
-    }
-
-    setIsEndGame(bool){
-        this.#isEndGame=bool;
     }
 
     resetAllRoundsWin(){
@@ -722,8 +980,8 @@ class Game {
         this.setPlayerTurn(win+1);
     }
 
-    setIsNotStopGame(bool){
-        this.#isNotStopGame=bool;
+    setStopGame(bool){
+        this.#statesGame.stop=bool;
     }
 
 }

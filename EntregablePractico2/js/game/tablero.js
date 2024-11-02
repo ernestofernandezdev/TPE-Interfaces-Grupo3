@@ -23,6 +23,10 @@ class Tablero {
         return Tablero.#instance;
     }
 
+    static setInstance(){
+        this.#instance=null;
+    }
+
    
     loadBoxes(){
         this.#boxes=[];
@@ -111,13 +115,13 @@ class Tablero {
                     Game.getInstance().clearAndRedraw(ctx);
 
                     if(listBoxesWinner){
-                        Game.getInstance().setIsNotStopGame(false);
+                        Game.getInstance().setStopGame(true);
                         this.checkListWinner(listBoxesWinner);
                         Game.getInstance().addWinForPlayer(listBoxesWinner[0]);
                         Game.getInstance().clearAndRedraw(ctx);
 
                         setTimeout(() => {
-                            Game.getInstance().setIsNotStopGame(true);
+                            Game.getInstance().setStopGame(false);
                             Game.getInstance().setTurnForWinner(listBoxesWinner[0]);
                             this.resetAllBoxes();
                             Game.getInstance().createChips();
