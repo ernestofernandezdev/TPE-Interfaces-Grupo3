@@ -106,23 +106,15 @@ class Tablero {
                 this.animateFall(ctx, chip, firstBoxEmpty).then(()=>{
                     listBoxesWinner= this.checkWinner(posOfColumnDrop,firstBoxEmpty);
 
-                    if(listBoxesWinner){
-                        console.log("HAY GANADOR");
-                        console.log(listBoxesWinner);
-                        this.checkListWinner(listBoxesWinner);
-                        Game.getInstance().addWinForPlayer(listBoxesWinner[0]);
-
-                    }else{
-                        console.log("no hay ganador");
-                        Game.getInstance().alternateTurn();
-                        
-                    }
-              
                     Game.getInstance().removeChip(chip);
                     Game.getInstance().updatePositionChipsDrop();
                     Game.getInstance().clearAndRedraw(ctx);
 
                     if(listBoxesWinner){
+                        this.checkListWinner(listBoxesWinner);
+                        Game.getInstance().addWinForPlayer(listBoxesWinner[0]);
+                        Game.getInstance().clearAndRedraw(ctx);
+
                         setTimeout(() => {
                             Game.getInstance().setTurnForWinner(listBoxesWinner[0]);
                             this.resetAllBoxes();
@@ -136,18 +128,19 @@ class Tablero {
                         Game.getInstance().clearAndRedraw(ctx);
                         
                         setTimeout(() => {
-                            console.log("JUEGO EMPATADO");
                             this.resetAllBoxes();
                             Game.getInstance().createChips();
                             Game.getInstance().clearAndRedraw(ctx);
                         }, 2000);
                     }
 
-                   
                 });
+
+                if(!listBoxesWinner){
+                    Game.getInstance().alternateTurn();
+                }
                 
-            }else{
-                console.log("no hay mas lugar en columna: "+ posOfColumnDrop);
+            }else{;
                 Game.getInstance().updatePositionChipsDrop();
                 Game.getInstance().clearAndRedraw(ctx);
             }

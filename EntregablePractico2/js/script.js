@@ -2033,7 +2033,7 @@
             this.#handleInputTextArea();
             this.#handleClickLikeComment();
 
-            Config.loadChipsImgs().then(()=>{
+            Config.loadImages().then(()=>{
                 this.#loadGame();
             })
         }

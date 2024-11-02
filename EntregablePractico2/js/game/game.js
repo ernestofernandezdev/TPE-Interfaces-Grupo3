@@ -1,10 +1,10 @@
 class Game {
     static #instance;
+    static images;
     #chips = [];    /*fichas disponibles para lanzar */
     #selectedchip=null; /*ficha seleccionada/arrastrada */
     #board; /*tablero */
     #playerTurn;
-    #isDragginChip=false;
     #chipsDrop=[
         {
             x:0,
@@ -199,24 +199,13 @@ class Game {
        
     }
 
- 
-
     #drawDispenser(ctx, x, y, width, height, radius,state,quantityWins){
         const colorText='white';
 
         this.#ctx.fillStyle=Config.dispenserColor.default;
-        ctx.beginPath();
-        ctx.moveTo(x + radius, y); // Esquina superior izquierda
-        ctx.lineTo(x + width - radius, y); // Línea superior
-        ctx.quadraticCurveTo(x + width, y, x + width, y + radius); // Esquina superior derecha
-        ctx.lineTo(x + width, y + height - radius); // Línea derecha
-        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height); // Esquina inferior derecha
-        ctx.lineTo(x + radius, y + height); // Línea inferior
-        ctx.quadraticCurveTo(x, y + height, x, y + height - radius); // Esquina inferior izquierda
-        ctx.lineTo(x, y + radius); // Línea izquierda
-        ctx.quadraticCurveTo(x, y, x + radius, y); // Esquina superior izquierda de nuevo
-        ctx.closePath();
-        ctx.fill(); // Rellenar el rectángulo
+
+        this.#drawRectangleRounded(ctx,x,y,width,height,radius);
+        ctx.fill(); 
 
         if(state){
             ctx.strokeStyle=Config.dispenserColor.border;
@@ -225,11 +214,8 @@ class Game {
            
         }
 
-      
         this.drawText(ctx,'Victorias',colorText,x+(width/2), y+((height/2)+80),25,'Nunito');
         this.drawText(ctx,quantityWins,colorText,x+(width/2), y+((height/2)+120),20,'Nunito');
-     
-
     }
 
     drawTimer(ctx,time){
@@ -247,78 +233,72 @@ class Game {
 
     }
 
-    drawText(ctx,text,color,x,y,size,family){
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle'; 
-        ctx.font = `${size}px ${family}`; 
-        ctx.fillStyle = color; 
-        ctx.fillText(text,x,y);
-    }
-
     endGame(){
-        console.log("terminooooooooooooooooo");
         const win=this.getWinningPlayer();
         this.setIsEndGame(true);
-        if(!win){
-            this.drawMenuContainer('rgba(0, 0, 0, 0.6)','red',`¡Empate!`,'asd');
+        const options=['Reiniciar','Configuración'];
+        const colorsText={
+            p1:'#151FB1',
+            p2:'#D83232',
+            draw:'#EEE238'
+        }
 
+        if(!win){
+            this.drawMenuContainer(Game.images.draw,`¡EMPATE!`,colorsText.draw,options);
         }else{
-            this.drawMenuContainer('rgba(0, 0, 0, 0.6)','red',`¡${win.toLocaleUpperCase()} gana!`,'asd');
+            const prop = win===Config.players.type1 ? {img: Game.images.batman, color: colorsText.p1} : {img:Game.images.joker,color:colorsText.p2};
+
+            this.drawMenuContainer(prop.img,`¡GANADOR!`,prop.color,options);
         }
 
         
     }
 
-
-    drawMenuContainer(colorBack,colorMenu,title,options){
+    drawMenuContainer(img,title,textColor,options){
+        const backColor='rgba(0, 0, 0, 0.7)';
         const width= this.#canvas.offsetWidth;
         const height=this.#canvas.offsetHeight;
         const startX=0;
         const startY=0;
 
-        this.#ctx.fillStyle=colorBack;
+        this.#ctx.fillStyle=backColor;
         this.#ctx.fillRect(startX,startY,width,height);
-        this.drawMenu(width,height,colorMenu,title,options);
+        this.drawMenu(width,height,img,title,textColor,options);
 
     }
 
-    drawMenu(parentWidth,parentHeight,color,title,options){
+    drawMenu(parentWidth,parentHeight,img,title,textColor,options){
         const width=parentWidth/2;
         const height=parentHeight/2;
         const startX=parentWidth/2-(width/2);
         const startY=parentHeight/2-(height/2);
+        const buttonsColor= '#2B35C6';
 
         this.#buttonsProperties.play={
             ...this.#buttonsProperties.play,
             x:startX+(width/4),
-            y:startY+(height/2),
+            y:startY+height-(height/4),
             
         }
 
         this.#buttonsProperties.config={
             ...this.#buttonsProperties.config,
             x:((startX+width)-(width/4))-this.#buttonsProperties.config.width,
-            y:startY+(height/2),
+            y:startY+height-(height/4),
         }
 
         const config = this.#buttonsProperties.config;
         const play = this.#buttonsProperties.play;
 
-        this.#drawRectangleRounded(this.#ctx,startX,startY,width,height,30,color);
-        this.drawText(this.#ctx,title,'white',startX+(width/2),startY+70,50,'Nunito');
+        this.drawMenuImg(this.#ctx,startX,startY,width,height,30,img);
+        this.drawWinnerText(this.#ctx,title,textColor,startX+(width/2),startY+50);
 
-        this.drawButton(play.x,play.y,play.width,play.height,'black','Reiniciar');
-        this.drawButton(config.x,config.y,config.width,config.height,'black','Configuración');
+        this.drawButton(play.x,play.y,play.width,play.height,buttonsColor,options[0]);
+        this.drawButton(config.x,config.y,config.width,config.height,buttonsColor,options[1]);
 
     }
 
    
-    drawButton(x, y, width, height,color,text){
-        const radiusButton=10;
-        this.#drawRectangleRounded(this.#ctx,x,y,width,height,radiusButton,color);
-        this.drawText(this.#ctx,text,'white',x+(width/2),y+(height/2),14,'Nunito');
-    }
-
     drawCustomMenu(parentWidth,parentHeight,color){
         const width=parentWidth/2;
         const height=parentHeight/2 + parentHeight/3;
@@ -328,31 +308,19 @@ class Game {
 
     }
 
-    #drawRectangleRounded(ctx, x, y, width, height, radius,color) {
-        this.#ctx.fillStyle=color;
-  
-        ctx.beginPath();
-        
-        ctx.moveTo(x + radius, y);
-        ctx.lineTo(x + width - radius, y);
-        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-        ctx.lineTo(x + width, y + height - radius);
-        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-        ctx.lineTo(x + radius, y + height);
-        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-        ctx.lineTo(x, y + radius);
-        ctx.quadraticCurveTo(x, y, x + radius, y);
-        
-    
-        ctx.closePath();
-        ctx.fill();
-    }
 
-    getWinningPlayer(){
-        const winP1=this.#winsForPlayer.player1;
-        const winP2=this.#winsForPlayer.player2;
+    drawMenuImg(ctx, x, y, width, height, radius,img){
+        this.#drawRectangleRounded(ctx, x, y, width, height, radius);
+        ctx.save(); 
+        ctx.clip(); 
 
-        return winP1 > winP2 ? Config.players.type1 : winP1===winP2 ? null : Config.players.type2;
+        if(img.complete){
+            ctx.drawImage(img, x,y,width,height);
+        }
+        
+        ctx.fillStyle='rgba(255, 255, 255, 0.2)';
+        ctx.fillRect(x, y, width, height);
+        ctx.restore();
     }
 
     animateTimer(ctx){
@@ -383,8 +351,63 @@ class Game {
         }, 990);
     }
 
-    convertTime(min,seg){
-        return `${min.toString().padStart(2, '0')}:${seg.toString().padStart(2, '0')}`;
+    drawWinnerText(ctx,text,color,x,y){
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle'; 
+        ctx.font = `bold 45px Bubblegum Sans`; 
+
+        this.#strokeText(2,'black',text,x,y)
+    
+        ctx.fillStyle = color;
+        ctx.fillText(text, x, y);
+    }
+
+    drawText(ctx,text,color,x,y,size,family){
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle'; 
+        ctx.font = `bold ${size}px ${family}`; 
+        ctx.fillStyle = color; 
+        ctx.fillText(text,x,y);
+    }
+
+    drawButton(x, y, width, height,color,text){
+        const radiusButton=10;
+
+        this.#ctx.fillStyle=color;
+        this.#drawRectangleRounded(this.#ctx,x,y,width,height,radiusButton);
+        this.#ctx.fill();
+
+        this.#strokeRectangle(1,'black');
+
+        this.drawText(this.#ctx,text,'white',x+(width/2),y+(height/2),14,'Nunito');
+    }
+
+    #strokeText(lineWidth,color,text,x,y){
+        this.#ctx.lineWidth = lineWidth;
+        this.#ctx.strokeStyle = color;
+        this.#ctx.strokeText(text, x, y);
+    }
+
+    #strokeRectangle(lineWidth,color){
+        this.#ctx.lineWidth = lineWidth;
+        this.#ctx.strokeStyle = color;
+        this.#ctx.stroke();
+    }
+
+    #drawRectangleRounded(ctx, x, y, width, height, radius) {
+        ctx.beginPath();
+        
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        
+        ctx.closePath();   
     }
 
 
@@ -415,21 +438,8 @@ class Game {
         }
     }
 
-    alternateTurn(){
-        if(this.#playerTurn === 1){
-            this.#playerTurn = 2
-        }else{
-            this.#playerTurn=1
-        }
-       
-    }
-
-    setTurnForWinner(box){
-        let players= Config.listPlayerTypes;
-    
-        let win= players.findIndex(p => p===box.getChip().getPlayer());
-        
-        this.#playerTurn=win+1;
+    convertTime(min,seg){
+        return `${min.toString().padStart(2, '0')}:${seg.toString().padStart(2, '0')}`;
     }
 
     /*///////////////////////////////////////////////////////////////////////Eventos///////////////////////////////////////////////////////////////*/
@@ -480,8 +490,6 @@ class Game {
         }
     }
 
-    /*le pasa el evento a sus hijos */
-  /*le pasa el evento a sus hijos */
     #handleMouseUp() {
         this.#canvas.addEventListener("mouseup", (e) => {
             if(!this.getIsEndGame()){
@@ -499,7 +507,6 @@ class Game {
         }
     }
 
-    /*le pasa el evento a sus hijos */
     #handleMouseMove() {
         const canvas = this.#canvas;
         canvas.addEventListener("mousemove", (e) => {
@@ -509,7 +516,6 @@ class Game {
         });
     }
 
-    /*le pasa el evento a sus hijos */
     #handleMouseOut() {
         const canvas = this.#canvas;
         canvas.addEventListener("mouseout", (e) => {
@@ -544,15 +550,14 @@ class Game {
     getIsEndGame(){
         return this.#isEndGame;
     }
+
+    getWinningPlayer(){
+        const winP1=this.#winsForPlayer.player1;
+        const winP2=this.#winsForPlayer.player2;
+
+        return winP1 > winP2 ? Config.players.type1 : winP1===winP2 ? null : Config.players.type2;
+    }
     
-    addWinPlayer1(){
-        this.#winsForPlayer.player1+=1;
-    }
-
-    addWinPlayer2(){
-        this.#winsForPlayer.player2+=1;
-    }
-
     getWinsPlayer1(){
         return this.#winsForPlayer.player1
     }
@@ -565,7 +570,14 @@ class Game {
         return this.#selectedchip;
     }
 
-    
+
+    addWinPlayer1(){
+        this.#winsForPlayer.player1+=1;
+    }
+
+    addWinPlayer2(){
+        this.#winsForPlayer.player2+=1;
+    }
 
     addWinForPlayer(boxWin){
         const heroWin= boxWin.getChip().getPlayer();
@@ -580,10 +592,29 @@ class Game {
         this.#isEndGame=bool;
     }
 
-
     resetAllRoundsWin(){
         this.#winsForPlayer.player1=0;
         this.#winsForPlayer.player2=0;
+    }
+
+    setPlayerTurn(value){
+        this.#playerTurn=value;
+    }
+
+    alternateTurn(){
+        if(this.getPLayerTurn() === 1){
+           this.setPlayerTurn(2);
+        }else{
+            this.setPlayerTurn(1);
+        }
+    }
+
+    setTurnForWinner(box){
+        let players= Config.listPlayerTypes;
+    
+        let win= players.findIndex(p => p===box.getChip().getPlayer());
+        
+        this.setPlayerTurn(win+1);
     }
 
 }

@@ -9,6 +9,12 @@ class Config{
         './static/assets/game/ficha-joker2.png',
     ];
 
+    static imgsWins=[
+        './static/assets/game/batmanWin.png',
+        './static/assets/game/jokerWin.png',
+        './static/assets/game/draw.png'
+    ]
+
     static typeGame={
         quantityRowsInBoard:6,
         quantityColumnsInBoard:7,
@@ -60,8 +66,15 @@ class Config{
         height:40
     }
 
-    /*se activa para cargar las imagenes de las fichas antes de dibujar los circulos */
-    static loadChipsImgs() {
+    
+    static loadImages() {
+        return Promise.all([
+            Config.loadChipsImages(),
+            Config.loadWinImgs()
+        ]);
+    }
+
+    static loadChipsImages(){
         return new Promise((resolve) => {
             let loadedCount = 0;
             let imagePaths = [...Config.imgPlayerType1, ...Config.imgPlayerType2];
@@ -84,9 +97,36 @@ class Config{
                     console.error(`Error loading image at ${path}`);
                 };
             });
+
         });
     }
 
+    static loadWinImgs(){
+        return new Promise((resolve)=>{
+            this.imgsWins.forEach((path,index)=>{
+                const img = new Image();
+                img.src=path;
+
+                img.onload=()=>{
+                    if(index===0){
+                        Game.images={
+                            batman:img
+                        }
+                    }else if(index==1){
+                        Game.images={...Game.images, joker:img}
+                    }else{
+                        Game.images={...Game.images, draw:img}
+                        resolve();
+                    }
+                }
+
+                img.onerror = () => {
+                    console.error(`Error al cargar imagenes ganadoras.`);
+                };
+            })
+        })
+
+    }
     static adjustCanvasResolution() {
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext('2d');
