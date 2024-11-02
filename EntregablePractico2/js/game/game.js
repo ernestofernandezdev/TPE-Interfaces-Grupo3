@@ -3,8 +3,14 @@ class Game {
     static images;
     #chips = [];    /*fichas disponibles para lanzar */
     #selectedchip=null; /*ficha seleccionada/arrastrada */
-    #board; /*tablero */
+    #board; 
     #playerTurn;
+    #isEndGame=false;
+    #posDispenser=null;
+    #isNotStopGame=true;
+    #ctx;
+    #canvas;
+
     #chipsDrop=[
         {
             x:0,
@@ -20,21 +26,17 @@ class Game {
         }
         
     ]
-    #posDispenser=null;
-    
-    #ctx;
-    #canvas;
     #winsForPlayer={
         player1:0,
         player2:0
     }
-    #isEndGame=false;
 
     #timer={
         min:0,
         seg:0
     }
 
+    /*al momento de dibujar se agregan coordenadas de dibujo */
     #buttonsProperties={
         play:{
             ...Config.sizeButtons,
@@ -43,6 +45,11 @@ class Game {
             ...Config.sizeButtons
         },
         arrows:[]
+    }
+
+    #buttonsActiveMenu={
+        play:false,
+        config:false
     }
 
 
@@ -103,6 +110,17 @@ class Game {
         this.drawChipDispenser();
         this.drawAllAvailableChips(this.#ctx); 
       
+    }
+
+    rebootGame(){
+        this.#board.resetAllBoxes();
+        this.resetAllRoundsWin();
+        this.setPlayerTurn(1);
+        this.setIsEndGame(false);
+        this.createChips();
+        this.animateTimer(this.#ctx);
+
+        this.clearAndRedraw(this.#ctx);
     }
 
     /*manda a cargar configuraciones del juego y escuchar eventos del mouse/usuario*/
@@ -458,13 +476,33 @@ class Game {
         this.#canvas.addEventListener("mousedown", (e) => {
             e.preventDefault();
            
-            if(!this.getIsEndGame()){
+            if(!this.getIsEndGame() && this.getIsNotStopGame()){
                 this.#handleMouseDownFirstChip(e);
-            }else{
-                
+
+            }else if(this.getIsEndGame()){
+
+                if(this.isInPlayGame(e)){
+                    this.#buttonsActiveMenu.play=true;
+                }else if(this.isInConfigGame(e)){
+                    this.#buttonsActiveMenu.config=true;
+                }
             }
 
         });
+    }
+
+    isInPlayGame(e){
+        const {offsetX,offsetY}=e;
+        const btnPlay=this.#buttonsProperties.play;
+
+        return offsetX >= btnPlay.x && offsetX <= btnPlay.x+btnPlay.width && offsetY >= btnPlay.y && offsetY <= btnPlay.y+btnPlay.height;
+    }
+
+    isInConfigGame(e){
+        const {offsetX,offsetY}=e; 
+        const btnConfig=this.#buttonsProperties.config;
+
+        return offsetX >= btnConfig.x && offsetX <= btnConfig.x+btnConfig.width && offsetY >= btnConfig.y && offsetY <= btnConfig.y+btnConfig.height;
     }
 
     #handleMouseDownFirstChip(e){
@@ -492,8 +530,22 @@ class Game {
 
     #handleMouseUp() {
         this.#canvas.addEventListener("mouseup", (e) => {
-            if(!this.getIsEndGame()){
+            if(!this.getIsEndGame() && this.getIsNotStopGame()){
                 this.#handleMouseUpChips(e);
+
+            }else if(this.getIsEndGame()){
+
+                if(this.isInPlayGame(e) && this.#buttonsActiveMenu.play){
+                    this.rebootGame();
+                }else if(this.isInConfigGame(e) && this.#buttonsActiveMenu.config){
+                    console.log("CONFIGURACION");
+                    
+                }
+
+                Object.keys(this.#buttonsActiveMenu).forEach(prop => {
+                    this.#buttonsActiveMenu[prop] = false; 
+                });
+
             }
         });
     }
@@ -570,6 +622,10 @@ class Game {
         return this.#selectedchip;
     }
 
+    getIsNotStopGame(){
+        return this.#isNotStopGame;
+    }
+
 
     addWinPlayer1(){
         this.#winsForPlayer.player1+=1;
@@ -615,6 +671,10 @@ class Game {
         let win= players.findIndex(p => p===box.getChip().getPlayer());
         
         this.setPlayerTurn(win+1);
+    }
+
+    setIsNotStopGame(bool){
+        this.#isNotStopGame=bool;
     }
 
 }

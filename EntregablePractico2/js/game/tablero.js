@@ -111,11 +111,13 @@ class Tablero {
                     Game.getInstance().clearAndRedraw(ctx);
 
                     if(listBoxesWinner){
+                        Game.getInstance().setIsNotStopGame(false);
                         this.checkListWinner(listBoxesWinner);
                         Game.getInstance().addWinForPlayer(listBoxesWinner[0]);
                         Game.getInstance().clearAndRedraw(ctx);
 
                         setTimeout(() => {
+                            Game.getInstance().setIsNotStopGame(true);
                             Game.getInstance().setTurnForWinner(listBoxesWinner[0]);
                             this.resetAllBoxes();
                             Game.getInstance().createChips();
