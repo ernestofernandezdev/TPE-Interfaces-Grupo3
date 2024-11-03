@@ -3,6 +3,7 @@ class Game {
     static images;
     #ctx;
     #canvas;
+    #timerAnimation
     #chips = [];    /*fichas disponibles para lanzar */
     #selectedchip=null; /*ficha seleccionada/arrastrada */
     #board; 
@@ -158,6 +159,7 @@ class Game {
     /*Util para cuando se desea dibujar mas cosas por encima de lo que ya hay(ejemplo placeholder de ficha, se agrega a lo que hay)*/
     redraw(context){
         this.drawTimer(context,this.convertTime(this.#timer.min,this.#timer.seg));
+        this.drawReserBtn();
         this.#board.drawAllBoxes(context)
         this.drawChipDispenser();
         this.drawAllAvailableChips(context)
@@ -313,7 +315,7 @@ class Game {
         this.#timer.min=maxMinutes;
         this.#timer.seg=0;
 
-        const animation = setInterval(() =>{
+        this.#timerAnimation = setInterval(() =>{
             if(this.#timer.seg === 59){
                 this.#timer.min=this.#timer.min-1;
             }
@@ -321,7 +323,7 @@ class Game {
             this.clearAndRedraw(ctx);
           
             if(this.#timer.min === 0 && this.#timer.seg===0){
-                clearInterval(animation);
+                clearInterval(this.#timerAnimation);
                 this.endGame()
             }else{
                 if(this.#timer.seg===0){
@@ -347,6 +349,25 @@ class Game {
             this.#drawText(ctx,time,'white',this.#canvas.offsetWidth-width/2, height/2, 35,'Impact');
         }
 
+    }
+
+    drawReserBtn() {
+        this.#drawButton(this.#canvas.offsetWidth-110, 60, 100, 30, '#00197c', "Reiniciar")
+
+        this.#canvas.addEventListener("click", e => {
+            const rect = this.#canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            if (mouseX > this.#canvas.offsetWidth-110 &&
+                mouseX < this.#canvas.offsetWidth-10 &&
+                mouseY > 60 &&
+                mouseY < 90
+            ) {
+                clearInterval(this.#timerAnimation);
+                this.endGame()
+            }
+        })
     }
 
     drawAllAvailableChips(context) {
