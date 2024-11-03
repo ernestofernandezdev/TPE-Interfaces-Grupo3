@@ -92,7 +92,7 @@ class Game {
         this.#ctx = this.#canvas.getContext("2d");
         this.#board = new Tablero();
         this.setDispenserProperties();
-       
+
         Config.adjustCanvasResolution();
         this.#handleAllEvents();
     }
