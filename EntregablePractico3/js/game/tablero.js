@@ -215,14 +215,14 @@ class Tablero {
 
     checkListWinner(list){
         list.forEach(box =>{
-            box.setColor(Config.boxesColor.winner);
+            box.setIsWinner(true);
         })
     }
 
     resetAllBoxes(){
         this.#boxes.forEach(row =>{
             row.forEach(box=>{
-                box.setColor(Config.boxesColor.empty);
+                box.setIsWinner(false);
                 box.setChip(null);
             })
         })

@@ -9,6 +9,11 @@ class Config{
         './static/assets/game/ficha-joker2.png',
     ];
 
+    static casillerosImagesPaths= [
+        './static/assets/game/casillero-winner.png',
+        './static/assets/game/casillero.png'
+    ]
+
     static imgsWins=[
         './static/assets/game/batmanWin.png',
         './static/assets/game/jokerWin.png',
@@ -72,8 +77,36 @@ class Config{
         return Promise.all([
             Config.loadChipsImages(),
             Config.loadWinImgs(),
-            Config.loadImgMenu()
+            Config.loadImgMenu(),
+            Config.loadCasillerosImages()
         ]);
+    }
+
+    static loadCasillerosImages() {
+
+        return new Promise((resolve) => {
+            let loadedCount = 0;
+            let imagePaths = Config.casillerosImagesPaths;
+            
+            imagePaths.forEach((path, index) => {
+                const img = new Image(90,90);
+                img.src = path;
+
+                img.onload = () => {
+                    Casillero.images[index]= img;
+                    loadedCount++;
+
+                    if (loadedCount === imagePaths.length) {
+                        resolve();
+                    }
+                };
+
+                img.onerror = () => {
+                    console.error(`Error loading image at ${path}`);
+                };
+            });
+
+        });
     }
 
     static loadChipsImages(){
@@ -87,7 +120,6 @@ class Config{
 
                 img.onload = () => {
                     Ficha.images[index] = img;
-                    Casillero.images.chipImgs[index]= img;
                     loadedCount++;
 
                     if (loadedCount === imagePaths.length) {

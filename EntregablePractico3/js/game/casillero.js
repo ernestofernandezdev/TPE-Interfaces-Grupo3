@@ -1,12 +1,11 @@
 class Casillero{
-    static images={
-        chipImgs:[]
-    };
+    static images=[];
     #x;
     #y;
     #row;
     #column;
     #color;
+    #isWinnerBox;
 
     #chip;
     #borderRadius;
@@ -19,15 +18,16 @@ class Casillero{
         this.#column=prop.col;
         this.#borderRadius=[...prop.borderRadius];
         this.#color=prop.color;
-        
+        this.#isWinnerBox = false
         this.#chip=null;
     }
 
     drawBox(ctx){
         const centerX = this.#x + Config.boxSize.width/ 2;
-        const centerY = this.#y + Config.boxSize.width/ 2;
+        const centerY = this.#y + Config.boxSize.height/ 2;
         const radius = Config.chipSize.radius;
 
+        /*
         ctx.fillStyle= this.getColor() ;
         this.#drawRectangleRounded(ctx,this.#x,this.#y,Config.boxSize.width,Config.boxSize.height,Config.boxSize.height);
 
@@ -44,9 +44,18 @@ class Casillero{
 
         ctx.fillStyle=Config.boxesColor.emptyCircle;
         ctx.fill();
-        
+        */
+        if (this.#isWinnerBox) {
+            ctx.drawImage(Casillero.images[0], this.#x, this.#y, Config.boxSize.width, Config.boxSize.height)
+        } else {
+            ctx.drawImage(Casillero.images[1], this.#x, this.#y, Config.boxSize.width, Config.boxSize.height)
+        }
 
         ctx.restore();
+    }
+
+    setIsWinner(isWinner) {
+        this.#isWinnerBox = isWinner;
     }
     
     drawChip(ctx) {
