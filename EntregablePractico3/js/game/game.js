@@ -635,20 +635,18 @@ class Game {
     }
 
     #handleMouseUp() {
-        this.#canvas.addEventListener("mouseup", (e) => {
-
-            if(!this.getIsStopGame()){                                /*si el juego no esta detenido*/
-                this.#handleMouseUpChips(e);                                 /*está jugando, activo los eventos de fichas */
-
-            }
+        this.#canvas.addEventListener("mouseup", (e) => {                                                          
+            this.#handleMouseUpChips(e);                                
         });
     }
 
     #handleMouseUpChips(e){
         this.#chips.forEach((chip) => {
-            chip.handleMouseUp(e);
+            if(!this.getIsStopGame()){  
+                chip.handleMouseUp(e);
+            }
         });
-        if(this.#selectedchip){
+        if(this.#selectedchip && !this.getIsStopGame()){
             this.#board.handleMouseUp(e,this.#selectedchip,this.#ctx);
         }
     }
@@ -656,26 +654,30 @@ class Game {
     #handleMouseMove() {
         const canvas = this.#canvas;
         canvas.addEventListener("mousemove", (e) => {
-            if(!this.getIsStopGame()){
-                this.#chips.forEach((chip) => {
+            
+            this.#chips.forEach((chip) => {
+                if(!this.getIsStopGame()){
                     chip.handleMouseMove(e, this.#ctx, canvas);
-                });
-            }
+                }
+            });
+            
         });
     }
 
     #handleMouseOut() {
         const canvas = this.#canvas;
         canvas.addEventListener("mouseout", (e) => {
-            if(!this.getIsStopGame()){
-                this.#handleMouseOutChips(e);
-            }
+            
+            this.#handleMouseOutChips(e);
+            
         });
     }
 
     #handleMouseOutChips(e){
         this.#chips.forEach((chip) => {
-            chip.handleMouseOut(e);
+            if(!this.getIsStopGame()){
+                chip.handleMouseOut(e);
+            }
         });
     }
 
