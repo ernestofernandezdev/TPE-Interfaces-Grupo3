@@ -120,13 +120,18 @@ class Tablero {
                         Game.getInstance().addWinForPlayer(listBoxesWinner[0]);
                         Game.getInstance().clearAndRedraw(ctx);
 
+                        
                         setTimeout(() => {
-                            Game.getInstance().setStopGame(false);
-                            Game.getInstance().setTurnForWinner(listBoxesWinner[0]);
-                            this.resetAllBoxes();
-                            Game.getInstance().resetAllChips();
-                            Game.getInstance().clearAndRedraw(ctx);
+                            if(!Game.getInstance().getIsInMainMenu()){
+                                Game.getInstance().setStopGame(false);
+                                Game.getInstance().setTurnForWinner(listBoxesWinner[0]);
+                                this.resetAllBoxes();
+                                Game.getInstance().resetAllChips();
+                                Game.getInstance().clearAndRedraw(ctx);
+                            }
                         }, 2200);
+
+                        
                     }
 
                     if(Game.getInstance().getChips().length === 0 && !listBoxesWinner){
@@ -134,9 +139,11 @@ class Tablero {
                         Game.getInstance().clearAndRedraw(ctx);
                         
                         setTimeout(() => {
-                            this.resetAllBoxes();
-                            Game.getInstance().resetAllChips();
-                            Game.getInstance().clearAndRedraw(ctx);
+                            if(!Game.getInstance().getIsInMainMenu()){
+                                this.resetAllBoxes();
+                                Game.getInstance().resetAllChips();
+                                Game.getInstance().clearAndRedraw(ctx);
+                            }
                         }, 2200);
                     }
 

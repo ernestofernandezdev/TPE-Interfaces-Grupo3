@@ -122,6 +122,7 @@ class Game {
         this.setStopGame(true);
         this.setIsInMainMenu(true);
         
+        this.clearAndRedraw(this.#ctx);
         const backgroundMainColor='rgba(0, 0, 0, 0.7)';
         const options=['Reiniciar','Configuración'];
         const colorsText={
@@ -129,7 +130,7 @@ class Game {
             p2:'#D83232',
             draw:'#EEE238'
         }
-
+        
         if(!win){
             this.drawMainMenu(Game.images.draw,`¡EMPATE!`,colorsText.draw,options,backgroundMainColor);
         }else{
@@ -629,16 +630,18 @@ class Game {
     #handleMouseMove() {
         const canvas = this.#canvas;
         canvas.addEventListener("mousemove", (e) => {
-            this.#chips.forEach((chip) => {
-                chip.handleMouseMove(e, this.#ctx, canvas);
-            });
+            if(!this.getIsStopGame()){
+                this.#chips.forEach((chip) => {
+                    chip.handleMouseMove(e, this.#ctx, canvas);
+                });
+            }
         });
     }
 
     #handleMouseOut() {
         const canvas = this.#canvas;
         canvas.addEventListener("mouseout", (e) => {
-            if(!this.getIsEndGame()){
+            if(!this.getIsStopGame()){
                 this.#handleMouseOutChips(e);
             }
         });
