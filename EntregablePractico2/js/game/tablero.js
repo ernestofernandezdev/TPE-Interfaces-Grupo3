@@ -126,7 +126,7 @@ class Tablero {
                             this.resetAllBoxes();
                             Game.getInstance().resetAllChips();
                             Game.getInstance().clearAndRedraw(ctx);
-                        }, 2000);
+                        }, 2200);
                     }
 
                     if(Game.getInstance().getChips().length === 0 && !listBoxesWinner){
@@ -137,7 +137,7 @@ class Tablero {
                             this.resetAllBoxes();
                             Game.getInstance().resetAllChips();
                             Game.getInstance().clearAndRedraw(ctx);
-                        }, 2000);
+                        }, 2200);
                     }
 
                 });
