@@ -115,6 +115,7 @@ class Game {
         this.animateTimer(this.#ctx);
 
         this.clearAndRedraw(this.#ctx);
+       
     }
 
     endGame(){
@@ -157,7 +158,7 @@ class Game {
 
     /*Util para cuando se desea dibujar mas cosas por encima de lo que ya hay(ejemplo placeholder de ficha, se agrega a lo que hay)*/
     redraw(context){
-        this.drawTimer(context,this.convertTime(this.#timer.min,this.#timer.seg));
+        this.drawTimer(context,this.convertTime(this.#timer.min===Config.typeGame.timeInMin && this.#timer.seg===59?this.#timer.min-1:this.#timer.min,this.#timer.seg));
         this.drawResetBtn();
         this.#board.drawAllBoxes(context)
         this.drawChipDispenser();
