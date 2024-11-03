@@ -2032,14 +2032,13 @@
             this.#handleClickPostComment();
             this.#handleInputTextArea();
             this.#handleClickLikeComment();
+            this.#handleClickBtnPlayGame();
 
-            Config.loadImages().then(()=>{
-                this.#loadGame();
-            })
+            
         }
 
         #loadGame(){
-            this.#game.initGame();
+            this.#game.loadGame();
            
         }
 
@@ -2091,26 +2090,17 @@
 
         #getSectionGameExect(){
             const container = document.createElement("section");
-            const containerGame = document.createElement("div");
-            containerGame.classList='execution-game';
             container.className="container-execution";
 
-            // const template = `<div class="execution-game">
-            //                     <div class="img-game"><img  src=${this.#game.frontImg} src="batman vs guason"></div>
-            //                     <button class="btn-play-game btn-eject btn"><span class='p-bold'>Jugar</span> ${Utils.SVGTemplate(Utils.customSVG("PLAY_GAME",Constants.colors.white))}</button>
-            //                     ${this.#getBarExect()}
-            //                 </div>`;
-            containerGame.appendChild(this.#game.getComponent());
-            container.appendChild(containerGame);
+            const template = `<div class="execution-game">
+                                <div class="img-game"><img  src=${this.#gameData.frontImg} src="batman vs guason"></div>
+                                <button id='btn-eject-game' class="btn-play-game btn-eject btn"><span class='p-bold'>Jugar</span> ${Utils.SVGTemplate(Utils.customSVG("PLAY_GAME",Constants.colors.white))}</button>
+                            </div>`;
+            container.innerHTML=template;
             container.appendChild(this.#getBarExect());
 
             return container;
         }
-        
-
-
-
-
 
         #getBarExect(){
             const bar = document.createElement("div");
@@ -2227,6 +2217,28 @@
                 parent.appendChild(viewAll);
             })
 
+        }
+
+        #handleClickBtnPlayGame(){
+            const btn = document.querySelector("#btn-eject-game");
+
+            btn.addEventListener("click", ()=>{
+                const container = document.querySelector(".container-execution");
+                const bar = document.querySelector(".bar-game-exec");
+                const containerGame = document.createElement("div");
+
+                while(bar.previousSibling){
+                    bar.previousSibling.remove();
+                }
+
+                containerGame.classList='execution-game';
+                containerGame.appendChild(this.#game.getCanvas());
+                container.insertBefore(containerGame,bar);
+               
+                Config.loadImages().then(()=>{
+                    this.#loadGame();
+                })
+            })
         }
 
         #handleClickShareButton(){

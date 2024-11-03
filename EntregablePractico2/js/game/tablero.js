@@ -124,7 +124,7 @@ class Tablero {
                             Game.getInstance().setStopGame(false);
                             Game.getInstance().setTurnForWinner(listBoxesWinner[0]);
                             this.resetAllBoxes();
-                            Game.getInstance().createChips();
+                            Game.getInstance().resetAllChips();
                             Game.getInstance().clearAndRedraw(ctx);
                         }, 2000);
                     }
@@ -135,7 +135,7 @@ class Tablero {
                         
                         setTimeout(() => {
                             this.resetAllBoxes();
-                            Game.getInstance().createChips();
+                            Game.getInstance().resetAllChips();
                             Game.getInstance().clearAndRedraw(ctx);
                         }, 2000);
                     }

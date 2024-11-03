@@ -486,6 +486,9 @@ article{
 
 .btn-eject {
     position: absolute;
+    left: 45%;
+    top: 40%;
+    
 }
 
 .btn-play-game:hover .container-svg {
@@ -781,18 +784,22 @@ article{
 .execution-game{
     width: fit-content;
     height: fit-content;
+    display: flex;
+    justify-content: center;
+    position: relative;
 }
 
 .img-game {
-    width: 100%;
-    height: 100%;
+    width: 50%;
+    height: 50%;
     opacity: 0.4;
+    
 }
 
 .execution-game > button >.container-svg:hover{
     animation: none;
 }
-/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
 .bar-game-exec{
     display: flex;
     justify-content: space-between;
