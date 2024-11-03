@@ -86,12 +86,6 @@ class Tablero {
  
     }
 
-    handleMouseDown(){}
-
-    handleMouseMove(){}
-
-    handleMouseOut(){}
-
     /*cuando se suelta el click en el canvas ---> recibe por parametro la ficha clickeada/arrastrada, verifica si hay ficha arrastrada y si el dropeo(mouseUp) esta en el area superior del tablero comprendida. */
     /*cuando recibe la ficha la agrega a su matriz de fichas.La Ficha se elimina de la clase game ----> sale de las fichas disponibles asi no se renderiza junto con las otras. */
     handleMouseUp(e,chip,ctx){
@@ -555,6 +549,4 @@ class Tablero {
 
         return dHeight;
     }
-
-   
 }
