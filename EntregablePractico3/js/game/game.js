@@ -3,7 +3,7 @@ class Game {
     static images;
     #ctx;
     #canvas;
-    #timerAnimation
+    #timerAnimation;
     #chips = [];    /*fichas disponibles para lanzar */
     #selectedchip=null; /*ficha seleccionada/arrastrada */
     #board; 
@@ -159,7 +159,7 @@ class Game {
     /*Util para cuando se desea dibujar mas cosas por encima de lo que ya hay(ejemplo placeholder de ficha, se agrega a lo que hay)*/
     redraw(context){
         this.drawTimer(context,this.convertTime(this.#timer.min,this.#timer.seg));
-        this.drawReserBtn();
+        this.drawResetBtn();
         this.#board.drawAllBoxes(context)
         this.drawChipDispenser();
         this.drawAllAvailableChips(context)
@@ -351,21 +351,26 @@ class Game {
 
     }
 
-    drawReserBtn() {
-        this.#drawButton(this.#canvas.offsetWidth-110, 60, 100, 30, '#00197c', "Reiniciar")
+    drawResetBtn() {
+        const maginRight=10;
+        const width=100;
+        const height=30;
+        const posX=this.#canvas.offsetWidth-(width+maginRight);
+        const posY=60;
+        this.#drawButton(posX, posY, width, height, '#00197c', "Reiniciar")
 
         this.#canvas.addEventListener("click", e => {
             const rect = this.#canvas.getBoundingClientRect();
             const mouseX = e.clientX - rect.left;
             const mouseY = e.clientY - rect.top;
 
-            if (mouseX > this.#canvas.offsetWidth-110 &&
-                mouseX < this.#canvas.offsetWidth-10 &&
-                mouseY > 60 &&
-                mouseY < 90
+            if (mouseX > posX &&
+                mouseX < this.#canvas.offsetWidth-maginRight &&
+                mouseY > posY &&
+                mouseY < posY+height
             ) {
                 clearInterval(this.#timerAnimation);
-                this.endGame()
+                this.rebootGame();
             }
         })
     }
@@ -395,6 +400,7 @@ class Game {
             ctx.strokeStyle=Config.dispenserColor.border;
             ctx.lineWidth = 5; 
             ctx.stroke();
+            this.#drawText(ctx,'🔻Turno🔻',colorText,x+(width/2), y-15,18,'Nunito');
            
         }
 

@@ -47,7 +47,6 @@ class Tablero {
             row:0,
             col:0,
             borderRadius:[false,false,false,false],
-            color:`${Config.boxesColor.empty}`,
         }    
        
         for(let i =this.#boxes.length-1; i >= 0; i-- ){
@@ -208,21 +207,21 @@ class Tablero {
     checkDrawBoxes(){
         this.#boxes.forEach(row =>{
             row.forEach(box=>{
-                box.setColor(Config.boxesColor.draw);
+                box.setState(2);
             })
         })
     }
 
     checkListWinner(list){
         list.forEach(box =>{
-            box.setIsWinner(true);
+            box.setState(1);
         })
     }
 
     resetAllBoxes(){
         this.#boxes.forEach(row =>{
             row.forEach(box=>{
-                box.setIsWinner(false);
+                box.setState(0);
                 box.setChip(null);
             })
         })

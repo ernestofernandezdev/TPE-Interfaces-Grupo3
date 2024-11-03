@@ -9,9 +9,10 @@ class Config{
         './static/assets/game/ficha-joker2.png',
     ];
 
-    static casillerosImagesPaths= [
-        './static/assets/game/casillero-winner.png',
-        './static/assets/game/casillero.png'
+    static boxesImagesPaths= [
+        './static/assets/game/boxEmpty.png',
+        './static/assets/game/boxWin.png',
+        './static/assets/game/boxDraw.png',
     ]
 
     static imgsWins=[
@@ -49,14 +50,6 @@ class Config{
         height:((Config.chipSize.radius*2) + 30),
     }
 
-    static boxesColor={
-        empty:"#00197c",
-        winner:'#EEF100',
-        draw:'#A50000',
-        borders:'#000e47',
-        emptyCircle:'white'
-    }
-
     static dispenserColor={
         default:`rgba(0, 0, 0, 0.6)`,
         border:`rgba(0, 0, 255, 0.6)`,
@@ -78,15 +71,15 @@ class Config{
             Config.loadChipsImages(),
             Config.loadWinImgs(),
             Config.loadImgMenu(),
-            Config.loadCasillerosImages()
+            Config.loadBoxesImages()
         ]);
     }
 
-    static loadCasillerosImages() {
+    static loadBoxesImages() {
 
         return new Promise((resolve) => {
             let loadedCount = 0;
-            let imagePaths = Config.casillerosImagesPaths;
+            let imagePaths = Config.boxesImagesPaths;
             
             imagePaths.forEach((path, index) => {
                 const img = new Image(90,90);
