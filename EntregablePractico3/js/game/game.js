@@ -123,22 +123,24 @@ class Game {
         this.setStopGame(true);
         this.setIsInMainMenu(true);
         
-        this.clearAndRedraw(this.#ctx);
-        const backgroundMainColor='rgba(0, 0, 0, 0.7)';
-        const options=['Reiniciar','Configuración'];
-        const colorsText={
-            p1:'#151FB1',
-            p2:'#D83232',
-            draw:'#EEE238'
-        }
-        
-        if(!win){
-            this.drawMainMenu(Game.images.draw,`¡EMPATE!`,colorsText.draw,options,backgroundMainColor);
-        }else{
-            const prop = win===Config.players.type1 ? {img: Game.images.batman, color: colorsText.p1} : {img:Game.images.joker,color:colorsText.p2};
-
-            this.drawMainMenu(prop.img,`¡GANADOR!`,prop.color,options,backgroundMainColor);
-        } 
+        setTimeout(() => {
+            this.clearAndRedraw(this.#ctx);
+            const backgroundMainColor='rgba(0, 0, 0, 0.7)';
+            const options=['Reiniciar','Configuración'];
+            const colorsText={
+                p1:'#151FB1',
+                p2:'#D83232',
+                draw:'#EEE238'
+            }
+            
+            if(!win){
+                this.drawMainMenu(Game.images.draw,`¡EMPATE!`,colorsText.draw,options,backgroundMainColor);
+            }else{
+                const prop = win===Config.players.type1 ? {img: Game.images.batman, color: colorsText.p1} : {img:Game.images.joker,color:colorsText.p2};
+    
+                this.drawMainMenu(prop.img,`¡GANADOR!`,prop.color,options,backgroundMainColor);
+            } 
+        }, 500);
     }
 
     
@@ -324,7 +326,9 @@ class Game {
           
             if(this.#timer.min === 0 && this.#timer.seg===0){
                 clearInterval(this.#timerAnimation);
+                
                 this.endGame()
+               
             }else{
                 if(this.#timer.seg===0){
                     this.#timer.seg=59;
