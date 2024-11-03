@@ -16,19 +16,19 @@
        
         if(section == "inicio"){
             document.title="Inicio | FlamingGames";
-            //const spinner = new Spinner();
+            const spinner = new Spinner();
             const home = new Home(user);
-            //.appendChild(spinner.getComponent());
+            root.appendChild(spinner.getComponent());
 
-            root.innerHTML='';
-            root.appendChild(header.getComponent());
-            root.appendChild(home.getComponent());
-            root.appendChild(footer.getComponent());
-
-            header.listenEvents();
-            home.listenEvents();
-            footer.listenEvents();
             setTimeout(() => {
+                root.innerHTML='';
+                root.appendChild(header.getComponent());
+                root.appendChild(home.getComponent());
+                root.appendChild(footer.getComponent());
+    
+                header.listenEvents();
+                home.listenEvents();
+                footer.listenEvents();
             }, 5000);
               
         }else if(section == "game"){
