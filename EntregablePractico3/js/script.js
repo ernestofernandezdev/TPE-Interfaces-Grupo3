@@ -113,10 +113,19 @@
             titulo:"4 en linea: batman vs. guasón",
             frontImg:'static/assets/4-linea.png',
             categoria:"puzzle",
-            multimedia:['static/video/batmanvsguason.mp4','static/video/batmanvsguason2.mp4','static/assets/batman4.png',
-                'static/assets/batman5.png','static/assets/batman3.png','static/assets/batman1.png','static/assets/batman2.png','static/assets/batman6.png'],
+            multimedia:['static/video/videojuego0.mp4',
+                'static/video/videojuego1.mp4',
+                'static/video/videojuego2.mp4',
+                'static/assets/juego0.png',
+                'static/assets/juego1.png',
+                'static/assets/juego2.png',
+                'static/assets/juego3.png',
+                'static/assets/juego4.png',
+                'static/assets/juego5.png',
+                'static/assets/juego6.png',
+            ],
             descipcion:`El juego "4 en línea: Batman vs Guasón" lleva la clásica estrategia a Ciudad Gótica. Los jugadores eligen entre fichas de Batman o el Guasón, tratando de alinear cuatro fichas seguidas antes que su oponente, ya sea en vertical, horizontal o diagonal. Con el trasfondo oscuro de la ciudad y elementos visuales icónicos de ambos personajes, la partida se convierte en una lucha por el control de Gótica.`,
-            controles:"El jugador arrastra la ficha desde una barra superior y la suelta sobre la columna deseada. Para arrastrar las fichas se debe utilizar el click izquierdo del mouse.",
+            controles:"Clickear y arrastrar hacia la parte superior del tablero la primera ficha ubicada por encima del slot de fichas. Este movimiento se repite en cada turno.",
             comentarios:[{
                 id:1,
                 usuario:"juancitoXGamer",
@@ -2119,6 +2128,18 @@
             bar.innerHTML=template;
 
             return bar;
+        }
+
+        #getSectionControls(title,content,className=''){
+            const container = document.createElement("section");
+            container.className=`text-section ${className}`;
+
+            const template = `<h3 class="p-l p-bold">${title}</h3>
+                                <p class="p-m"> ${content}</p>`
+
+            container.innerHTML=template;
+
+            return container;
         }
           
         #getTextSection(title,content,className=''){

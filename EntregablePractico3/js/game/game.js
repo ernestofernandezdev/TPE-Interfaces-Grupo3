@@ -216,8 +216,8 @@ class Game {
         const config = this.#buttonsProperties.config;
         const play = this.#buttonsProperties.play;
 
-        this.#drawMenuImg(this.#ctx,startX,startY,width,height,30,img,'rgba(255, 255, 255, 0.2)');
-        this.#drawWinnerText(this.#ctx,title,textColor,startX+(width/2),startY+50);
+        this.#drawMenuImg(this.#ctx,startX,startY,width,height,30,img,'rgba(0, 0, 0, 0.3)');
+        this.#drawStrokeText(this.#ctx,title,textColor,startX+(width/2),startY+50,45,"Bubblegum Sans");
 
         this.#drawButton(play.x,play.y,play.width,play.height,buttonsColor,options[0]);
         this.#drawButton(config.x,config.y,config.width,config.height,buttonsColor,options[1]);
@@ -252,9 +252,6 @@ class Game {
         let index=0;
         let incrementY;  
 
-        this.#ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-        this.#drawRectangleRounded(this.#ctx,x,y,width,height,30);
-        this.#ctx.fill();
 
         this.#personalizeConfig.forEach(c=>{
             if(!c.options[c.optionPos]){
@@ -284,7 +281,7 @@ class Game {
         const arrowLeftX=x, arrowLeftY= y+height/3;
         const arrowRightX=(x+width)-btnSize, arrowRightY=y+height/3;
         
-        const opSize=15;
+        const opSize=18;
         const opX=x+(width/2),opY=y+(height/3)+opSize;
 
 
@@ -305,10 +302,11 @@ class Game {
                 }
             })
         }
+
         
-        this.#drawText(this.#ctx,title,'#5861E1',titleX,titleY,titleSize,'Nunito');
+        this.#drawStrokeText(this.#ctx,title,'red',titleX,titleY,titleSize,'Nunito');
         this.#drawButton(arrowLeftX,arrowLeftY,btnSize,btnSize,btnColor,'<');
-        this.#drawText(this.#ctx,numItem===0 ? `${options[optActive]} min.`: options[optActive],'white',opX,opY,opSize,'Nunito');
+        this.#drawStrokeText(this.#ctx,numItem===0 ? `${options[optActive]} min.`: options[optActive],'white',opX,opY,opSize,'Nunito');
         this.#drawButton(arrowRightX,arrowRightY,btnSize,btnSize,btnColor,'>');
     }
     //////////////////////////////////////////////////////////////dibujos de cosas utiles (timer,fichas,dispenser de fichas)////////////////////////////////////////////////////////
@@ -435,10 +433,10 @@ class Game {
         ctx.restore();
     }
 
-    #drawWinnerText(ctx,text,color,x,y){
+    #drawStrokeText(ctx,text,color,x,y,size,font){
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle'; 
-        ctx.font = `bold 45px Bubblegum Sans`; 
+        ctx.font = `bold ${size}px ${font}`; 
 
         this.#strokeText(2,'black',text,x,y)
     
