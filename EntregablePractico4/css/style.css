@@ -1,0 +1,163 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+}
+
+main {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 1280px;
+    height: fit-content;
+    background-image: url("/static/images/number-blocks-section-bg.jpg");
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+nav {
+    padding: 0 100px;
+    position: absolute;
+    display: flex;
+    width: 1080px;
+    justify-content: space-between;
+}
+
+.burger-menu {
+    margin-top: 20px;
+    z-index: 15;
+    cursor: pointer;
+}
+
+.buy-btn {
+    color: white;
+    background-color: #83C252;
+    border: white 8px solid;
+    border-radius: 111px;
+    height: fit-content;
+    width: 216px;
+    padding: 15px 43px;
+    font-size: 20px;
+    line-height: 20px;
+    font-weight:900;
+    margin-top: 12px;
+    font-family: 'Lato';
+    box-shadow: 4px 5px #02187E;
+    cursor: pointer;
+}
+
+.buy-btn::content {
+    margin: 0;
+    padding: 0;
+}
+
+.number-blocks-section {
+    width: 1080px;
+    height: 959px;
+}
+
+.number-blocks-section .big-tree {
+    position: absolute;
+    left: -163px;
+    top: -1px;
+    z-index: 3;
+}
+
+.number-blocks-section .medium-tree {
+    position: absolute;
+    left: 881px;
+    top: 116px;
+    z-index: 10;
+}
+
+.number-blocks-section .small-tree {
+    position: absolute;
+    left: 1080px;
+    top: 278px;
+    z-index: 8;
+}
+
+.number-blocks-section .stone-1 {
+    position: absolute;
+    left: 129px;
+    top: 793px;
+    z-index: 4;
+}
+
+.number-blocks-section .stone-2 {
+    position: absolute;
+    left: 1070px;
+    top: 737px;
+    z-index: 12;
+}
+
+.number-blocks-section .stone-3 {
+    position: absolute;
+    left: 1035px;
+    top: 737px;
+    z-index: 11;
+}
+
+.number-blocks-section .stone-4 {
+    position: absolute;
+    left: 1042px;
+    top: 787px;
+    z-index: 13;
+}
+
+.number-blocks-section .bush-1 {
+    position: absolute;
+    left: 161px;
+    top: 718px;
+    z-index: 2;
+}
+
+.number-blocks-section .bush-2 {
+    position: absolute;
+    left: 1080px;
+    top: 662px;
+    z-index: 9;
+}
+
+.number-blocks-section .bush-3 {
+    position: absolute;
+    left: 197px;
+    top: 822px;
+    z-index: 9;
+}
+
+.number-blocks-section .bush-4 {
+    position: absolute;
+    left: 1028px;
+    top: 630px;
+    z-index: 7;
+}
+
+.number-blocks-section .block-1 {
+    position: absolute;
+    left: 425px;
+    top: 512px;
+    transform: rotate(-6.51deg);
+    z-index: 2;
+}
+
+.number-blocks-section .block-2 {
+    position: absolute;
+    left: 548px;
+    top: 411px;
+    transform: rotate(-6.72deg);
+    z-index: 1;
+}
+
+.number-blocks-section .block-3 {
+    position: absolute;
+    left: 720px;
+    top: 347px;
+    transform: rotate(8.73deg);
+    z-index: 0;
+}
