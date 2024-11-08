@@ -47,7 +47,6 @@ class Tablero {
             row:0,
             col:0,
             borderRadius:[false,false,false,false],
-            color:`${Config.boxesColor.empty}`,
         }    
        
         for(let i =this.#boxes.length-1; i >= 0; i-- ){
@@ -86,12 +85,6 @@ class Tablero {
         })
  
     }
-
-    handleMouseDown(){}
-
-    handleMouseMove(){}
-
-    handleMouseOut(){}
 
     /*cuando se suelta el click en el canvas ---> recibe por parametro la ficha clickeada/arrastrada, verifica si hay ficha arrastrada y si el dropeo(mouseUp) esta en el area superior del tablero comprendida. */
     /*cuando recibe la ficha la agrega a su matriz de fichas.La Ficha se elimina de la clase game ----> sale de las fichas disponibles asi no se renderiza junto con las otras. */
@@ -208,21 +201,21 @@ class Tablero {
     checkDrawBoxes(){
         this.#boxes.forEach(row =>{
             row.forEach(box=>{
-                box.setColor(Config.boxesColor.draw);
+                box.setState(2);
             })
         })
     }
 
     checkListWinner(list){
         list.forEach(box =>{
-            box.setIsWinner(true);
+            box.setState(1);
         })
     }
 
     resetAllBoxes(){
         this.#boxes.forEach(row =>{
             row.forEach(box=>{
-                box.setIsWinner(false);
+                box.setState(0);
                 box.setChip(null);
             })
         })
@@ -556,6 +549,4 @@ class Tablero {
 
         return dHeight;
     }
-
-   
 }

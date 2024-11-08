@@ -3,7 +3,7 @@ class Game {
     static images;
     #ctx;
     #canvas;
-    #timerAnimation
+    #timerAnimation;
     #chips = [];    /*fichas disponibles para lanzar */
     #selectedchip=null; /*ficha seleccionada/arrastrada */
     #board; 
@@ -92,8 +92,7 @@ class Game {
         this.#ctx = this.#canvas.getContext("2d");
         this.#board = new Tablero();
         this.setDispenserProperties();
-        this.resetAllChips();
-
+ 
         Config.adjustCanvasResolution();
         this.#handleAllEvents();
     }
@@ -116,6 +115,7 @@ class Game {
         this.animateTimer(this.#ctx);
 
         this.clearAndRedraw(this.#ctx);
+       
     }
 
     endGame(){
@@ -123,22 +123,24 @@ class Game {
         this.setStopGame(true);
         this.setIsInMainMenu(true);
         
-        this.clearAndRedraw(this.#ctx);
-        const backgroundMainColor='rgba(0, 0, 0, 0.7)';
-        const options=['Reiniciar','Configuración'];
-        const colorsText={
-            p1:'#151FB1',
-            p2:'#D83232',
-            draw:'#EEE238'
-        }
-        
-        if(!win){
-            this.drawMainMenu(Game.images.draw,`¡EMPATE!`,colorsText.draw,options,backgroundMainColor);
-        }else{
-            const prop = win===Config.players.type1 ? {img: Game.images.batman, color: colorsText.p1} : {img:Game.images.joker,color:colorsText.p2};
-
-            this.drawMainMenu(prop.img,`¡GANADOR!`,prop.color,options,backgroundMainColor);
-        } 
+        setTimeout(() => {
+            this.clearAndRedraw(this.#ctx);
+            const backgroundMainColor='rgba(0, 0, 0, 0.7)';
+            const options=['Reiniciar','Configuración'];
+            const colorsText={
+                p1:'#151FB1',
+                p2:'#D83232',
+                draw:'#EEE238'
+            }
+            
+            if(!win){
+                this.drawMainMenu(Game.images.draw,`¡EMPATE!`,colorsText.draw,options,backgroundMainColor);
+            }else{
+                const prop = win===Config.players.type1 ? {img: Game.images.batman, color: colorsText.p1} : {img:Game.images.joker,color:colorsText.p2};
+    
+                this.drawMainMenu(prop.img,`¡GANADOR!`,prop.color,options,backgroundMainColor);
+            } 
+        }, 500);
     }
 
     
@@ -158,8 +160,8 @@ class Game {
 
     /*Util para cuando se desea dibujar mas cosas por encima de lo que ya hay(ejemplo placeholder de ficha, se agrega a lo que hay)*/
     redraw(context){
-        this.drawTimer(context,this.convertTime(this.#timer.min,this.#timer.seg));
-        this.drawReserBtn();
+        this.drawTimer(context,this.convertTime(this.#timer.min===Config.typeGame.timeInMin && this.#timer.seg===59?this.#timer.min-1:this.#timer.min,this.#timer.seg));
+        this.drawResetBtn();
         this.#board.drawAllBoxes(context)
         this.drawChipDispenser();
         this.drawAllAvailableChips(context)
@@ -214,8 +216,8 @@ class Game {
         const config = this.#buttonsProperties.config;
         const play = this.#buttonsProperties.play;
 
-        this.#drawMenuImg(this.#ctx,startX,startY,width,height,30,img,'rgba(255, 255, 255, 0.2)');
-        this.#drawWinnerText(this.#ctx,title,textColor,startX+(width/2),startY+50);
+        this.#drawMenuImg(this.#ctx,startX,startY,width,height,30,img,'rgba(0, 0, 0, 0.3)');
+        this.#drawStrokeText(this.#ctx,title,textColor,startX+(width/2),startY+50,45,"Bubblegum Sans");
 
         this.#drawButton(play.x,play.y,play.width,play.height,buttonsColor,options[0]);
         this.#drawButton(config.x,config.y,config.width,config.height,buttonsColor,options[1]);
@@ -250,9 +252,6 @@ class Game {
         let index=0;
         let incrementY;  
 
-        this.#ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-        this.#drawRectangleRounded(this.#ctx,x,y,width,height,30);
-        this.#ctx.fill();
 
         this.#personalizeConfig.forEach(c=>{
             if(!c.options[c.optionPos]){
@@ -282,7 +281,7 @@ class Game {
         const arrowLeftX=x, arrowLeftY= y+height/3;
         const arrowRightX=(x+width)-btnSize, arrowRightY=y+height/3;
         
-        const opSize=15;
+        const opSize=18;
         const opX=x+(width/2),opY=y+(height/3)+opSize;
 
 
@@ -303,10 +302,11 @@ class Game {
                 }
             })
         }
+
         
-        this.#drawText(this.#ctx,title,'#5861E1',titleX,titleY,titleSize,'Nunito');
+        this.#drawStrokeText(this.#ctx,title,'red',titleX,titleY,titleSize,'Nunito');
         this.#drawButton(arrowLeftX,arrowLeftY,btnSize,btnSize,btnColor,'<');
-        this.#drawText(this.#ctx,numItem===0 ? `${options[optActive]} min.`: options[optActive],'white',opX,opY,opSize,'Nunito');
+        this.#drawStrokeText(this.#ctx,numItem===0 ? `${options[optActive]} min.`: options[optActive],'white',opX,opY,opSize,'Nunito');
         this.#drawButton(arrowRightX,arrowRightY,btnSize,btnSize,btnColor,'>');
     }
     //////////////////////////////////////////////////////////////dibujos de cosas utiles (timer,fichas,dispenser de fichas)////////////////////////////////////////////////////////
@@ -324,7 +324,9 @@ class Game {
           
             if(this.#timer.min === 0 && this.#timer.seg===0){
                 clearInterval(this.#timerAnimation);
+                
                 this.endGame()
+               
             }else{
                 if(this.#timer.seg===0){
                     this.#timer.seg=59;
@@ -351,21 +353,26 @@ class Game {
 
     }
 
-    drawReserBtn() {
-        this.#drawButton(this.#canvas.offsetWidth-110, 60, 100, 30, '#00197c', "Reiniciar")
+    drawResetBtn() {
+        const maginRight=10;
+        const width=100;
+        const height=30;
+        const posX=this.#canvas.offsetWidth-(width+maginRight);
+        const posY=60;
+        this.#drawButton(posX, posY, width, height, '#00197c', "Reiniciar")
 
         this.#canvas.addEventListener("click", e => {
             const rect = this.#canvas.getBoundingClientRect();
             const mouseX = e.clientX - rect.left;
             const mouseY = e.clientY - rect.top;
 
-            if (mouseX > this.#canvas.offsetWidth-110 &&
-                mouseX < this.#canvas.offsetWidth-10 &&
-                mouseY > 60 &&
-                mouseY < 90
+            if (mouseX > posX &&
+                mouseX < this.#canvas.offsetWidth-maginRight &&
+                mouseY > posY &&
+                mouseY < posY+height
             ) {
                 clearInterval(this.#timerAnimation);
-                this.endGame()
+                this.rebootGame();
             }
         })
     }
@@ -395,6 +402,7 @@ class Game {
             ctx.strokeStyle=Config.dispenserColor.border;
             ctx.lineWidth = 5; 
             ctx.stroke();
+            this.#drawText(ctx,'🔻Turno🔻',colorText,x+(width/2), y-15,18,'Nunito');
            
         }
 
@@ -425,10 +433,10 @@ class Game {
         ctx.restore();
     }
 
-    #drawWinnerText(ctx,text,color,x,y){
+    #drawStrokeText(ctx,text,color,x,y,size,font){
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle'; 
-        ctx.font = `bold 45px Bubblegum Sans`; 
+        ctx.font = `bold ${size}px ${font}`; 
 
         this.#strokeText(2,'black',text,x,y)
     
@@ -630,20 +638,18 @@ class Game {
     }
 
     #handleMouseUp() {
-        this.#canvas.addEventListener("mouseup", (e) => {
-
-            if(!this.getIsStopGame()){                                /*si el juego no esta detenido*/
-                this.#handleMouseUpChips(e);                                 /*está jugando, activo los eventos de fichas */
-
-            }
+        this.#canvas.addEventListener("mouseup", (e) => {                                                          
+            this.#handleMouseUpChips(e);                                
         });
     }
 
     #handleMouseUpChips(e){
         this.#chips.forEach((chip) => {
-            chip.handleMouseUp(e);
+            if(!this.getIsStopGame()){  
+                chip.handleMouseUp(e);
+            }
         });
-        if(this.#selectedchip){
+        if(this.#selectedchip && !this.getIsStopGame()){
             this.#board.handleMouseUp(e,this.#selectedchip,this.#ctx);
         }
     }
@@ -651,26 +657,30 @@ class Game {
     #handleMouseMove() {
         const canvas = this.#canvas;
         canvas.addEventListener("mousemove", (e) => {
-            if(!this.getIsStopGame()){
-                this.#chips.forEach((chip) => {
+            
+            this.#chips.forEach((chip) => {
+                if(!this.getIsStopGame()){
                     chip.handleMouseMove(e, this.#ctx, canvas);
-                });
-            }
+                }
+            });
+            
         });
     }
 
     #handleMouseOut() {
         const canvas = this.#canvas;
         canvas.addEventListener("mouseout", (e) => {
-            if(!this.getIsStopGame()){
-                this.#handleMouseOutChips(e);
-            }
+            
+            this.#handleMouseOutChips(e);
+            
         });
     }
 
     #handleMouseOutChips(e){
         this.#chips.forEach((chip) => {
-            chip.handleMouseOut(e);
+            if(!this.getIsStopGame()){
+                chip.handleMouseOut(e);
+            }
         });
     }
 

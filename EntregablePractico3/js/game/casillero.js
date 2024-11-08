@@ -4,8 +4,7 @@ class Casillero{
     #y;
     #row;
     #column;
-    #color;
-    #isWinnerBox;
+    #state;     /*toma valores 0,1,2 --> influye el orden en el que se cargan las imagenes */
 
     #chip;
     #borderRadius;
@@ -17,8 +16,7 @@ class Casillero{
         this.#row=prop.row;
         this.#column=prop.col;
         this.#borderRadius=[...prop.borderRadius];
-        this.#color=prop.color;
-        this.#isWinnerBox = false
+        this.#state = 0
         this.#chip=null;
     }
 
@@ -27,35 +25,34 @@ class Casillero{
         const centerY = this.#y + Config.boxSize.height/ 2;
         const radius = Config.chipSize.radius;
 
-        /*
-        ctx.fillStyle= this.getColor() ;
         this.#drawRectangleRounded(ctx,this.#x,this.#y,Config.boxSize.width,Config.boxSize.height,Config.boxSize.height);
+        ctx.save();
+        ctx.clip();
 
-        ctx.strokeStyle=Config.boxesColor.borders;
-        ctx.lineWidth = 2; 
+        ctx.drawImage(Casillero.images[this.getState()], this.#x, this.#y, Config.boxSize.width, Config.boxSize.height)
+        
+        ctx.strokeStyle='black';
+        ctx.lineWidth = 3; 
         ctx.stroke();
 
-        ctx.save()
         ctx.globalCompositeOperation = "xor"
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
         ctx.closePath();
         ctx.clip(); 
 
-        ctx.fillStyle=Config.boxesColor.emptyCircle;
         ctx.fill();
-        */
-        if (this.#isWinnerBox) {
-            ctx.drawImage(Casillero.images[0], this.#x, this.#y, Config.boxSize.width, Config.boxSize.height)
-        } else {
-            ctx.drawImage(Casillero.images[1], this.#x, this.#y, Config.boxSize.width, Config.boxSize.height)
-        }
+        
 
         ctx.restore();
     }
 
-    setIsWinner(isWinner) {
-        this.#isWinnerBox = isWinner;
+    setState(num) {
+        this.#state = num;
+    }
+
+    getState(){
+        return this.#state;
     }
     
     drawChip(ctx) {
@@ -84,10 +81,6 @@ class Casillero{
         return this.#y;
     }
 
-    getColor(){
-        return this.#color;
-    }
-
     getChip(){
         return this.#chip;
     }
@@ -109,14 +102,10 @@ class Casillero{
     setChip(chip){
         this.#chip=chip;
     }
-
-    setColor(color){
-        this.#color=color;
-    }
-    
+ 
     #drawRectangleRounded(ctx, x, y, width, height, r) {
-        ctx.beginPath();
         const radius=r-70
+        ctx.beginPath();
 
         // Punto de inicio en la esquina superior izquierda
         ctx.moveTo(x + (this.#borderRadius[0] ? radius : 0), y);
@@ -150,7 +139,7 @@ class Casillero{
         }
     
         ctx.closePath();
-        ctx.fill();
+    
     }
 
 
