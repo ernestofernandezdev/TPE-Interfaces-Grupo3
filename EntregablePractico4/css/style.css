@@ -205,7 +205,7 @@ section {
     font-size:47px;
     width: 508px;
     color: #1B428F;
-    line-height: 94.5%;
+    line-height: 94%;
 }
 
 .app-divertida-section p {
@@ -282,6 +282,7 @@ section {
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
 }
 
 .descarga-section h1 {
@@ -308,5 +309,106 @@ section {
 
 .descarga-section img {
     position: relative;
-    top: -70px
+    top: -70px;
+    width: 1340px;
+    height: auto;
 }
+
+
+.mas-amigos-section {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 200px;
+}
+
+.mas-amigos-section h1 {
+    width: 100%;
+    font-size: 60px;
+    margin-bottom: 70px;
+}
+
+.mas-amigos-section img {
+    display: block;
+    margin-left: 140px;
+}
+
+.mas-amigos-scroll {
+    display: flex;
+    flex-direction: column;
+    width: 467px;
+    margin-right: 10px;
+}
+
+.mas-amigos-textbox {
+    margin-top: 80px;
+    margin-bottom: 180px;
+}
+
+.mas-amigos-textbox h2 {
+    font-size: 40px;
+    font-weight: lighter;
+}
+
+.mas-amigos-textbox p {
+    margin-top: 10px;
+    line-height: 94%;
+}
+
+
+.video-section {
+    background-image: url("../static/svg/video-section-bg.svg");
+    background-repeat: no-repeat;
+    height: 1440px;
+}
+
+.video-section h1 {
+    width: 800px;
+    font-size: 60px;
+    color: white;
+    font-weight: lighter;
+    margin-top: 310px;
+    line-height: 94%;
+}
+
+.video-section div {
+    border: 29px white solid;
+    overflow: hidden;
+    width: fit-content;
+    border-radius: 50px;
+    margin-top: 50px;
+}
+
+.video-section video {
+    margin: -29px;
+}
+
+
+.object-3d-section {
+    position: relative;
+    padding-bottom: 250px;
+}
+
+.object-3d-section h1 {
+    font-size: 60px;
+    color: #9D2121;
+    width: 746px;
+    line-height: 94%;
+    margin-top: 220px;
+}
+
+.object-3d-section p {
+    width: 467px;
+    line-height: 94%;
+    margin-top: 43px;
+}
+
+/* .object-3d-section model-viewer {
+    width: 800px;
+    height: 973px;
+    position: absolute;
+    top: -100px;
+    left: 600px;
+    border: 1px black solid;
+} */
