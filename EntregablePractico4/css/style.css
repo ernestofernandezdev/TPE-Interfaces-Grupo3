@@ -24,17 +24,26 @@ main {
 }
 
 nav {
-    padding: 0 100px;
-    position: absolute;
+    padding: 0 100px 0 100px;
+    position: fixed;
     display: flex;
     width: 1080px;
+    top: 0;
+    z-index: 30;
     justify-content: space-between;
+    background-image: linear-gradient(#00D1D5, rgba(00,209,213,0.3) 80%, rgba(00,209,213,0));
 }
 
 .burger-menu {
-    margin-top: 20px;
+    margin-top: 10px;
     z-index: 15;
     cursor: pointer;
+}
+
+.logo {
+    position: absolute;
+    left: 360px;
+    top: 55px;
 }
 
 button {
@@ -52,12 +61,17 @@ button {
     cursor: pointer;
 }
 
+.buy-btn {
+    margin-bottom: 14px;
+    margin-top: 8px;
+}
+
 .buy-btn::content {
     margin: 0;
     padding: 0;
 }
 
-section {
+section, footer {
     width: 1080px;
     padding: 0 100px;
 }
@@ -70,7 +84,7 @@ section {
 
 .number-blocks-section .big-tree {
     position: absolute;
-    left: -163px;
+    left: -156px;
     top: -1px;
     z-index: 3;
 }
@@ -434,6 +448,7 @@ section {
     background-color: #ADF8FD;
     background-image: linear-gradient(white 17%, #EDFDFF 32%, #ADF8FD 63%, #E0D299 100%);
     height: 1572px;
+    position: relative;
 }
 
 .novedades-section h1 {
@@ -490,4 +505,87 @@ section {
 
 .novedades-section p span {
     text-decoration: underline;
+    cursor: pointer;
+}
+
+.novedades-section img.paisaje {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    z-index: 0;
+}
+
+.gif {
+    position: absolute;
+    z-index: 2;
+}
+
+.gif-1 {
+    top: 1040px;
+    left: 60px;
+}
+
+.gif-2 {
+    top: 1020px;
+    left: 386px;
+}
+
+.gif-3 {
+    top: 610px;
+    left: 720px;
+}
+
+.nube {
+    position: absolute;
+    z-index: 1;
+}
+
+.nube-1 {
+    width: 387px;
+    height: 181px;
+    left: -56px;
+    top: 819px;
+}
+
+.nube-2 {
+    width: 265px;
+    height: 124px;
+    left: 794px;
+    top: 517px;
+}
+
+.nube-3 {
+    width: 387px;
+    height: 181px;
+    left: 962px;
+    top: 560px;
+}
+
+.plataformas-section {
+    background-color: #242424;
+    height: fit-content;
+}
+
+footer {
+    height: fit-content;
+    background-color: #5E5E5D;
+}
+
+footer p {
+    width: 820px;
+    color: white;
+}
+
+footer p:nth-child(1) {
+    margin-top: 30px;
+}
+
+footer p:nth-child(2) {
+    text-decoration: underline;
+    margin-top: 15px;
+}
+
+footer img {
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
