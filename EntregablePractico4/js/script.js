@@ -114,19 +114,26 @@ function animateDescargaSection() {
 
 
 function animateMasAmigosSection() {
+    let imageNumber = 0;
+    let img = document.querySelector(".mas-amigos-section img");
+    let newImageNumber;
+    
     window.addEventListener("scroll", () => {
         let container = document.querySelector(".mas-amigos-section").getBoundingClientRect();
         let y = (-1) * container.top;
-        let img = document.querySelector(".mas-amigos-section img");
-        console.log(y);
-        if (y > container.height - img.getBoundingClientRect().height - 150) {
-            console.log("Ya no se mueve de nuevo")
-            img.style.top = (container.height - img.getBoundingClientRect().height - 200) + "px"
+        let dy = (container.height - img.getBoundingClientRect().height - 150)/11;
+        let max = container.height - img.getBoundingClientRect().height - 150;
+
+        if (y > max) {
+            img.style.top = (max - 50) + "px"
         } else if (y > 0) {
-            console.log("¡Se mueve!")
+            newImageNumber = Math.trunc(10*(y+dy/2)/max)
+            if (newImageNumber != imageNumber) {
+                imageNumber = newImageNumber;
+                img.src = "static/images/mas-amigos-" + imageNumber + ".png"
+            }
             img.style.top = (y-50) + "px"
         } else if (y < 0) {
-            console.log("No se mueve")
             img.style.top = -50 + "px"
         }
     })
@@ -137,7 +144,7 @@ function animateVideoSection() {
     animateParallax(document.querySelectorAll(".video-section img"), -0.3, 1000, document.querySelector(".video-section"),0)
 }
 
-// function animateObject3dSection() {
+function animateObject3dSection() {
 //     let object = document.querySelector("#object-3d");
 //     object.addEventListener("mousemove", e => {
 //         const rect = object.getBoundingClientRect();
@@ -149,7 +156,7 @@ function animateVideoSection() {
 
 //         object.cameraOrbit = x*150 + "deg " + (y*150) + "deg 100%"; 
 //     })
-// }
+}
 
 
 
