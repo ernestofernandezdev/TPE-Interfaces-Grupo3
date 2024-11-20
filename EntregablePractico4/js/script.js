@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 function contentLoaded() {
+    animateBurgerMenu();
     animateMainSection();
     animateAppDivertidaSection();
     animateThreeImagesSection();
@@ -12,8 +13,43 @@ function contentLoaded() {
     animateMasAmigosSection();
     animateVideoSection();
     animateObject3dSection();
+    animateAllBlocksSection();
+    animateFooter();
 }
 
+
+function animateBurgerMenu() {
+    document.querySelector(".logo").addEventListener("click", e => {
+        window.scrollTo(0,0);
+    })
+
+    let active = false;
+    let bar1 = document.querySelector(".burger-menu span:nth-child(1)")
+    let bar2 = document.querySelector(".burger-menu span:nth-child(2)")
+    let bar3 = document.querySelector(".burger-menu span:nth-child(3)")
+
+    document.querySelector(".burger-menu").addEventListener("click", event => {
+        if (active) {
+            bar1.style = "";
+            bar2.style = "";
+            bar3.style = "";
+
+            active = false;
+        } else {
+            bar1.style.positon = "absolute";
+            bar1.style.transform = "rotate(-45deg) translate(-7px,8px) scaleX(1.3)";
+            bar1.style.boxShadow = "0 0";
+
+            bar2.style.opacity = "0";
+
+            bar3.style.positon = "absolute";
+            bar3.style.transform = "rotate(45deg) translate(-7px,-8px) scaleX(1.3)";
+            bar3.style.boxShadow = "0 0";
+            
+            active = true;
+        }
+    })
+}
 
 function animateMainSection() {
     
@@ -101,15 +137,22 @@ function animateThreeImagesSection() {
 function animateDescargaSection() {
     const container = document.querySelector(".descarga-section");
     const img = document.querySelector(".descarga-section img");
-    container.addEventListener("mousemove", e => {
+    img.addEventListener("mousemove", e => {
         const rect = container.getBoundingClientRect();
         let mouseX = parseInt(e.clientX - rect.left); // posición X del mouse relativa a la imagen
         let mouseY = parseInt(e.clientY - rect.top) - 460; // posición Y del mouse relativa a la imagen
 
         if (mouseY > 0) {
-            img.style.transform = "translate3d(" + (-mouseX*(30/640) + 30) + "px," + (-mouseY*(36/740)) + "px,0)"
+            img.style.transform = "translate(" + (-mouseX*(40/640) + 40) + "px," + (-mouseY*(60/740)) + "px)"
         }
+        img.style.width = ""
     })
+
+    img.addEventListener("mouseout", e => {
+        img.style.width = "1280px"
+        img.style.transform = "translate(0,0)";
+    })
+
 }
 
 
@@ -156,6 +199,26 @@ function animateObject3dSection() {
 
 //         object.cameraOrbit = x*150 + "deg " + (y*150) + "deg 100%"; 
 //     })
+}
+
+function animateAllBlocksSection() {
+    document.querySelectorAll(".all-blocks-section img").forEach(element => {
+        element.addEventListener("mouseover", event => {
+            element.style.boxShadow = "0 0 30px 10px white";
+            element.style.transform = "scale(1.05)";
+        })
+
+        element.addEventListener("mouseout", event => {
+            element.style.boxShadow = "0 0 0 0 white";
+            element.style.transform = "scale(1)";
+        })
+    })
+}
+
+function animateFooter() {
+    document.querySelector(".sprite-sheet-2").addEventListener("click", e => {
+        window.scrollTo(0,0);
+    })
 }
 
 
