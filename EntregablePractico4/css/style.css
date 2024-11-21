@@ -129,8 +129,7 @@ nav {
 
 .sidebar-categories {
     overflow: hidden;
-    position: absolute;
-    left: 15px;
+    left: calc(50% - 640px);
     top:88px;
     position: fixed;
     z-index: 99;
