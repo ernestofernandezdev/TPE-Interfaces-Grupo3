@@ -34,7 +34,10 @@ function animateBurgerMenu() {
             bar2.style = "";
             bar3.style = "";
 
+            document.querySelector(".sidebar-categories").remove();
+
             active = false;
+
         } else {
             bar1.style.positon = "absolute";
             bar1.style.transform = "rotate(-45deg) translate(-7px,8px) scaleX(1.3)";
@@ -47,9 +50,70 @@ function animateBurgerMenu() {
             bar3.style.boxShadow = "0 0";
             
             active = true;
+
+            renderCategoriesBurguerMenu();
         }
     })
 }
+
+
+function renderCategoriesBurguerMenu() {
+    const nav = document.querySelector("nav");
+    const container = document.createElement("div");
+    container.className = "sidebar-categories";
+    nav.parentNode.insertBefore(container, nav.nextElementSibling);
+    const options = ["matematicas","diversion","numberblocks","efectos 3d", "contacto"];
+    let index = 0;
+
+    addItem(0,container,["informacion"]);
+
+    const interval = setInterval(() => {
+        if (index >= options.length) {
+            clearInterval(interval);
+            return;
+        }
+
+        addItem(index,container,options);
+
+        index++;
+    }, 900);
+}
+
+function addItem(index,container, options){
+    const item = document.createElement("div");
+    const link = document.createElement("a");
+    link.href = `#${replaceSpacesWithDash(options[index])}`; 
+    link.innerText = capitalizeFirstLetter(options[index]); 
+    link.className = "category-link"; 
+
+
+    item.appendChild(link); 
+    item.className = "category";
+
+    link.addEventListener("click", e => {
+        e.preventDefault(); 
+        document.querySelector(link.getAttribute("href")).scrollIntoView({
+            behavior: "smooth"
+        });
+    });
+
+    container.appendChild(item);
+
+    
+    requestAnimationFrame(() => {
+        item.classList.add("show");
+    });
+}
+
+function capitalizeFirstLetter(text) {
+    if (text.length === 0) return text; 
+    return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+function replaceSpacesWithDash(text) {
+    return text.replace(/\s+/g, '-');
+}
+
 
 function animateMainSection() {
     
@@ -217,7 +281,11 @@ function animateAllBlocksSection() {
 
 function animateFooter() {
     document.querySelector(".sprite-sheet-2").addEventListener("click", e => {
-        window.scrollTo(0,0);
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth"
+        });
     })
 }
 
