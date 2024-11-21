@@ -20,7 +20,11 @@ function contentLoaded() {
 
 function animateBurgerMenu() {
     document.querySelector(".logo").addEventListener("click", e => {
-        window.scrollTo(0,0);
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth"
+        });
     })
 
     let active = false;
