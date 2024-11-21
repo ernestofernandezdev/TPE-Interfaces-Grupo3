@@ -256,17 +256,17 @@ function animateVideoSection() {
 }
 
 function animateObject3dSection() {
-//     let object = document.querySelector("#object-3d");
-//     object.addEventListener("mousemove", e => {
-//         const rect = object.getBoundingClientRect();
-//         let mouseX = parseInt(e.clientX - rect.left); // posición X del mouse relativa a la imagen
-//         let mouseY = parseInt(e.clientY - rect.top); // posición Y del mouse relativa a la imagen
+    let object = document.querySelector("#object-3d");
+    object.addEventListener("mousemove", e => {
+        const rect = object.getBoundingClientRect();
+        let mouseX = parseInt(e.clientX - rect.left); // posición X del mouse relativa a la imagen
+        let mouseY = parseInt(e.clientY - rect.top); // posición Y del mouse relativa a la imagen
 
-//         let x = mouseX/rect.width;
-//         let y = mouseY/rect.height;
+        let x = mouseX/rect.width;
+        let y = mouseY/rect.height;
 
-//         object.cameraOrbit = x*150 + "deg " + (y*150) + "deg 100%"; 
-//     })
+        object.cameraOrbit = x*150 + "deg " + (y*150) + "deg 100%"; 
+    })
 }
 
 function animateAllBlocksSection() {
