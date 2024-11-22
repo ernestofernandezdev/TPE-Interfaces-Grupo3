@@ -960,3 +960,19 @@ footer img {
     0% { background-position: 0px; }
     100% { background-position: -560px; }
 }
+
+
+.sprite-sheet-3 {
+    width: 70px; /* Ancho de un fotograma */
+    height: 70px; /* Alto de un fotograma */
+    background: url("../static/images/sprit-3.png") left center;
+    animation: sprite-sheet-3 2s steps(8) infinite; /* Número de pasos coincide con fotogramas */
+    position: absolute;
+    bottom: 20px;
+    left: 25%;
+}
+
+@keyframes sprite-sheet-3 {
+    0% { background-position: 0px; }
+    100% { background-position: -512px; } /* Ajustar según el ancho total del spritesheet */
+}
